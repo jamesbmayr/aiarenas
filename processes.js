@@ -10,7 +10,7 @@
 	}
 
 /* render (file, data) */
-	function render(file, data) {
+	function render(file, session, data) {
 		const html = {};
 		html.original = fs.readFileSync(file).toString();
 		html.array = html.original.split(/<%|%>/);
@@ -63,7 +63,7 @@
 
 /* isReserved (string) */
 	function isReserved(string) {
-		var reservations = ["home","welcome","admin","test","feedback","help",
+		var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings",
 			"signup","signin","signout","login","logout",
 			"user","users","robot","robots","arena","arenas",
 			"game","games","statistic","statistics",

@@ -14,17 +14,7 @@
 			},
 			created: new Date().getTime(),
 			information: {
-				picture: null,
 				bio: null,
-				head: {
-					shape: "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-					color: "#333333",
-					eyes: "#ffffff"
-				},
-				body: {
-					shape: "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-					color: "#666666"
-				},
 				animation: {},
 				sounds: {
 					cube: null,
@@ -34,6 +24,20 @@
 					defeat: null
 				},
 				music: {},
+			},
+			avatar: {
+				head: {
+					shape: "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+					color: "#333333",
+					eyes: "#ffffff"
+				},
+				body: {
+					shape: "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+					color: "#666666"
+				},
+				background: {
+					color: "#112233"
+				}
 			},
 			statistics: {},
 			code: function(arena) {

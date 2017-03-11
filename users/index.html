@@ -4,6 +4,77 @@
 		<title>ai arena</title>
 	</head>
 	<body>
-		<pre><% JSON.stringify(data, null, 2) || null; %></pre>
+		<%
+			if (session.user === data.id) {
+				"<form id='navbar' method='post'>\
+					<button id='preferences' name='action' value='preferences'>preferences</button>\
+					<button id='editprofile' name='action' value='editprofile'>edit profile</button>\
+					<button id='signout' name='action' value='signout'>sign out</button>\
+					<a id='help' href='../../help'>help</a>\
+				</form>";
+			}
+			else if (session.user !== null) {
+				"<form id='navbar' method='post'>\
+					<button id='preferences' name='action' value='preferences'>preferences</button>\
+					<a id='myprofile' href='../users/'>my profile</a>\
+					<button id='signout' name='action' value='signout'>sign out</button>\
+					<a id='help' href='../../help'>help</a>\
+				</form>";
+			}
+			else {
+				"<form id='navbar' method='post'>\
+					<a id='signinup' href='../../'>sign in / sign up</a>\
+					<a id='help' href='../../help'>help</a>\
+				</form>";
+			}
+		%>
+		<div class="profile" id="<% data.id %>">
+			<div class="picture_frame">
+				<div class="picture"></div>
+			</div>
+			<div class="name"><% data.name %></div>
+			<div class="email"><% data.email %></div>
+			<div class="bio">
+				<span class="bio_title">bio: </span>
+				<span class="bio_value"><% data.information.bio || null %></div>
+			<div class="statistics">
+				<div class="statistic">
+					<span class="statistic_title">wins: </span>
+					<span class="statistic_value"><% Object.keys(data.statistics.wins).length || null %></span>
+				</div>
+				<div class="statistic">
+					<span class="statistic_title">losses: </span>
+					<span class="statistic_value"><% Object.keys(data.statistics.losses).length || null %></span>
+				</div>
+			</div>
+		</div>
+		<div class="robots">
+			<span class="robots_title">robots:</span>
+			<%
+				if (session.user === data.id) {
+					"<form method='post'>\
+						<button id='new_robot' name='action' value='newrobot'>new robot</button>\
+					</form>";
+				}
+			%>
+			<div class="tiles">
+				<%
+					for (var i = 0; i < data.robots.length; i++) {
+						"<div class='tile' id='" + data.robots[i].id + "'>\
+							<div class='picture_frame'>\
+								<div class='avatar' style='background-color: " + data.robots[i].avatar.background || '#112233' + ">\
+									<div class='head' style='" + data.robots[i].avatar.head.shape || 'clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' + "; background-color: " + data.robots[i].avatar.head.color || '#333333' + "'>\
+										<span class='left_eye' style='background-color: " + data.robots[i].avatar.head.eyes || '#ffffff' + "></span>\
+										<span class='right_eye' style='background-color: " + data.robots[i].avatar.head.eyes || '#ffffff' + "></span>\
+									</div>\
+									<div class='body' style='" + data.robots[i].avatar.body.shape || 'clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' + "; background-color: " + data.robots[i].avatar.body.color || '#666666' + "'>\
+									</div>\
+								</div>\
+								<div class='name'>" + data.robots[i].name + "</div>\
+							</div>\
+						</div>";
+					}
+				%>
+			</div>
 	</body>
 </html>

@@ -39,7 +39,7 @@
 					request.url = request.url.split("?")[0];
 					routes = String(request.url).split("/");
 				try {cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null;} catch(error) {cookie = {};}
-				console.log("[" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
+				console.log(new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
 
 				if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
 					routing(null);
@@ -127,25 +127,49 @@
 
 								function then(data) {
 									if ((typeof data.redirect !== "undefined") && (data.redirect !== null)) {
-										response.writeHead(302, {Location: data.redirect});
-										response.end();
+										_302(data.redirect);
 									}
 									else {
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", data));
+										response.end(processes.render("./home/index.html", session, data));
 									}
 								}
 							}
 							catch (error) {_404();}
 						break;
 
+						case (/^\/users\/?$/).test(request.url):
+							if (session.user !== null) {
+								processes.retrieve("users", {id: session.user}, function(data) {
+									if (data.length > 0) {
+										if (typeof data.id === "undefined") { data = data[0]; }
+
+										_302("/users/" + data.name);
+									}
+									else {
+										_302();
+									}
+								});
+							}
+							else {
+								_302();
+							}
+						break;
+
 						case (/^\/users\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
 								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
-									processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
-										processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
-									});									
+									if ((typeof post.action !== "undefined") && (post.action == "signout")) {
+										home.signout(session, function(data) {
+											_302();
+										});
+									}
+									// else {
+									// 	processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
+									// 		processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
+									// 	});
+									// }
 								}
 								else {
 									processes.retrieve("users", {name: routes[2]}, then);
@@ -155,12 +179,16 @@
 									if (data.length > 0) {
 										if (typeof data.id === "undefined") { data = data[0]; }
 
-										header["Content-Type"] = "text/html";
-										response.writeHead(200, header);
-										response.end(processes.render("./users/index.html", data));
+										processes.retrieve("robots", {user: data.id}, function(robots) {
+											data.robots = robots || {};
+											
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end(processes.render("./users/index.html", session, data));
+										});
 									}
 									else {
-										_404();
+										_302();
 									}
 								}
 							}
@@ -182,7 +210,7 @@
 
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./robot/index.html", processes.readRobot(data)));
+										response.end(processes.render("./robot/index.html", session, processes.readRobot(data)));
 									}
 									else {
 										_404();
@@ -207,7 +235,7 @@
 
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./arena/index.html", processes.readArena(data)));
+										response.end(processes.render("./arena/index.html", session, processes.readArena(data)));
 									}
 									else {
 										_404();
@@ -224,13 +252,13 @@
 				}
 
 			/* special */
-				function _404() {
+				function _404(data) {
 					response.writeHead(404, {"Content-Type": "text/plain"});
-					response.end("404: File not found.");
+					response.end(data || "404: File not found.");
 				}
 
-				function _302() {
-					response.writeHead(302, {Location: "../../../../"});
+				function _302(data) {
+					response.writeHead(302, {Location: data || "../../../../"});
 					response.end();
 				}
 			}

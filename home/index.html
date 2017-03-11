@@ -6,10 +6,12 @@
 	<body>
 		<div id="message" style="background-color: darkgray; padding: 25px">
 			<% data.message || null %>
+			<br>
+			user_id: <% session.user || "none" %>
 		</div>
 		<br>
 		<form method="post">
-			<div id="signin" style="background-color: darkgray; padding: 25px">
+			<div id="signin" style="background-color: darkgray; padding: 25px;<% if (session.user !== null) { ' display: none;'} %>">
 				sign in
 				<br>
 				<input type="text" id="signin_username" name="signin_username" placeholder="username"/>
@@ -20,7 +22,7 @@
 			</div>
 			<br>
 			<br>
-			<div id="signup" style="background-color: darkgray; padding: 25px">
+			<div id="signup" style="background-color: darkgray; padding: 25px;<% if (session.user !== null) { ' display: none;'} %>">
 				sign up
 				<br>
 				<input type="text" id="signup_email" name="signup_email" placeholder="email"/>
@@ -35,7 +37,7 @@
 			</div>
 			<br>
 			<br>
-			<div id="signout" style="background-color: darkgray; padding: 25px">
+			<div id="signout" style="background-color: darkgray; padding: 25px;<% if (session.user === null) { 'display: none;'} %>">
 				sign out
 				<br>
 				<button id="signout" name="action" value="signout">sign out</button>
