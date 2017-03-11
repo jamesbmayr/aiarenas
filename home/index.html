@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ai arena</title>
+	</head>
+	<body>
+		<div id="message" style="background-color: darkgray; padding: 25px">
+			<% data.message || null %>
+		</div>
+		<br>
+		<form method="post">
+			<div id="signin" style="background-color: darkgray; padding: 25px">
+				sign in
+				<br>
+				<input type="text" id="signin_username" name="signin_username" placeholder="username"/>
+				<br>
+				<input type="text" id="signin_password" name="signin_password" placeholder="password"/>
+				<br>
+				<button id="signin" name="action" value="signin">sign in</button>
+			</div>
+			<br>
+			<br>
+			<div id="signup" style="background-color: darkgray; padding: 25px">
+				sign up
+				<br>
+				<input type="text" id="signup_email" name="signup_email" placeholder="email"/>
+				<br>
+				<input type="text" id="signup_username" name="signup_username" placeholder="username"/>
+				<br>
+				<input type="text" id="signup_password" name="signup_password" placeholder="password"/>
+				<br>
+				<input type="text" id="signup_confirm" name="signup_confirm" placeholder="confirm password"/>
+				<br>
+				<button id="signup" name="action" value="signup">sign up</button>
+			</div>
+			<br>
+			<br>
+			<div id="signout" style="background-color: darkgray; padding: 25px">
+				sign out
+				<br>
+				<button id="signout" name="action" value="signout">sign out</button>
+			</div>
+		</form>
+	</body>
+</html>

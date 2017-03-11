@@ -1,9 +1,15 @@
-/* modules */
+/* node modules */
 	const http = require("http");
 	const path = require("path");
 	const fs = require("fs");
 	const qs = require("querystring");
+
+/* my modules */
 	const processes = require("./processes");
+	const home = require("./home/logic");
+	const users = require("./users/logic");
+	const robots = require("./robots/logic");
+	const arenas = require("./arenas/logic");
 
 /* server */
 	const port = 3000;
@@ -21,7 +27,7 @@
 /* requestHandler */
 	function requestHandler(request, response) {
 		/* build post body */
-			var routes, post, get, cookie;
+			var routes, get, cookie, post = "";
 			request.on("data", function (data) {
 				post += data;
 			});
@@ -91,58 +97,54 @@
 					/* pages */
 						case (/^\/$/).test(request.url):
 							try {
-								if ((request.method == "post") && (Object.keys(post).length > 0)) {
+								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
 									if ((typeof post.action !== "undefined") && (post.action == "signup")) {
-										var user = processes.createUser(post);
-										retrieve("users", {name: user.name}, function(data) {
-											if (data) {
-												data = {message: "username taken"};
-												then(data);
-											}
-											else {
-												store("users", null, user, function(data) {
-													store("sessions", {id: session.id}, processes.updateSession(session.id, data), then);		
-												});
-											}
-										}
-											
+										home.signup(session, post, then);											
 									}
 									else if ((typeof post.action !== "undefined") && (post.action == "signin")) {
-										store("sessions", {id: session.id}, processes.updateSession(session.id, post), then);
+										home.signin(session, post, then);
 									}
 									else if ((typeof post.action !== "undefined") && (post.action == "signout")) {
-										store("sessions", {id: session.id}, processes.updateSession(session.id, post), then);
+										home.signout(session, then);
 									}
 								}
 								else {
-									then(null);
+									then({});
 								}
 
 								function then(data) {
-									header["Content-Type"] = "text/html";
-									response.writeHead(200, header);
-									response.end(processes.render("./home/index.html", data));
+									if ((typeof data.redirect !== "undefined") && (data.redirect !== null)) {
+										response.writeHead(302, {Location: data.redirect});
+										response.end();
+									}
+									else {
+										header["Content-Type"] = "text/html";
+										response.writeHead(200, header);
+										response.end(processes.render("./home/index.html", data));
+									}
 								}
 							}
 							catch (error) {_404();}
 						break;
 
-						case (/^\/user\/[0-9a-zA-Z]*\/?$/).test(request.url):
+						case (/^\/users\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
-								if ((request.method == "post") && (Object.keys(post).length > 0)) {
-									store("users", {name: routes[2], id: session.user}, processes.updateUser(post), then);
+								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
+									processes.retrieve("users", {username: routes[2], id: session.user}, function(data) {
+										processes.store("users", {username: routes[2], id: session.user}, users.update(data, post), then);	
+									});									
 								}
 								else {
-									retrieve("users", {name: routes[2]}, then);
+									processes.retrieve("users", {username: routes[2]}, then);
 								}
 
 								function then(data) {
-									if (results.length > 0) {
+									if (data.length > 0) {
 										if (typeof data.id === "undefined") { data = data[0]; }
 
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./user/index.html", processes.readUser(data)));
+										response.end(processes.render("./users/index.html", data));
 									}
 									else {
 										_404();
@@ -152,9 +154,9 @@
 							catch (error) {_404();}
 						break;
 
-						case (/^\/robot\/[0-9a-zA-Z]*\/?$/).test(request.url):
+						case (/^\/robots\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
-								if ((request.method == "post") && (Object.keys(post).length > 0)) {
+								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
 									store("robots", {id: routes[2], user: session.user}, processes.updateRobot(post), then);
 								}
 								else {
@@ -177,9 +179,9 @@
 							catch (error) {_404();}
 						break;
 
-						case (/^\/arena\/[0-9a-zA-Z]*\/?$/).test(request.url):
+						case (/^\/arenas\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
-								if ((request.method == "post") && (Object.keys(post).length > 0)) {
+								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
 									store("arenas", {id: routes[2], user: session.user}, processes.updateArena(post), then);
 								}
 								else {

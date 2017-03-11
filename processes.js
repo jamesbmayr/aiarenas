@@ -1,4 +1,5 @@
-/* dependencies */
+/* node modules */
+	const crypto = require("crypto");
 	const fs = require("fs");
 	const mongo = require("mongodb").MongoClient;
 	if (typeof process.env.MLABS_URL !== "undefined") {
@@ -35,8 +36,11 @@
 		if ((typeof set === "undefined") || (set === null)) {
 			set = "0123456789abcdefghijklmnopqrstuvwxyz";
 		}
-		var output = "";
+		if ((typeof length === "undefined") || (length === null)) {
+			length = 32;
+		}
 
+		var output = "";
 		for (var i = 0; i < length; i++) {
 			output += (set[Math.floor(Math.random() * set.length)]);
 		}
@@ -44,10 +48,39 @@
 		return output;
 	}
 
+/* hash (string, salt) */
+	function hash(string, salt) {
+		if ((typeof salt == "undefined") || (salt === null)) {
+			salt = "";
+		}
+		return crypto.createHmac("sha512", salt).update(string).digest("hex");
+	}
+
+/* isEmail (string) */
+	function isEmail(string) {
+		return (/[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/).test(string);
+	}
+
+/* isReserved (string) */
+	function isReserved(string) {
+		var reservations = ["home","welcome","admin","test","feedback","help",
+			"signup","signin","signout","login","logout",
+			"user","users","robot","robots","arena","arenas",
+			"game","games","statistic","statistics",
+			"create","new","delete","read","start","go","all"];
+
+		return (reservations.indexOf(string.toLowerCase().replace(/ /g,"")) > -1);
+	}
+
+/* isNumLet (string) */
+	function isNumLet(string) {
+		return (/[a-z0-9A-Z]/).test(string);
+	}
+
 /* session (request, response, id, callback) */
 	function session(request, response, id, callback) {
 		if ((typeof id === "undefined") || (id === null)) {
-			id = random(32, "0123456789abcdefghijklmnopqrstuvwxyz");
+			id = random();
 
 			retrieve("sessions", {id: id}, function(result) {
 				if (result.length > 0) {
@@ -147,8 +180,14 @@
 	}
 
 /* exports */
-	module.exports.render = render;
-	module.exports.random = random;
-	module.exports.store = store;
-	module.exports.retrieve = retrieve;
-	module.exports.session = session;
+	module.exports = {
+		render: render,
+		random: random,
+		hash: hash,
+		isEmail: isEmail,
+		isReserved: isReserved,
+		isNumLet: isNumLet,
+		session: session,
+		store: store,
+		retrieve: retrieve
+	};
