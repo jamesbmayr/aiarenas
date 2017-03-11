@@ -39,7 +39,7 @@
 					request.url = request.url.split("?")[0];
 					routes = String(request.url).split("/");
 				try {cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null;} catch(error) {cookie = {};}
-				console.log(new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
+				console.log("\n" + new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
 
 				if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
 					routing(null);
@@ -97,15 +97,17 @@
 					/* pages */
 						case (/^\/$/).test(request.url):
 							try {
-								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
-									if ((typeof post.action !== "undefined") && (post.action == "signup")) {
-										home.signup(session, post, then);											
-									}
-									else if ((typeof post.action !== "undefined") && (post.action == "signin")) {
-										home.signin(session, post, then);
-									}
-									else if ((typeof post.action !== "undefined") && (post.action == "signout")) {
-										home.signout(session, then);
+								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
+									switch (post.action) {
+										case "signup":
+											home.signup(session, post, then);
+										break;
+										case "signin":
+											home.signin(session, post, then);
+										break;
+										case "signout":
+											home.signout(session, then);
+										break;
 									}
 								}
 								else {
@@ -159,17 +161,41 @@
 
 						case (/^\/users\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
-								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
-									if ((typeof post.action !== "undefined") && (post.action == "signout")) {
-										home.signout(session, function(data) {
-											_302();
-										});
+								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
+									switch (post.action) {
+										case "signout":
+											home.signout(session, function(data) {
+												_302();
+											});
+										break;
+									
+										case "settings":
+											//?
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end("settings page");
+										break;
+										case "editprofile":
+											//?
+											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
+											// 	processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
+											// });
+
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end("editprofile page");
+										break;
+										case "newrobot":
+											processes.retrieve("users", {id: session.user}, function(data) {
+												if (typeof data.id === "undefined") { data = data[0]; }
+												console.log(data);
+												var robot = robots.create(data, post.newrobot_name);
+												processes.store("robots", null, robot, function(robot) {
+													_302("../../robots/" + robot.id);
+												});
+											});
+										break;
 									}
-									// else {
-									// 	processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
-									// 		processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
-									// 	});
-									// }
 								}
 								else {
 									processes.retrieve("users", {name: routes[2]}, then);
@@ -179,7 +205,7 @@
 									if (data.length > 0) {
 										if (typeof data.id === "undefined") { data = data[0]; }
 
-										processes.retrieve("robots", {user: data.id}, function(robots) {
+										processes.retrieve("robots", {"user.id": data.id}, function(robots) {
 											data.robots = robots || {};
 											
 											header["Content-Type"] = "text/html";
@@ -197,20 +223,53 @@
 
 						case (/^\/robots\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
-								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
-									store("robots", {id: routes[2], user: session.user}, processes.updateRobot(post), then);
+								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
+									switch (post.action) {
+										case "signout":
+											home.signout(session, function(data) {
+												_302();
+											});
+										break;
+									
+										case "settings":
+											//?
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end("settings page");
+										break;
+										case "editrobot":
+											//?
+											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
+												// processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
+											// });
+
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end("editrobot page");
+										break;
+										case "deleterobot":
+											//?
+											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
+												// processes.store("robots", {id: routes[2], user: session.user}, null, then);
+											// });
+
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end("deleterobot page");
+										break;
+									}
 								}
 								else {
-									retrieve("robots", {id: routes[2]}, then);
+									processes.retrieve("robots", {id: routes[2]}, then);
 								}
 
-								function then(results) {
-									if (results.length > 0) {
+								function then(data) {
+									if (data.length > 0) {
 										if (typeof data.id === "undefined") { data = data[0]; }
 
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./robot/index.html", session, processes.readRobot(data)));
+										response.end(processes.render("./robots/index.html", session, data));
 									}
 									else {
 										_404();

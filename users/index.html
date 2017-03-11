@@ -7,7 +7,7 @@
 		<%
 			if (session.user === data.id) {
 				"<form id='navbar' method='post'>\
-					<button id='preferences' name='action' value='preferences'>preferences</button>\
+					<button id='settings' name='action' value='settings'>settings</button>\
 					<button id='editprofile' name='action' value='editprofile'>edit profile</button>\
 					<button id='signout' name='action' value='signout'>sign out</button>\
 					<a id='help' href='../../help'>help</a>\
@@ -15,7 +15,7 @@
 			}
 			else if (session.user !== null) {
 				"<form id='navbar' method='post'>\
-					<button id='preferences' name='action' value='preferences'>preferences</button>\
+					<button id='settings' name='action' value='settings'>settings</button>\
 					<a id='myprofile' href='../users/'>my profile</a>\
 					<button id='signout' name='action' value='signout'>sign out</button>\
 					<a id='help' href='../../help'>help</a>\
@@ -53,6 +53,8 @@
 			<%
 				if (session.user === data.id) {
 					"<form method='post'>\
+						<div class='message'>" + (data.message || "") + "</div>\
+						<input type='text' name='newrobot_name' placeholder='create a name'/>\
 						<button id='new_robot' name='action' value='newrobot'>new robot</button>\
 					</form>";
 				}
@@ -62,12 +64,12 @@
 					for (var i = 0; i < data.robots.length; i++) {
 						"<div class='tile' id='" + data.robots[i].id + "'>\
 							<div class='picture_frame'>\
-								<div class='avatar' style='background-color: " + data.robots[i].avatar.background || '#112233' + ">\
-									<div class='head' style='" + data.robots[i].avatar.head.shape || 'clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' + "; background-color: " + data.robots[i].avatar.head.color || '#333333' + "'>\
-										<span class='left_eye' style='background-color: " + data.robots[i].avatar.head.eyes || '#ffffff' + "></span>\
-										<span class='right_eye' style='background-color: " + data.robots[i].avatar.head.eyes || '#ffffff' + "></span>\
+								<div class='avatar' style='background-color: " + (data.robots[i].avatar.background.color || "#112233") + "'>\
+									<div class='head' style='" + (data.robots[i].avatar.head.shape || "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)") + "; background-color: " + (data.robots[i].avatar.head.color || "#333333") + "'>\
+										<span class='left_eye' style='background-color: " + (data.robots[i].avatar.head.eyes || "#ffffff") + "'></span>\
+										<span class='right_eye' style='background-color: " + (data.robots[i].avatar.head.eyes || "#ffffff") + "'></span>\
 									</div>\
-									<div class='body' style='" + data.robots[i].avatar.body.shape || 'clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' + "; background-color: " + data.robots[i].avatar.body.color || '#666666' + "'>\
+									<div class='body' style='" + (data.robots[i].avatar.body.shape || "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)") + "; background-color: " + (data.robots[i].avatar.body.color || "#666666") + "'>\
 									</div>\
 								</div>\
 								<div class='name'>" + data.robots[i].name + "</div>\
