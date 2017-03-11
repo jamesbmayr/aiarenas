@@ -91,7 +91,7 @@
 						id: id,
 						"user-agent": request.headers["user-agent"],
 						"accept-language": request.headers["accept-language"],
-						start: new Date().getTime(),
+						created: new Date().getTime(),
 						end: null,
 						user: null
 					}

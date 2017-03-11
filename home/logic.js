@@ -11,11 +11,11 @@
 			callback({message: "enter your password"});
 		}
 		else {
-			processes.retrieve("users", {username: post.signin_username}, function(data) {
+			processes.retrieve("users", {name: post.signin_username}, function(data) {
 				if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-					processes.retrieve("users", {username: post.signin_username, password: processes.hash(post.signin_password, data[0].salt)}, function(data) {
+					processes.retrieve("users", {name: post.signin_username, password: processes.hash(post.signin_password, data[0].salt)}, function(data) {
 						if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-							var redirect = "/users/" + data[0].username;
+							var redirect = "/users/" + data[0].name;
 							session.user = data[0].id;
 							processes.store("sessions", {id: session.id}, session, function(data) {
 								callback({redirect: redirect});
@@ -59,7 +59,7 @@
 			callback({message: "username is not available"});
 		}
 		else {
-			processes.retrieve("users", {username: post.signup_username}, function(data) {
+			processes.retrieve("users", {name: post.signup_username}, function(data) {
 				if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
 					callback({message: "username is not available"});
 				}
@@ -71,7 +71,7 @@
 						else {
 							var user = users.create(post.signup_username, post.signup_email, post.signup_password);
 							processes.store("users", null, user, function(data) {
-								var redirect = "/users/" + data.username;
+								var redirect = "/users/" + data.name;
 								
 								session.user = data.id;
 								processes.store("sessions", {id: session.id}, session, function(data) {

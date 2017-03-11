@@ -1,19 +1,23 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* createUser (username, email, password) */
-	function createUser(username, email, password) {
+/* createUser (name, email, password) */
+	function createUser(name, email, password) {
 		var salt = processes.random();
 		var user = {
 			id: processes.random(),
-			username: username,
+			name: name,
 			email: email,
 			password: processes.hash(password, salt),
 			salt: salt,
-			start: new Date().getTime(),
+			created: new Date().getTime(),
 			preferences: {},
-			statistics: {},
 			notifications: {},
+			information: {
+				picture: null,
+				bio: null,
+			},
+			statistics: {},
 		}
 
 		return user;
@@ -44,4 +48,3 @@
 		update: updateUser,
 		delete: deleteUser
 	};
-	

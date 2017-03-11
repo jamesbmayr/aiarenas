@@ -109,7 +109,20 @@
 									}
 								}
 								else {
-									then({});
+									if (session.user !== null) {
+										processes.retrieve("users", {id: session.user}, function(data) {
+											if (data.length > 0) {
+												if (typeof data.id === "undefined") { data = data[0]; }
+												then({message: "signed in as " + data.name});
+											}
+											else {
+												then({});
+											}
+										});
+									}
+									else {
+										then({});
+									}
 								}
 
 								function then(data) {
@@ -130,12 +143,12 @@
 						case (/^\/users\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
 								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
-									processes.retrieve("users", {username: routes[2], id: session.user}, function(data) {
-										processes.store("users", {username: routes[2], id: session.user}, users.update(data, post), then);	
+									processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
+										processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
 									});									
 								}
 								else {
-									processes.retrieve("users", {username: routes[2]}, then);
+									processes.retrieve("users", {name: routes[2]}, then);
 								}
 
 								function then(data) {
