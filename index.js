@@ -94,6 +94,30 @@
 							catch (error) {_404();}
 						break;
 
+					/* functions */
+						case (/^\/signout\/?$/).test(request.url):
+						case (/^\/logout\/?$/).test(request.url):
+							try {
+								home.signout(session, then);
+
+								function then(data) {
+									_302();
+								}
+							}
+							catch (error) {_404();}
+						break;
+
+						case (/^\/signup\/?$/).test(request.url):
+						case (/^\/signin\/?$/).test(request.url):
+						case (/^\/login\/?$/).test(request.url):
+						case (/^\/create\/?$/).test(request.url):
+						case (/^\/join\/?$/).test(request.url):
+							try {
+								_302();
+							}
+							catch (error) {_404();}
+						break;
+
 					/* pages */
 						case (/^\/$/).test(request.url):
 							try {

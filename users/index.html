@@ -4,30 +4,26 @@
 		<title>ai arena</title>
 	</head>
 	<body>
-		<%
-			if (session.user === data.id) {
-				"<form id='navbar' method='post'>\
-					<button id='settings' name='action' value='settings'>settings</button>\
-					<button id='editprofile' name='action' value='editprofile'>edit profile</button>\
-					<button id='signout' name='action' value='signout'>sign out</button>\
-					<a id='help' href='../../help'>help</a>\
-				</form>";
-			}
-			else if (session.user !== null) {
-				"<form id='navbar' method='post'>\
-					<button id='settings' name='action' value='settings'>settings</button>\
-					<a id='myprofile' href='../users/'>my profile</a>\
-					<button id='signout' name='action' value='signout'>sign out</button>\
-					<a id='help' href='../../help'>help</a>\
-				</form>";
-			}
-			else {
-				"<form id='navbar' method='post'>\
-					<a id='signinup' href='../../'>sign in / sign up</a>\
-					<a id='help' href='../../help'>help</a>\
-				</form>";
-			}
-		%>
+		<div id="navbar" style="background-color: darkgray; border: 5px solid gray; margin-bottom: 5px; padding: 5px; text-align: center">
+			<%
+				if (session.user === data.id) {
+					"<a id='settings' href='../../settings'>settings</a>\
+					<button id='editprofile'>edit profile</button>\
+					<a id='signout' href='../../signout'>sign out</a>\
+					<a id='help' href='../../help'>help</a>";
+				}
+				else if (session.user !== null) {
+					"<a id='settings' href='../../settings'>settings</a>\
+					<a id='myprofile' href='../users'>my profile</a>\
+					<a id='signout' href='../../signout'>sign out</a>\
+					<a id='help' href='../../help'>help</a>";
+				}
+				else {
+					"<a id='signinup' href='../../'>sign in / sign up</a>\
+					<a id='help' href='../../help'>help</a>";
+				}
+			%>
+		</div>
 		<div class="profile" id="<% data.id %>">
 			<div class="picture_frame">
 				<div class="picture"></div>
