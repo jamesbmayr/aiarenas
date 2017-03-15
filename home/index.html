@@ -2,60 +2,60 @@
 <html>
 	<head>
 		<title>ai arena</title>
+		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<div id="navbar" style="background-color: darkgray; border: 5px solid gray; margin-bottom: 5px; padding: 5px; text-align: center">
-			<%
-				if (session.user !== null) {
-					"<a id='settings' href='../../settings'>settings</a>\
-					<a id='myprofile' href='../users'>my profile</a>\
-					<a id='signout' href='../../signout'>sign out</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-				else {
-					"<a id='signinup' href='../../'>sign in / sign up</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-			%>
+		<% navbar(session); %>
+		<div id="container">
+			<div id="message">
+				<span class="graytext">//<% data.message || "welcome to ai arena, human..." %></span>
+				<br>
+				<span class="whitetext">human_id</span>
+				<span class="redtext"> = </span>
+				<span class="whitetext"><% if (session.user !== null) { session.user.name; } else { "<span class='purpletext'>null</span>"; } %>;</span>
+			</div>
+			<br>
+			<div id="signinup">
+				<div id="action_select" <% if (session.user !== null) { "style='display: none;'"} %> >
+					<span class="whitetext">action</span>
+					<span class="redtext"> = </span>
+					<select id="actions">
+						<option value="signin">signin</option>
+						<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >signup</option>
+					</select>
+					<span class="whitetext">;</span>
+					<br>
+					<br>
+				</div>
+				<form id="signin_form" method="post" <% if ((session.user !== null) || ((typeof data.action !== "undefined") && (data.action === "signup"))) { "style='display: none;'"} %> >
+					<button id="signin" name="action" value="signin"><span class="greentext">signin</span></button>
+					<span class="whitetext">(</span>
+					<input type="text" id="signin_username" class="orangetext" name="signin_username" placeholder="username"/>
+					<span class="whitetext">,</span>
+					<input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/>
+					<span class="whitetext">);</span>
+				</form>
+				<form id="signup_form" method="post" <% if ((session.user !== null) || (typeof data.action === "undefined") || (data.action !== "signup")) { "style='display: none;'"} %> >
+					<button id="signup" name="action" value="signup"><span class="greentext">signup</span></button>
+					<span class="whitetext">(</span>
+					<input type="text" id="signup_username" class="orangetext" name="signup_username" placeholder="username"/>
+					<span class="whitetext">,</span>
+					<input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/>
+					<span class="whitetext">,</span>
+					<input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/>
+					<span class="whitetext">,</span>
+					<input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/>
+					<span class="whitetext">);</span>
+				</form>
+				<form id="signout_form" method="post" <% if (session.user === null) { "style='display: none;'"} %> >
+					<button id="signout" name="action" value="signout"><span class="greentext">signout</span></button>
+					<span class="whitetext">();</span>
+				</form>
+			</div>
 		</div>
-		<div id="message" style="background-color: darkgray; padding: 25px">
-			<% data.message || null %>
-			<br>
-			user_id: <% session.user || "none" %>
-		</div>
-		<br>
-		<form method="post">
-			<div id="signin" style="background-color: darkgray; padding: 25px;<% if (session.user !== null) { ' display: none;'} %>">
-				sign in
-				<br>
-				<input type="text" id="signin_username" name="signin_username" placeholder="username"/>
-				<br>
-				<input type="text" id="signin_password" name="signin_password" placeholder="password"/>
-				<br>
-				<button id="signin" name="action" value="signin">sign in</button>
-			</div>
-			<br>
-			<br>
-			<div id="signup" style="background-color: darkgray; padding: 25px;<% if (session.user !== null) { ' display: none;'} %>">
-				sign up
-				<br>
-				<input type="text" id="signup_email" name="signup_email" placeholder="email"/>
-				<br>
-				<input type="text" id="signup_username" name="signup_username" placeholder="username"/>
-				<br>
-				<input type="text" id="signup_password" name="signup_password" placeholder="password"/>
-				<br>
-				<input type="text" id="signup_confirm" name="signup_confirm" placeholder="confirm password"/>
-				<br>
-				<button id="signup" name="action" value="signup">sign up</button>
-			</div>
-			<br>
-			<br>
-			<div id="signout" style="background-color: darkgray; padding: 25px;<% if (session.user === null) { 'display: none;'} %>">
-				sign out
-				<br>
-				<button id="signout" name="action" value="signout">sign out</button>
-			</div>
-		</form>
 	</body>
 </html>

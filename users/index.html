@@ -1,78 +1,71 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai arena</title>
+		<title>ai arena: <% data.name || null %></title>
+		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<div id="navbar" style="background-color: darkgray; border: 5px solid gray; margin-bottom: 5px; padding: 5px; text-align: center">
-			<%
-				if (session.user === data.id) {
-					"<a id='settings' href='../../settings'>settings</a>\
-					<button id='editprofile'>edit profile</button>\
-					<a id='signout' href='../../signout'>sign out</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-				else if (session.user !== null) {
-					"<a id='settings' href='../../settings'>settings</a>\
-					<a id='myprofile' href='../users'>my profile</a>\
-					<a id='signout' href='../../signout'>sign out</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-				else {
-					"<a id='signinup' href='../../'>sign in / sign up</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-			%>
-		</div>
-		<div class="profile" id="<% data.id %>">
-			<div class="picture_frame">
-				<div class="picture"></div>
+		<% navbar(session); %>
+		<% if (session.user.id === data.id) { var edit = "<button class='edit_button'><span class='graytext'>//edit</span></button>"; } else { var edit = ""; } %>
+		<div id="container" id="<% data.id %>">
+			<div class="section">
+				<span class="whitetext"><span class="field" id="name" value="<% data.name %>"><% data.name %></span></span>
+				<span class="redtext"> = </span>
+				<span class="whitetext">{</span>
+				<% edit %>
 			</div>
-			<div class="name"><% data.name %></div>
-			<div class="email"><% data.email %></div>
-			<div class="bio">
-				<span class="bio_title">bio: </span>
-				<span class="bio_value"><% data.information.bio || null %></div>
-			<div class="statistics">
-				<div class="statistic">
-					<span class="statistic_title">wins: </span>
-					<span class="statistic_value"><% Object.keys(data.statistics.wins).length || null %></span>
+			<div class="indented">
+				<div class="section">
+					<span class="whitetext">email:</span>
+					<span class="yellowtext">"<a class="field" id="email" class="yellowtext" href="mailto:<% data.email %>" value="<% data.email %>"><% data.email %></a>"</span>
+					<span class="whitetext">,</span>
+					<% edit %>
 				</div>
-				<div class="statistic">
-					<span class="statistic_title">losses: </span>
-					<span class="statistic_value"><% Object.keys(data.statistics.losses).length || null %></span>
+				<div class="section">
+					<span class="whitetext">joined:</span>
+					<span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
+					<span class="whitetext">,</span>
+				</div>
+				<div class="section">
+					<span class="whitetext">bio:</span>
+					<span class="yellowtext">"<span class="field" id="bio" value="<% data.information.bio || null %>"><% data.information.bio || null %></span>"</span>
+					<span class="whitetext">,</span>
+					<% edit %>
+				</div>
+				<div class="section">
+					<span class="whitetext">statistics: {</span>
+					<div class="indented statistic">
+						<span class="whitetext">wins: </span>
+						<span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
+						<span class="whitetext">,</span>
+					</div>
+					<div class="indented statistic">
+						<span class="whitetext">losses: </span>
+						<span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
+						<span class="whitetext">,</span>
+					</div>
+					<span class="whitetext">},</span>
+				</div>
+				<div class="section">
+					<span class="whitetext">robots: [</span>
+					<br>
+					<%
+						for (var i = 0; i < data.robots.length; i++) {
+							"<a class='indented robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'>\
+								<span class='bluetext'>" + data.robots[i].name + "</span>\
+							</a>\
+							<span class='whitetext'>,</span><br>";
+						}
+					%>
+					<span class="whitetext">]</span>
 				</div>
 			</div>
+			<span class="whitetext">}</span>
 		</div>
-		<div class="robots">
-			<span class="robots_title">robots:</span>
-			<%
-				if (session.user === data.id) {
-					"<form method='post'>\
-						<div class='message'>" + (data.message || "") + "</div>\
-						<input type='text' name='newrobot_name' placeholder='create a name'/>\
-						<button id='new_robot' name='action' value='newrobot'>new robot</button>\
-					</form>";
-				}
-			%>
-			<div class="tiles">
-				<%
-					for (var i = 0; i < data.robots.length; i++) {
-						"<div class='tile' id='" + data.robots[i].id + "'>\
-							<div class='picture_frame'>\
-								<div class='avatar' style='background-color: " + (data.robots[i].avatar.background.color || "#112233") + "'>\
-									<div class='head' style='" + (data.robots[i].avatar.head.shape || "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)") + "; background-color: " + (data.robots[i].avatar.head.color || "#333333") + "'>\
-										<span class='left_eye' style='background-color: " + (data.robots[i].avatar.head.eyes || "#ffffff") + "'></span>\
-										<span class='right_eye' style='background-color: " + (data.robots[i].avatar.head.eyes || "#ffffff") + "'></span>\
-									</div>\
-									<div class='body' style='" + (data.robots[i].avatar.body.shape || "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)") + "; background-color: " + (data.robots[i].avatar.body.color || "#666666") + "'>\
-									</div>\
-								</div>\
-								<div class='name'>" + data.robots[i].name + "</div>\
-							</div>\
-						</div>";
-					}
-				%>
-			</div>
+		
 	</body>
 </html>

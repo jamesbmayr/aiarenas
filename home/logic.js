@@ -2,13 +2,13 @@
 	const processes = require("../processes");
 	const users = require("../users/logic");
 
-/* signin (session, post, callback) */
+/* signin(session, post, callback) */
 	function signin(session, post, callback) {
 		if ((typeof post.signin_username == "undefined") || (post.signin_username.length < 8) || (!processes.isNumLet(post.signin_username))) {
-			callback({message: "enter your username"});
+			callback({action: "signin", message: "enter your username of 8 or more letters and numbers"});
 		}
 		else if ((typeof post.signin_password == "undefined") || (post.signin_password.length < 8)) {
-			callback({message: "enter your password"});
+			callback({action: "signin", message: "enter your password of 8 or more characters"});
 		}
 		else {
 			processes.retrieve("users", {name: post.signin_username}, function(data) {
@@ -22,18 +22,18 @@
 							});
 						}
 						else {
-							callback({message: "username and password do not match"});
+							callback({action: "signin", message: "username and password do not match"});
 						}
 					});
 				}
 				else {
-					callback({message: "username and password do not match"});
+					callback({action: "signin", message: "username and password do not match"});
 				}
 			});
 		}
 	}
 
-/* signout (session) */
+/* signout(session) */
 	function signout(session, callback) {
 		session.user = null;
 		processes.store("sessions", {id: session.id}, session, function(data) {
@@ -41,32 +41,32 @@
 		});
 	}
 
-/* signup (session, post, callback) */
+/* signup(session, post, callback) */
 	function signup(session, post, callback) {
 		if ((typeof post.signup_username == "undefined") || (post.signup_username.length < 8) || (!processes.isNumLet(post.signup_username))) {
-			callback({message: "enter a username of 8 or more numbers and letters"});
+			callback({action: "signup", message: "enter a username of 8 or more letters and numbers"});
 		}
 		else if ((typeof post.signup_email == "undefined") || (post.signup_email.length == 0) || (!processes.isEmail(post.signup_email))) {
-			callback({message: "enter a valid email address"});
+			callback({action: "signup", message: "enter a valid email address"});
 		}
 		else if ((typeof post.signup_password == "undefined") || (post.signup_password.length < 8)) {
-			callback({message: "enter a password of 8 or more characters"});
+			callback({action: "signup", message: "enter a password of 8 or more characters"});
 		}
 		else if ((typeof post.signup_confirm == "undefined") || (post.signup_confirm.length < 8) || (post.signup_confirm !== post.signup_password)) {
-			callback({message: "passwords do not match"});
+			callback({action: "signup", message: "passwords do not match"});
 		}
 		else if (processes.isReserved(post.signup_username)) {
-			callback({message: "username is not available"});
+			callback({action: "signup", message: "username is not available"});
 		}
 		else {
 			processes.retrieve("users", {name: post.signup_username}, function(data) {
 				if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-					callback({message: "username is not available"});
+					callback({action: "signup", message: "username is not available"});
 				}
 				else {
 					processes.retrieve("users", {email: post.signup_email}, function(data) {
 						if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-							callback({message: "email is not available"});
+							callback({action: "signup", message: "email is not available"});
 						}
 						else {
 							var user = users.create(post.signup_username, post.signup_email, post.signup_password);

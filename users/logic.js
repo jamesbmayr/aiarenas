@@ -1,7 +1,7 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* createUser (name, email, password) */
+/* createUser(name, email, password) */
 	function createUser(name, email, password) {
 		var salt = processes.random();
 		var user = {
@@ -11,27 +11,65 @@
 			password: processes.hash(password, salt),
 			salt: salt,
 			created: new Date().getTime(),
-			preferences: {},
+			settings: {},
 			notifications: {},
 			information: {
 				picture: null,
 				bio: null,
 			},
-			statistics: {},
+			statistics: {
+				wins: 0,
+				losses: 0,
+			},
+			robots: [],
+			arenas: [],
 		}
 
 		return user;
 	}
 
-/* readUser (user) */
-	function readUser(user) {
-
-	}
-
 /* updateUser (user, data) */
-	function updateUser(user, data) {
+	function updateUser(user, data, action) {
+		if ((typeof action === "undefined") || (action === null)) {
+			return user;
+		}
+		else if (action == "create_robot") {
+			user.robots.push({id: data.id, name: data.name});
+			return user;
+		}
+		else if (action == "delete_robot") {
+			user.robots.splice(users.robots.indexOf({id: data.id, name: data.name}),1);
+			return user;
+		}
+		else if ((action == "create_arena") || (action == "join_arena")) {
+			user.arenas.push({id: data.id});
+			return user;
+		}
+		else if ((action == "delete_arena") || (action == "leave_arena")) {
+			user.arenas.splice(users.arenas.indexOf({id: data.id}),1);
+			return user;
+		}
+		else {
+			switch (action) {
+				case "name":
+					if (!processes.isReserved(data)) {
+						user.name = name;
+					}
+				break;
 
-		return user;
+				case "email":
+					if (processes.isEmail(data)) {
+						user.email = data;
+					}
+				break;
+
+				case "bio":
+					user.information.bio = data;
+				break;
+			}
+
+			return user;
+		}
 	}
 
 /* deleteUser (user, actor) */
@@ -44,7 +82,6 @@
 /* exports */
 	module.exports = {
 		create: createUser,
-		read: readUser,
 		update: updateUser,
 		delete: deleteUser
 	};

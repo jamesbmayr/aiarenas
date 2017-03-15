@@ -45,7 +45,26 @@
 					routing(null);
 				}
 				else {
-					processes.session(request, response, cookie.session || null, routing);
+					processes.session(request, response, cookie.session || null, function(session) {
+						if (typeof session.id === "undefined") { session = session[0]; }
+						if (typeof session.user === "undefined") { session.user = null; }
+
+						if (session.user !== null) {
+							processes.retrieve("users", {id: session.user}, function(user) {
+								if (user.length > 0) {
+									if (typeof user.id === "undefined") { user = user[0]; }
+									session.user = user;
+									routing(session);
+								}
+								else {
+									routing(session);
+								}
+							});
+						}
+						else {
+							routing(session);
+						}
+					});
 				}
 			});
 
@@ -53,7 +72,6 @@
 			function routing(session) {
 				/* setCookie */
 					if (session !== null) {
-						if (typeof session.id === "undefined") { session = session[0]; }
 						var header = {};
 						header["Set-Cookie"] = String("session=" + session.id + "; expires=" + (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 7)).toUTCString()) + "; path=/; domain=localhost");
 					}
@@ -77,19 +95,21 @@
 						break;
 
 						case (/\/stylesheet[.]css$/).test(request.url):
+							if (routes[1] === "stylesheet.css") { request.url = "home/stylesheet.css"; }
 							try {
 								header["Content-Type"] = "text/css";
 								response.writeHead(200, header);
-								response.end(fs.readFileSync(request.url));
+								response.end(fs.readFileSync("./" + request.url));
 							}
 							catch (error) {_404();}
 						break;
 
 						case (/\/script[.]js$/).test(request.url):
+							if (routes[1] === "script.js") { request.url = "home/script.js"; }
 							try {
 								header["Content-Type"] = "text/javascript";
 								response.writeHead(200, header);
-								response.end(fs.readFileSync(request.url));
+								response.end(fs.readFileSync("./" + request.url));
 							}
 							catch (error) {_404();}
 						break;
@@ -98,11 +118,9 @@
 						case (/^\/signout\/?$/).test(request.url):
 						case (/^\/logout\/?$/).test(request.url):
 							try {
-								home.signout(session, then);
-
-								function then(data) {
+								home.signout(session, function(session) {
 									_302();
-								}
+								});
 							}
 							catch (error) {_404();}
 						break;
@@ -114,6 +132,42 @@
 						case (/^\/join\/?$/).test(request.url):
 							try {
 								_302();
+							}
+							catch (error) {_404();}
+						break;
+
+						case (/\/newrobot\/?$/).test(request.url):
+						case (/\/buildrobot\/?$/).test(request.url):
+						case (/\/createrobot\/?$/).test(request.url):
+							try {
+								if (session.user !== null) {												
+									processes.store("robots", null, robots.create(session.user), function(robot) {
+										processes.store("users", {id: session.user.id}, users.update(session.user, robot, "create_robot"), function(user) {
+											_302("../../robots/" + robot.id);
+										});
+									});
+								}
+								else {
+									_302();
+								}
+							}
+							catch (error) {_404();}
+						break;
+
+						case (/\/newarena\/?$/).test(request.url):
+						case (/\/buildarena\/?$/).test(request.url):
+						case (/\/createarena\/?$/).test(request.url):
+							try {
+								if (session.user !== null) {												
+									processes.store("arenas", null, arenas.create(session.user), function(arena) {
+										processes.store("users", {id: session.user.id}, users.update(session.user, arena, "create_arena"), function(user) {
+											_302("../../arenas/" + arena.id);
+										});
+									});
+								}
+								else {
+									_302();
+								}
 							}
 							catch (error) {_404();}
 						break;
@@ -136,15 +190,7 @@
 								}
 								else {
 									if (session.user !== null) {
-										processes.retrieve("users", {id: session.user}, function(data) {
-											if (data.length > 0) {
-												if (typeof data.id === "undefined") { data = data[0]; }
-												then({message: "signed in as " + data.name});
-											}
-											else {
-												then({});
-											}
-										});
+										then({message: "human identified as " + session.user.name});
 									}
 									else {
 										then({});
@@ -167,16 +213,7 @@
 
 						case (/^\/users\/?$/).test(request.url):
 							if (session.user !== null) {
-								processes.retrieve("users", {id: session.user}, function(data) {
-									if (data.length > 0) {
-										if (typeof data.id === "undefined") { data = data[0]; }
-
-										_302("/users/" + data.name);
-									}
-									else {
-										_302();
-									}
-								});
+								_302("/users/" + session.user.name);
 							}
 							else {
 								_302();
@@ -187,36 +224,28 @@
 							try {
 								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
 									switch (post.action) {
-										case "signout":
-											home.signout(session, function(data) {
-												_302();
-											});
-										break;
-									
-										case "settings":
-											//?
-											header["Content-Type"] = "text/html";
-											response.writeHead(200, header);
-											response.end("settings page");
-										break;
-										case "editprofile":
-											//?
-											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
-											// 	processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
-											// });
-
-											header["Content-Type"] = "text/html";
-											response.writeHead(200, header);
-											response.end("editprofile page");
-										break;
-										case "newrobot":
-											processes.retrieve("users", {id: session.user}, function(data) {
-												if (typeof data.id === "undefined") { data = data[0]; }
-												console.log(data);
-												var robot = robots.create(data, post.newrobot_name);
-												processes.store("robots", null, robot, function(robot) {
-													_302("../../robots/" + robot.id);
-												});
+										case "edit_user":
+											processes.retrieve("users", {name: routes[2], id: session.user.id}, function(user) {
+												if (typeof user.id === "undefined") { user = user[0]; }
+												
+												if (user.id !== session.user.id) {
+													response.writeHead(200, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({changed: false, message: 'invalid request', user: user}));
+												}
+												else {
+													var before = JSON.stringify(user);
+													user = users.update(user, post.value, post.field);
+													if (before !== JSON.stringify(user)) {
+														processes.store("users", {id: user.id}, user, function(user) {
+															response.writeHead(200, {"Content-Type": "text/json"});
+															response.end(JSON.stringify({changed: true, message: 'changed!', user: user}));
+														});
+													}
+													else {
+														response.writeHead(200, {"Content-Type": "text/json"});
+														response.end(JSON.stringify({changed: false, message: 'data could not be changed', user: usr}));
+													}
+												}
 											});
 										break;
 									}
@@ -225,17 +254,13 @@
 									processes.retrieve("users", {name: routes[2]}, then);
 								}
 
-								function then(data) {
-									if (data.length > 0) {
-										if (typeof data.id === "undefined") { data = data[0]; }
+								function then(user) {
+									if (user.length > 0) {
+										if (typeof user.id === "undefined") { user = user[0]; }
 
-										processes.retrieve("robots", {"user.id": data.id}, function(robots) {
-											data.robots = robots || {};
-											
-											header["Content-Type"] = "text/html";
-											response.writeHead(200, header);
-											response.end(processes.render("./users/index.html", session, data));
-										});
+										header["Content-Type"] = "text/html";
+										response.writeHead(200, header);
+										response.end(processes.render("./users/index.html", session, user));
 									}
 									else {
 										_302();
@@ -249,18 +274,6 @@
 							try {
 								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
 									switch (post.action) {
-										case "signout":
-											home.signout(session, function(data) {
-												_302();
-											});
-										break;
-									
-										case "settings":
-											//?
-											header["Content-Type"] = "text/html";
-											response.writeHead(200, header);
-											response.end("settings page");
-										break;
 										case "editrobot":
 											//?
 											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
@@ -287,13 +300,13 @@
 									processes.retrieve("robots", {id: routes[2]}, then);
 								}
 
-								function then(data) {
-									if (data.length > 0) {
-										if (typeof data.id === "undefined") { data = data[0]; }
+								function then(robot) {
+									if (robot.length > 0) {
+										if (typeof robot.id === "undefined") { robot = robot[0]; }
 
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./robots/index.html", session, data));
+										response.end(processes.render("./robots/index.html", session, robot));
 									}
 									else {
 										_404();
@@ -312,13 +325,13 @@
 									retrieve("arenas", {id: routes[2]}, then);
 								}
 
-								function then(results) {
-									if (results.length > 0) {
-										if (typeof data.id === "undefined") { data = data[0]; }
+								function then(arena) {
+									if (arena.length > 0) {
+										if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 										header["Content-Type"] = "text/html";
 										response.writeHead(200, header);
-										response.end(processes.render("./arena/index.html", session, processes.readArena(data)));
+										response.end(processes.render("./robots/index.html", session, arena));
 									}
 									else {
 										_404();

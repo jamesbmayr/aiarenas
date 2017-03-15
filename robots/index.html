@@ -1,29 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai arena</title>
+		<title>ai arena: <% data.name || null %></title>
+		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<div id="navbar" style="background-color: darkgray; border: 5px solid gray; margin-bottom: 5px; padding: 5px; text-align: center">
-			<%
-				if (session.user === data.user.id) {
-					"<a id='settings' href='../../settings'>settings</a>\
-					<button id='editrobot'>edit robot</button>\
-					<a id='signout' href='../../signout'>sign out</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-				if (session.user !== null) {
-					"<a id='settings' href='../../settings'>settings</a>\
-					<a id='myprofile' href='../users'>my profile</a>\
-					<a id='signout' href='../../signout'>sign out</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-				else {
-					"<a id='signinup' href='../../'>sign in / sign up</a>\
-					<a id='help' href='../../help'>help</a>";
-				}
-			%>
-		</div>
+		<% navbar(session); %>
 		<pre><% JSON.stringify(data, null, 2) || null %></pre>
 	</body>
 </html>

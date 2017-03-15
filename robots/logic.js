@@ -1,13 +1,13 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* createRobot (user) */
-	function createRobot(user, name) {
+/* createRobot(user) */
+	function createRobot(user) {
 		var id = processes.random();
 
 		var robot = {
 			id: id,
-			name: (name || (id + "Bot")),
+			name: id.substring(0,4) + "_bot",
 			user: {
 				id: user.id,
 				name: user.name
