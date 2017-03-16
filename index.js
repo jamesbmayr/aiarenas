@@ -142,7 +142,7 @@
 							try {
 								if (session.user !== null) {												
 									processes.store("robots", null, robots.create(session.user), function(robot) {
-										processes.store("users", {id: session.user.id}, users.update(session.user, robot, "create_robot"), function(user) {
+										processes.store("users", {id: session.user.id}, {$push: {robots: robot.id}}, function(user) {
 											_302("../../robots/" + robot.id);
 										});
 									});
@@ -160,7 +160,7 @@
 							try {
 								if (session.user !== null) {												
 									processes.store("arenas", null, arenas.create(session.user), function(arena) {
-										processes.store("users", {id: session.user.id}, users.update(session.user, arena, "create_arena"), function(user) {
+										processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
 											_302("../../arenas/" + arena.id);
 										});
 									});
@@ -228,43 +228,67 @@
 											processes.retrieve("users", {name: routes[2], id: session.user.id}, function(user) {
 												if (typeof user.id === "undefined") { user = user[0]; }
 												
-												if (user.id !== session.user.id) {
-													response.writeHead(200, {"Content-Type": "text/json"});
-													response.end(JSON.stringify({changed: false, message: 'invalid request', user: user}));
+												if ((typeof user.id === "undefined") || (user.id !== session.user.id)) {
+													response.writeHead(403, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false}));
 												}
 												else {
 													var before = JSON.stringify(user);
-													user = users.update(user, post.value, post.field);
-													if (before !== JSON.stringify(user)) {
-														processes.store("users", {id: user.id}, user, function(user) {
+													var update = users.update(user, JSON.parse(post.data));
+													
+													if (before !== JSON.stringify(update.user)) {
+														processes.store("users", {id: update.user.id}, update.user, function(user) {
 															response.writeHead(200, {"Content-Type": "text/json"});
-															response.end(JSON.stringify({changed: true, message: 'changed!', user: user}));
+															response.end(JSON.stringify(update));
 														});
 													}
 													else {
 														response.writeHead(200, {"Content-Type": "text/json"});
-														response.end(JSON.stringify({changed: false, message: 'data could not be changed', user: usr}));
+														response.end(JSON.stringify(update));
 													}
+												}
+											});
+										break;
+
+										case "delete_user":
+											processes.retrieve("users", {name: routes[2], id: session.user.id}, function(user) {
+												if (typeof user.id === "undefined") { user = user[0]; }
+												
+												if ((typeof user.id === "undefined") || (user.id !== session.user.id)) {
+													response.writeHead(403, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false}));
+												}
+												else {
+													var robots = [];
+													for (var i = 0; i < user.robots.length; i++) {
+														robots.push(user.robots[i].id);
+													}
+
+													processes.store("robots", {id: {$in: robots}}, null, function(results) {
+														processes.store("users", {id: session.user.id}, null, function(user) {
+															processes.store("sessions", {user: session.user.id}, {$set: {user: null}}, function(session) {
+																_302();
+															});
+														});
+													});
 												}
 											});
 										break;
 									}
 								}
 								else {
-									processes.retrieve("users", {name: routes[2]}, then);
-								}
+									processes.retrieve("users", {name: routes[2]}, function (user) {
+										if (user.length > 0) {
+											if (typeof user.id === "undefined") { user = user[0]; }
 
-								function then(user) {
-									if (user.length > 0) {
-										if (typeof user.id === "undefined") { user = user[0]; }
-
-										header["Content-Type"] = "text/html";
-										response.writeHead(200, header);
-										response.end(processes.render("./users/index.html", session, user));
-									}
-									else {
-										_302();
-									}
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end(processes.render("./users/index.html", session, user));
+										}
+										else {
+											_302();
+										}
+									});
 								}
 							}
 							catch (error) {_404();}
@@ -274,43 +298,64 @@
 							try {
 								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
 									switch (post.action) {
-										case "editrobot":
-											//?
-											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
-												// processes.store("users", {name: routes[2], id: session.user}, users.update(data, post), then);	
-											// });
-
-											header["Content-Type"] = "text/html";
-											response.writeHead(200, header);
-											response.end("editrobot page");
+										case "edit_robot":
+											processes.retrieve("robots", {id: routes[2], "user.id": session.user.id}, function(robot) {
+												if (typeof robot.id === "undefined") { robot = robot[0]; }
+												
+												if ((typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
+													response.writeHead(403, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false}));
+												}
+												else {
+													var before = JSON.stringify(robot);
+													var update = robots.update(robot, JSON.parse(post.data));
+													
+													if (before !== JSON.stringify(update.robot)) {
+														processes.store("robots", {id: robot.id}, robot, function(robot) {
+															response.writeHead(200, {"Content-Type": "text/json"});
+															response.end(JSON.stringify(update));
+														});
+													}
+													else {
+														response.writeHead(200, {"Content-Type": "text/json"});
+														response.end(JSON.stringify(update));
+													}
+												}
+											});
 										break;
-										case "deleterobot":
-											//?
-											// processes.retrieve("users", {name: routes[2], id: session.user}, function(data) {
-												// processes.store("robots", {id: routes[2], user: session.user}, null, then);
-											// });
 
-											header["Content-Type"] = "text/html";
-											response.writeHead(200, header);
-											response.end("deleterobot page");
+										case "delete_robot":
+											processes.retrieve("robot", {id: routes[2], "user.id": session.user.id}, function(robot) {
+												if (typeof robot.id === "undefined") { robot = robot[0]; }
+												
+												if ((typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
+													response.writeHead(403, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false}));
+												}
+												else {
+													proceses.store("users", {id: robot.user.id}, {$pull: {robots: robot.id}}, function(user) {
+														processes.store("robots", {id: robot.id}, null, function(results) {
+															_302();
+														});
+													});
+												}
+											});
 										break;
 									}
 								}
 								else {
-									processes.retrieve("robots", {id: routes[2]}, then);
-								}
+									processes.retrieve("robots", {id: routes[2]}, function (robot) {
+										if (robot.length > 0) {
+											if (typeof robot.id === "undefined") { robot = robot[0]; }
 
-								function then(robot) {
-									if (robot.length > 0) {
-										if (typeof robot.id === "undefined") { robot = robot[0]; }
-
-										header["Content-Type"] = "text/html";
-										response.writeHead(200, header);
-										response.end(processes.render("./robots/index.html", session, robot));
-									}
-									else {
-										_404();
-									}
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end(processes.render("./robots/index.html", session, robot));
+										}
+										else {
+											_302();
+										}
+									});
 								}
 							}
 							catch (error) {_404();}
@@ -318,24 +363,78 @@
 
 						case (/^\/arenas\/[0-9a-zA-Z]*\/?$/).test(request.url):
 							try {
-								if ((request.method == "POST") && (Object.keys(post).length > 0)) {
-									store("arenas", {id: routes[2], user: session.user}, processes.updateArena(post), then);
+								if ((request.method == "POST") && (Object.keys(post).length > 0) && (typeof post.action !== "undefined")) {
+									switch (post.action) {
+										case "edit_arena":
+											processes.retrieve("arenas", {id: routes[2], "users[0]": session.user.id}, function(arena) {
+												if (typeof arena.id === "undefined") { arena = arena[0]; }
+												
+												if ((typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
+													response.writeHead(403, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false}));
+												}
+												else {
+													var before = JSON.stringify(arena);
+													var arena = arenas.update(arena);
+													
+													if (before !== JSON.stringify(arena)) {
+														processes.store("arenas", {id: arena.id}, arena, function(arena) {
+															response.writeHead(200, {"Content-Type": "text/json"});
+															response.end(JSON.stringify(arena));
+														});
+													}
+													else {
+														response.writeHead(200, {"Content-Type": "text/json"});
+														response.end(JSON.stringify(arena));
+													}
+												}
+											});
+										break;
+
+										case "delete_arena":
+											processes.retrieve("arenas", {id: routes[2]}, function(arena) {
+												if (typeof arena.id === "undefined") { arena = arena[0]; }
+												
+												if ((typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
+													response.writeHead(403, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false}));
+												}
+												else {
+													proceses.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
+														processes.store("arenas", {id: arena.id}, null, function(results) {
+															_302();
+														});
+													});
+												}
+											});
+										break;
+
+										case "join_arena":
+										//
+										break;
+
+										case "leave_arena":
+										//
+										break;
+
+										case "read_arena":
+										//
+										break;
+									}
 								}
 								else {
-									retrieve("arenas", {id: routes[2]}, then);
-								}
+									processes.retrieve("arenas", {id: routes[2]}, function (arena) {
+										if (arena.length > 0) {
+											if (typeof arena.id === "undefined") { arena = arena[0]; }
 
-								function then(arena) {
-									if (arena.length > 0) {
-										if (typeof arena.id === "undefined") { arena = arena[0]; }
-
-										header["Content-Type"] = "text/html";
-										response.writeHead(200, header);
-										response.end(processes.render("./robots/index.html", session, arena));
-									}
-									else {
-										_404();
-									}
+											header["Content-Type"] = "text/html";
+											response.writeHead(200, header);
+											response.end(processes.render("./arenas/index.html", session, arena));
+										}
+										else {
+											_302();
+										}
+									});
 								}
 							}
 							catch (error) {_404();}

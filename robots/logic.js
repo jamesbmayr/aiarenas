@@ -1,8 +1,8 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* createRobot(user) */
-	function createRobot(user) {
+/* create(user) */
+	function create(user) {
 		var id = processes.random();
 
 		var robot = {
@@ -48,28 +48,53 @@
 		return robot;
 	}
 
-/* readRobot (robot) */
-	function readRobot(robot) {
+/* update(robot, data) */
+	function update(robot, data) {
+		var fields = Object.keys(data);
+		var messages = {top: "changes submitted"};
+		
+		for (var i = 0; i < fields.length; i++) {
+			switch (fields[i]) {
+				case "name":
+					if (data.name === robot.name) {
+						//no change
+					}
+					else if (processes.isReserved(data.name)) {
+						data.name = robot.name;
+						messages.name = " //that name is taken";
+					}
+					else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
+						data.name = robot.name;
+						messages.name = " //name must be 8 or more numbers and letters";
+					}
+					else {
+						robot.name = data.name;
+						messages.name = " //name updated";
+					}
+				break;
 
-	}
+				case "bio":
+					if (data.bio === robot.information.bio) {
+						//no change
+					}
+					else {
+						robot.information.bio = data.bio;
+						messages.bio = " //bio updated";
+					}
+				break;
+			}
+		}
 
-/* updateRobot (user, data) */
-	function updateRobot(robot, data) {
-
-		return robot;
-	}
-
-/* deleteRobot (robot, actor) */
-	function deleteRobot(robot, actor) {
-
-		return false;
-		return true;
+		return {
+			robot: robot,
+			success: true,
+			data: data,
+			messages: messages
+		};
 	}
 
 /* exports */
 	module.exports = {
-		create: createRobot,
-		read: readRobot,
-		update: updateRobot,
-		delete: deleteRobot
+		create: create,
+		update: update,
 	};

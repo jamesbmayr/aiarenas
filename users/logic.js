@@ -1,8 +1,8 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* createUser(name, email, password) */
-	function createUser(name, email, password) {
+/* create(name, email, password) */
+	function create(name, email, password) {
 		var salt = processes.random();
 		var user = {
 			id: processes.random(),
@@ -28,60 +28,67 @@
 		return user;
 	}
 
-/* updateUser (user, data) */
-	function updateUser(user, data, action) {
-		if ((typeof action === "undefined") || (action === null)) {
-			return user;
-		}
-		else if (action == "create_robot") {
-			user.robots.push({id: data.id, name: data.name});
-			return user;
-		}
-		else if (action == "delete_robot") {
-			user.robots.splice(users.robots.indexOf({id: data.id, name: data.name}),1);
-			return user;
-		}
-		else if ((action == "create_arena") || (action == "join_arena")) {
-			user.arenas.push({id: data.id});
-			return user;
-		}
-		else if ((action == "delete_arena") || (action == "leave_arena")) {
-			user.arenas.splice(users.arenas.indexOf({id: data.id}),1);
-			return user;
-		}
-		else {
-			switch (action) {
+/* update(user, data) */
+	function update(user, data) {
+		var fields = Object.keys(data);
+		var messages = {top: "changes submitted"};
+		
+		for (var i = 0; i < fields.length; i++) {
+			switch (fields[i]) {
 				case "name":
-					if (!processes.isReserved(data)) {
-						user.name = name;
+					if (data.name === user.name) {
+						//no change
+					}
+					else if (processes.isReserved(data.name)) {
+						data.name = user.name;
+						messages.name = " //that name is taken";
+					}
+					else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
+						data.name = user.name;
+						messages.name = " //name must be 8 or more numbers and letters";
+					}
+					else {
+						user.name = data.name;
+						messages.name = " //name updated";
 					}
 				break;
 
 				case "email":
-					if (processes.isEmail(data)) {
-						user.email = data;
+					if (data.email === user.email) {
+						//no change
+					}
+					else if (!processes.isEmail(data.email)) {
+						data.email = user.email;
+						messages.email = " //not a valid email address";
+					}
+					else {
+						user.email = data.email;
+						messages.email = " //email updated";
 					}
 				break;
 
 				case "bio":
-					user.information.bio = data;
+					if (data.bio === user.information.bio) {
+						//no change
+					}
+					else {
+						user.information.bio = data.bio;
+						messages.bio = " //bio updated";
+					}
 				break;
 			}
-
-			return user;
 		}
-	}
 
-/* deleteUser (user, actor) */
-	function deleteUser(user, actor) {
-
-		return false;
-		return true;
+		return {
+			user: user,
+			success: true,
+			data: data,
+			messages: messages
+		};
 	}
 
 /* exports */
 	module.exports = {
-		create: createUser,
-		update: updateUser,
-		delete: deleteUser
+		create: create,
+		update: update,
 	};

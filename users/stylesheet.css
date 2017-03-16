@@ -21,6 +21,8 @@
 			background-color: var(--black);
 			color: (--white);
 			font-family: courier, monospace;
+			font-size: 16px;
+			text-shadow: 0px;
 		}
 
 		a {
@@ -29,6 +31,7 @@
 
 		a:hover {
 			color: var(--blue);
+			text-shadow: 0px 0px 20px var(--white);
 			text-decoration: none;
 		}
 
@@ -191,58 +194,63 @@
 		padding-left: 32px;
 	}
 
-	span[contenteditable=true] {
-		padding: 5px;
-		border: 2px solid var(--white);
-		border-radius: 5px;
-		outline: none;
-		line-height: 2;
-	}
-
-	a[contenteditable=true] {
-		padding: 5px;
-		border: 2px solid var(--white);
-		border-radius: 5px;
-		outline: none;
-		line-height: 2;
-	}
-
-	.edit_button {
-		border: 0px;
-		background-color: var(--black);
-		padding: 0px;
-		margin: 0px;
-		outline: none;
-	}
-
-	.edit_button:hover {
+	#name {
+		font-size: 24px;
 		font-weight: bold;
-		text-shadow: 0px 0px 20px var(--white);
 	}
 
-	.save_button {
-		border: 0px;
-		background-color: var(--black);
-		padding: 0px;
-		margin: 0px;
-		outline: none;
-	}
+	/* editing */
+		span[contenteditable=true] {
+			padding: 5px;
+			border: 2px solid var(--white);
+			border-radius: 5px;
+			outline: none;
+			line-height: 2;
+		}
 
-	.save_button:hover {
-		font-weight: bold;
-		text-shadow: 0px 0px 20px var(--white);
-	}
+		a[contenteditable=true] {
+			padding: 5px;
+			border: 2px solid var(--white);
+			border-radius: 5px;
+			outline: none;
+			line-height: 2;
+		}
 
-	.cancel_button {
-		border: 0px;
-		background-color: var(--black);
-		padding: 0px;
-		margin: 0px;
-		margin-left: 8px;
-		outline: none;
-	}
+		.edit_button {
+			border: 0px;
+			background-color: var(--black);
+			padding: 0px;
+			margin: 0px;
+			outline: none;
+		}
 
-	.cancel_button:hover {
-		font-weight: bold;
-		text-shadow: 0px 0px 20px var(--white);
-	}
+		.edit_button:hover {
+			font-weight: bold;
+			text-shadow: 0px 0px 20px var(--white);
+		}
+
+		.save_button {
+			border: 0px;
+			background-color: var(--black);
+			padding: 0px;
+			margin: 0px;
+			outline: none;
+		}
+
+		.save_button:hover {
+			font-weight: bold;
+			text-shadow: 0px 0px 20px var(--white);
+		}
+
+		.cancel_button {
+			border: 0px;
+			background-color: var(--black);
+			padding: 0px;
+			margin: 0px;
+			outline: none;
+		}
+
+		.cancel_button:hover {
+			font-weight: bold;
+			text-shadow: 0px 0px 20px var(--white);
+		}
