@@ -12,7 +12,7 @@
 		<% navbar(session); %>
 		<div id="container">
 			<div id="message">
-				<span class="graytext">//<% data.message || "welcome to ai arena, human..." %></span>
+				<span class="graytext"><% try { data.messages.top } catch(error) { "//welcome to ai arena, human..." } %></span>
 				<br>
 				<span class="whitetext">human_id</span>
 				<span class="redtext"> = </span>

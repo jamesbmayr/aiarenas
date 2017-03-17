@@ -51,7 +51,7 @@
 /* update(robot, data) */
 	function update(robot, data) {
 		var fields = Object.keys(data);
-		var messages = {top: "changes submitted"};
+		var messages = {top: "//changes submitted"};
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {

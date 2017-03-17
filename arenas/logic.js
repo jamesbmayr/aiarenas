@@ -5,10 +5,11 @@
 	function create(user, parameters) {
 		var arena = {
 			id: processes.random(),
+			created: new Date().getTime(),
 			users: [user.id],
 			state: {
 				playing: false,
-				start: new Date().getTime(),
+				start: null,
 				pauseTo: null,
 				end: null,
 				victors: []
@@ -458,6 +459,34 @@
 		return arena;
 	}
 
+/* join(arena, user) */
+	function join(arena, user) {
+		if (arena.users.length >= arena.rules.robots.maxCount) {
+			return {
+				arena: arena,
+				success: false,
+				messages: {navbar: "//unable to join; maxCount exceeded"}
+			};
+		}
+		else if (arena.users.indexOf(user.id) > -1) {
+			return {
+				arena: arena,
+				success: false,
+				messages: {navbar: "//already joined"}
+			};
+		}
+		else {
+			arena.users.push(user.id);
+
+			return {
+				arena: arena,
+				success: true,
+				messages: {navbar: "//successfully joined"},
+				redirect: "../../../../arenas/" + arena.id.substring(0,3)
+			};
+		}
+	}
+
 /* update(arena) */
 	function update(arena) {
 		if ((!arena.state.playing) && (arena.state.victors.length === 0)) { //if paused...
@@ -476,5 +505,6 @@
 /* exports */
 	module.exports = {
 		create: create,
+		join: join,
 		update: update,
 	};

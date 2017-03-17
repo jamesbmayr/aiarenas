@@ -27,56 +27,87 @@ $(document).ready(function() {
 			$("#navbar").animate({left: "-=200px"}, 500);
 		});
 
-	/* edit_button */
-		// $(document).on("click", ".edit_button", function() {
-		// 	var button = $(this);
+		$("#navbar_signout").click(function() {
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "signout",
+				},
+				success: function(data) {
+					if (data.success) {
+						window.location = data.redirect;
+					}
+					else {
+						$("#navbar_message").text(data.messages.navbar || "//unable to signout");
+					}
+				}
+			});
+		});
 
-		// 	$(button).closest(".section").find(".field").prop("contenteditable",true);
+		$("#navbar_create_robot").click(function() {
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "create_robot",
+				},
+				success: function(data) {
+					if (data.success) {
+						window.location = data.redirect;
+					}
+					else {
+						$("#navbar_message").text( data.messages.navbar || "//unable to create robot");
+					}
+				}
+			});
+		});
 
-		// 	$(button).closest(".section").find(".message").remove();
-		// 	$(button).replaceWith("<button class='save_button'><span class='graytext'>//save</span></button><button class='cancel_button'><span class='graytext'>//cancel</span></button>");
-		// });
+		$("#navbar_create_arena").click(function() {
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "create_arena",
+				},
+				success: function(data) {
+					if (data.success) {
+						window.location = data.redirect;
+					}
+					else {
+						$("#navbar_message").text(data.messages.navbar || "//unable to create arena");
+					}
+				}
+			});
+		});
 
-		// $(document).on("click", ".cancel_button", function() {
-		// 	var button = $(this);
+		$("#navbar_join_arena").click(function() {
+			var arena_id = $("#navbar_arena_id").val();
 
-		// 	$(button).closest(".section").find(".field").prop("contenteditable",false).text($(button).closest(".section").find(".field").attr("value"));
+			if (arena_id.length === 4) {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "join_arena",
+						arena_id: arena_id
+					},
+					success: function(data) {
+						if (data.success) {
+							window.location = data.redirect;
+						}
+						else {
+							$("#navbar_message").text(data.messages.navbar || "//unable to join");
+						}
+					}
+				});
+			}
+			else {
+				$("#navbar_arena_id").css("border-color","var(--red)");
+			}
+		});
 
-		// 	$(button).closest(".section").find(".message").remove();
-		// 	$(button).closest(".section").find(".save_button").remove();
-		// 	$(button).replaceWith("<button class='edit_button'><span class='graytext'>//edit</span></button>");
-			
-		// });
-
-		// $(document).on("click", ".save_button", function() {
-		// 	var button = $(this);
-		// 	var field = $(button).closest(".section").find(".field");
-		// 	var new_text = $(field).text();
-		// 	var old_text = $(field).attr("value");
-
-		// 	$.ajax({
-		// 		type: "POST",
-		// 		url: window.location.pathname,
-		// 		data: {
-		// 			action: "edit_user",
-		// 			field: $(field).attr("id"),
-		// 			value: new_text,
-		// 		},
-		// 		success: function(data) {
-		// 			if (data.changed === true) {
-		// 				$(field).prop("contenteditable",false).text(new_text);
-		// 			}
-		// 			else {
-		// 				$(field).prop("contenteditable",false).text(old_text);
-		// 			}
-
-		// 			$(button).closest(".section").find(".message").remove();
-		// 			$(button).closest(".section").find(".cancel_button").remove();
-		// 			$(button).replaceWith("<button class='edit_button'><span class='graytext'>//edit</span></button>" + "<span class='graytext message'> //" + data.message + "</span>");
-		// 		}
-		// 	});
-		// });
-
+	/* edit profile */
 		$(document).on("click", ".edit_button", function() {
 			$(".edit_button").hide();
 			$(".save_button").show();
@@ -130,6 +161,5 @@ $(document).ready(function() {
 					$(".field").prop("contenteditable",false);
 				}
 			});
-
 		});
 });
