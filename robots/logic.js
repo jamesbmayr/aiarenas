@@ -39,10 +39,11 @@
 					color: "#112233"
 				}
 			},
-			statistics: {},
-			code: function(arena) {
-				//
-			}
+			statistics: {
+				wins: 0,
+				losses: 0,
+			},
+			code: "action = \"charge\";"
 		}
 
 		return robot;
@@ -68,6 +69,10 @@
 						messages.name = " //name must be 8 or more numbers and letters";
 					}
 					else {
+						// var code = robot[robot.name];
+						// delete robot[robot.name];
+						// robot[data.name] = code;
+						
 						robot.name = data.name;
 						messages.name = " //name updated";
 					}
@@ -80,6 +85,16 @@
 					else {
 						robot.information.bio = data.bio;
 						messages.bio = " //bio updated";
+					}
+				break;
+
+				case "code":
+					if (data.code === robot.code) {
+						//no change
+					}
+					else {
+						robot.code = data.code;
+						messages.code = " //code updated";
 					}
 				break;
 			}

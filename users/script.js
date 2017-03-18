@@ -107,33 +107,35 @@ $(document).ready(function() {
 			}
 		});
 
-	/* edit profile */
-		$(document).on("click", ".edit_button", function() {
-			$(".edit_button").hide();
-			$(".save_button").show();
-			$(".cancel_button").show();
+	/* user */
+		$(document).on("click", "#user_edit", function() {
+			$("#user_edit").hide();
+			$("#user_save").show();
+			$("#user_cancel").show();
 
-			$(".field").prop("contenteditable",true);
+			$(".field").prop("contenteditable",true).closest(".field_frame").addClass("active");
 			$(".message").text("");
+			$("#message_top").text(" //now editing");
 		});
 
-		$(document).on("click", ".cancel_button", function() {
-			$(".edit_button").show();
-			$(".save_button").hide();
-			$(".cancel_button").hide();
+		$(document).on("click", "#user_cancel", function() {
+			$("#user_edit").show();
+			$("#user_save").hide();
+			$("#user_cancel").hide();
 
-			$(".field").prop("contenteditable",false);
+			$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 			$(".field").each(function() {
 				var value = $(this).attr("value");
 				$(this).text(value);
 			});
+			$("#message_top").text(" //edits canceled");
 		});
 
-		$(document).on("click", ".save_button", function() {
+		$(document).on("click", "#user_save", function() {
 			var data = {};
 			$(".field").each(function() {
 				var field = $(this).attr("id");
-				var value = $(this).text();
+				var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"");;
 				data[field] = value;
 			});
 
@@ -150,15 +152,34 @@ $(document).ready(function() {
 						var messages = results.messages;
 
 						$(".field").each(function() {
-							$(this).text(data[$(this).attr("id")]);
+							$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
 							$(this).closest(".section").find(".message").text(messages[$(this).attr("id")] || "");
 						});
 					}
 
-					$(".edit_button").show();
-					$(".save_button").hide();
-					$(".cancel_button").hide();
-					$(".field").prop("contenteditable",false);
+					$("#user_edit").show();
+					$("#user_save").hide();
+					$("#user_cancel").hide();
+					$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
+					$("#message_top").text(messages.top || " //edits submitted");
+				}
+			});
+		});
+
+		$("#user_create_robot").click(function() {
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "create_robot",
+				},
+				success: function(data) {
+					if (data.success) {
+						window.location = data.redirect;
+					}
+					else {
+						$("#message_top").text( data.messages.top || " //unable to create robot");
+					}
 				}
 			});
 		});

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai arena: <% data.name || null %></title>
+		<title>ai_arena.<% data.name || "robots" %></title>
 		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
@@ -10,6 +10,76 @@
 	</head>
 	<body>
 		<% navbar(session); %>
-		<pre><% JSON.stringify(data, null, 2) || null %></pre>
+		<%
+			if ((session.user !== null) && (session.user.id === data.user.id)) {
+				var message = "<span class='message graytext'></span>";
+			}
+			else {
+				var message = "";
+			}
+		%>
+		<div id="container" value="<% data.id %>">
+			<div class="section">
+				<span class="field_frame"><span class="field whitetext" id="name" value="<% data.name %>"><% data.name %></span></span>
+				<span class='message graytext' id='message_top'></span><% message %>
+			</div>
+			<div class="indented">
+				<%
+					if ((session.user !== null) && (session.user.id === data.user.id)) {
+						"<div class='section'>\
+							<button id='robot_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<div class='section'>\
+							<button id='robot_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<div class='section'>\
+							<button id='robot_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<div class='section'>\
+							<button id='robot_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<div class='section'>\
+							<button id='robot_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<br>";
+					}
+				%>
+				<div class="section">
+					<span class="whitetext">.user</span><span class="redtext"> = </span><a class="bluetext" id="user" href="../../../../users/<% data.user.name %>"><% data.user.name %></a>
+					<span class="whitetext">;</span>
+				</div>
+				<div class="section">
+					<span class="whitetext">.created</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
+					<span class="whitetext">;</span>
+				</div>
+				<div class="section">
+					<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
+					<div class="indented">
+						<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
+						<span class='whitetext'>,</span><br>
+						<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
+					</div>
+					<span class="whitetext">};</span>
+				</div>
+				<br>
+				<div class="section">
+					<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+						<div class="indented">
+							<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
+						</div>
+						<span class="yellowtext">"</span><span class="whitetext">;</span>
+				</div>
+				<br>
+				<div class="section">
+					<span class="whitetext">.code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span><% message %>
+					<div class="indented">
+						<div class="field_frame">
+							<span class="whitetext field" id="code" value='<% data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% data.code || "<span class='graytext'>//</span>" %></span>
+						</div>
+					</div>
+					<span class="whitetext">};</span>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai arena: <% data.name || null %></title>
+		<title>ai_arena.<% data.name || "users" %></title>
 		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
@@ -11,38 +11,40 @@
 	<body>
 		<% navbar(session); %>
 		<%
-			if (session.user.id === data.id) {
+			if ((session.user !== null) && (session.user.id === data.id)) {
 				var message = "<span class='message graytext'></span>";
 			}
 			else {
 				var message = "";
 			}
 		%>
-		<div id="container" id="<% data.id %>">
+		<div id="container" value="<% data.id %>">
 			<div class="section">
-				<span class="whitetext"><span class="field" id="name" value="<% data.name %>"><% data.name %></span></span><% message %>
+				<span class="field_frame"><span class="whitetext field" id="name" value="<% data.name %>"><% data.name %></span></span>
+				<span class='message graytext' id='message_top'></span>
 			</div>
 			<div class="indented">
 				<%
-					if (session.user.id === data.id) {
+					if ((session.user !== null) && (session.user.id === data.id)) {
 						"<div class='section'>\
-							<button class='edit_button'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
-							<button class='save_button' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
-							<br><button class='cancel_button' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
-						</div>";
+							<button id='user_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<div class='section'>\
+							<button id='user_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<div class='section'>\
+							<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+						</div>\
+						<br>";
 					}
 				%>
 				<div class="section">
-					<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext field" id="email" href="mailto:<% data.email %>" value="<% data.email %>"><% data.email %></a>
-					<span class="whitetext">;</span><% message %>
+					<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a>
+					<span class="whitetext">;</span>
 				</div>
 				<div class="section">
 					<span class="whitetext">.joined</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
 					<span class="whitetext">;</span>
-				</div>
-				<div class="section">
-					<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="field yellowtext" id="bio" value="<% data.information.bio || null %>"><% data.information.bio || null %></span>
-					<span class="whitetext">;</span><% message %>
 				</div>
 				<div class="section">
 					<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
@@ -53,11 +55,30 @@
 					</div>
 					<span class="whitetext">};</span>
 				</div>
+				<br>
+				<div class="section">
+					<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+					<div class="indented">
+						<div class="field_frame">
+							<span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
+						</div>
+					</div>
+					<span class="yellowtext">"</span><span class="whitetext">;</span>
+				</div>
+				<br>
 				<div class="section">
 					<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
 					<div class="indented">
 						<% 
-							var robots = "";
+							if ((session.user !== null) && (session.user.id === data.id)) {
+								var robots = "<div class='section'>\
+									<button id='user_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
+								</div>"
+							}
+							else {
+								var robots = "";
+							}
+
 							for (var i = 0; i < data.robots.length; i++) {
 								robots += "<a class='robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'>\
 									<span class='bluetext'>" + data.robots[i].name + "</span>\

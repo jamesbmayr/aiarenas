@@ -42,6 +42,7 @@
 				console.log("\n" + new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
 
 				if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
+					session = null;
 					routing(null);
 				}
 				else {
@@ -84,55 +85,54 @@
 					switch (post.action) {
 						/* sessions */
 							case "signup":
-								home.signup(session, post, function(data) {
-									if ((typeof data.redirect !== "undefined") && (data.redirect !== null)) {
-										_302(data.redirect);
-									}
-									else {
-										header["Content-Type"] = "text/html";
-										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", session, data));
-									}
-								});
+								if (session.user === null) {
+									home.signup(session, post, function(data) {
+										response.writeHead(200, {"Content-Type": "text/json"});
+										response.end(JSON.stringify(data));
+									});
+								}
+								else {
+									_403("//not authorized");
+								}
 							break;
 							
 							case "signin":
-								home.signin(session, post, function(data) {
-									if ((typeof data.redirect !== "undefined") && (data.redirect !== null)) {
-										_302(data.redirect);
-									}
-									else {
-										header["Content-Type"] = "text/html";
-										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", session, data));
-									}
-								});
+								if (session.user === null) {
+									home.signin(session, post, function(data) {
+										response.writeHead(200, {"Content-Type": "text/json"});
+										response.end(JSON.stringify(data));
+									});
+								}
+								else {
+									_403("//not authorized");
+								}
 							break;
 							
 							case "signout":
 								if (session.user !== null) {
 									home.signout(session, function(data) {
 										response.writeHead(200, {"Content-Type": "text/json"});
-										response.end(JSON.stringify({success: true, redirect: "../../../../"}));
+										response.end(JSON.stringify(data));
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 						/* users */
 							case "edit_user":
 								if (session.user !== null) {
-									processes.retrieve("users", {name: routes[2], id: session.user.id}, function(user) {
+									post.data = JSON.parse(post.data);
+									processes.retrieve("users", {$and: [{name: routes[2]}, {id: session.user.id}]}, function(user) {
 										if (typeof user.id === "undefined") { user = user[0]; }
 										
-										if ((typeof user.id === "undefined") || (user.id !== session.user.id)) {
-											_403("not authorized");
+										if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
+											_403("//not authorized");
 										}
 										else {
 											var before = JSON.stringify(user);
-											var update = users.update(user, JSON.parse(post.data));
+											var update = users.update(user, post.data);
 											
 											if (before !== JSON.stringify(update.user)) {
 												processes.store("users", {id: update.user.id}, update.user, function(user) {
@@ -149,17 +149,17 @@
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 							case "delete_user":
 								if (session.user !== null) {
-									processes.retrieve("users", {name: routes[2], id: session.user.id}, function(user) {
+									processes.retrieve("users", {$and: [{name: routes[2]}, {id: session.user.id}]}, function(user) {
 										if (typeof user.id === "undefined") { user = user[0]; }
 										
-										if ((typeof user.id === "undefined") || (user.id !== session.user.id)) {
-											_403("not authorized");
+										if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
+											_403("//not authorized");
 										}
 										else {
 											var robots = [];
@@ -182,7 +182,7 @@
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
@@ -199,27 +199,44 @@
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 							case "edit_robot":
 								if (session.user !== null) {
-									processes.retrieve("robots", {id: routes[2], "user.id": session.user.id}, function(robot) {
+									post.data = JSON.parse(post.data);
+									processes.retrieve("robots", {$and: [{id: post.data.id || null}, {"user.id": session.user.id}]}, function(robot) {
 										if (typeof robot.id === "undefined") { robot = robot[0]; }
 										
-										if ((typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
-											_403("not authorized");
+										if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
+											_403("//not authorized");
 										}
 										else {
 											var before = JSON.stringify(robot);
-											var update = robots.update(robot, JSON.parse(post.data));
+											var update = robots.update(robot, post.data);
 											
 											if (before !== JSON.stringify(update.robot)) {
 												processes.store("robots", {id: robot.id}, robot, function(robot) {
 													if (typeof robot.id === "undefined") { robot = robot[0]; }
-													response.writeHead(200, {"Content-Type": "text/json"});
-													response.end(JSON.stringify(update));
+													
+
+													if (before.name !== robot.name) {
+														console.log("name change");
+														processes.store("users", {id: session.user.id}, {$pull: {robots: {id: robot.id}}}, function(user) {
+															if (typeof user.id === "undefined") { user = user[0]; }
+															processes.store("users", {id: session.user.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(user) {
+																if (typeof user.id === "undefined") { user = user[0]; }
+																response.writeHead(200, {"Content-Type": "text/json"});
+																response.end(JSON.stringify(update));
+															});
+														});
+													}
+													else {
+														console.log("no name change");
+														response.writeHead(200, {"Content-Type": "text/json"});
+														response.end(JSON.stringify(update));
+													}
 												});
 											}
 											else {
@@ -230,39 +247,40 @@
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 							case "delete_robot":
 								if (session.user !== null) {
-										processes.retrieve("robot", {id: routes[2], "user.id": session.user.id}, function(robot) {
+									post.data = JSON.parse(post.data);
+									processes.retrieve("robots", {$and: [{id: post.data.id || null}, {"user.id": session.user.id}]}, function(robot) {
 										if (typeof robot.id === "undefined") { robot = robot[0]; }
 										
-										if ((typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
-											_403("not authorized");
+										if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
+											_403(" //not authorized");
 										}
 										else {
-											proceses.store("users", {id: robot.user.id}, {$pull: {robots: robot.id}}, function(user) {
+											processes.store("users", {id: robot.user.id || null}, {$pull: {robots: {id: robot.id}}}, function(user) {
 												if (typeof user.id === "undefined") { user = user[0]; }
 												processes.store("robots", {id: robot.id}, null, function(results) {
 													if (typeof robot.id === "undefined") { robot = robot[0]; }
 													response.writeHead(200, {"Content-Type": "text/json"});
-													response.end(JSON.stringify({success: true, redirect: "../../../../"}));
+													response.end(JSON.stringify({success: true, redirect: "../../../../users/" + user.name, messages: {top: " //robot deleted"}}));
 												});
 											});
 										}
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 						/* arenas */
 							case "create_arena":
 								if (session.user === null) {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 								else {
 									var arena = arenas.create(session.user, post.parameters || null);
@@ -279,11 +297,11 @@
 
 							case "edit_arena":
 								if (session.user !== null) {
-									processes.retrieve("arenas", {$where: "this.id.substring(0,3) === " + routes[2], "users[0]": session.user.id}, function(arena) {
+									processes.retrieve("arenas", {$and: [{$where: "this.id.substring(0,3) === " + routes[2]}, {"users[0]": session.user.id}]}, function(arena) {
 										if (typeof arena.id === "undefined") { arena = arena[0]; }
 										
-										if ((typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
-											_403("not authorized");
+										if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
+											_403("//not authorized");
 										}
 										else {
 											var before = JSON.stringify(arena);
@@ -303,7 +321,7 @@
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
@@ -312,8 +330,8 @@
 									processes.retrieve("arenas", {id: routes[2]}, function(arena) {
 										if (typeof arena.id === "undefined") { arena = arena[0]; }
 										
-										if ((typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
-											_403("not authorized");
+										if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
+											_403("//not authorized");
 										}
 										else {
 											proceses.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
@@ -328,14 +346,14 @@
 									});
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 							case "join_arena":
 								if (session.user !== null) {
 									if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
-										_403("invalid arena id");
+										_403("//invalid arena id");
 									}
 									else {
 										processes.retrieve("arenas", {$where: "this.id.substring(0,3) === " + post.arena_id}, function(arena) {
@@ -367,14 +385,14 @@
 									}
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
 							case "leave_arena":
 								if (session.user !== null) {
 									if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
-										_403("invalid arena id");
+										_403("//invalid arena id");
 									}
 									else {
 										processes.store("arenas", {$where: "this.id.substring(0,3) === " + post.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
@@ -387,7 +405,7 @@
 									}
 								}
 								else {
-									_403("not authorized");
+									_403("//not authorized");
 								}
 							break;
 
@@ -487,7 +505,7 @@
 										data = {};
 									}
 
-									header["Content-Type"] = "text/html";
+									header["Content-Type"] = "text/html; charset=utf-8";
 									response.writeHead(200, header);
 									response.end(processes.render("./home/index.html", session, data));
 								}
@@ -513,7 +531,7 @@
 										if (typeof user.id === "undefined") { user = user[0]; }
 
 										if (user) {
-											header["Content-Type"] = "text/html";
+											header["Content-Type"] = "text/html; charset=utf-8";
 											response.writeHead(200, header);
 											response.end(processes.render("./users/index.html", session, user));
 										}
@@ -544,7 +562,8 @@
 										if (typeof robot.id === "undefined") { robot = robot[0]; }
 
 										if (robot) {
-											header["Content-Type"] = "text/html";
+											console.log("robot: " + JSON.stringify(robot));
+											header["Content-Type"] = "text/html; charset=utf-8";
 											response.writeHead(200, header);
 											response.end(processes.render("./robots/index.html", session, robot));
 										}
@@ -559,7 +578,7 @@
 						/* arenas */
 							case (/^\/arenas\/?$/).test(request.url):
 								try {
-									header["Content-Type"] = "text/html";
+									header["Content-Type"] = "text/html; charset=utf-8";
 									response.writeHead(200, header);
 									response.end(processes.render("./arenas/index.html", session, null));
 								}
@@ -572,7 +591,7 @@
 										if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 										if (arena) {
-											header["Content-Type"] = "text/html";
+											header["Content-Type"] = "text/html; charset=utf-8";
 											response.writeHead(200, header);
 											response.end(processes.render("./arenas/index.html", session, arena));
 										}
@@ -603,7 +622,7 @@
 
 				function _403(data) {
 					response.writeHead(403, {"Content-Type": "text/json"});
-					response.end({success: false, messages: {navbar: data || "//invalid request", top: data || "//invalid request"}});
+					response.end(JSON.stringify({success: false, messages: {navbar: data || "//invalid request", top: data || " //invalid request"}}));
 				}
 
 				function _404(data) {
