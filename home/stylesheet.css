@@ -64,6 +64,16 @@
 			font-size: 16px;
 		}
 
+		.section-toggle {
+			left: -50px;
+			top: 38px;
+			font-size: 20px;
+		}
+
+		.section-toggle:hover {
+			text-shadow: 0px 0px 20px var(--white);
+		}	
+
 	/* colortext */
 		.redtext {
 			color: var(--red);
@@ -103,6 +113,7 @@
 
 /* * navbar * */
 	#navbar {
+		z-index: 2;
 		position: fixed;
 		top: 0px;
 		left: -200px;

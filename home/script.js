@@ -107,6 +107,26 @@ $(document).ready(function() {
 			}
 		});
 
+	/* sectionToggle */
+		$(document).on("click", ".section-toggle", function() {
+			if ($(this).hasClass("section-toggle-down")) {
+				$(this).next().next().animate({
+					height: 0
+				},1000);
+
+				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
+			}
+			else if ($(this).hasClass("section-toggle-up")) {
+				var height = $(this).next().next().hide().css("height","auto").css("height");
+
+				$(this).next().next().css("height",0).show().animate({
+					height: height
+				},1000);
+
+				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+			}
+		});
+
 	/* signinup */
 		$("#actions").change(function() {
 			var action = $(this).val();

@@ -1,5 +1,6 @@
 /* my modules */
 	const processes = require("../processes");
+	const vm = require("vm");
 
 /* create(user, parameters) */
 	function create(user, parameters) {
@@ -44,33 +45,63 @@
 									name: Object.keys(arena.entrants)[i],
 									power: arena.rules.robots.startPower,
 									cubes: cubes,
+									action: null,
 								});
 							}							
 					}
 					else { //all future rounds
-						//execute player-created code to determine actions
+						//use vm & sandbox to execute player action
 							var actions = [];
 
-							for (var i = 0; i < Object.keys(arena.rounds[arena.rounds.length - 1].robots).length; i++) {
-								var name = arena.rounds[arena.rounds.length - 1].robots[i].name;
-								
+							for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) { //for each robot
+								var name = arena.rounds[arena.rounds.length - 1].robots[i].name; //get its name...
+								var code = String(arena.entrants[name].code); //...its code...
+								var random = processes.random(); //...and a random string to use as a results variable
+
+								var contextArena = { //create a "contextArena" that has all info except the entrants
+									id: arena.id,
+									state: arena.state,
+									rules: arena.rules,
+									rounds: arena.rounds,
+									entrants: {}
+								}
+								contextArena.entrants[name] = arena.entrants[name]; //put the current entrant's info back in
+
+								var sandbox = {}; //create a sandbox
+								sandbox = {
+									name: name, //use the name of the robot
+									arena: contextArena, //and the contextArena, as above
+									rules: contextArena.rules, //generate useful variables a user might want...
+									rounds: contextArena.rounds,
+									roundNumber: contextArena.rounds.length - 1,
+									currentRound: contextArena.contextArena[arena.rounds.length - 1],
+									robotCount: contextArena.rounds[contextArena.rounds.length - 1].robots.length,
+									robots: contextArena.rounds[contextArena.rounds.length - 1].robots,
+									newCube: contextArena.rounds[contextArena.rounds.length - 1].cubes[contextArena.rounds[contextArena.rounds.length - 1].cubes.length - 1],
+									newCubes: contextArena.rounds[contextArena.rounds.length - 1].cubes.slice(-contextArena.rules.cubes.spawnRate),
+									slot: contextArena.entrants[name].slot,
+									self: contextArena.rounds[contextArena.rounds.length - 1].robots[contextArena.entrants[name].slot],
+									power: contextArena.rounds[contextArena.rounds.length - 1].robots[contextArena.entrants[name].slot].power,
+									cubes: contextArena.rounds[arena.rounds.length - 1].robots[contextArena.entrants[name].slot].cubes,
+									lastAction: contextArena.rounds[contextArena.rounds.length - 2].robots[contextArena.entrants[name].slot].action,
+									lastWinner: contextArena.rounds[contextArena.rounds.length - 2].winners[0],
+									lastWinners: contextArena.rounds[contextArena.rounds.length - 2].winners,
+									opponents: contextArena.rounds[contextArena.rounds.length - 1].robots.splice(contextArena.entrants[name].slot,1),
+								};
+
 								try {
-									var action = vm.createNewContext({arena: arena}).executeScript(arena.entrants[name].code(),{timeout: 1000}); //something like this???
+									vm.runInNewContext("function " + name + "() {" + code + "}; var " + random + " = " + name + "();", sandbox, {timeout: 1000}); //try to run the code, like:::   function robotName() { var something = "something"; return something; } var h2034723492134x = robotName();
+									var action = sandbox[random]; //extract that randomly named variable's contents
 								}
 								catch (error) {
-									console.log(error);
-									var action = arena.rules.robots.defaultAction;
+									var action = arena.rules.robots.defaultAction; //or else use the defaultAction
 								}
 
-								if (typeof arena.rules.robots.action[action] === "undefined") {
-									action = arena.rules.robots.defaultAction;
-								}
-								
-								actions.push(action);
+								actions.push(action || arena.rules.robots.defaultAction); //be super sure something gets submitted to the actions array
 							}
 
-							for (var i = 0; i < actions.length; i++) { //put player actions into the arena *afterwards* so they're not readable by later players
-								arena.rounds[arena.rounds.length - 1].robots[i] = actions[i];
+							for (var i = 0; i < actions.length; i++) { //once that process is done, put all those actions back in their respective robots
+								arena.rounds[arena.rounds.length - 1].robots[i].action = actions[i];
 							}
 
 						//duplicate currentRound to newRound

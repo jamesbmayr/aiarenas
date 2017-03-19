@@ -40,44 +40,53 @@
 						</div>\
 						<div class='section'>\
 							<button id='robot_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>\
-						</div>\
-						<br>";
+						</div>";
 					}
 				%>
-				<div class="section">
-					<span class="whitetext">.user</span><span class="redtext"> = </span><a class="bluetext" id="user" href="../../../../users/<% data.user.name %>"><% data.user.name %></a>
-					<span class="whitetext">;</span>
-				</div>
-				<div class="section">
-					<span class="whitetext">.created</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
-					<span class="whitetext">;</span>
-				</div>
-				<div class="section">
-					<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
-					<div class="indented">
-						<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
-						<span class='whitetext'>,</span><br>
-						<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.user</span><span class="redtext"> = </span><a class="bluetext" id="user" href="../../../../users/<% data.user.name %>"><% data.user.name %></a>
+						<span class="whitetext">;</span>
 					</div>
-					<span class="whitetext">};</span>
-				</div>
-				<br>
-				<div class="section">
-					<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+					<div class="section">
+						<span class="whitetext">.created</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
+						<span class="whitetext">;</span>
+					</div>
+					<div class="section">
+						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
 						<div class="indented">
-							<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
+							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
+							<span class='whitetext'>,</span><br>
+							<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
 						</div>
-						<span class="yellowtext">"</span><span class="whitetext">;</span>
-				</div>
-				<br>
-				<div class="section">
-					<span class="whitetext">.code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span><% message %>
-					<div class="indented">
-						<div class="field_frame">
-							<span class="whitetext field" id="code" value='<% data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% data.code || "<span class='graytext'>//</span>" %></span>
-						</div>
+						<span class="whitetext">};</span>
 					</div>
-					<span class="whitetext">};</span>
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+							<div class="indented">
+								<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
+							</div>
+							<span class="yellowtext">"</span><span class="whitetext">;</span>
+					</div>
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span><% message %>
+						<div class="indented">
+							<div class="field_frame">
+								<span class="whitetext field" id="code" value='<% data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% data.code || "<span class='graytext'>//</span>" %></span>
+							</div>
+						</div>
+						<span class="whitetext">};</span>
+					</div>
 				</div>
 			</div>
 		</div>

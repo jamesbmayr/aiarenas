@@ -67,6 +67,16 @@
 			font-size: 16px;
 		}
 
+		.section-toggle {
+			left: -50px;
+			top: 38px;
+			font-size: 20px;
+		}
+
+		.section-toggle:hover {
+			text-shadow: 0px 0px 20px var(--white);
+		}	
+
 	/* colortext */
 		.redtext {
 			color: var(--red);
@@ -104,8 +114,83 @@
 			color: var(--black);
 		}
 
+	/* code colors */
+		[redtext] {
+			color: var(--red);
+		}
+
+		[orangetext] {
+			color: var(--orange);
+		}
+
+		[yellowtext] {
+			color: var(--yellow);
+		}
+
+		[greentext] {
+			color: var(--green);
+		}
+
+		[bluetext] {
+			color: var(--blue);
+		}
+
+		[purpletext] {
+			color: var(--purple);
+		}
+
+		[whitetext] {
+			color: var(--white);
+		}
+
+		[graytext] {
+			color: var(--gray);
+		}
+
+		[blacktext] {
+			color: var(--black);
+		}
+
+	/* comment colors */
+		[graytext] [redtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [orangetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [yellowtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [greentext] {
+			color: var(--gray);
+		}
+
+		[graytext] [bluetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [purpletext] {
+			color: var(--gray);
+		}
+
+		[graytext] [whitetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [graytext] {
+			color: var(--gray);
+		}
+
+		[graytext] [blacktext] {
+			color: var(--gray);
+		}
+
 /* * navbar * */
 	#navbar {
+		z-index: 2;
 		position: fixed;
 		top: 0px;
 		left: -200px;
@@ -203,7 +288,7 @@
 			outline: none;
 		}
 
-/* * users * */
+/* * robots * */
 	.indented {
 		padding-left: 32px;
 	}

@@ -34,62 +34,71 @@
 						</div>\
 						<div class='section'>\
 							<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
-						</div>\
-						<br>";
+						</div>";
 					}
 				%>
-				<div class="section">
-					<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a>
-					<span class="whitetext">;</span>
-				</div>
-				<div class="section">
-					<span class="whitetext">.joined</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
-					<span class="whitetext">;</span>
-				</div>
-				<div class="section">
-					<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
-					<div class="indented">
-						<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
-						<span class='whitetext'>,</span><br>
-						<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a>
+						<span class="whitetext">;</span>
 					</div>
-					<span class="whitetext">};</span>
-				</div>
-				<br>
-				<div class="section">
-					<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
-					<div class="indented">
-						<div class="field_frame">
-							<span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
+					<div class="section">
+						<span class="whitetext">.joined</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
+						<span class="whitetext">;</span>
+					</div>
+					<div class="section">
+						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
+						<div class="indented">
+							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
+							<span class='whitetext'>,</span><br>
+							<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
 						</div>
+						<span class="whitetext">};</span>
 					</div>
-					<span class="yellowtext">"</span><span class="whitetext">;</span>
 				</div>
-				<br>
-				<div class="section">
-					<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
-					<div class="indented">
-						<% 
-							if ((session.user !== null) && (session.user.id === data.id)) {
-								var robots = "<div class='section'>\
-									<button id='user_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
-								</div>"
-							}
-							else {
-								var robots = "";
-							}
-
-							for (var i = 0; i < data.robots.length; i++) {
-								robots += "<a class='robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'>\
-									<span class='bluetext'>" + data.robots[i].name + "</span>\
-								</a>\
-								<span class='whitetext'>,</span><br>";
-							}
-
-							robots;
-						%>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+						<div class="indented">
+							<div class="field_frame">
+								<span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
+							</div>
+						</div>
+						<span class="yellowtext">"</span><span class="whitetext">;</span>
 					</div>
-					<span class="whitetext">];</span>
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
+						<div class="indented">
+							<% 
+								if ((session.user !== null) && (session.user.id === data.id)) {
+									var robots = "<div class='section'>\
+										<button id='user_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
+									</div>"
+								}
+								else {
+									var robots = "";
+								}
+
+								for (var i = 0; i < data.robots.length; i++) {
+									robots += "<a class='robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'>\
+										<span class='bluetext'>" + data.robots[i].name + "</span>\
+									</a>\
+									<span class='whitetext'>,</span><br>";
+								}
+
+								robots;
+							%>
+						</div>
+						<span class="whitetext">];</span>
+					</div>
 				</div>
 			</div>
 		</div>

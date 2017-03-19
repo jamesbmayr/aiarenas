@@ -107,7 +107,29 @@ $(document).ready(function() {
 			}
 		});
 
+	/* sectionToggle */
+		$(document).on("click", ".section-toggle", function() {
+			if ($(this).hasClass("section-toggle-down")) {
+				$(this).next().next().animate({
+					height: 0
+				},1000);
+
+				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
+			}
+			else if ($(this).hasClass("section-toggle-up")) {
+				var height = $(this).next().next().hide().css("height","auto").css("height");
+
+				$(this).next().next().css("height",0).show().animate({
+					height: height
+				},1000);
+
+				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+			}
+		});
+
 	/* robot */
+		$(".field#code").html(colorText(String($(".field#code").html())));
+
 		$(document).on("click", "#robot_edit", function() {
 			$("#robot_edit").hide();
 			$("#robot_save").show();
@@ -115,7 +137,10 @@ $(document).ready(function() {
 			$("#robot_delete").show();
 			$("#robot_confirm_delete").hide();
 
-			$(".field").prop("contenteditable",true).closest(".field_frame").addClass("active");
+			$(".field").each(function() {
+				$(this).html($(this).attr("value"));
+				$(this).prop("contenteditable",true).closest(".field_frame").addClass("active");
+			});
 			$(".message").text("");
 			$("#message_top").text(" //now editing");
 		});
@@ -133,6 +158,7 @@ $(document).ready(function() {
 				$(this).text(value);
 			});
 			$("#message_top").text(" //edits canceled");
+			$(".field#code").html(colorText(String($(".field#code").html())));
 		});
 
 		$(document).on("click", "#robot_save", function() {
@@ -141,8 +167,7 @@ $(document).ready(function() {
 			};
 			$(".field").each(function() {
 				var field = $(this).attr("id");
-				var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"");
-				console.log(value);
+				var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 				data[field] = value;
 			});
 
@@ -159,6 +184,8 @@ $(document).ready(function() {
 						var data = results.data;
 						var messages = results.messages;
 
+						data.code = data.code.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+
 						$(".field").each(function() {
 							$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
 							$(this).closest(".section").find(".message").text(messages[$(this).attr("id")] || "");
@@ -173,6 +200,7 @@ $(document).ready(function() {
 
 					$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 					$("#message_top").text(messages.top || " //edits submitted");
+					$(".field#code").html(colorText(String($(".field#code").html())));
 				}
 			});
 		});
@@ -227,5 +255,62 @@ $(document).ready(function() {
 			});
 		});
 
-		
+	/* colorText */
+		function colorText(text) {
+			if (text.length) {
+				text = text.split("\"");
+				for (var h = 0; h < text.length; h++) {
+					if (h % 2 === 1) {
+						text[h] = "<span yellowtext>\"" + text[h] + "\"</span>";
+					}
+					else {
+						subtext = text[h].split("\'");
+						for (var i = 0; i < subtext.length; i++) {
+							if (i % 2 === 1) {
+								subtext[i] = "<span yellowtext>\'" + subtext[i] + "\'</span>";
+							}
+							else {
+								// subsubtext = text[i].split("\"");
+								// for (var j = 0; j < subsubtext.length; j++) {
+								// 	if (j % 2 === 1) {
+								// 		subsubtext[j] = "<span yellowtext>\"" + subsubtext[j] + "\"</span>";
+								// 	}
+								// }
+								// subtext[i] = subsubtext.join("");
+							}
+						}
+						text[h] = subtext.join("");
+					}
+				}
+				text = text.join("");
+				text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&+|\|+|\\+|\!+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+				text = text.replace(/(^|\{|\[|\(|\.|\s)(\<+|\>+|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&lt;&lt;&lt;|&gt;&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|&lt;\=\=|\=\=&gt;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+				text = text.replace(/(^|\{|\[|\(|\.|\s)(if|else|return|typeof|switch|case|break|new|for|while|\$|const)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+				text = text.replace(/(^|\{|\[|\(|\s)(Math|Number|String|Object|function|var|eval)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+				text = text.replace(/(\.)(length|replace|substring|log|random|floor|push|pull|shift|pop|split|join|indexOf|slice|splice|filter|sort|test|getTime|min|max|toString|toArray|parse)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+				text = text.replace(/(^|\{|\[|\(|\s)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
+				
+				text = text.replace(/(^|\{|\[|\(|\s|\,)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
+				text = text.replace(/(^|\{|\[|\(|\s|\,)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
+				
+				text = text.replace(/([a-zA-Z0-9_]*)(\s?\<span\ redtext\>\=\<\/span\>\s?)(\<span\ bluetext\>function\<\/span\>)\((\s?[a-zA-Z0-9_,\s]*?\s?)\)/g,"<span greentext>$1</span>$2$3(<span orangetext>$4</span>)");
+				text = text.replace(/(\s?\<span\ bluetext\>function\<\/span\>\s?)([a-zA-Z0-9_]*\s?)\((\s?[a-zA-Z0-9_,\s]*?\s?)\)/g,"$1<span greentext>$2</span>(<span orangetext>$3</span>)");
+				
+				text = text.replace(/\/\/(.*?)\n/g,"<span graytext>//$1</span>\n");
+				text = text.split(/\/\*|\*\//);
+				for (var i = 0; i < text.length; i++) {
+					if (i % 2 === 1) {
+						text[i] = "<span graytext>/*" + text[i] + "*/</span>";
+					}
+				}
+				text = text.join("");
+
+				return text;
+
+			}
+			else {
+				return "";
+			}
+		}	
+
 });
