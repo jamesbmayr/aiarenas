@@ -26,18 +26,22 @@
 				music: {},
 			},
 			avatar: {
-				head: {
-					shape: "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-					color: "#333333",
-					eyes: "#ffffff"
-				},
-				body: {
-					shape: "clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-					color: "#666666"
-				},
-				background: {
-					color: "#112233"
-				}
+				color: "var(--white)",
+				antennae: " _I_ ",
+				eyes: "|o o|",
+				mouth: "| = |",
+				left_arm: "--",
+				right_arm: "--",
+				left_wrist: " II ",
+				right_wrist: " II ",
+				left_hand: "{••}",
+				right_hand: "{••}",
+				torso_1: "/HHH\\",
+				torso_2: "IHHHI",
+				torso_3: "IHHHI",
+				legs: ".Y. .Y.",
+				left_foot: "{_}",
+				right_foot: "{_}"
 			},
 			statistics: {
 				wins: 0,
@@ -53,6 +57,7 @@
 	function update(robot, data) {
 		var fields = Object.keys(data);
 		var messages = {top: "//changes submitted"};
+		var avatar_sections = processes.avatar_sections;
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
@@ -95,6 +100,24 @@
 					else {
 						robot.code = data.code.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
 						messages.code = " //code updated";
+					}
+				break;
+
+				case "avatar":
+					var avatar_keys = Object.keys(data.avatar);
+					var avatar = {};
+
+					for (var i = 0; i < avatar_keys.length; i++) {
+						if (data.avatar[avatar_keys[i]] === robot.avatar[avatar_keys[i]]) {
+							//no change
+						}
+						else if (!(avatar_sections(avatar_keys[i]).indexOf(data.avatar[avatar_keys[i]]) > -1)) {
+							//no change
+						}
+						else {
+							robot.avatar[avatar_keys[i]] = data.avatar[avatar_keys[i]].replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+							messages.avatar = " //avatar updated";
+						}
 					}
 				break;
 			}

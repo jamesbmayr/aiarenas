@@ -71,6 +71,7 @@
 			left: -50px;
 			top: 38px;
 			font-size: 20px;
+			cursor: pointer;
 		}
 
 		.section-toggle:hover {

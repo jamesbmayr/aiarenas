@@ -178,6 +178,66 @@
 		return (/[a-z0-9A-Z]/).test(string);
 	}
 
+/* avatar_sections(section) */
+	function avatar_sections(section) {
+		var options = [];
+
+		switch(section) {
+			case "color":
+				options = ["var(--white)", "var(--red)", "var(--orange)", "var(--yellow)", "var(--green)", "var(--blue)", "var(--purple)", "var(--gray)"];
+			break;
+
+			case "antennae":
+				options = [" _|_ "," _∆_ "," _M_ "," _I_ ","|||||", " iii ", "][ ]["," .:. "];
+			break;
+
+			case "eyes":
+				options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]"];
+			break;
+
+			case "mouth":
+				options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| "];
+			break;
+
+			case "hand":
+			case "left_hand":
+			case "right_hand":
+				options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#"];
+			break;
+
+			case "wrist":
+			case "left_wrist":
+			case "right_wrist":
+				options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "];
+			break;
+
+			case "arm":
+			case "left_arm":
+			case "right_arm":
+				options = ["--","==","::","••","||","II","HH","OO"];
+			break;
+
+			case "torso":
+			case "torso_1":
+			case "torso_2":
+			case "torso_3":
+				options = ["/HHH\\","IHHHI","[[-]]","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "];
+			break;
+
+			case "legs":
+				options = ["//---\\\\","/// \\\\\\",".Y. .Y."," /---\\ "," || || "," |---| ","::: :::"," : - : "];
+			break;
+
+			case "foot":
+			case "left_foot":
+			case "right_foot":
+				options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV"];
+			break;
+		}
+
+		return options;
+	}
+
 /* session(request, response, id, callback) */
 	function session(request, response, id, callback) {
 		if ((typeof id === "undefined") || (id === null)) {
@@ -293,4 +353,5 @@
 		session: session,
 		store: store,
 		retrieve: retrieve,
+		avatar_sections: avatar_sections,
 	};

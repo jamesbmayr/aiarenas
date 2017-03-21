@@ -71,6 +71,7 @@
 			left: -50px;
 			top: 38px;
 			font-size: 20px;
+			cursor: pointer;
 		}
 
 		.section-toggle:hover {
@@ -114,78 +115,8 @@
 			color: var(--black);
 		}
 
-	/* code colors */
-		[redtext] {
-			color: var(--red);
-		}
-
-		[orangetext] {
-			color: var(--orange);
-		}
-
-		[yellowtext] {
-			color: var(--yellow);
-		}
-
-		[greentext] {
-			color: var(--green);
-		}
-
-		[bluetext] {
-			color: var(--blue);
-		}
-
-		[purpletext] {
-			color: var(--purple);
-		}
-
-		[whitetext] {
-			color: var(--white);
-		}
-
-		[graytext] {
-			color: var(--gray);
-		}
-
-		[blacktext] {
-			color: var(--black);
-		}
-
-	/* comment colors */
-		[graytext] [redtext] {
-			color: var(--gray);
-		}
-
-		[graytext] [orangetext] {
-			color: var(--gray);
-		}
-
-		[graytext] [yellowtext] {
-			color: var(--gray);
-		}
-
-		[graytext] [greentext] {
-			color: var(--gray);
-		}
-
-		[graytext] [bluetext] {
-			color: var(--gray);
-		}
-
-		[graytext] [purpletext] {
-			color: var(--gray);
-		}
-
-		[graytext] [whitetext] {
-			color: var(--gray);
-		}
-
-		[graytext] [graytext] {
-			color: var(--gray);
-		}
-
-		[graytext] [blacktext] {
-			color: var(--gray);
+		.transparenttext {
+			color: var(--transparent);
 		}
 
 /* * navbar * */
@@ -322,3 +253,132 @@
 			width: 100%;
 			height: 100%;
 		}
+
+	/* avatar */
+		#avatar_pre {
+			line-height: 1.15;
+			background-color: var(--transparent);
+			width: auto;
+			border: 0px;
+			font-size: 16px;
+			font-family: Courier, monospace;
+			font-weight: bold;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+		}
+
+		#avatar_selection {
+			display: none;
+			line-height: 1;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			border: 2px solid var(--white);
+			padding: 5px;
+			border-radius: 5px;
+			width: 100%;
+		}
+
+		#avatar_selection select {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			-o-appearance: none;
+			z-index: 2;
+			text-align: center;
+			line-height: 1;
+			background-color: rgba(000,000,000,0);
+			outline: none;
+			border: 0px;
+			border-radius: 5px;
+			font-size: 16px;
+			text-align-last:center;
+			font-weight: bold;
+			padding-bottom: 2px;
+		}
+
+		#avatar_selection select:hover {
+			box-shadow: 0px 0px 20px var(--white);
+		}
+
+		#avatar_color select {
+			background-color: var(--black);
+			font-size: 16px;
+			border: 2px solid var(--white);
+			outline: none;
+		}
+
+	/* code colors */
+		[redtext] {
+			color: var(--red);
+		}
+
+		[orangetext] {
+			color: var(--orange);
+		}
+
+		[yellowtext] {
+			color: var(--yellow);
+		}
+
+		[greentext] {
+			color: var(--green);
+		}
+
+		[bluetext] {
+			color: var(--blue);
+		}
+
+		[purpletext] {
+			color: var(--purple);
+		}
+
+		[whitetext] {
+			color: var(--white);
+		}
+
+		[graytext] {
+			color: var(--gray);
+		}
+
+		[blacktext] {
+			color: var(--black);
+		}
+
+	/* comment colors */
+		[graytext] [redtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [orangetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [yellowtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [greentext] {
+			color: var(--gray);
+		}
+
+		[graytext] [bluetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [purpletext] {
+			color: var(--gray);
+		}
+
+		[graytext] [whitetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [graytext] {
+			color: var(--gray);
+		}
+
+		[graytext] [blacktext] {
+			color: var(--gray);
+		}
+
