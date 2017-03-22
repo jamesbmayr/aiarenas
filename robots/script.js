@@ -1,30 +1,124 @@
 $(document).ready(function() {
 
+	/* animateText */
+		jQuery.fn.extend({
+			animateText: function(options, timespan) {
+				var element = this;
+				if ((typeof options === "undefined") || (options === null)) {
+					options = {};
+				}
+				
+				//text
+					if (typeof options.text !== "undefined") {
+						var text = options.text;
+					}
+					else {
+						var text = ($(element).text() || "");
+					}
+
+					$(element).text("");
+
+				//chunk
+					if ((typeof options.chunk !== "undefined") && (options.chunk > 0)) {
+						var chunk = options.chunk;
+					}
+					else {
+						var chunk = 1;
+					}
+
+				//interval / timespan
+					if ((typeof timespan !== "undefined") && (timespan !== null)) {
+						var interval = timespan / (text.length / chunk);
+					}
+					else if ((typeof options.interval !== "undefined") && (options.interval !== null)) {
+						var interval = (options.interval / chunk);
+					}
+					else {
+						var interval = 100;
+					}
+
+				//indicator
+					if ((typeof options.indicator !== "undefined") && (options.indicator.length > 0)) {
+						indicator = options.indicator;
+					}
+					else {
+						indicator = "_";
+					}
+
+				if ((typeof options.direction !== "undefined") && (options.direction === "left")) {
+					var index = text.length - chunk;
+					var loop = setInterval(function() {
+						if (index < 0) {
+							clearInterval(loop);
+							$(element).html(text);
+						}
+						else {
+							//color char
+								if ((typeof options.color !== "undefined") && (options.color.length > 0)) {
+									var char = "<span style='color: " + options.color + "'>" + (indicator || (text[index] || "")) + "</span>";
+								}
+								else {
+									var char = text[index] || "";
+								}
+
+							$(element).html(char + text.substring(index + 1, text.length));
+							index -= chunk;
+						}
+					}, interval);
+				}
+				else {
+					var index = 0;
+					var loop = setInterval(function() {
+						if (index > text.length) {
+							clearInterval(loop);
+							$(element).html(text);
+						}
+						else {
+							//color char
+								if ((typeof options.color !== "undefined") && (options.color.length > 0)) {
+									var char = "<span style='color: " + options.color + "'>" + (indicator || (text[index] || "")) + "</span>";
+								}
+								else {
+									var char = text[index] || "";
+								}
+
+							$(element).html(text.substring(0, index) + char);
+							index += chunk;
+						}
+					}, interval);
+				}
+			}
+		});
+
+		$(".message").each(function() {
+			$(this).animateText({},1000);
+		});
+
 	/* navbar */
 		$("#navbar_open").click(function() {
-			$("#navbar_open").animate({left: "+=200px"}, 500);
+			$("#navbar_open").animate({left: "+=256px"}, 500);
 			$("#navbar_open").find(".glyphicon").animate({opacity: 0},500);
 			setTimeout(function() {
 				$("#navbar_open").hide();
 			}, 500);
 			
-			$("#navbar_close").show().animate({left: "+=200px"}, 500);
+			$("#navbar_close").show().animate({left: "+=256px"}, 500);
 			$("#navbar_close").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			
-			$("#navbar").animate({left: "+=200px"}, 500);
+			$("#navbar").animate({left: "+=256px"}, 500);
 		});
 
 		$("#navbar_close").click(function() {
-			$("#navbar_close").animate({left: "-=200px"}, 500);
+			$("#navbar_close").animate({left: "-=256px"}, 500);
 			$("#navbar_close").find(".glyphicon").animate({opacity: 0},500);;
 			setTimeout(function() {
 				$("#navbar_close").hide();
 			}, 500);
 
-			$("#navbar_open").show().animate({left: "-=200px"}, 500);
+			$("#navbar_open").show().animate({left: "-=256px"}, 500);
 			$("#navbar_open").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			
-			$("#navbar").animate({left: "-=200px"}, 500);
+			$("#navbar").animate({left: "-=256px"}, 500);
 		});
 
 		$("#navbar_signout").click(function() {
@@ -172,7 +266,7 @@ $(document).ready(function() {
 				});
 
 			$(".message").text("");
-			$("#message_top").text(" //now editing");
+			$("#message_top").animateText({text: " //now editing"}, 1000);
 		});
 
 		$(document).on("click", "#robot_cancel", function() {
@@ -196,7 +290,7 @@ $(document).ready(function() {
 				$("#avatar_selection").css("color", previousColor).hide();
 				$("#avatar_color").css("color", previousColor).hide();
 
-			$("#message_top").text(" //edits canceled");
+			$("#message_top").animateText({text: " //edits canceled"}, 1000);
 			$(".field#code").html(colorText(String($(".field#code").html())));
 		});
 
@@ -241,7 +335,7 @@ $(document).ready(function() {
 
 						$(".field").each(function() {
 							$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
-							$(this).closest(".section").find(".message").text(messages[$(this).attr("id")] || "");
+							$(this).closest(".section").find(".message").animateText({text: (messages[$(this).attr("id")] || "")}, 1000);
 						});
 
 						/* avatar */
@@ -260,6 +354,7 @@ $(document).ready(function() {
 							$("#avatar_pre").css("color", data.avatar.color || previousColor);
 							$("#avatar_selection").css("color", data.avatar.color || previousColor);
 							$("#avatar_color").css("color", data.avatar.color || previousColor);
+							$("#avatar").find(".message").animateText({text: (messages["avatar"] || "")}, 1000);
 					}
 
 					$("#robot_edit").show();
@@ -275,7 +370,7 @@ $(document).ready(function() {
 						$("#avatar_color").hide();
 
 					$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-					$("#message_top").text(messages.top || " //edits submitted");
+					$("#message_top").animateText({text: (messages.top || " //changes submitted")}, 1000);
 					$(".field#code").html(colorText(String($(".field#code").html())));
 				}
 			});
@@ -293,7 +388,7 @@ $(document).ready(function() {
 				var value = $(this).attr("value");
 				$(this).text(value);
 			});
-			$("#message_top").text(" //are you sure you want to delete this robot?");
+			$("#message_top").animateText({text: " //are you sure you want to delete this robot?"}, 1000);
 		});
 
 		$(document).on("click", "#robot_confirm_delete", function() {
@@ -325,7 +420,7 @@ $(document).ready(function() {
 							$(this).text(value);
 						});
 
-						$("#message_top").text(results.messages.top || " //unable to delete robot");
+						$("#message_top").animateText({text: (results.messages.top || " //unable to delete robot")}, 1000);
 					}
 				}
 			});

@@ -14,8 +14,11 @@
 			settings: {},
 			notifications: {},
 			information: {
-				picture: null,
 				bio: null,
+			},
+			avatar: {
+				color: "var(--white)",
+				ascii: processes.ascii_character(name[0])
 			},
 			statistics: {
 				wins: 0,
@@ -49,6 +52,7 @@
 					}
 					else {
 						user.name = data.name;
+						user.avatar.ascii = processes.ascii_character(data.name[0]) || "";
 						messages.name = " //name updated";
 					}
 				break;
@@ -74,6 +78,19 @@
 					else {
 						user.information.bio = data.bio;
 						messages.bio = " //bio updated";
+					}
+				break;
+
+				case "avatar":
+					if (data.avatar.color === user.avatar.color) {
+						//no change
+					}
+					else if (!(processes.ascii_robot("color").indexOf(data.avatar.color) > -1)) {
+						//no change
+					}
+					else {
+						user.avatar.color = data.avatar.color;
+						messages.avatar = " //color updated";
 					}
 				break;
 			}

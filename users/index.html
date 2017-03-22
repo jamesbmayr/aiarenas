@@ -19,9 +19,9 @@
 			}
 		%>
 		<div id="container" value="<% data.id %>">
+			<span class='message graytext' id='message_top'></span><br>
 			<div class="section">
-				<span class="field_frame"><span class="whitetext field" id="name" value="<% data.name %>"><% data.name %></span></span>
-				<span class='message graytext' id='message_top'></span>
+				<span class="field_frame"><span class="whitetext field" id="name" value="<% data.name %>"><% data.name %></span></span><% message %>
 			</div>
 			<div class="indented">
 				<%
@@ -57,6 +57,37 @@
 						</div>
 						<span class="whitetext">};</span>
 					</div>
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section" id="avatar">
+						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span><% message %>
+						<div class="indented">
+							<pre id="avatar_pre" monospace value="<% data.avatar.color || 'var(--white)' %>" style="color: <% data.avatar.color || 'var(--white)' %>"><% data.avatar.ascii || "" %></pre>
+						</div>
+						<span class="whitetext">}</span>
+					</div>
+					<% 
+						if ((session.user !== null) && (session.user.id === data.id)) {
+							var display = '<div class="section" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
+								<span class="whitetext">.color</span><span class="redtext"> = </span><select>\
+									<option value="var(--white)">white</option>\
+									<option value="var(--red)">red</option>\
+									<option value="var(--orange)">orange</option>\
+									<option value="var(--yellow)">yellow</option>\
+									<option value="var(--green)">green</option>\
+									<option value="var(--blue)">blue</option>\
+									<option value="var(--purple)">purple</option>\
+									<option value="var(--gray)">gray</option>\
+								</select><span class="whitetext">;</span>\
+							</div>';
+
+							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");
+
+							display;
+						}
+					%>
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>

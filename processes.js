@@ -1,4 +1,4 @@
-/* node modules */
+/*** node modules ***/
 	const crypto = require("crypto");
 	const fs = require("fs");
 	const mongo = require("mongodb").MongoClient;
@@ -9,338 +9,506 @@
 		var database = "mongodb://localhost:27017/aiarena";
 	}
 
-/* render(file, data) */
-	function render(file, session, data) {
-		const html = {};
-		html.original = fs.readFileSync(file).toString();
-		html.array = html.original.split(/<%|%>/);
-		
-		for (html.count = 0; html.count < html.array.length; html.count++) {
-			if (html.count % 2 === 1) {
-				console.log("evaluating chunk " + html.count + "...");
-				try {
-					html.temp = eval(html.array[html.count]);
-				}
-				catch (error) {
-					html.temp = "";
-					console.log(error.name);
-				}
-				html.array[html.count] = html.temp;
-			}
-		}
-		return html.array.join("");
-	}
-
-/* assets(query) */
-	function assets(query) {
-		var asset;
-
-		switch (query) {
-			case "logo":
-				asset = "logo.png";
-			break;
-
-			case "bootstrap":
-				asset = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css";
-			break;
-
-			case "jquery":
-				asset = "https://code.jquery.com/jquery-1.7.2.min.js";
-			break;
-
-			case "Roboto":
-				asset = "http://fonts.googleapis.com/css?family=Roboto:regular,bold;italic;bolditalic";
-			break;
-
-			case "Ubuntu":
-				asset = "http://fonts.googleapis.com/css?family=Ubuntu:regular,bold;italic;bolditalic";
-			break;
-		}
-
-		return asset;
-	}
-
-/* navbar(session) */
-	function navbar(session) {
-		var navbar = "<button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button>\
-			<button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button>";
-		
-		if (session.user === null) {
-			navbar += "<div id='navbar'>\
-				<div class='navbar_item'>\
-					<a id='logo_block' href='../../../../'><div id='logo_image' style='background-image: " + assets("logo") + "'><br>[logo]<br><br><br></div></a>\
-				</div>\
-				<div class='navbar_item'>\
-					<span class='graytext' id='navbar_message'></span>\
-				</div>\
-				<div id='navbar_user'>\
-					<div class='navbar_item'><span class='whitetext navbar_heading'>user</span></div>\
-					<div class='navbar_item'><a class='navbar_button' href='../../../../signin'><span class='whitetext'>.</span><span class='greentext'>signin</span><span class='whitetext'>();</span></a></div>\
-				</div>\
-				<br>\
-				<div id='navbar_info'>\
-					<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arena</span></div>\
-					<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
-					<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
-				</div>\
-			</div>";
-		}
-		else {
-			var robots = "";
-			for (var i = 0; i < session.user.robots.length; i++) {
-				robots += "<div class='navbar_item'><a class='navbar_link' href='../../../../robots/" + session.user.robots[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + session.user.robots[i].name + "</span></a></div>";
-			}
-
-			var arenas = "";
-			for (var i = 0; i < session.user.arenas.length; i++) {
-				arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.user.arenas[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.user.arenas[i].id).substring(0,3) + "</span></a></div>";
-			}
-
-			navbar += "<div id='navbar'>\
-				<div class='navbar_item'><a id='logo_block' href='../../../../'><div id='logo_image'><br>[logo]<br><br><br></div></a></div>\
-				<div class='navbar_item'>\
-					<span class='graytext' id='navbar_message'></span>\
-				</div>\
-				<div id='navbar_user'>\
-					<div class='navbar_item'><span class='whitetext navbar_heading'>" + session.user.name + "</span></div>\
-					<div class='navbar_item'><a class='navbar_button' href='../../../../users/'" + session.user.name + "><span class='whitetext'>.</span><span class='bluetext'>profile</span></a></div>\
-					<div class='navbar_item'><a class='navbar_button' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a></div>\
-					<div class='navbar_item'><button class='navbar_button' id='navbar_signout'><span class='whitetext'>.</span><span class='greentext'>signout</span><span class='whitetext'>();</span></button></div>\
-				</div>\
-				<br>\
-				<div id='navbar_robots'>\
-					<div class='navbar_item'><span class='whitetext navbar_heading'>robots</span></div>\
-					<div class='navbar_item'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></button></div>\
-					" + robots + "\
-				</div>\
-				<br>\
-				<div id='navbar_arenas'>\
-					<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
-					<div class='navbar_item'><a class='navbar_button' href='../../../../arenas/'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></a></div>\
-					<div class='navbar_item'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>);</span></div>\
-					" + arenas + "\
-				</div>\
-				<br>\
-				<div id='navbar_info'>\
-					<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arena</span></div>\
-					<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
-					<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
-				</div>\
-			</div>";
-		}
-
-		return navbar;
-	}
-
-/* random(length, set) */
-	function random(length, set) {
-		if ((typeof set === "undefined") || (set === null)) {
-			set = "0123456789abcdefghijklmnopqrstuvwxyz";
-		}
-		if ((typeof length === "undefined") || (length === null)) {
-			length = 32;
-		}
-
-		var output = "";
-		for (var i = 0; i < length; i++) {
-			output += (set[Math.floor(Math.random() * set.length)]);
-		}
-
-		return output;
-	}
-
-/* hash(string, salt) */
-	function hash(string, salt) {
-		if ((typeof salt == "undefined") || (salt === null)) {
-			salt = "";
-		}
-		return crypto.createHmac("sha512", salt).update(string).digest("hex");
-	}
-
-/* isEmail(string) */
-	function isEmail(string) {
-		return (/[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/).test(string);
-	}
-
-/* isReserved(string) */
-	function isReserved(string) {
-		var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings",
-			"signup","signin","signout","login","logout",
-			"user","users","robot","robots","arena","arenas",
-			"game","games","statistic","statistics",
-			"create","new","delete","read","start","go","all"];
-
-		return (reservations.indexOf(string.toLowerCase().replace(/ /g,"")) > -1);
-	}
-
-/* isNumLet(string) */
-	function isNumLet(string) {
-		return (/[a-z0-9A-Z]/).test(string);
-	}
-
-/* avatar_sections(section) */
-	function avatar_sections(section) {
-		var options = [];
-
-		switch(section) {
-			case "color":
-				options = ["var(--white)", "var(--red)", "var(--orange)", "var(--yellow)", "var(--green)", "var(--blue)", "var(--purple)", "var(--gray)"];
-			break;
-
-			case "antennae":
-				options = [" _|_ "," _∆_ "," _M_ "," _I_ ","|||||", " iii ", "][ ]["," .:. "];
-			break;
-
-			case "eyes":
-				options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]"];
-			break;
-
-			case "mouth":
-				options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| "];
-			break;
-
-			case "hand":
-			case "left_hand":
-			case "right_hand":
-				options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#"];
-			break;
-
-			case "wrist":
-			case "left_wrist":
-			case "right_wrist":
-				options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "];
-			break;
-
-			case "arm":
-			case "left_arm":
-			case "right_arm":
-				options = ["--","==","::","••","||","II","HH","OO"];
-			break;
-
-			case "torso":
-			case "torso_1":
-			case "torso_2":
-			case "torso_3":
-				options = ["/HHH\\","IHHHI","[[-]]","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "];
-			break;
-
-			case "legs":
-				options = ["//---\\\\","/// \\\\\\",".Y. .Y."," /---\\ "," || || "," |---| ","::: :::"," : - : "];
-			break;
-
-			case "foot":
-			case "left_foot":
-			case "right_foot":
-				options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV"];
-			break;
-		}
-
-		return options;
-	}
-
-/* session(request, response, id, callback) */
-	function session(request, response, id, callback) {
-		if ((typeof id === "undefined") || (id === null)) {
-			id = random();
-
-			retrieve("sessions", {id: id}, function(result) {
-				if (result.length > 0) {
-					session(request, response, null, callback);
-				}
-				else {
-					var newSession = {
-						id: id,
-						"user-agent": request.headers["user-agent"],
-						"accept-language": request.headers["accept-language"],
-						created: new Date().getTime(),
-						end: null,
-						user: null
+/*** files ***/
+	/* render(file, data) */
+		function render(file, session, data) {
+			const html = {};
+			html.original = fs.readFileSync(file).toString();
+			html.array = html.original.split(/<%|%>/);
+			
+			for (html.count = 0; html.count < html.array.length; html.count++) {
+				if (html.count % 2 === 1) {
+					console.log("evaluating chunk " + html.count + "...");
+					try {
+						html.temp = eval(html.array[html.count]);
 					}
-					store("sessions", null, newSession, callback);
-				}
-			});
-		}
-		else {
-			retrieve("sessions", {id: id}, function(result) {
-				if (!(result.length > 0)) {
-					session(request, response, null, callback);
-				}
-				else {
-					callback(result);
-				}
-			});
-		}
-	}
-
-/* store(table, search, data, callback) */
-	function store(table, search, data, callback) {
-		mongo.connect(database, function(error, db) {
-			if (error) {
-				console.log(error);
-			}			
-			else {			
-				if ((search === null) && (data !== null)) { //create
-					console.log("create in " + table + ":\n" + JSON.stringify(data));
-					db.collection(table).insert(data, function (error, result) {
-						if (error) {
-							console.log(error);
-						}
-						else {
-							callback(result.ops[0]);
-						}
-					});
-				}
-				else if ((search !== null) && (data !== null)) { //update
-					console.log("update in " + table + " at " + JSON.stringify(search) + ":\n " + JSON.stringify(data));
-					db.collection(table).update(search, data, function (error, result) {
-						if (error) {
-							console.log(error);
-						}
-						else {
-							//callback(data);
-							retrieve(table, search, callback);
-						}
-					});
-				}
-				else if ((search !== null) && (data === null)) { //delete
-					console.log("delete in " + table + " at " + JSON.stringify(search));
-					db.collection(table).remove(search, function (error, result) {
-						if (error) {
-							console.log(error);
-						}
-						else {
-							//callback(result);
-							retrieve(table, search, callback);
-						}
-					});
+					catch (error) {
+						html.temp = "";
+						console.log(error.name);
+					}
+					html.array[html.count] = html.temp;
 				}
 			}
-			db.close();
-		});
-	}
+			return html.array.join("");
+		}
 
-/* retrieve(table, search, callback) */
-	function retrieve(table, search, callback) {
-		mongo.connect(database, function(error, db) {
-			if (error) {
-				console.log(error);
+	/* assets(query) */
+		function assets(query) {
+			var asset;
+
+			switch (query) {
+				case "logo":
+					asset = "logo.png";
+				break;
+
+				case "ascii_logo":
+					asset = "  aaaa      i   \n      a         \n  aaaaa    ii   \n a    a     i   \n  aaaa a  iiiii \n----------------\n[[[  .arena  ]]]\n----------------";
+				break;
+
+				case "bootstrap":
+					asset = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css";
+				break;
+
+				case "jquery":
+					asset = "https://code.jquery.com/jquery-1.7.2.min.js";
+				break;
+
+				case "Roboto":
+					asset = "http://fonts.googleapis.com/css?family=Roboto:regular,bold;italic;bolditalic";
+				break;
+
+				case "Ubuntu":
+					asset = "http://fonts.googleapis.com/css?family=Ubuntu:regular,bold;italic;bolditalic";
+				break;
 			}
-			else {	
-				console.log("read in " + table + " at " + JSON.stringify(search));
-				db.collection(table).find(search).sort({created: -1}).toArray(function (error, result) {
-					if (error) {
-						console.log(error);
+
+			return asset;
+		}
+
+/*** generators ***/
+	/* random(length, set) */
+		function random(length, set) {
+			if ((typeof set === "undefined") || (set === null)) {
+				set = "0123456789abcdefghijklmnopqrstuvwxyz";
+			}
+			if ((typeof length === "undefined") || (length === null)) {
+				length = 32;
+			}
+
+			var output = "";
+			for (var i = 0; i < length; i++) {
+				output += (set[Math.floor(Math.random() * set.length)]);
+			}
+
+			return output;
+		}
+
+	/* hash(string, salt) */
+		function hash(string, salt) {
+			if ((typeof salt == "undefined") || (salt === null)) {
+				salt = "";
+			}
+			return crypto.createHmac("sha512", salt).update(string).digest("hex");
+		}
+
+/*** checks ***/
+	/* isEmail(string) */
+		function isEmail(string) {
+			return (/[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/).test(string);
+		}
+
+	/* isReserved(string) */
+		function isReserved(string) {
+			var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings",
+				"signup","signin","signout","login","logout",
+				"user","users","robot","robots","arena","arenas",
+				"game","games","statistic","statistics",
+				"create","new","delete","read","start","go","all"];
+
+			return (reservations.indexOf(string.toLowerCase().replace(/ /g,"")) > -1);
+		}
+
+	/* isNumLet(string) */
+		function isNumLet(string) {
+			return (/[a-z0-9A-Z]/).test(string);
+		}
+
+/*** page content ***/	
+	/* navbar(session) */
+		function navbar(session) {
+			var navbar = "<button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button>\
+				<button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button>";
+			
+			if (session.user === null) {
+				navbar += "<div id='navbar'>\
+					<div class='navbar_item'>\
+						<a id='logo_block' href='../../../../'>\
+							<pre>" + assets("ascii_logo") + "</pre>\
+						</a>\
+					</div>\
+					<br>\
+					<div class='navbar_item'>\
+						<span class='graytext' id='navbar_message'></span>\
+					</div>\
+					<div id='navbar_user'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>user</span></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../signin'><span class='whitetext'>.</span><span class='greentext'>signin</span><span class='whitetext'>();</span></a></div>\
+					</div>\
+					<br>\
+					<div id='navbar_info'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arena</span></div>\
+						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
+						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
+					</div>\
+				</div>";
+			}
+			else {
+				var robots = "";
+				for (var i = 0; i < session.user.robots.length; i++) {
+					robots += "<div class='navbar_item'><a class='navbar_link' href='../../../../robots/" + session.user.robots[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + session.user.robots[i].name + "</span></a></div>";
+				}
+
+				var arenas = "";
+				for (var i = 0; i < session.user.arenas.length; i++) {
+					arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.user.arenas[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.user.arenas[i].id).substring(0,3) + "</span></a></div>";
+				}
+
+				navbar += "<div id='navbar'>\
+					<div class='navbar_item'>\
+						<a id='logo_block' href='../../../../'>\
+							<pre>" + assets("ascii_logo") + "</pre>\
+						</a>\
+					</div>\
+					<br>\
+					<div class='navbar_item'>\
+						<span class='graytext' id='navbar_message'></span>\
+					</div>\
+					<div id='navbar_user'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>" + session.user.name + "</span></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../users/'" + session.user.name + "><span class='whitetext'>.</span><span class='bluetext'>profile</span></a></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a></div>\
+						<div class='navbar_item'><button class='navbar_button' id='navbar_signout'><span class='whitetext'>.</span><span class='greentext'>signout</span><span class='whitetext'>();</span></button></div>\
+					</div>\
+					<br>\
+					<div id='navbar_robots'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>robots</span></div>\
+						<div class='navbar_item'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></button></div>\
+						" + robots + "\
+					</div>\
+					<br>\
+					<div id='navbar_arenas'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../arenas/'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></a></div>\
+						<div class='navbar_item'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>);</span></div>\
+						" + arenas + "\
+					</div>\
+					<br>\
+					<div id='navbar_info'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arena</span></div>\
+						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
+						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
+					</div>\
+				</div>";
+			}
+
+			return navbar;
+		}
+
+	/* ascii_robot(section) */
+		function ascii_robot(section) {
+			var options = [];
+
+			switch(section) {
+				case "color":
+					options = ["var(--white)", "var(--red)", "var(--orange)", "var(--yellow)", "var(--green)", "var(--blue)", "var(--purple)", "var(--gray)"];
+				break;
+
+				case "antennae":
+					options = [" _|_ "," _∆_ "," _M_ "," _I_ ","|||||", " iii ", "][ ]["," .:. "];
+				break;
+
+				case "eyes":
+					options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]"];
+				break;
+
+				case "mouth":
+					options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| "];
+				break;
+
+				case "hand":
+				case "left_hand":
+				case "right_hand":
+					options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#"];
+				break;
+
+				case "wrist":
+				case "left_wrist":
+				case "right_wrist":
+					options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "];
+				break;
+
+				case "arm":
+				case "left_arm":
+				case "right_arm":
+					options = ["--","==","::","••","||","II","HH","OO"];
+				break;
+
+				case "torso":
+				case "torso_1":
+				case "torso_2":
+				case "torso_3":
+					options = ["/HHH\\","IHHHI","[[-]]","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "];
+				break;
+
+				case "legs":
+					options = ["//---\\\\","/// \\\\\\",".Y. .Y."," /---\\ "," || || "," |---| ","::: :::"," : - : "];
+				break;
+
+				case "foot":
+				case "left_foot":
+				case "right_foot":
+					options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV"];
+				break;
+			}
+
+			return options;
+		}
+
+	/* ascii_character(character) */
+		function ascii_character(character) {
+			switch (character.toLowerCase()) {
+				case "a":
+					character = "    aaaaaa      \n   a​     ​ a     \n          ​ a    \n    aaaaaa​ a    \n   a​      aa    \n  a​       ​ a    \n   a​     ​ aa    \n    aaaaa​a aaa  ";
+				break;
+
+				case "b":
+					character = "  bbb​           \n    b​           \n    b​ ​bbbbbb    \n    bb​     ​ b   \n    b​       ​ b  \n    b​       ​ b  \n    b​      ​ b   \n  bb​ bbbbbb​b    ";
+				break;
+
+				case "c":
+					character = "     cccccc     \n   cc​      cc   \n  c​ ​         c  \n  c​             \n  c​             \n  c​ ​         c  \n   cc​      cc   \n     cccccc     ";
+				break;
+
+				case "d":
+					character = "          ddd   \n           ​ d   \n    ddddddd​ ​​​​​d   \n   d​      ​ dd   \n  d​        ​ d   \n  d​        ​ d   \n   d​       dd   \n    ddddddd dd  ";
+				break;
+
+				case "e":
+					character = "     eeeeee     \n   ee​      ee   \n  e​ ​       ​  e  \n  eeeeeeeeeee   \n  e​             \n  e​          e  \n   ee​       ee  \n     eeeeeee    ";
+				break;
+
+				case "f":
+					character = "       fffff​f​   \n      f​     ​ ​f  \n      f​         \n  fffffffffff   \n      f​         \n      f​         \n      f​         \n   ffffffff     ";
+				break;
+
+				case "g":
+					character = "    ggggggg​ gg  \n   g​      ​ gg   \n  g​        ​ g   \n  g​        ​ g   \n   g​      ​ gg   \n    ggggggg​ g   \n           ​ g   \n   ​ gggggggg    ";
+				break;
+
+				case "h":
+					character = "  hh            \n   h            \n   h            \n   h hhhhhh​     \n   hh      hh   \n   h        h   \n   h        h   \n  hhh      hhh  ";
+				break;
+
+				case "i":
+					character = "       ii       \n                \n    iiiii       \n       ii       \n       ii       \n       ii       \n       ii       \n  iiiiiiiiiiii  ";
+				break;
+
+				case "j":
+					character = "          jj    \n                \n        jjjjjj  \n          jj    \n          jj    \n  jj      jj    \n   jj     jj    \n    jjjjjjj     ";
+				break;
+
+				case "k":
+					character = "  kk            \n   k    kkk     \n   k   k        \n   k kkk        \n   kk​  ​ kk      \n   k​     ​ k     \n   k       k​    \n  kk      kkkk  ";
+				break;	
+
+				case "l":
+					character = "   llll         \n     ​ll        ​ ​\n     ll        ​ ​\n     ll        ​ ​\n     ll        ​ ​\n     ll        ​ ​\n     ll        ​ ​\n  llllllllllll  ​";
+				break;
+
+				case "m":
+					character = "  m mm​   ​ mm    \n   m​  m  m ​ m   \n   m   mm   m   \n   m   mm   m   \n   m   mm   m   \n   m   ​     m   \n   m   ​     m   \n  mm​m​      ​m​mm  ";
+				break;
+
+				case "n":
+					character = "  nn nnnnn    ​  \n​   nn     nn   ​ \n​   n        n  ​ \n​   n        n  ​ \n​   n        n  ​ \n​   n   ​     n   \n​   n        n  ​ \n​  nnn      nnn  ​​";
+				break;
+
+				case "o":
+					character = "     oooooo     \n​   oo      oo   \n​  oo        oo  \n​  o          o  \n​  o          o  \n​  oo        oo  \n​   oo      oo   \n​     oooooo     ​";
+				break;
+
+				case "p":
+					character = "  pp ppppppp   ​ \n​   pp       p   ​\n​   p         p  ​\n​   pp       p   ​\n​   p ppppppp    ​\n​   p            ​\n​   p            ​\n​  ppp           ​​";
+				break;
+
+				case "q":
+					character = "    qqqqqqq qq  \n​   q       qq   \n​  q         q   \n​   q       qq   \n​    qqqqqqq q   \n​            q   \n​            q   \n​           qqq  ​​";
+				break;
+
+				case "r":
+					character = "  rr  rrrrrr    ​\n​   r r      rr  ​\n​   rr        r  ​\n​   r            ​\n​   r           ​ \n​   r           ​ \n​   r            ​\n​  rrrrr         ​​";
+				break;
+
+				case "s":
+					character = "     sssssss    ​\n​   ss       ss  ​\n​  s          s  ​\n​   sssss        ​\n​        sssss   \n​  s          s  ​\n​  ss       ss   ​\n​    sssssss     ​​";
+				break;
+
+				case "t":
+					character = "      t         ​\n​      t        ​ \n​  tttttttttttt  ​\n​      t         ​\n​      t         ​\n​      t         ​\n​      tt    tt  ​\n​       tttttt   ​";
+				break;
+
+				case "u":
+					character = "  uu       uu   \n   u        u   \n   u        u   \n   u        u   \n   u        u   \n   u        u   \n   uu     uuu   \n    uuuuuuu uu  ​";
+				break;
+
+				case "v":
+					character = "  vv        vv  \n​  vv        vv  \n​  vv        vv  \n​   vv      vv   \n​    vv    vv    \n​     vv  vv     \n​      vvvv      \n​       vv       ​​";
+				break;
+
+				case "w":
+					character = "  www      www  ​\n​   w        w   ​\n​   w        w   ​\n​   w        w   ​\n​   w   ww   w   ​\n​    w w  w w    ​\n​    w w  w w    ​\n​     ww  ww     ​";
+				break;
+
+				case "x":
+					character = "  xxxx    xxxx  \n  ​ ​xx      x​x​ ​  \n  ​ ​ xx    x​x  ​  ​\n  ​ ​  ​ ​xxx​x ​​    ​ ​\n​  ​ ​  ​ ​xxx​x​  ​​  ​  \n  ​ ​ xx    xx​    \n  ​ xx​      xx​   \n  xxxx    xxxx  ";
+				break;
+
+				case "y":
+					character = "  yyyy    yyyy  \n​   yy      yy   \n​    yy    yy    \n​     yy  yy     \n​      yyyy      \n​       yy       \n​  yy  yy        \n​   yyyy         ​";
+				break;
+
+				case "z":
+					character = "  zzzzzzzzzzzz  \n​  z         z   \n​          zz    \n​        zz      \n​      zz        \n​    zz          \n​   z         z  \n​  zzzzzzzzzzzz  ​";
+				break;
+
+				case "0":
+					character = "     000000     \n​   00      00   \n​  00        00  \n​  0          0  \n​  0          0  \n​  00        00  \n​   00      00   \n​     000000     ​";
+				break;
+
+				case "1":
+					character = "     1111       \n​    11 11       \n​   11  11       \n​       11       \n​       11       \n​       11       \n​       11       \n​  111111111111  ​";
+				break;
+
+				case "2":
+					character = "     2222222    ​\n​   22       2   \n​   2       22   \n​         22     \n​       22       \n​     22         \n​   22        2  \n​  222222222222  ​";
+				break;
+
+				case "3":
+					character = "    33333333    \n​  33        3   \n​           333  \n​        33333   \n​           333  \n​  3         33  \n​  33       33   \n​    33333333    ​​";
+				break;
+
+				case "4":
+					character = "       4444     \n​      4  44     \n​     4   44     \n​    4    44     \n​   4     44     \n​  444444444444  \n​         44     \n​       444444  ​ ​";
+				break;
+
+				case "5":
+					character = "  555555555555  \n​  5          5  \n​  5             \n​  5  555555     \n​   55      55   \n​             5  \n​  55        5   \n​    55555555    ​​";
+				break;
+
+				case "6":
+					character = "    66666666    \n​  66        66  \n​  6             \n​  6 66666666    \n​  66        66  \n​  6          6  \n​  66        66  \n​    66666666    ​";
+				break;
+
+				case "7":
+					character = "  777777777777  \n​  7         77  \n​           77   \n​         77     \n​       77       \n​      77        \n​     77         \n​    77          ​";
+				break;
+
+				case "8":
+					character = "     888888     \n​    8      8    \n​   8        8   \n​    88888888    \n​   8        8   \n​  8          8  \n​   8        8   \n​    88888888    ";
+				break;
+
+				case "9":
+					character = "    99999999    \n   9        9   \n  9          9  \n   9        99  \n    99999999 9  \n             9  \n            9   \n    99999999    ";
+				break;
+			}
+
+			return character;
+		}
+
+/*** database ***/
+	/* session(request, response, id, callback) */
+		function session(request, response, id, callback) {
+			if ((typeof id === "undefined") || (id === null)) {
+				id = random();
+
+				retrieve("sessions", {id: id}, function(result) {
+					if (result.length > 0) {
+						session(request, response, null, callback);
+					}
+					else {
+						var newSession = {
+							id: id,
+							"user-agent": request.headers["user-agent"],
+							"accept-language": request.headers["accept-language"],
+							created: new Date().getTime(),
+							end: null,
+							user: null
+						}
+						store("sessions", null, newSession, callback);
+					}
+				});
+			}
+			else {
+				retrieve("sessions", {id: id}, function(result) {
+					if (!(result.length > 0)) {
+						session(request, response, null, callback);
 					}
 					else {
 						callback(result);
 					}
 				});
 			}
-			db.close();
-		});
-	}
+		}
 
-/* exports */
+	/* store(table, search, data, callback) */
+		function store(table, search, data, callback) {
+			mongo.connect(database, function(error, db) {
+				if (error) {
+					console.log(error);
+				}			
+				else {			
+					if ((search === null) && (data !== null)) { //create
+						console.log("create in " + table + ":\n" + JSON.stringify(data));
+						db.collection(table).insert(data, function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								callback(result.ops[0]);
+							}
+						});
+					}
+					else if ((search !== null) && (data !== null)) { //update
+						console.log("update in " + table + " at " + JSON.stringify(search) + ":\n " + JSON.stringify(data));
+						db.collection(table).update(search, data, function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								//callback(data);
+								retrieve(table, search, callback);
+							}
+						});
+					}
+					else if ((search !== null) && (data === null)) { //delete
+						console.log("delete in " + table + " at " + JSON.stringify(search));
+						db.collection(table).remove(search, function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								//callback(result);
+								retrieve(table, search, callback);
+							}
+						});
+					}
+				}
+				db.close();
+			});
+		}
+
+	/* retrieve(table, search, callback) */
+		function retrieve(table, search, callback) {
+			mongo.connect(database, function(error, db) {
+				if (error) {
+					console.log(error);
+				}
+				else {	
+					console.log("read in " + table + " at " + JSON.stringify(search));
+					db.collection(table).find(search).sort({created: -1}).toArray(function (error, result) {
+						if (error) {
+							console.log(error);
+						}
+						else {
+							callback(result);
+						}
+					});
+				}
+				db.close();
+			});
+		}
+
+/*** exports ***/
 	module.exports = {
 		render: render,
 		assets: assets,
@@ -353,5 +521,6 @@
 		session: session,
 		store: store,
 		retrieve: retrieve,
-		avatar_sections: avatar_sections,
+		ascii_robot: ascii_robot,
+		ascii_character: ascii_character,
 	};

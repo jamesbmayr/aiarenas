@@ -19,9 +19,9 @@
 			}
 		%>
 		<div id="container" value="<% data.id %>">
+			<span class='message graytext' id='message_top'></span><% message %><br>
 			<div class="section">
-				<span class="field_frame"><span class="field whitetext" id="name" value="<% data.name %>"><% data.name %></span></span>
-				<span class='message graytext' id='message_top'></span><% message %>
+				<span class="field_frame"><span class="field whitetext" id="name" value="<% data.name %>"><% data.name %></span></span><% message %>
 			</div>
 			<div class="indented">
 				<%
@@ -79,7 +79,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section" id="avatar">
-						<span class="whitetext">.avatar</span><span class="redtext"> = </span><% message %>
+						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span><% message %>
 						<div class="indented">
 
 <pre id="avatar_pre" monospace style="color: <% data.avatar.color || 'var(--white)' %>">
@@ -97,7 +97,7 @@
 									var display = '\<div id="avatar_selection" style="color:' + (data.avatar.color || 'var(--white)') + '">\
 										<span class="transparenttext">••••••</span><select id="select.antennae" class="avatar_select">';
 											
-												var options = avatar_sections("antennae");
+												var options = ascii_robot("antennae");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -106,14 +106,14 @@
 										<br>\
 										<span class="transparenttext">•</span><select id="select.left_hand" class="avatar_select">';
 											
-												var options = avatar_sections("hand");
+												var options = ascii_robot("hand");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 
 										display += '</select><span class="transparenttext">•</span><select id="select.eyes" class="avatar_select">';
 												
-												var options = avatar_sections("eyes");
+												var options = ascii_robot("eyes");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -122,14 +122,14 @@
 										<br>\
 										<span class="transparenttext">•</span><select id="select.left_wrist" class="avatar_select">';
 
-												var options = avatar_sections("wrist");
+												var options = ascii_robot("wrist");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 												
 										display += '</select><span class="transparenttext">•</span><select id="select.mouth" class="avatar_select">';
 
-												var options = avatar_sections("mouth");
+												var options = ascii_robot("mouth");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -138,21 +138,21 @@
 										<br>\
 										<span class="transparenttext">•••</span><span>\\</span><select id="select.left_arm" class="avatar_select">';
 
-												var options = avatar_sections("arm");
+												var options = ascii_robot("arm");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 										
 										display += '</select><select id="select.torso_1" class="avatar_select">';
 
-												var options = avatar_sections("torso");
+												var options = ascii_robot("torso");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 
 										display += '</select><select id="select.right_arm" class="avatar_select">';
 
-												var options = avatar_sections("arm");
+												var options = ascii_robot("arm");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -161,14 +161,14 @@
 										<br>\
 										<span class="transparenttext">••••••</span><select id="select.torso_2" class="avatar_select">';
 
-												var options = avatar_sections("torso");
+												var options = ascii_robot("torso");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 
 										display += '</select><span class="transparenttext">•</span><select id="select.right_wrist" class="avatar_select">';
 
-												var options = avatar_sections("wrist");
+												var options = ascii_robot("wrist");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -177,14 +177,14 @@
 										<br>\
 										<span class="transparenttext">••••••</span><select id="select.torso_3" class="avatar_select">';
 
-												var options = avatar_sections("torso");
+												var options = ascii_robot("torso");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 
 										display += '</select><span class="transparenttext">•</span><select id="select.right_hand" class="avatar_select">';
 
-												var options = avatar_sections("hand");
+												var options = ascii_robot("hand");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -193,7 +193,7 @@
 										<br>\
 										<span class="transparenttext">•••••</span><select id="select.legs" class="avatar_select">';
 
-												var options = avatar_sections("legs");
+												var options = ascii_robot("legs");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -202,14 +202,14 @@
 										<br>\
 										<span class="transparenttext">•••••</span><select id="select.left_foot" class="avatar_select">';
 
-												var options = avatar_sections("foot");
+												var options = ascii_robot("foot");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
 
 										display += '</select><span class="transparenttext">•</span><select id="select.right_foot" class="avatar_select">';
 
-												var options = avatar_sections("foot");
+												var options = ascii_robot("foot");
 												for (var i = 0; i < options.length; i++) {
 													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 												}
@@ -221,7 +221,7 @@
 								}
 							%>
 						</div>
-						<span class="whitetext">;</span>
+						<span class="whitetext">}</span>
 					</div>
 					<% 
 						if ((session.user !== null) && (session.user.id === data.user.id)) {

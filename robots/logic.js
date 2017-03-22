@@ -57,7 +57,6 @@
 	function update(robot, data) {
 		var fields = Object.keys(data);
 		var messages = {top: "//changes submitted"};
-		var avatar_sections = processes.avatar_sections;
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
@@ -111,7 +110,7 @@
 						if (data.avatar[avatar_keys[i]] === robot.avatar[avatar_keys[i]]) {
 							//no change
 						}
-						else if (!(avatar_sections(avatar_keys[i]).indexOf(data.avatar[avatar_keys[i]]) > -1)) {
+						else if (!(processes.ascii_robot(avatar_keys[i]).indexOf(data.avatar[avatar_keys[i]]) > -1)) {
 							//no change
 						}
 						else {

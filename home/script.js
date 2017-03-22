@@ -1,30 +1,122 @@
 $(document).ready(function() {
 
+	/* animateText */
+		jQuery.fn.extend({
+			animateText: function(options, timespan) {
+				var element = this;
+				if ((typeof options === "undefined") || (options === null)) {
+					options = {};
+				}
+				
+				//text
+					if (typeof options.text !== "undefined") {
+						var text = options.text;
+					}
+					else {
+						var text = ($(element).text() || "");
+					}
+
+					$(element).text("");
+
+				//chunk
+					if ((typeof options.chunk !== "undefined") && (options.chunk > 0)) {
+						var chunk = options.chunk;
+					}
+					else {
+						var chunk = 1;
+					}
+
+				//interval / timespan
+					if ((typeof timespan !== "undefined") && (timespan !== null)) {
+						var interval = timespan / (text.length / chunk);
+					}
+					else if ((typeof options.interval !== "undefined") && (options.interval !== null)) {
+						var interval = (options.interval / chunk);
+					}
+					else {
+						var interval = 100;
+					}
+
+				//indicator
+					if ((typeof options.indicator !== "undefined") && (options.indicator.length > 0)) {
+						indicator = options.indicator;
+					}
+					else {
+						indicator = "_";
+					}
+
+				if ((typeof options.direction !== "undefined") && (options.direction === "left")) {
+					var index = text.length - chunk;
+					var loop = setInterval(function() {
+						if (index < 0) {
+							clearInterval(loop);
+							$(element).html(text);
+						}
+						else {
+							//color char
+								if ((typeof options.color !== "undefined") && (options.color.length > 0)) {
+									var char = "<span style='color: " + options.color + "'>" + (indicator || (text[index] || "")) + "</span>";
+								}
+								else {
+									var char = text[index] || "";
+								}
+
+							$(element).html(char + text.substring(index + 1, text.length));
+							index -= chunk;
+						}
+					}, interval);
+				}
+				else {
+					var index = 0;
+					var loop = setInterval(function() {
+						if (index > text.length) {
+							clearInterval(loop);
+							$(element).html(text);
+						}
+						else {
+							//color char
+								if ((typeof options.color !== "undefined") && (options.color.length > 0)) {
+									var char = "<span style='color: " + options.color + "'>" + (indicator || (text[index] || "")) + "</span>";
+								}
+								else {
+									var char = text[index] || "";
+								}
+
+							$(element).html(text.substring(0, index) + char);
+							index += chunk;
+						}
+					}, interval);
+				}
+			}
+		});
+
+		$("#message_top").animateText({},1000);
+
 	/* navbar */
 		$("#navbar_open").click(function() {
-			$("#navbar_open").animate({left: "+=200px"}, 500);
+			$("#navbar_open").animate({left: "+=256px"}, 500);
 			$("#navbar_open").find(".glyphicon").animate({opacity: 0},500);
 			setTimeout(function() {
 				$("#navbar_open").hide();
 			}, 500);
 			
-			$("#navbar_close").show().animate({left: "+=200px"}, 500);
+			$("#navbar_close").show().animate({left: "+=256px"}, 500);
 			$("#navbar_close").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			
-			$("#navbar").animate({left: "+=200px"}, 500);
+			$("#navbar").animate({left: "+=256px"}, 500);
 		});
 
 		$("#navbar_close").click(function() {
-			$("#navbar_close").animate({left: "-=200px"}, 500);
+			$("#navbar_close").animate({left: "-=256px"}, 500);
 			$("#navbar_close").find(".glyphicon").animate({opacity: 0},500);;
 			setTimeout(function() {
 				$("#navbar_close").hide();
 			}, 500);
 
-			$("#navbar_open").show().animate({left: "-=200px"}, 500);
+			$("#navbar_open").show().animate({left: "-=256px"}, 500);
 			$("#navbar_open").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			
-			$("#navbar").animate({left: "-=200px"}, 500);
+			$("#navbar").animate({left: "-=256px"}, 500);
 		});
 
 		$("#navbar_signout").click(function() {
@@ -162,7 +254,7 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#message_top").text(data.messages.top || " //unable to signout");
+						$("#message_top").animateText({text: (data.messages.top || " //unable to signout")}, 1000);
 					}
 				}
 			});
@@ -182,7 +274,7 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#message_top").text(data.messages.top || " //unable to signin");
+						$("#message_top").animateText({text: (data.messages.top || " //unable to signin")}, 1000);
 					}
 				}
 			});
@@ -204,7 +296,7 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#message_top").text(data.messages.top || " //unable to signup");
+						$("#message_top").animateText({text: (data.messages.top || " //unable to signup")}, 1000);
 					}
 				}
 			});
