@@ -1,5 +1,5 @@
 {
-  "name": "aiarena",
+  "name": "aiarenas",
   "version": "1.0.0",
   "description": "a battleground for js functions",
   "main": "index.js",
@@ -11,7 +11,8 @@
   "author": "jamesbmayr",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^2.2.24"
+    "mongodb": "^2.2.24",
+    "nodemailer": "^3.1.8"
   },
   "engines": {
     "node": "6.9.5  "
