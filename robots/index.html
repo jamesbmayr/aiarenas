@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai_arena.<% data.name || "robots" %></title>
+		<title>ai_arenas.<% data.name || "robots" %></title>
 		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
@@ -21,12 +21,12 @@
 		<div id="container" value="<% data.id %>">
 			<span class='message graytext' id='message_top'></span><% message %><br>
 			<div class="section">
-				<span class="field_frame"><span class="field whitetext" id="name" value="<% data.name %>"><% data.name %></span></span><% message %>
+				<span class="field_frame"><span class="field whitetext header" id="name" value="<% data.name %>"><% data.name %></span></span><% message %>
 			</div>
 			<div class="indented">
 				<%
 					if ((session.user !== null) && (session.user.id === data.user.id)) {
-						"<div class='section'>\
+						"<div class='megasection'><div class='section'>\
 							<button id='robot_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
 						</div>\
 						<div class='section'>\
@@ -40,7 +40,7 @@
 						</div>\
 						<div class='section'>\
 							<button id='robot_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>\
-						</div>";
+						</div></div>";
 					}
 				%>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>

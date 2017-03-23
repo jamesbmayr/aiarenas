@@ -264,3 +264,19 @@
 			background-color: var(--black);
 			outline: none;
 		}
+
+/*** settings ***/
+	input[type=text] {
+		border: 2px solid var(--white);
+		border-radius: 5px;
+		text-align: center;
+		background-color: var(--black);
+		outline: none;
+	}
+
+	select {
+		background-color: var(--black);
+		font-size: 16px;
+		border: 2px solid var(--white);
+		outline: none;
+	}

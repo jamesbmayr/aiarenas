@@ -7,11 +7,18 @@
 		var user = {
 			id: processes.random(),
 			name: name,
-			email: email,
+			email: null,
+			new_email: email,
+			verified: false,
+			verification: null,
 			password: processes.hash(password, salt),
 			salt: salt,
 			created: new Date().getTime(),
-			settings: {},
+			settings: {
+				color_scheme: "default",
+				show_email: true,
+				email_notifications: true,
+			},
 			notifications: {},
 			information: {
 				bio: null,

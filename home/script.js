@@ -302,4 +302,24 @@ $(document).ready(function() {
 			});
 		}
 
+		window.verify = function() {
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "verify_email",
+					email: $("#verify_email").val() || null,
+					verification: $("#verify_key").val() || null,
+				},
+				success: function(data) {
+					if (data.success) {
+						$("#message_top").animateText({text: (data.messages.top || " //email has been verified")}, 1000);
+					}
+					else {
+						$("#message_top").animateText({text: (data.messages.top || " //unable to verify")}, 1000);
+					}
+				}
+			});
+		}
+
 });

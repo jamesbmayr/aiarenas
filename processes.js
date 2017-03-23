@@ -6,8 +6,15 @@
 		var database = "mongodb://" + process.env.MLABS_USERNAME + ":" + process.env.MLABS_PASSWORD + "@" + process.env.MLABS_URL;
 	}
 	else {
-		var database = "mongodb://localhost:27017/aiarena";
+		var database = "mongodb://localhost:27017/aiarenas";
 	}
+	const nodemailer = require("nodemailer").createTransport({
+		service: "gmail",
+		auth: {
+			user: process.env.EMAIL || "",
+			pass: process.env.EMAIL_PASSWORD || ""
+		}
+	});
 
 /*** files ***/
 	/* render(file, data) */
@@ -24,7 +31,7 @@
 					}
 					catch (error) {
 						html.temp = "";
-						console.log(error.name);
+						console.log(error);
 					}
 					html.array[html.count] = html.temp;
 				}
@@ -42,7 +49,7 @@
 				break;
 
 				case "ascii_logo":
-					asset = "  aaaa      i   \n      a         \n  aaaaa    ii   \n a    a     i   \n  aaaa a  iiiii \n----------------\n[[[  .arena  ]]]\n----------------";
+					asset = "  aaaa      i   \n      a         \n  aaaaa    ii   \n a    a     i   \n  aaaa a  iiiii \n----------------\n[[[  arenas  ]]]\n----------------";
 				break;
 
 				case "bootstrap":
@@ -60,9 +67,38 @@
 				case "Ubuntu":
 					asset = "http://fonts.googleapis.com/css?family=Ubuntu:regular,bold;italic;bolditalic";
 				break;
+
+				case "color_schemes":
+					asset = ["default", "black_and_white", "inverted"];
+				break;
 			}
 
 			return asset;
+		}
+
+	/* sendEmail(sender, recipients, subject, message, callback) */
+		function sendEmail(sender, recipients, subject, message, callback) {
+			if (recipients.length > 0) {
+				nodemailer.sendMail({
+					from: sender || ' "adminBot" <adminBot@ai_arenas.com>',
+					to: recipients || "",
+					subject: subject || "ai_arenas correspondence",
+					text: message || "hello world",
+					html: message || "<b><i>hello world</i></b>"
+					}, function(error, info) {
+
+					if (error) {
+						console.log(error.name);
+						callback({success: false, messages: {top: " //email not sent"}});
+					}
+					else {
+						callback({success: true, messages: {top: " //email sent"}});
+					}
+				});
+			}
+			else {
+				callback({success: false, messages: {top: " //no email specified"}});
+			}
 		}
 
 /*** generators ***/
@@ -133,10 +169,11 @@
 					<div id='navbar_user'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>user</span></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../signin'><span class='whitetext'>.</span><span class='greentext'>signin</span><span class='whitetext'>();</span></a></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../signup'><span class='whitetext'>.</span><span class='greentext'>signup</span><span class='whitetext'>();</span></a></div>\
 					</div>\
 					<br>\
 					<div id='navbar_info'>\
-						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arena</span></div>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
 						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
 					</div>\
@@ -184,9 +221,9 @@
 					</div>\
 					<br>\
 					<div id='navbar_info'>\
-						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arena</span></div>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
-						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
+						<div class='navbar_item'><a class='navbar_link' href='mailto:bugBot@aiarenas.com?subject=ai_arenas bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
 					</div>\
 				</div>";
 			}

@@ -47,7 +47,7 @@
 				wins: 0,
 				losses: 0,
 			},
-			code: "action = \"charge\";"
+			code: "action = \"charge\";\nreturn action;"
 		}
 
 		return robot;
