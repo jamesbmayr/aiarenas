@@ -9,67 +9,48 @@
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<% navbar(session); %>
-		<div id="container">
-			<div id="message">
-				<span id="message_top" class="graytext"><% try { data.messages.top } catch(error) { "//welcome to ai_arenas, human..." } %></span>
-				<br>
-				<span class="whitetext">human_id</span>
-				<span class="redtext"> = </span>
-				<% 
-					if (session.user !== null) { 
-						"<a class='bluetext' href='../../../../users/" + session.user.name + "'>" + session.user.name + "</a>";
-					}
-					else {
-						"<span class='purpletext'>null</span>";
-					}
-				%>
-				<span class='whitetext'>;</span>
+		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
+		<div class="container">
+			<div class="section">
+				<span class="whitetext header">ai_arenas</span> <span id="message_top" class="graytext"><% try { data.messages.top } catch(error) { "//welcome to ai_arenas, human..." } %></span>
 			</div>
-			<br>
-			<div id="signinup">
-				<div id="action_select" <% if (session.user !== null) { "style='display: none;'"} %> >
-					<span class="whitetext">action</span>
+			<div class="indented">
+				<div class="section">
+					<span class="whitetext">.human_id</span>
 					<span class="redtext"> = </span>
-					<select id="actions">
-						<option value="signin">signin</option>
-						<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >signup</option>
-					</select>
-					<span class="whitetext">;</span>
-					<br>
-					<br>
+					<% 
+						if (session.user !== null) { 
+							"<a class='bluetext' href='../../../../users/" + session.user.name + "'>" + session.user.name + "</a>";
+						}
+						else {
+							"<span class='purpletext'>null</span>";
+						}
+					%>
+					<span class='whitetext'>;</span>
 				</div>
-				<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.user !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else {} %> >
-					<button id="signin" name="action" value="signin"><span class="greentext">signin</span></button>
-					<span class="whitetext">(</span>
-					<input type="text" id="signin_username" class="orangetext" name="signin_username" placeholder="username"/>
-					<span class="whitetext">,</span>
-					<input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/>
-					<span class="whitetext">);</span>
-				</form>
-				<form id="signup_form" method="post" action="javascript:;" onsubmit="window.signup();" <% if (session.user !== null) {"style='display: none;'";} else if ((typeof data.action !== "undefined") && (data.action === "signup")) {} else {"style='display: none;'";} %> >
-					<button id="signup" name="action" value="signup"><span class="greentext">signup</span></button>
-					<span class="whitetext">(</span>
-					<input type="text" id="signup_username" class="orangetext" name="signup_username" placeholder="username"/>
-					<span class="whitetext">,</span>
-					<input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/>
-					<span class="whitetext">,</span>
-					<input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/>
-					<span class="whitetext">,</span>
-					<input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/>
-					<span class="whitetext">);</span>
-				</form>
-				<form id="signout_form" method="post" action="javascript:;" onsubmit="window.signout();" <% if (session.user === null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signout")) {"style='display: none;'"} else {} %> >
-					<button id="signout" name="action" value="signout"><span class="greentext">signout</span><span class="whitetext">();</span></button>
-				</form>
-				<form id="verify_form" method="post" action="javascript:;" onsubmit="window.verify();" <% if (session.user === null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action === "verify")) {} else {"style='display: none;'"} %> >
-					<button id="verify" name="action" value="verify"><span class="greentext">verify</span></button>
-					<span class="whitetext">(</span>
-					<input type="text" id="verify_email" class="orangetext" name="verify_email" placeholder="email" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.email || null } %>"/>
-					<span class="whitetext">,</span>
-					<input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.verification || null } %>"/>
-					<span class="whitetext">);</span>
-				</form>
+				<div id="signinup" class="section">
+					<div id="action_select" <% if (session.user !== null) { "style='display: none;'"} %> >
+						<span class="whitetext">.action</span>
+						<span class="redtext"> = </span>
+						<select id="actions">
+							<option value="signin">signin</option>
+							<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >signup</option>
+						</select>
+						<span class="whitetext">;</span>
+					</div>
+					<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.user !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else {} %> >
+						<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">signin</span></button><span class="whitetext">(</span><input type="text" id="signin_username" class="orangetext" name="signin_username" placeholder="username"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">);</span>
+					</form>
+					<form id="signup_form" method="post" action="javascript:;" onsubmit="window.signup();" <% if (session.user !== null) {"style='display: none;'";} else if ((typeof data.action !== "undefined") && (data.action === "signup")) {} else {"style='display: none;'";} %> >
+						<span class="whitetext">.</span><button id="signup" name="action" value="signup"><span class="greentext">signup</span></button><span class="whitetext">(</span><input type="text" id="signup_username" class="orangetext" name="signup_username" placeholder="username"/><span class="whitetext">,</span><input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/><span class="whitetext">,</span><input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/><span class="whitetext">,</span><input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/><span class="whitetext">);</span>
+					</form>
+					<form id="signout_form" method="post" action="javascript:;" onsubmit="window.signout();" <% if (session.user === null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signout")) {"style='display: none;'"} else {} %> >
+						<span class="whitetext">.</span><button id="signout" name="action" value="signout"><span class="greentext">signout</span><span class="whitetext">();</span></button>
+					</form>
+					<form id="verify_form" method="post" action="javascript:;" onsubmit="window.verify();" <% if (session.user === null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action === "verify")) {} else {"style='display: none;'"} %> >
+						<span class="whitetext">.</span><button id="verify" name="action" value="verify"><span class="greentext">verify</span></button><span class="whitetext">(</span><input type="text" id="verify_email" class="orangetext" name="verify_email" placeholder="email" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.email || null } %>"/><span class="whitetext">,</span><input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.verification || null } %>"/><span class="whitetext">);</span>
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>

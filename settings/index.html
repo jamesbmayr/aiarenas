@@ -9,12 +9,10 @@
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<% navbar(session); %>
-		<% var message = "<span class='message graytext'></span>"; %>
-		<div id="container" value="<% data.id %>">
-			<span class='message graytext' id='message_top'></span><br>
+		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
+		<div class="container" value="<% data.id %>">
 			<div class="section">
-				<span class="field_frame"><span class="whitetext header">settings</span></span>
+				<span class="whitetext header">settings</span> <span class="graytext" id="message_top"></span>
 			</div>
 			<div class="indented">
 				<div class="megasection">

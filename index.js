@@ -579,7 +579,7 @@
 								if (routes[1] === "stylesheet.css") { request.url = "home/stylesheet.css"; }
 								try {
 									response.writeHead(200, {"Content-Type": "text/css"});
-									response.end(fs.readFileSync("./" + request.url));
+									response.end(fs.readFileSync("./assets/stylesheet.css") + (fs.readFileSync("./" + request.url) || ""));
 								}
 								catch (error) {_404();}
 							break;
@@ -588,7 +588,7 @@
 								if (routes[1] === "script.js") { request.url = "home/script.js"; }
 								try {
 									response.writeHead(200, {"Content-Type": "text/javascript"});
-									response.end(fs.readFileSync("./" + request.url));
+									response.end(fs.readFileSync("./assets/script.js") + (fs.readFileSync("./" + request.url) || ""));
 								}
 								catch (error) {_404();}
 							break;

@@ -9,19 +9,10 @@
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<% navbar(session); %>
-		<%
-			if ((session.user !== null) && (session.user.id === data.id)) {
-				var message = "<span class='message graytext'></span>";
-			}
-			else {
-				var message = "";
-			}
-		%>
-		<div id="container" value="<% data.id %>">
-			<span class='message graytext' id='message_top'></span><br>
+		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
+		<div class="container" value="<% data.id %>">
 			<div class="section">
-				<span class="field_frame"><span class="whitetext field header" id="name" value="<% data.name %>"><% data.name %></span></span><% message %>
+				<span class="whitetext header" id="name"><% data.name %></span> <span class="graytext" id="message_top"></span>
 			</div>
 			<div class="indented">
 				<%
