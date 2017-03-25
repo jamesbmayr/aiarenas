@@ -21,7 +21,7 @@
 			},
 			notifications: {},
 			information: {
-				bio: null,
+				bio: "...",
 			},
 			avatar: {
 				color: "var(--white)",
@@ -41,42 +41,42 @@
 /* update(user, data) */
 	function update(user, data) {
 		var fields = Object.keys(data);
-		var messages = {top: " //changes submitted"};
+		var messages = {top: "//changes submitted"};
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
-				case "name":
-					if (data.name === user.name) {
-						//no change
-					}
-					else if (processes.isReserved(data.name)) {
-						data.name = user.name;
-						messages.name = " //that name is taken";
-					}
-					else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
-						data.name = user.name;
-						messages.name = " //name must be 8 or more numbers and letters";
-					}
-					else {
-						user.name = data.name;
-						user.avatar.ascii = processes.ascii_character(data.name[0]) || "";
-						messages.name = " //name updated";
-					}
-				break;
+				// case "name":
+				// 	if (data.name === user.name) {
+				// 		//no change
+				// 	}
+				// 	else if (processes.isReserved(data.name)) {
+				// 		data.name = user.name;
+				// 		messages.name = "//that name is taken";
+				// 	}
+				// 	else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
+				// 		data.name = user.name;
+				// 		messages.name = "//name must be 8 or more numbers and letters";
+				// 	}
+				// 	else {
+				// 		user.name = data.name;
+				// 		user.avatar.ascii = processes.ascii_character(data.name[0]) || "";
+				// 		messages.name = "//name updated";
+				// 	}
+				// break;
 
-				case "email":
-					if (data.email === user.email) {
-						//no change
-					}
-					else if (!processes.isEmail(data.email)) {
-						data.email = user.email;
-						messages.email = " //not a valid email address";
-					}
-					else {
-						user.email = data.email;
-						messages.email = " //email updated";
-					}
-				break;
+				// case "email":
+				// 	if (data.email === user.email) {
+				// 		//no change
+				// 	}
+				// 	else if (!processes.isEmail(data.email)) {
+				// 		data.email = user.email;
+				// 		messages.email = "//not a valid email address";
+				// 	}
+				// 	else {
+				// 		user.email = data.email;
+				// 		messages.email = "//email updated";
+				// 	}
+				// break;
 
 				case "bio":
 					if (data.bio === user.information.bio) {
@@ -84,7 +84,7 @@
 					}
 					else {
 						user.information.bio = data.bio;
-						messages.bio = " //bio updated";
+						messages.bio = "//bio updated";
 					}
 				break;
 
@@ -97,7 +97,7 @@
 					}
 					else {
 						user.avatar.color = data.avatar.color;
-						messages.avatar = " //color updated";
+						messages.avatar = "//color updated";
 					}
 				break;
 			}

@@ -10,6 +10,7 @@
 	const users = require("./users/logic");
 	const robots = require("./robots/logic");
 	const arenas = require("./arenas/logic");
+	const settings = require("./settings/logic");
 
 /* server */
 	const port = 3000;
@@ -162,35 +163,45 @@
 								catch (error) {_403();}
 							break;
 
-						/* email */
+						/* settings */ //note: send_verification, verify_email, and change_name should be imported from ./settings/logic.js
 							case "send_verification":
 								try {
 									if (session.user !== null) {
 										if ((typeof post.email === "undefined") || (!processes.isEmail(post.email))) {
 											response.writeHead(200, {"Content-Type": "text/json"});
-											response.end(JSON.stringify({success: false, messages: {top: " //please enter a valid email"}}));
+											response.end(JSON.stringify({success: false, messages: {top: "//please enter a valid email"}}));
 										}
 										else {
-											var random = processes.random();
-
-											processes.store("users", {id: session.user.id}, {$set: {verification: random, new_email: post.email}}, function(user) {
+											processes.retrieve("users", {email: post.email}, function(user) {
 												if (typeof user.id === "undefined") {user = user[0];}
 
-												if (user.id !== null) {
-													processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<body style='background-color: black'><p style='font-family: courier, monospace; color: white'>commence human verification process for <b>" + user.name + "</b>: <a style='color: green' href='http://aiarena.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>();</p></body>", function(data) {
-														response.writeHead(200, {"Content-Type": "text/json"});
-														response.end(JSON.stringify(data));
-													});
+												if ((typeof user !== "undefined") && (user.id !== null)) {
+													response.writeHead(200, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false, messages: {top: "//email is taken"}}));
 												}
 												else {
-													_403(" //not authorized");
-												}
+													var random = processes.random();
 
+													processes.store("users", {id: session.user.id}, {$set: {verification: random, new_email: post.email}}, function(user) {
+														if (typeof user.id === "undefined") {user = user[0];}
+
+														if (user.id !== null) {
+															processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div>commence human verification process for <span class='bluetext'>" + user.name + "</span>: <a class='greentext' href='http://aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>();</div>", function(data) {
+																response.writeHead(200, {"Content-Type": "text/json"});
+																response.end(JSON.stringify(data));
+															});
+														}
+														else {
+															_403("//not authorized");
+														}
+
+													});
+												}
 											});
 										}
 									}
 									else {
-										_403(" //not authorized");
+										_403("//not authorized");
 									}
 								}
 								catch (error) {_403();}
@@ -199,36 +210,108 @@
 							case "verify_email":
 								try {
 									if (session.user !== null) {
-										if ((typeof post.verification === "undefined") || (post.verification.length !== 16)) {
+										if ((typeof post.verification === "undefined") || (post.verification.length !== 32)) {
 											response.writeHead(200, {"Content-Type": "text/json"});
-											response.end(JSON.stringify({success: false, messages: {top: " //please enter a 16-character verification key"}}));
+											response.end(JSON.stringify({success: false, messages: {top: "//please enter a 32-character verification key"}}));
 										}
 										else if ((typeof post.email === "undefined") || (!processes.isEmail(post.email))) {
 											response.writeHead(200, {"Content-Type": "text/json"});
-											response.end(JSON.stringify({success: false, messages: {top: " //please enter a valid email address"}}));
+											response.end(JSON.stringify({success: false, messages: {top: "//please enter a valid email address"}}));
 										}
 										else {
-											processes.store("users", {$and: [{id: session.user.id}, {verification: post.verification}, {new_email: post.email}]}, {$set: {verified: true, verification: null, email: post.email, new_email: null}}, function(user) {
+											processes.retrieve("users", {email: post.email}, function(user) {
 												if (typeof user.id === "undefined") {user = user[0];}
 
-												if ((typeof user.id !== "undefined") && (user.id !== null)) {
+												if ((typeof user !== "undefined") && (user.id !== null)) {
 													response.writeHead(200, {"Content-Type": "text/json"});
-													response.end(JSON.stringify({success: true, messages: {top: " //email verified"}}));
+													response.end(JSON.stringify({success: false, messages: {top: "//email is taken"}}));
 												}
 												else {
-													response.writeHead(200, {"Content-Type": "text/json"});
-													response.end(JSON.stringify({success: false, messages: {top: " //unable to verify email"}}));
+													processes.retrieve("users", {$and: [{id: session.user.id}, {verification: post.verification}, {new_email: post.email}]}, function(user) {
+														if (typeof user.id === "undefined") {user = user[0];}
+
+														if ((typeof user !== "undefined") && (user.id !== null)) {
+															processes.store("users", {id: session.user.id}, {$set: {verified: true, verification: null, email: post.email, new_email: null}}, function(user) {
+																response.writeHead(200, {"Content-Type": "text/json"});
+																response.end(JSON.stringify({success: true, messages: {top: "//email verified"}}));
+															});
+														}
+														else {
+															response.writeHead(200, {"Content-Type": "text/json"});
+															response.end(JSON.stringify({success: false, messages: {top: "//unable to verify email"}}));
+														}
+													});
 												}
 											});
 										}
 									}
 									else {
-										_403(" //nothing to verify");
+										_403("//not authorized");
 									}
 								}
 								catch (error) {_403();}
 							break;
 
+							case "change_name":
+								try {
+									if (session.user !== null) {
+										if ((typeof post.name === "undefined") || (post.name.length < 8) || (!processes.isNumLet(post.name))) {
+											response.writeHead(200, {"Content-Type": "text/json"});
+											response.end(JSON.stringify({success: false, messages: {name: "//enter a username of 8 or more letters and numbers"}}));
+										}
+										else if (processes.isReserved(post.name)) {
+											response.writeHead(200, {"Content-Type": "text/json"});
+											response.end(JSON.stringify({success: false, messages: {name: "//name is not available"}}));
+										}
+										else {
+											processes.retrieve("users", {name: post.name}, function(user) {
+												if (typeof user.id === "undefined") { user = user[0]; }
+
+												if ((typeof user !== "undefined") && (user.id !== null)) {
+													response.writeHead(200, {"Content-Type": "text/json"});
+													response.end(JSON.stringify({success: false, messages: {name: "//name is taken"}}));
+												}
+												else {
+													processes.store("users", {id: session.user.id}, {$set: {name: post.name, "avatar.ascii": (processes.ascii_character(post.name[0]) || "")}}, function(user) {
+														response.writeHead(200, {"Content-Type": "text/json"});
+														response.end(JSON.stringify({success: true, messages: {name: "//name changed"}}));
+													});
+												}
+											});
+										}
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "edit_settings":
+								try {
+									if (session.user !== null) {
+										post.data = JSON.parse(post.data);
+										var before = JSON.stringify(session.user);
+										var update = settings.update(session.user, post.data);
+										
+										if (before !== JSON.stringify(update.user)) {
+											processes.store("users", {id: update.user.id}, update.user, function(user) {
+												if (typeof user.id === "undefined") { user = user[0]; }
+												response.writeHead(200, {"Content-Type": "text/json"});
+												response.end(JSON.stringify(update));
+											});
+										}
+										else {
+											response.writeHead(200, {"Content-Type": "text/json"});
+											response.end(JSON.stringify(update));
+										}
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
 
 						/* users */
 							case "edit_user":
@@ -268,8 +351,9 @@
 
 							case "delete_user":
 								try {
-									if (session.user !== null) {
-										processes.retrieve("users", {$and: [{name: routes[2]}, {id: session.user.id}]}, function(user) {
+									var data = JSON.parse(post.data) || null;
+									if ((session.user !== null) && (typeof data.id !== null) && (data.id === session.user.id)) {
+										processes.retrieve("users", {id: session.user.id}, function(user) {
 											if (typeof user.id === "undefined") { user = user[0]; }
 											
 											if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
@@ -381,7 +465,7 @@
 											if (typeof robot.id === "undefined") { robot = robot[0]; }
 											
 											if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
-												_403(" //not authorized");
+												_403("//not authorized");
 											}
 											else {
 												processes.store("users", {id: robot.user.id || null}, {$pull: {robots: {id: robot.id}}}, function(user) {
@@ -389,7 +473,7 @@
 													processes.store("robots", {id: robot.id}, null, function(results) {
 														if (typeof robot.id === "undefined") { robot = robot[0]; }
 														response.writeHead(200, {"Content-Type": "text/json"});
-														response.end(JSON.stringify({success: true, redirect: "../../../../users/" + user.name, messages: {top: " //robot deleted"}}));
+														response.end(JSON.stringify({success: true, redirect: "../../../../users/" + user.name, messages: {top: "//robot deleted"}}));
 													});
 												});
 											}
@@ -570,7 +654,7 @@
 							case (/\/logo[.]png$/).test(request.url):
 								try {
 									response.writeHead(200, {"Content-Type": "image/png"});
-									response.end(fs.readFileSync("../../../../assets/logo.png"));
+									response.end(fs.readFileSync("../../../../assets/logo.png"), "binary");
 								}
 								catch (error) {_404();}
 							break;
@@ -681,7 +765,7 @@
 									if (session.user === null) {
 										header["Content-Type"] = "text/html; charset=utf-8";
 										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", session, {action: "signin", messages: {top: " //authenticate human"}}));
+										response.end(processes.render("./home/index.html", session, {action: "signin", messages: {top: "//authenticate human"}}));
 									}
 									else {
 										_302();
@@ -695,7 +779,7 @@
 									if (session.user !== null) {
 										header["Content-Type"] = "text/html; charset=utf-8";
 										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", session, {action: "signout", messages: {top: " //leave ai_arenas?"}}));
+										response.end(processes.render("./home/index.html", session, {action: "signout", messages: {top: "//leave ai_arenas?"}}));
 									}
 									else {
 										_302();
@@ -709,7 +793,7 @@
 									if (session.user === null) {
 										header["Content-Type"] = "text/html; charset=utf-8";
 										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", session, {action: "signup", messages: {top: " //join ai_arenas"}}));
+										response.end(processes.render("./home/index.html", session, {action: "signup", messages: {top: "//join ai_arenas"}}));
 									}
 									else {
 										_302();
@@ -723,7 +807,7 @@
 									if (session.user !== null) {
 										header["Content-Type"] = "text/html; charset=utf-8";
 										response.writeHead(200, header);
-										response.end(processes.render("./home/index.html", session, {action: "verify", messages: {top: " //verify email"}, email: (get.email || null), verification: (get.verification || null) }));
+										response.end(processes.render("./home/index.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
 									}
 									else {
 										_302();
@@ -861,12 +945,12 @@
 
 				function _403(data) {
 					response.writeHead(403, {"Content-Type": "text/json"});
-					response.end(JSON.stringify({success: false, messages: {navbar: data || "//invalid request", top: data || " //invalid request"}}));
+					response.end(JSON.stringify({success: false, messages: {navbar: data || "//invalid request", top: data || "//invalid request"}}));
 				}
 
 				function _404(data) {
 					response.writeHead(404, {"Content-Type": "text/plain"});
-					response.end(data || "404: File not found.");
+					response.end(data || "//404: File not found.");
 				}
 
 			}

@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<title>ai_arenas.<% data.name || "users" %></title>
-		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="shortcut icon" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<% colors(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
@@ -17,24 +18,33 @@
 			<div class="indented">
 				<%
 					if ((session.user !== null) && (session.user.id === data.id)) {
-						"<div class='megasection'><div class='section'>\
-							<button id='user_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
-						</div>\
-						<div class='section'>\
-							<button id='user_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
-						</div>\
-						<div class='section'>\
-							<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
-						</div></div>";
+						"<div class='megasection'>\
+							<div class='section'>\
+								<button id='user_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+							</div>\
+							<div class='section'>\
+								<button id='user_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+							</div>\
+							<div class='section'>\
+								<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+							</div>\
+							<div class='section'>\
+								<a id='settings' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a>\
+							</div>\
+						</div>";
 					}
 				%>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a>
-						<span class="whitetext">;</span>
-					</div>
+					<% 
+						if (data.settings.show_email === "true") {
+							'<div class="section">\
+								<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext" id="email" href="mailto:' + data.email + '">' + data.email + '</a>\
+								<span class="whitetext">;</span>\
+							</div>';
+						}
+					%>
 					<div class="section">
 						<span class="whitetext">.joined</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
 						<span class="whitetext">;</span>
@@ -53,7 +63,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section" id="avatar">
-						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span><% message %>
+						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
 						<div class="indented">
 							<pre id="avatar_pre" monospace value="<% data.avatar.color || 'var(--white)' %>" style="color: <% data.avatar.color || 'var(--white)' %>"><% data.avatar.ascii || "" %></pre>
 						</div>
@@ -84,7 +94,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <% message %>
 						<div class="indented">
 							<div class="field_frame">
 								<span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>

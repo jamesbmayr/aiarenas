@@ -66,11 +66,11 @@
 					}
 					else if (processes.isReserved(data.name)) {
 						data.name = robot.name;
-						messages.name = " //that name is taken";
+						messages.name = "//that name is taken";
 					}
 					else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
 						data.name = robot.name;
-						messages.name = " //name must be 8 or more numbers and letters";
+						messages.name = "//name must be 8 or more numbers and letters";
 					}
 					else {
 						// var code = robot[robot.name];
@@ -78,7 +78,7 @@
 						// robot[data.name] = code;
 						
 						robot.name = data.name;
-						messages.name = " //name updated";
+						messages.name = "//name updated";
 					}
 				break;
 
@@ -88,7 +88,7 @@
 					}
 					else {
 						robot.information.bio = data.bio;
-						messages.bio = " //bio updated";
+						messages.bio = "//bio updated";
 					}
 				break;
 
@@ -98,7 +98,7 @@
 					}
 					else {
 						robot.code = data.code.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
-						messages.code = " //code updated";
+						messages.code = "//code updated";
 					}
 				break;
 
@@ -115,7 +115,7 @@
 						}
 						else {
 							robot.avatar[avatar_keys[i]] = data.avatar[avatar_keys[i]].replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
-							messages.avatar = " //avatar updated";
+							messages.avatar = "//avatar updated";
 						}
 					}
 				break;

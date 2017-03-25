@@ -11,8 +11,8 @@
 	const nodemailer = require("nodemailer").createTransport({
 		service: "gmail",
 		auth: {
-			user: process.env.EMAIL || "",
-			pass: process.env.EMAIL_PASSWORD || ""
+			user: process.env.EMAIL || "jamesbmayr@gmail.com",
+			pass: process.env.EMAIL_PASSWORD || "dfcfefafdfcagaf"
 		}
 	});
 
@@ -78,26 +78,39 @@
 
 	/* sendEmail(sender, recipients, subject, message, callback) */
 		function sendEmail(sender, recipients, subject, message, callback) {
+			var message = message
+				.replace(/class='redtext'/gi, "style='color: #F92672;'")
+				.replace(/class='orangetext'/gi, "style='color: #FD971F;'")
+				.replace(/class='yellowtext'/gi, "style='color: #FFE792;'")
+				.replace(/class='greentext'/gi, "style='color: #A6E22E;'")
+				.replace(/class='bluetext'/gi, "style='color: #66D9EF;'")
+				.replace(/class='purpletext'/gi, "style='color: #AE81FF;'")
+				.replace(/class='whitetext'/gi, "style='color: #F8F8F2;'")
+				.replace(/class='graytext'/gi, "style='color: #75715E;'")
+				.replace(/class='blacktext'/gi, "style='color: #272822;'")
+				.replace(/class='transparenttext'/gi, "style='color: rgba(000,000,000,0);'")
+
 			if (recipients.length > 0) {
 				nodemailer.sendMail({
 					from: sender || ' "adminBot" <adminBot@ai_arenas.com>',
 					to: recipients || "",
 					subject: subject || "ai_arenas correspondence",
 					text: message || "hello world",
-					html: message || "<b><i>hello world</i></b>"
+					html: ("<div style='background-color: #272822; padding: 16px; font-size: 32px; font-family: Courier, monospace; color: #F8F8F2;'><a style='font-size: 64px; color: 66D9EF; font-weight: bold; text-decoration: none' href='aiarenas.com'>ai_arenas</a>" + (message || "hello world") + "</div>"),
 					}, function(error, info) {
 
 					if (error) {
-						console.log(error.name);
-						callback({success: false, messages: {top: " //email not sent"}});
+						console.log("unable to send email to " + (recipients || null) + ": " + error);
+						callback({success: false, messages: {top: "//email not sent"}});
 					}
 					else {
-						callback({success: true, messages: {top: " //email sent"}});
+						console.log("email sent to " + (recipients || null) + ": subject: " + (subject || null) + "; message: " + (message || null));
+						callback({success: true, messages: {top: "//email sent"}});
 					}
 				});
 			}
 			else {
-				callback({success: false, messages: {top: " //no email specified"}});
+				callback({success: false, messages: {top: "//no email specified"}});
 			}
 		}
 
@@ -149,7 +162,73 @@
 			return (/[a-z0-9A-Z]/).test(string);
 		}
 
-/*** page content ***/	
+/*** page content ***/
+	/* colors */
+		function colors(session) {
+			if (session.user !== null) {
+				var color_scheme = session.user.settings.color_scheme || "default";
+			}
+			else {
+				var color_scheme = "default";
+			}
+
+			switch (color_scheme) {
+				case "black_and_white":
+					return "<style id='color_style'>\
+						:root {\
+							--red: #ffffff;\
+							--orange: #ffffff;\
+							--yellow: #aaaaaa;\
+							--green: #ffffff;\
+							--blue: #ffffff;\
+							--purple: #ffffff;\
+							--white: #ffffff;\
+							--gray: #666666;\
+							--black: #000000;\
+							--transparent: rgba(000,000,000,0);\
+						}\
+					</style>";
+				break;
+
+				case "inverted":
+					return "<style id='color_style'>\
+						:root {\
+							--green: #F92672;\
+							--blue: #FD971F;\
+							--purple: #FFE792;\
+							--red: #A6E22E;\
+							--orange: #66D9EF;\
+							--yellow: #AE81FF;\
+							--black: #F8F8F2;\
+							--gray: #75715E;\
+							--white: #272822;\
+							--transparent: rgba(000,000,000,0);\
+						}\
+					</style>";
+				break;
+
+				case "default":
+				default:
+					return "<style id='color_style'>\
+						:root {\
+							--red: #F92672;\
+							--orange: #FD971F;\
+							--yellow: #FFE792;\
+							--green: #A6E22E;\
+							--blue: #66D9EF;\
+							--purple: #AE81FF;\
+							--white: #F8F8F2;\
+							--gray: #75715E;\
+							--black: #272822;\
+							--transparent: rgba(000,000,000,0);\
+						}\
+					</style>";
+				break;
+			}
+
+
+		}
+
 	/* navbar(session) */
 		function navbar(session) {
 			var navbar = "<button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button>\
@@ -560,4 +639,6 @@
 		retrieve: retrieve,
 		ascii_robot: ascii_robot,
 		ascii_character: ascii_character,
+		sendEmail: sendEmail,
+		colors: colors,
 	};

@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<title>ai_arenas.home</title>
-		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="shortcut icon" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<% colors(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
@@ -16,18 +17,11 @@
 			</div>
 			<div class="indented">
 				<div class="section">
-					<span class="whitetext">.human_id</span>
-					<span class="redtext"> = </span>
-					<% 
-						if (session.user !== null) { 
-							"<a class='bluetext' href='../../../../users/" + session.user.name + "'>" + session.user.name + "</a>";
-						}
-						else {
-							"<span class='purpletext'>null</span>";
-						}
-					%>
-					<span class='whitetext'>;</span>
-				</div>
+				<% 
+					if (session.user !== null) { 
+						"<div class='section'><span class='whitetext'>.human</span><span class='redtext'> = </span><a class='bluetext' href='../../../../users/" + session.user.name + "'>" + session.user.name + "</a><span class='whitetext'>;</span></div>";
+					}
+				%>
 				<div id="signinup" class="section">
 					<div id="action_select" <% if (session.user !== null) { "style='display: none;'"} %> >
 						<span class="whitetext">.action</span>

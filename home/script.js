@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	/* signinup */
+	/* not signed in */
 		$("#actions").change(function() {
 			var action = $(this).val();
 
@@ -18,24 +18,6 @@ $(document).ready(function() {
 			}
 		});
 
-		window.signout = function() {
-			$.ajax({
-				type: "POST",
-				url: window.location.pathname,
-				data: {
-					action: "signout",
-				},
-				success: function(data) {
-					if (data.success) {
-						window.location = data.redirect;
-					}
-					else {
-						$("#message_top").animateText({text: (data.messages.top || " //unable to signout")}, 1000);
-					}
-				}
-			});
-		}
-
 		window.signin = function() {
 			$.ajax({
 				type: "POST",
@@ -50,7 +32,7 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#message_top").animateText({text: (data.messages.top || " //unable to signin")}, 1000);
+						$("#message_top").animateText({text: (data.messages.top || "//unable to signin")}, 1000);
 					}
 				}
 			});
@@ -72,7 +54,26 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#message_top").animateText({text: (data.messages.top || " //unable to signup")}, 1000);
+						$("#message_top").animateText({text: (data.messages.top || "//unable to signup")}, 1000);
+					}
+				}
+			});
+		}
+
+	/* signed in */
+		window.signout = function() {
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "signout",
+				},
+				success: function(data) {
+					if (data.success) {
+						window.location = data.redirect;
+					}
+					else {
+						$("#message_top").animateText({text: (data.messages.top || "//unable to signout")}, 1000);
 					}
 				}
 			});
@@ -89,10 +90,10 @@ $(document).ready(function() {
 				},
 				success: function(data) {
 					if (data.success) {
-						$("#message_top").animateText({text: (data.messages.top || " //email has been verified")}, 1000);
+						$("#message_top").animateText({text: (data.messages.top || "//email has been verified")}, 1000);
 					}
 					else {
-						$("#message_top").animateText({text: (data.messages.top || " //unable to verify")}, 1000);
+						$("#message_top").animateText({text: (data.messages.top || "//unable to verify")}, 1000);
 					}
 				}
 			});

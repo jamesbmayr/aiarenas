@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<title>ai_arenas.<% data.name || "robots" %></title>
-		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="shortcut icon" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<% colors(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
@@ -59,7 +60,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span><% message %>
+						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <% message %>
 							<div class="indented">
 								<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
 							</div>
@@ -70,7 +71,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section" id="avatar">
-						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span><% message %>
+						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
 						<div class="indented">
 
 <pre id="avatar_pre" monospace style="color: <% data.avatar.color || 'var(--white)' %>">
@@ -239,7 +240,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span><% message %>
+						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span> <% message %>
 						<div class="indented">
 							<div class="field_frame">
 								<span class="whitetext field" id="code" value='<% data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% data.code || "<span class='graytext'>//</span>" %></span>

@@ -1,206 +1,209 @@
 $(document).ready(function() {
 
 	/* robots */
-		$(".field#code").html(colorText(String($(".field#code").html())));
-
-		$(document).on("change", "#avatar_color select", function() {
-			var value = $("#avatar_color select").val();
-			$("#avatar_color").css("color",value);
-			$("#avatar_selection").css("color",value);
-		});
-
-		$(document).on("click", "#robot_edit", function() {
-			$("#robot_edit").hide();
-			$("#robot_save").show();
-			$("#robot_cancel").show();
-			$("#robot_delete").show();
-			$("#robot_confirm_delete").hide();
-
-			$(".field").each(function() {
-				$(this).html($(this).attr("value"));
-				$(this).prop("contenteditable",true).closest(".field_frame").addClass("active");
+		/* avatar */
+			$(document).on("change", "#avatar_color select", function() {
+				var value = $("#avatar_color select").val();
+				$("#avatar_color").css("color",value);
+				$("#avatar_selection").css("color",value);
 			});
 
-			/* avatar */
-				var avatar = {}
-				$(".avatar").each(function() {
-					var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
-					var value = String($(this).text());
-					avatar[key] = String(value);
+		/* edit */
+			$(document).on("click", "#robot_edit", function() {
+				$("#robot_edit").hide();
+				$("#robot_save").show();
+				$("#robot_cancel").show();
+				$("#robot_delete").show();
+				$("#robot_confirm_delete").hide();
+
+				$(".field").each(function() {
+					$(this).html($(this).attr("value"));
+					$(this).prop("contenteditable",true).closest(".field_frame").addClass("active");
 				});
 
-				$("#avatar_pre").hide();
-				$("#avatar_selection").show();
-				$("#avatar_color").show();
+				/* avatar */
+					var avatar = {}
+					$(".avatar").each(function() {
+						var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+						var value = String($(this).text());
+						avatar[key] = String(value);
+					});
 
-				$("#avatar_selection select").each(function() {
-					var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
-					var value = String(avatar[key]);
-					$(this).find("option[value=\"" + value + "\"]").attr("selected",true);
-				});
+					$("#avatar_pre").hide();
+					$("#avatar_selection").show();
+					$("#avatar_color").show();
 
-			$(".message").text("");
-			$("#message_top").animateText({text: " //now editing"}, 1000);
-		});
+					$("#avatar_selection select").each(function() {
+						var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+						var value = String(avatar[key]);
+						$(this).find("option[value=\"" + value + "\"]").attr("selected",true);
+					});
 
-		$(document).on("click", "#robot_cancel", function() {
-			$("#robot_edit").show();
-			$("#robot_save").hide();
-			$("#robot_cancel").hide();
-			$("#robot_delete").hide();
-			$("#robot_confirm_delete").hide();
-
-			$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-			$(".field").each(function() {
-				var value = $(this).attr("value");
-				$(this).text(value);
+				$(".message").text("");
+				$("#message_top").animateText({text: "//now editing"}, 1000);
 			});
 
-			/* avatar */
-				var avatar = {}
-				$("#avatar_pre").show();
-				var previousColor = $("#avatar_pre").css("color");
+			$(document).on("click", "#robot_cancel", function() {
+				$("#robot_edit").show();
+				$("#robot_save").hide();
+				$("#robot_cancel").hide();
+				$("#robot_delete").hide();
+				$("#robot_confirm_delete").hide();
 
-				$("#avatar_selection").css("color", previousColor).hide();
-				$("#avatar_color").css("color", previousColor).hide();
-
-			$("#message_top").animateText({text: " //edits canceled"}, 1000);
-			$(".field#code").html(colorText(String($(".field#code").html())));
-		});
-
-		$(document).on("click", "#robot_save", function() {
-			var data = {
-				id: $(".container").attr("value")
-			};
-			$(".field").each(function() {
-				var field = $(this).attr("id");
-				var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-				data[field] = value;
-			});
-
-			/* avatar */
-				var avatar = {};
-				$("#avatar_selection select").each(function() {
-					var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
-					var value = $(this).val();
-					avatar[key] = String(value);
+				$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
+				$(".field").each(function() {
+					var value = $(this).attr("value");
+					$(this).text(value);
 				});
 
-				avatar.color = $("#avatar_color select").val() || "var(--white)";
-				data.avatar = avatar;
+				/* avatar */
+					var avatar = {}
+					$("#avatar_pre").show();
+					var previousColor = $("#avatar_pre").css("color");
 
-				console.log(JSON.stringify(data));
+					$("#avatar_selection").css("color", previousColor).hide();
+					$("#avatar_color").css("color", previousColor).hide();
 
-			$.ajax({
-				type: "POST",
-				url: window.location.pathname,
-				data: {
-					action: "edit_robot",
-					data: JSON.stringify(data)
-				},
-				success: function(results) {
-					console.log(results);
-					if (results.success) {
-						console.log("success");
-						var data = results.data;
-						var messages = results.messages;
+				$("#message_top").animateText({text: "//edits canceled"}, 1000);
+				$(".field#code").html(colorText(String($(".field#code").html())));
+			});
 
-						data.code = data.code.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+			$(document).on("click", "#robot_save", function() {
+				var data = {
+					id: $(".container").attr("value")
+				};
+				$(".field").each(function() {
+					var field = $(this).attr("id");
+					var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+					data[field] = value;
+				});
 
-						$(".field").each(function() {
-							$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
-							$(this).closest(".section").find(".message").animateText({text: (messages[$(this).attr("id")] || "")}, 1000);
-						});
+				/* avatar */
+					var avatar = {};
+					$("#avatar_selection select").each(function() {
+						var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+						var value = $(this).val();
+						avatar[key] = String(value);
+					});
 
-						/* avatar */
-							$(".avatar").each(function() {
-								var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
-								var value = data.avatar[key];
+					avatar.color = $("#avatar_color select").val() || "var(--white)";
+					data.avatar = avatar;
 
-								if (value === null) {
-									value = $(this).attr("value") || null;
-								}
+					console.log(JSON.stringify(data));
 
-								$(this).text(value).attr("value",value);
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "edit_robot",
+						data: JSON.stringify(data)
+					},
+					success: function(results) {
+						console.log(results);
+						if (results.success) {
+							console.log("success");
+							var data = results.data;
+							var messages = results.messages;
+
+							data.code = data.code.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+
+							$(".field").each(function() {
+								$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
+								$(this).closest(".section").find(".message").animateText({text: (messages[$(this).attr("id")] || "")}, 1000);
 							});
 
-							var previousColor = $("#avatar_pre").css("color") || "var(--white)";
-							$("#avatar_pre").css("color", data.avatar.color || previousColor);
-							$("#avatar_selection").css("color", data.avatar.color || previousColor);
-							$("#avatar_color").css("color", data.avatar.color || previousColor);
-							$("#avatar").find(".message").animateText({text: (messages["avatar"] || "")}, 1000);
-					}
+							/* avatar */
+								$(".avatar").each(function() {
+									var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+									var value = data.avatar[key];
 
-					$("#robot_edit").show();
-					$("#robot_save").hide();
-					$("#robot_cancel").hide();
-					$("#robot_delete").hide();
-					$("#robot_confirm_delete").hide();
+									if (value === null) {
+										value = $(this).attr("value") || null;
+									}
 
-					/* avatar */
-						var avatar = {}
-						$("#avatar_pre").show();
-						$("#avatar_selection").hide();
-						$("#avatar_color").hide();
+									$(this).text(value).attr("value",value);
+								});
 
-					$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-					$("#message_top").animateText({text: (messages.top || " //changes submitted")}, 1000);
-					$(".field#code").html(colorText(String($(".field#code").html())));
-				}
-			});
-		});
+								var previousColor = $("#avatar_pre").css("color") || "var(--white)";
+								$("#avatar_pre").css("color", data.avatar.color || previousColor);
+								$("#avatar_selection").css("color", data.avatar.color || previousColor);
+								$("#avatar_color").css("color", data.avatar.color || previousColor);
+								$("#avatar").find(".message").animateText({text: (messages["avatar"] || "")}, 1000);
+						}
 
-		$(document).on("click", "#robot_delete", function() {
-			$("#robot_edit").hide();
-			$("#robot_save").hide();
-			$("#robot_cancel").show();
-			$("#robot_delete").hide();
-			$("#robot_confirm_delete").show();
-
-			$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-			$(".field").each(function() {
-				var value = $(this).attr("value");
-				$(this).text(value);
-			});
-			$("#message_top").animateText({text: " //are you sure you want to delete this robot?"}, 1000);
-		});
-
-		$(document).on("click", "#robot_confirm_delete", function() {
-			var data = {
-				id: $("#container").attr("value")
-			};
-
-			$.ajax({
-				type: "POST",
-				url: window.location.pathname,
-				data: {
-					action: "delete_robot",
-					data: JSON.stringify(data)
-				},
-				success: function(results) {
-					if (results.success) {
-						window.location = results.redirect;
-					}
-					else {
 						$("#robot_edit").show();
 						$("#robot_save").hide();
 						$("#robot_cancel").hide();
 						$("#robot_delete").hide();
 						$("#robot_confirm_delete").hide();
 
-						$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-						$(".field").each(function() {
-							var value = $(this).attr("value");
-							$(this).text(value);
-						});
+						/* avatar */
+							var avatar = {}
+							$("#avatar_pre").show();
+							$("#avatar_selection").hide();
+							$("#avatar_color").hide();
 
-						$("#message_top").animateText({text: (results.messages.top || " //unable to delete robot")}, 1000);
+						$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
+						$("#message_top").animateText({text: (messages.top || "//changes submitted")}, 1000);
+						$(".field#code").html(colorText(String($(".field#code").html())));
 					}
-				}
+				});
 			});
-		});
+	
+		/* delete */
+			$(document).on("click", "#robot_delete", function() {
+				$("#robot_edit").hide();
+				$("#robot_save").hide();
+				$("#robot_cancel").show();
+				$("#robot_delete").hide();
+				$("#robot_confirm_delete").show();
+
+				$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
+				$(".field").each(function() {
+					var value = $(this).attr("value");
+					$(this).text(value);
+				});
+				$("#message_top").animateText({text: "//are you sure you want to delete this robot?"}, 1000);
+			});
+
+			$(document).on("click", "#robot_confirm_delete", function() {
+				var data = {
+					id: $("#container").attr("value")
+				};
+
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "delete_robot",
+						data: JSON.stringify(data)
+					},
+					success: function(results) {
+						if (results.success) {
+							window.location = results.redirect;
+						}
+						else {
+							$("#robot_edit").show();
+							$("#robot_save").hide();
+							$("#robot_cancel").hide();
+							$("#robot_delete").hide();
+							$("#robot_confirm_delete").hide();
+
+							$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
+							$(".field").each(function() {
+								var value = $(this).attr("value");
+								$(this).text(value);
+							});
+
+							$("#message_top").animateText({text: (results.messages.top || "//unable to delete robot")}, 1000);
+						}
+					}
+				});
+			});
 
 	/* colorText */
+		$(".field#code").html(colorText(String($(".field#code").html())));
+		
 		function colorText(text) {
 			if (text.length) {				
 				

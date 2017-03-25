@@ -204,11 +204,11 @@
 		left: -256px;
 		height: 100vh;
 		width: 256px;
-		background-color: #272822;
-		color: #ffffff;
+		background-color: var(--black);
+		color: var(--white);
 		font-size: 16px;
 		padding: 16px;
-		border: solid #F8F8F2;
+		border: solid var(--white);
 		border-width: 0px 2px 0px 0px;
 		overflow-x: hidden;
 		overflow-y: scroll;

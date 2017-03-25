@@ -2,11 +2,12 @@
 <html>
 	<head>
 		<title>ai_arenas.settings</title>
-		<link rel="shortcut icon" type="image/png" href="<% assets('logo') %>"/>
+		<link rel="shortcut icon" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="settings/stylesheet.css"/>
+		<% colors(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="settings/script.js"></script>
 	</head>
 	<body>
 		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
@@ -17,10 +18,7 @@
 			<div class="indented">
 				<div class="megasection">
 					<div class='section'>
-						<button id='user_save'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
-					</div>
-					<div class='section'>
-						<a id='cancel' href="../../../../users"><span class='whitetext'>.</span><span class='bluetext'>cancel</span></a>
+						<a id='exit' href="../../../../users"><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
 					</div>
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -36,52 +34,59 @@
 									options += "<option value='" + color_schemes[i] + "'>" + color_schemes[i] + "</option>";
 								}
 
-								options = options.replace('"' + data.settings.color_scheme + '"', '"' + data.settings.color_scheme + '"' + " selected");
+								options = options.replace("'" + data.settings.color_scheme + "'", "'" + data.settings.color_scheme + "' selected");
 
 								options;
 							%>
 						</select>
-						<span class="whitetext">;</span><% message %>
+						<span class="whitetext">;</span> <% message %>
 					</div>
 					<div class="section">
 						<span class="whitetext">.show_email</span><span class="redtext"> = </span>
 						<select id="show_email" class="purpletext">
-							<option value="true" <% if (data.settings.show_email) {"selected"}%>>true</option>
-							<option value="false" <% if (!data.settings.show_email) {"selected"} %>>false</option>
+							<option value="true" <% if (data.settings.show_email === "true") {"selected"} %>>true</option>
+							<option value="false" <% if (data.settings.show_email === "false") {"selected"} %>>false</option>
 						</select>
-						<span class="whitetext">;</span><% message %>
+						<span class="whitetext">;</span> <% message %>
 					</div>
 					<div class="section">
 						<span class="whitetext">.email_notifications</span><span class="redtext"> = </span>
 						<select id="email_notifications" class="purpletext">
-							<option value="true" <% if (data.settings.email_notifications) {"selected"}%>>true</option>
-							<option value="false" <% if (!data.settings.email_notifications) {"selected"} %>>false</option>
+							<option value="true" <% if (data.settings.email_notifications === "true") {"selected"} %>>true</option>
+							<option value="false" <% if (data.settings.email_notifications === "false") {"selected"} %>>false</option>
 						</select>
-						<span class="whitetext">;</span><% message %>
+						<span class="whitetext">;</span> <% message %>
+					</div>
+					<div class="section">
+						<button id='settings_save'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
 					</div>
 				</div>				
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.name</span><span class="redtext"> = </span><span class="yellowtext">"</span><span class="field_frame active"><span class="field yellowtext" id="username" value="<% data.name.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>" contenteditable="true"><% data.name || "" %></span></span><span class="yellowtext">"</span><span class="whitetext">;</span><% message %>
-					</div>
-					<div class="section">
-						<span class="whitetext">.email</span><span class="redtext"> = </span><span class="whitetext">{</span><% message %>
+					<div class="section" id="name">
+						<span class="whitetext">.name</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
 						<div class="indented">
-							<div id="email_currently">
-								<span class="whitetext"> currently: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a><span class="whitetext">,</span>
+							<div id="name_current">
+								<span class="whitetext"> current: </span><span class="yellowtext" id="current_name"><% data.name %></span><span class="whitetext">,</span>
+							</div>
+							<div id="name_new">
+								<button id="change_name" name="action" value="change_name"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_name" class="orangetext" name="new_name" placeholder="new name"/><span class="whitetext">)</span>
+							</div>
+						</div>
+						<span class="whitetext">}</span>
+					</div>
+					<div class="section" id="email">
+						<span class="whitetext">.email</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
+						<div class="indented">
+							<div id="email_current">
+								<span class="whitetext"> current: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a><span class="whitetext">,</span>
 							</div>
 							<div id="email_new">
-								<span class="whitetext"> change: </span><button id="send" name="action" value="send"><span class="greentext">send_verification</span></button><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">)</span>
+								<button id="send_verification" name="action" value="send_verification"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">)</span>
 							</div>
 							<div id="email_verify" style="display: none">
-								<span class="whitetext"> change: </span><button id="verify" name="action" value="verify"><span class="greentext">verify</span></button>
-								<span class="whitetext">(</span>
-								<input type="text" id="verify_email" class="orangetext" name="verify_email" placeholder="new email"/>
-								<span class="whitetext">,</span>
-								<input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key"/>
-								<span class="whitetext">)</span>
+								<button id="verify_email" name="action" value="verify_email"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">,</span><input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key"/><span class="whitetext">)</span>
 							</div>
 						</div>
 						<span class="whitetext">}</span>
@@ -90,8 +95,8 @@
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.sessions</span><span class="redtext"> = </span><span class="whitetext">[</span><% message %>
+					<div class="section" id="sessions">
+						<span class="whitetext">.sessions</span><span class="redtext"> = </span><span class="whitetext">[</span> <% message %>
 						<div class="indented">
 							<%
 								var list = "";
@@ -103,6 +108,19 @@
 							%>
 						</div>
 						<span class="whitetext">]</span>
+					</div>
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class='section'>
+						<button id='user_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button>
+					</div>
+					<div class='section'>
+						<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>
+					</div>
+					<div class='section'>
+						<button id='user_delete'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>
 					</div>
 				</div>
 			</div>
