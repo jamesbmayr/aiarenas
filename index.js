@@ -163,7 +163,7 @@
 								catch (error) {_403();}
 							break;
 
-						/* settings */ //note: send_verification, verify_email, and change_name should be imported from ./settings/logic.js
+						/* settings */ //note: send_verification, verify_email, change_name, and change_password should be imported from ./settings/logic.js
 							case "send_verification":
 								try {
 									if (session.user !== null) {
@@ -272,11 +272,46 @@
 													response.end(JSON.stringify({success: false, messages: {name: "//name is taken"}}));
 												}
 												else {
-													processes.store("users", {id: session.user.id}, {$set: {name: post.name, "avatar.ascii": (processes.ascii_character(post.name[0]) || "")}}, function(user) {
-														response.writeHead(200, {"Content-Type": "text/json"});
-														response.end(JSON.stringify({success: true, messages: {name: "//name changed"}}));
+													var robots = [];
+													for (var i = 0; i < session.user.robots.length; i++) {
+														robots.push(session.user.robots[i].id);
+													}
+
+													processes.store("robots", {id: {$in: robots}}, {$set: {"user.name": post.name}}, function(robot) {
+														if (typeof robot.id === "undefined") { robot = robot[0]; }
+														processes.store("users", {id: session.user.id}, {$set: {name: post.name, "avatar.ascii": (processes.ascii_character(post.name[0]) || "")}}, function(user) {
+															response.writeHead(200, {"Content-Type": "text/json"});
+															response.end(JSON.stringify({success: true, messages: {name: "//name changed"}}));
+														});
 													});
 												}
+											});
+										}
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "change_password":
+								try {
+									if (session.user !== null) {
+										if ((typeof post.password === "undefined") || (post.password.length < 8)) {
+											response.writeHead(200, {"Content-Type": "text/json"});
+											response.end(JSON.stringify({success: false, messages: {password: "//enter a password of 8 or more characters"}}));
+										}
+										else if ((typeof post.confirm == "undefined") || (post.confirm.length < 8) || (post.confirm !== post.password)) {
+											response.writeHead(200, {"Content-Type": "text/json"});
+											response.end(JSON.stringify({success: false, messages: {password: "//passwords do not match"}}));
+										}
+										else {
+											var salt = processes.random();
+											var password = processes.hash(post.password, salt);
+											processes.store("users", {id: session.user.id}, {$set: {password: password, salt: salt}}, function(user) {
+												response.writeHead(200, {"Content-Type": "text/json"});
+												response.end(JSON.stringify({success: true, messages: {password: "//password changed"}}));
 											});
 										}
 									}
@@ -652,11 +687,12 @@
 							case (/\/favicon[.]ico$/).test(request.url):
 							case (/\/icon[.]png$/).test(request.url):
 							case (/\/logo[.]png$/).test(request.url):
+							case (/\/ascii_logo[.]png$/).test(request.url):
 								try {
 									response.writeHead(200, {"Content-Type": "image/png"});
-									response.end(fs.readFileSync("../../../../assets/logo.png"), "binary");
+									response.end(fs.readFileSync("./assets/logo.png"), "binary");
 								}
-								catch (error) {_404();}
+								catch (error) {console.log(error); _404();}
 							break;
 
 							case (/\/stylesheet[.]css$/).test(request.url):

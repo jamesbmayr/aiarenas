@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>ai_arenas.<% data.name || "robots" %></title>
-		<link rel="shortcut icon" href="logo.png"/>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<% colors(session); %>
@@ -10,10 +10,10 @@
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
+		<% navbar(session); %>
 		<div class="container" value="<% data.id %>">
 			<div class="section">
-				<span class="field_frame" id="name_frame"><span class="field whitetext header" id="name" value="<% data.name %>"><% data.name %></span></span> <span class="graytext" id="message_top"></span> <% message %>
+				<span class="field_frame" id="name_frame"><span class="field whitetext header" id="name" value="<% data.name %>"><% data.name %></span></span> <span class="graytext" id="message_top"></span> <span class='message graytext'></span>
 			</div>
 			<div class="indented">
 				<%
@@ -60,7 +60,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <% message %>
+						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <span class='message graytext'></span>
 							<div class="indented">
 								<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
 							</div>
@@ -71,7 +71,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section" id="avatar">
-						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
+						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span> <span class='message graytext'></span>
 						<div class="indented">
 
 <pre id="avatar_pre" monospace style="color: <% data.avatar.color || 'var(--white)' %>">
@@ -240,7 +240,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span> <% message %>
+						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span> <span class='message graytext'></span>
 						<div class="indented">
 							<div class="field_frame">
 								<span class="whitetext field" id="code" value='<% data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% data.code || "<span class='graytext'>//</span>" %></span>

@@ -70,8 +70,7 @@
 						}
 						else {
 							var random = processes.random();
-							
-							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<body style='background-color: black'><p style='font-family: courier, monospace; color: white'>commence human verification process for <b>" + post.signup_username + "</b>: <a style='color: green' href='http://aiarena.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>();</p></body>", function(data) {
+							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<div>commence human verification process for <span class='bluetext'>" + post.signup_username + "</span>: <a class='greentext' href='http://aiarenas.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>();</div>", function(data) {
 								var user = users.create(post.signup_username, post.signup_email, post.signup_password);
 								user.verification = random;
 

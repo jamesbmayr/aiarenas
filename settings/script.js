@@ -7,14 +7,14 @@ $(document).ready(function() {
 				$("#user_delete").show();
 				$("#user_confirm_delete").hide();
 
-				$("#message_top").animateText({text: "//edits canceled"}, 1000);
+				$("#delete").find(".message").animateText({text: "//canceled user deletion"}, 1000);
 			});
 
 			$(document).on("click", "#user_delete", function() {
 				$("#user_cancel").show();
 				$("#user_delete").hide();
 				$("#user_confirm_delete").show();
-				$("#message_top").animateText({text: "//are you sure you want to delete your account?"}, 1000);
+				$("#delete").find(".message").animateText({text: "//are you sure you want to delete your account?"}, 1000);
 			});
 
 			$(document).on("click", "#user_confirm_delete", function() {
@@ -38,7 +38,7 @@ $(document).ready(function() {
 							$("#user_delete").show();
 							$("#user_confirm_delete").hide();
 
-							$("#message_top").animateText({text: (results.messages.top || "//unable to delete account")}, 1000);
+							$("#delete").find(".message").animateText({text: (results.messages.top || "//unable to delete account")}, 1000);
 						}
 					}
 				});
@@ -111,14 +111,38 @@ $(document).ready(function() {
 				});
 			});
 
+		/* password */
+			$(document).on("click", "#change_password", function () {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "change_password",
+						password: $("#new_password").val() || null,
+						confirm: $("#confirm_password").val() || null,
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#new_password").val("");
+							$("#confirm_password").val("");
+							$("#password").find(".message").animateText({text: (data.messages.name || "//password has been changed")}, 1000);
+						}
+						else {
+							$("#new_password").val("");
+							$("#confirm_password").val("");
+							$("#password").find(".message").animateText({text: (data.messages.name || "//unable to change password")}, 1000);
+						}
+					}
+				});
+			});
+
 		/* color_scheme */
 			$(document).on("change", "select#color_scheme", function() {
 				var color_scheme = String($("#color_scheme").val());
-				console.log(color_scheme);
 
 				switch (color_scheme) {
 					case "black_and_white":
-						$("#color_style").replaceWith("<style id='color_style'>\
+						color_scheme = "\
 							:root {\
 								--red: #ffffff;\
 								--orange: #ffffff;\
@@ -130,16 +154,15 @@ $(document).ready(function() {
 								--gray: #666666;\
 								--black: #000000;\
 								--transparent: rgba(000,000,000,0);\
-							}\
-						</style>");
+							}";
 					break;
 
 					case "inverted":
-						$("#color_style").replaceWith("<style id='color_style'>\
+						color_scheme = "\
 							:root {\
 								--green: #F92672;\
 								--blue: #FD971F;\
-								--purple: #FFE792;\
+								--purple: #ffcb13;\
 								--red: #A6E22E;\
 								--orange: #66D9EF;\
 								--yellow: #AE81FF;\
@@ -147,13 +170,76 @@ $(document).ready(function() {
 								--gray: #75715E;\
 								--white: #272822;\
 								--transparent: rgba(000,000,000,0);\
-							}\
-						</style>");
+							}";
+					break;
+
+					case "old_school":
+						color_scheme = "\
+							:root {\
+								--red: #00ff00;\
+								--orange: #00ff00;\
+								--yellow: #00ff00;\
+								--green: #00ff00;\
+								--blue: #00ff00;\
+								--purple: #00ff00;\
+								--white: #00ff00;\
+								--gray: #00ff00;\
+								--black: #000000;\
+								--transparent: rgba(000,000,000,0);\
+							}";
+					break;
+
+					case "electric":
+						color_scheme = "\
+							:root {\
+								--red: #ff0000;\
+								--orange: #FFA500;\
+								--yellow: #ffff00;\
+								--green: #00ff00;\
+								--blue: #0088ff;\
+								--purple: #ff00ff;\
+								--white: #ffffff;\
+								--gray: #777777;\
+								--black: #000000;\
+								--transparent: rgba(000,000,000,0);\
+							}";
+					break;
+
+					case "chroma":
+						color_scheme = "\
+							:root {\
+								--red: #EC3D53;\
+								--orange: #FF7200;\
+								--yellow: #FFE000;\
+								--green: #33BC06;\
+								--blue: #0AAFF3;\
+								--purple: #A551FF;\
+								--white: #EAEFFE;\
+								--gray: #90929B;\
+								--black: #3C414F;\
+								--transparent: rgba(000,000,000,0);\
+							}";
+					break;
+
+					case "underblue":
+						color_scheme = "\
+							:root {\
+								--red: #1F6EF6;\
+								--orange: #1F6EF6;\
+								--yellow: #436DB5;\
+								--green: #1F6EF6;\
+								--blue: #1F6EF6;\
+								--purple: #1F6EF6;\
+								--white: #DFEBFF;\
+								--gray: #436DB5;\
+								--black: #1C283D;\
+								--transparent: rgba(000,000,000,0);\
+							}";
 					break;
 
 					case "default":
 					default:
-						$("#color_style").replaceWith("<style id='color_style'>\
+						color_scheme = "\
 							:root {\
 								--red: #F92672;\
 								--orange: #FD971F;\
@@ -165,10 +251,12 @@ $(document).ready(function() {
 								--gray: #75715E;\
 								--black: #272822;\
 								--transparent: rgba(000,000,000,0);\
-							}\
-						</style>");
+							}";
 					break;
 				}
+
+				$("#color_style").replaceWith("<style id='color_style'>" + color_scheme + "</style>");
+
 			});
 
 		/* save */
@@ -224,7 +312,13 @@ $(document).ready(function() {
 					},
 					success: function(data) {
 						if (data.success) {
-							window.location = data.redirect;
+							if (typeof data.redirect !== "undefined") {
+								window.location = data.redirect;
+							}
+							else {
+								$("#" + session).remove();
+								$("#sessions").find(".message").animateText({text: (data.messages.sessions || "//session destroyed")}, 1000);
+							}
 						}
 						else {
 							$("#sessions").find(".message").animateText({text: (data.messages.sessions || "//unable to destroy session")}, 1000);

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>ai_arenas.home</title>
-		<link rel="shortcut icon" href="logo.png"/>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<% colors(session); %>
@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
+		<% navbar(session); %>
 		<div class="container">
 			<div class="section">
 				<span class="whitetext header">ai_arenas</span> <span id="message_top" class="graytext"><% try { data.messages.top } catch(error) { "//welcome to ai_arenas, human..." } %></span>

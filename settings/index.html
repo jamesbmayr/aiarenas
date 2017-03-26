@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>ai_arenas.settings</title>
-		<link rel="shortcut icon" href="logo.png"/>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="settings/stylesheet.css"/>
 		<% colors(session); %>
@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="settings/script.js"></script>
 	</head>
 	<body>
-		<% var message = "<span class='message graytext'></span>"; navbar(session); %>
+		<% navbar(session); %>
 		<div class="container" value="<% data.id %>">
 			<div class="section">
 				<span class="whitetext header">settings</span> <span class="graytext" id="message_top"></span>
@@ -39,7 +39,7 @@
 								options;
 							%>
 						</select>
-						<span class="whitetext">;</span> <% message %>
+						<span class="whitetext">;</span> <span class='message graytext'></span>
 					</div>
 					<div class="section">
 						<span class="whitetext">.show_email</span><span class="redtext"> = </span>
@@ -47,7 +47,7 @@
 							<option value="true" <% if (data.settings.show_email === "true") {"selected"} %>>true</option>
 							<option value="false" <% if (data.settings.show_email === "false") {"selected"} %>>false</option>
 						</select>
-						<span class="whitetext">;</span> <% message %>
+						<span class="whitetext">;</span> <span class='message graytext'></span>
 					</div>
 					<div class="section">
 						<span class="whitetext">.email_notifications</span><span class="redtext"> = </span>
@@ -55,7 +55,7 @@
 							<option value="true" <% if (data.settings.email_notifications === "true") {"selected"} %>>true</option>
 							<option value="false" <% if (data.settings.email_notifications === "false") {"selected"} %>>false</option>
 						</select>
-						<span class="whitetext">;</span> <% message %>
+						<span class="whitetext">;</span> <span class='message graytext'></span>
 					</div>
 					<div class="section">
 						<button id='settings_save'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
@@ -65,7 +65,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section" id="name">
-						<span class="whitetext">.name</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
+						<span class="whitetext">.name</span><span class="redtext"> = </span><span class="whitetext">{</span> <span class='message graytext'></span>
 						<div class="indented">
 							<div id="name_current">
 								<span class="whitetext"> current: </span><span class="yellowtext" id="current_name"><% data.name %></span><span class="whitetext">,</span>
@@ -77,10 +77,10 @@
 						<span class="whitetext">}</span>
 					</div>
 					<div class="section" id="email">
-						<span class="whitetext">.email</span><span class="redtext"> = </span><span class="whitetext">{</span> <% message %>
+						<span class="whitetext">.email</span><span class="redtext"> = </span><span class="whitetext">{</span> <span class='message graytext'></span>
 						<div class="indented">
 							<div id="email_current">
-								<span class="whitetext"> current: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email %></a><span class="whitetext">,</span>
+								<span class="whitetext"> current: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email || "<span class='purpletext'>null</span>" %></a><span class="whitetext">,</span>
 							</div>
 							<div id="email_new">
 								<button id="send_verification" name="action" value="send_verification"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">)</span>
@@ -91,12 +91,24 @@
 						</div>
 						<span class="whitetext">}</span>
 					</div>
+					<div class="section" id="password">
+						<span class="whitetext">.password</span><span class="redtext"> = </span><span class="whitetext">{</span> <span class='message graytext'></span>
+						<div class="indented">
+							<div id="password_current">
+								<span class="whitetext"> current: </span><span class="purpletext">••••••••</span><span class="whitetext">,</span>
+							</div>
+							<div id="password_new">
+								<button id="change_password" name="action" value="change_name"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="password" id="new_password" class="orangetext" name="new_password" placeholder="new password"/><span class="whitetext">,</span><input type="password" id="confirm_password" class="orangetext" name="confirm_password" placeholder="confirm password"/><span class="whitetext">)</span>
+							</div>
+						</div>
+						<span class="whitetext">}</span>
+					</div>
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
 					<div class="section" id="sessions">
-						<span class="whitetext">.sessions</span><span class="redtext"> = </span><span class="whitetext">[</span> <% message %>
+						<span class="whitetext">.sessions</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class='message graytext'></span>
 						<div class="indented">
 							<%
 								var list = "";
@@ -113,14 +125,11 @@
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
-					<div class='section'>
-						<button id='user_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button>
-					</div>
-					<div class='section'>
-						<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>
-					</div>
-					<div class='section'>
+					<div class='section' id="delete">
 						<button id='user_delete'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>
+						<button id='user_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button> <span class='message graytext'></span>
+						<br>
+						<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>
 					</div>
 				</div>
 			</div>
