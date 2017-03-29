@@ -1,49 +1,52 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* update(user, settings) */
-	function update(user, settings) {
-		var fields = Object.keys(settings);
+/* update(session, post, callback) */
+	function update(session, post, callback) {
+		var data = JSON.parse(post.data) || {};
+		var before = JSON.stringify(session.user);
+
+		var fields = Object.keys(data);
 		var messages = {top: "//changes submitted"};
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
 				case "color_scheme":
-					if (user.settings.color_scheme === settings.color_scheme) {
+					if (session.user.settings.color_scheme === data.color_scheme) {
 						//no change
 					}
-					else if (!(processes.assets("color_schemes").indexOf(settings.color_scheme) > -1)) {
+					else if (!(processes.assets("color_schemes").indexOf(data.color_scheme) > -1)) {
 						//not a valid color scheme
 						messages.color_scheme = "//not a valid color scheme";
 					}
 					else {
-						user.settings.color_scheme = settings.color_scheme;
+						session.user.settings.color_scheme = data.color_scheme;
 						messages.color_scheme = "//color scheme updated";
 					}
 				break;
 
 				case "show_email":
-					if (user.settings.show_email === settings.show_email) {
+					if (session.user.settings.show_email === data.show_email) {
 						//no change
 					}
-					else if ((settings.show_email !== "true") && (settings.show_email !== "false")) {
+					else if ((data.show_email !== "true") && (data.show_email !== "false")) {
 						messages.show_email = "//not a valid setting";
 					}
 					else {
-						user.settings.show_email = settings.show_email;
+						session.user.settings.show_email = data.show_email;
 						messages.show_email = "//email visibility setting updated";
 					}
 				break;
 
 				case "email_notifications":
-					if (user.settings.email_notifications === settings.email_notifications) {
+					if (session.user.settings.email_notifications === data.email_notifications) {
 						//no change
 					}
-					else if ((settings.email_notifications !== "true") && (settings.email_notifications !== "false")) {
+					else if ((data.email_notifications !== "true") && (data.email_notifications !== "false")) {
 						messages.email_notifications = "//not a valid setting";
 					}
 					else {
-						user.settings.email_notifications = settings.email_notifications;
+						session.user.settings.email_notifications = data.email_notifications;
 						messages.email_notifications = "//email notifications setting updated";
 					}
 				break;
@@ -51,12 +54,15 @@
 			}
 		}
 
-		return {
-			user: user,
-			success: true,
-			data: settings,
-			messages: messages
-		};
+		if (before !== JSON.stringify(session.user)) {
+			processes.store("users", {id: session.user.id}, session.user, function(user) {
+				if (typeof user.id === "undefined") { user = user[0]; }
+				callback({success: true, messages: messages, data: data, user: user});
+			});
+		}
+		else {
+			callback({success: true, messages: {top: "//no changes"}});
+		}
 	}
 
 /* updateName(session, post, callback) */

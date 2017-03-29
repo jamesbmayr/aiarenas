@@ -168,7 +168,7 @@ $(document).ready(function() {
 
 			$(document).on("click", "#robot_confirm_delete", function() {
 				var data = {
-					id: $("#container").attr("value")
+					id: $(".container").attr("value")
 				};
 
 				$.ajax({

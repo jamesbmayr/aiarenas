@@ -38,81 +38,87 @@
 		return user;
 	}
 
-/* update(user, data) */
-	function update(user, data) {
+/* update(session, post, callback) */
+	function update(session, post, callback) {
+		var data = JSON.parse(post.data);
+		var before = JSON.stringify(session.user)
+
 		var fields = Object.keys(data);
 		var messages = {top: "//changes submitted"};
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
-				// case "name":
-				// 	if (data.name === user.name) {
-				// 		//no change
-				// 	}
-				// 	else if (processes.isReserved(data.name)) {
-				// 		data.name = user.name;
-				// 		messages.name = "//that name is taken";
-				// 	}
-				// 	else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
-				// 		data.name = user.name;
-				// 		messages.name = "//name must be 8 or more numbers and letters";
-				// 	}
-				// 	else {
-				// 		user.name = data.name;
-				// 		user.avatar.ascii = processes.ascii_character(data.name[0]) || "";
-				// 		messages.name = "//name updated";
-				// 	}
-				// break;
-
-				// case "email":
-				// 	if (data.email === user.email) {
-				// 		//no change
-				// 	}
-				// 	else if (!processes.isEmail(data.email)) {
-				// 		data.email = user.email;
-				// 		messages.email = "//not a valid email address";
-				// 	}
-				// 	else {
-				// 		user.email = data.email;
-				// 		messages.email = "//email updated";
-				// 	}
-				// break;
-
 				case "bio":
-					if (data.bio === user.information.bio) {
+					if (data.bio === session.user.information.bio) {
 						//no change
 					}
 					else {
-						user.information.bio = data.bio;
+						session.user.information.bio = data.bio;
 						messages.bio = "//bio updated";
 					}
 				break;
 
 				case "avatar":
-					if (data.avatar.color === user.avatar.color) {
+					if (data.avatar.color === session.user.avatar.color) {
 						//no change
 					}
 					else if (!(processes.ascii_robot("color").indexOf(data.avatar.color) > -1)) {
 						//no change
 					}
 					else {
-						user.avatar.color = data.avatar.color;
+						session.user.avatar.color = data.avatar.color;
 						messages.avatar = "//color updated";
 					}
 				break;
 			}
 		}
 
-		return {
-			user: user,
-			success: true,
-			data: data,
-			messages: messages
-		};
+		if (before !== JSON.stringify(session.user)) {
+			processes.store("users", {id: session.user.id}, session.user, function(user) {
+				if (typeof user.id === "undefined") { user = user[0]; }
+				callback({success: true, messages: messages, data: data, user: user});
+			});
+		}
+		else {
+			callback({success: true, messages: {top: "//no changes"}});
+		}
+	}
+
+/* destroy(session, post, callback) */
+	function destroy(session, post, callback) {
+		var data = JSON.parse(post.data);
+
+		if ((session.user !== null) && (typeof data.id !== null) && (data.id === session.user.id)) {
+			processes.retrieve("users", {id: session.user.id}, function(user) {
+				if (typeof user.id === "undefined") { user = user[0]; }
+				
+				if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
+					callback({success: false, messages: {top: "//unable to delete user"}});
+				}
+				else {
+					var robots = [];
+					for (var i = 0; i < user.robots.length; i++) {
+						robots.push(user.robots[i].id);
+					}
+
+					processes.store("robots", {id: {$in: robots}}, null, function(robot) {
+						processes.store("users", {id: session.user.id}, null, function(user) {
+							processes.store("sessions", {user: session.user.id}, {$set: {user: null}}, function(session) {
+								callback({success: true, redirect: "../../../../"});
+							});
+						});
+					});
+				}
+			});
+		}
+		else {
+			callback({success: false, messages: {top: "//unable to delete user"}});
+		}
 	}
 
 /* exports */
 	module.exports = {
 		create: create,
 		update: update,
+		destroy: destroy,
 	};

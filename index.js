@@ -413,7 +413,6 @@
 							break;
 
 						/* settings */
-
 							case "destroy_session":
 								try {
 									if (session.user !== null) {
@@ -473,19 +472,9 @@
 							case "edit_settings":
 								try {
 									if (session.user !== null) {
-										post.data = JSON.parse(post.data);
-										var before = JSON.stringify(session.user);
-										var update = settings.update(session.user, post.data);
-										
-										if (before !== JSON.stringify(update.user)) {
-											processes.store("users", {id: update.user.id}, update.user, function(user) {
-												if (typeof user.id === "undefined") { user = user[0]; }
-												response.end(JSON.stringify(update));
-											});
-										}
-										else {
-											response.end(JSON.stringify(update));
-										}
+										settings.update(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update settings"}}));
+										});
 									}
 									else {
 										_403("//not authorized");
@@ -498,27 +487,8 @@
 							case "edit_user":
 								try {
 									if (session.user !== null) {
-										post.data = JSON.parse(post.data);
-										processes.retrieve("users", {$and: [{name: routes[2]}, {id: session.user.id}]}, function(user) {
-											if (typeof user.id === "undefined") { user = user[0]; }
-											
-											if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
-												_403("//not authorized");
-											}
-											else {
-												var before = JSON.stringify(user);
-												var update = users.update(user, post.data);
-												
-												if (before !== JSON.stringify(update.user)) {
-													processes.store("users", {id: update.user.id}, update.user, function(user) {
-														if (typeof user.id === "undefined") { user = user[0]; }
-														response.end(JSON.stringify(update));
-													});
-												}
-												else {
-													response.end(JSON.stringify(update));
-												}
-											}
+										users.update(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update user"}}));
 										});
 									}
 									else {
@@ -530,31 +500,9 @@
 
 							case "delete_user":
 								try {
-									var data = JSON.parse(post.data) || null;
-									if ((session.user !== null) && (typeof data.id !== null) && (data.id === session.user.id)) {
-										processes.retrieve("users", {id: session.user.id}, function(user) {
-											if (typeof user.id === "undefined") { user = user[0]; }
-											
-											if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
-												_403("//not authorized");
-											}
-											else {
-												var robots = [];
-												for (var i = 0; i < user.robots.length; i++) {
-													robots.push(user.robots[i].id);
-												}
-
-												processes.store("robots", {id: {$in: robots}}, null, function(robot) {
-													if (typeof robot.id === "undefined") { robot = robot[0]; }
-													processes.store("users", {id: session.user.id}, null, function(user) {
-														if (typeof user.id === "undefined") { user = user[0]; }
-														processes.store("sessions", {user: session.user.id}, {$set: {user: null}}, function(session) {
-															if (typeof session.id === "undefined") { session = session[0]; }
-															response.end(JSON.stringify({success: true, redirect: "../../../../"}));
-														});
-													});
-												});
-											}
+									if (session.user !== null) {
+										users.destroy(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete user"}}));
 										});
 									}
 									else {
@@ -568,12 +516,8 @@
 							case "create_robot":
 								try {
 									if (session.user !== null) {												
-										processes.store("robots", null, robots.create(session.user), function(robot) {
-											if (typeof robot.id === "undefined") { robot = robot[0]; }
-											processes.store("users", {id: session.user.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(user) {
-												if (typeof user.id === "undefined") { user = user[0]; }
-												response.end(JSON.stringify({success: true, redirect: "../../../../robots/" + robot.id}));
-											});
+										robots.create(session, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create robot"}}));
 										});
 									}
 									else {
@@ -586,42 +530,8 @@
 							case "edit_robot":
 								try {
 									if (session.user !== null) {
-										post.data = JSON.parse(post.data);
-										processes.retrieve("robots", {$and: [{id: post.data.id || null}, {"user.id": session.user.id}]}, function(robot) {
-											if (typeof robot.id === "undefined") { robot = robot[0]; }
-											
-											if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
-												_403("//not authorized");
-											}
-											else {
-												var before = JSON.stringify(robot);
-												var update = robots.update(robot, post.data);
-												
-												if (before !== JSON.stringify(update.robot)) {
-													processes.store("robots", {id: robot.id}, robot, function(robot) {
-														if (typeof robot.id === "undefined") { robot = robot[0]; }
-														
-
-														if (before.name !== robot.name) {
-															console.log("name change");
-															processes.store("users", {id: session.user.id}, {$pull: {robots: {id: robot.id}}}, function(user) {
-																if (typeof user.id === "undefined") { user = user[0]; }
-																processes.store("users", {id: session.user.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(user) {
-																	if (typeof user.id === "undefined") { user = user[0]; }
-																	response.end(JSON.stringify(update));
-																});
-															});
-														}
-														else {
-															console.log("no name change");
-															response.end(JSON.stringify(update));
-														}
-													});
-												}
-												else {
-													response.end(JSON.stringify(update));
-												}
-											}
+										robots.update(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update robot"}}));
 										});
 									}
 									else {
@@ -634,22 +544,8 @@
 							case "delete_robot":
 								try {
 									if (session.user !== null) {
-										post.data = JSON.parse(post.data);
-										processes.retrieve("robots", {$and: [{id: post.data.id || null}, {"user.id": session.user.id}]}, function(robot) {
-											if (typeof robot.id === "undefined") { robot = robot[0]; }
-											
-											if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
-												_403("//not authorized");
-											}
-											else {
-												processes.store("users", {id: robot.user.id || null}, {$pull: {robots: {id: robot.id}}}, function(user) {
-													if (typeof user.id === "undefined") { user = user[0]; }
-													processes.store("robots", {id: robot.id}, null, function(results) {
-														if (typeof robot.id === "undefined") { robot = robot[0]; }
-														response.end(JSON.stringify({success: true, redirect: "../../../../users/" + user.name, messages: {top: "//robot deleted"}}));
-													});
-												});
-											}
+										robots.destroy(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete robot"}}));
 										});
 									}
 									else {
@@ -682,7 +578,11 @@
 							case "edit_arena":
 								try {
 									if (session.user !== null) {
-										processes.retrieve("arenas", {$and: [{$where: "this.id.substring(0,3) === " + routes[2]}, {"users[0]": session.user.id}]}, function(arena) {
+										arenas.update(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update arena"}}));
+										});
+
+										/*processes.retrieve("arenas", {$and: [{$where: "this.id.substring(0,3) === " + routes[2]}, {"users[0]": session.user.id}]}, function(arena) {
 											if (typeof arena.id === "undefined") { arena = arena[0]; }
 											
 											if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
@@ -701,7 +601,7 @@
 													response.end(JSON.stringify(arena));
 												}
 											}
-										});
+										});*/
 									}
 									else {
 										_403("//not authorized");
