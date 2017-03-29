@@ -163,7 +163,7 @@
 		}
 
 /*** page content ***/
-	/* colors */
+	/* colors(session) */
 		function colors(session) {
 			if (session.user !== null) {
 				var color_scheme = session.user.settings.color_scheme || "default";

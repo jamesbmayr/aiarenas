@@ -90,9 +90,43 @@
 		}
 	}
 
+/* verify(session, post, callback) */
+	function verify(session, post, callback) {
+		if ((typeof post.verification === "undefined") || (post.verification.length !== 32)) {
+			callback({success: false, messages: {top: "//please enter a 32-character verification key"}});
+		}
+		else if ((typeof post.email === "undefined") || (!isEmail(post.email))) {
+			callback({success: false, messages: {top: "//please enter a valid email address"}});
+		}
+		else {
+			processes.retrieve("users", {email: post.email}, function(user) {
+				if (typeof user.id === "undefined") {user = user[0];}
+
+				if ((typeof user !== "undefined") && (user.id !== null)) {
+					callback({success: false, messages: {top: "//email is taken"}});
+				}
+				else {
+					processes.retrieve("users", {$and: [{id: session.user.id}, {verification: post.verification}, {new_email: post.email}]}, function(user) {
+						if (typeof user.id === "undefined") {user = user[0];}
+
+						if ((typeof user !== "undefined") && (user.id !== null)) {
+							processes.store("users", {id: session.user.id}, {$set: {verified: true, verification: null, email: post.email, new_email: null}}, function(user) {
+								callback({success: true, messages: {top: "//email verified"}});
+							});
+						}
+						else {
+							callback({success: false, messages: {top: "//unable to verify email"}});
+						}
+					});
+				}
+			});
+		}
+	}
+
 /* exports */
 	module.exports = {
 		signin: signin,
 		signout: signout,
-		signup: signup
+		signup: signup,
+		verify: verify
 	};
