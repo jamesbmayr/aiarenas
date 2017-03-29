@@ -24,13 +24,10 @@
 				%>
 				<div id="signinup" class="section">
 					<div id="action_select" <% if (session.user !== null) { "style='display: none;'"} %> >
-						<span class="whitetext">.action</span>
-						<span class="redtext"> = </span>
-						<select id="actions">
+						<span class="whitetext">.action</span><span class="redtext"> = </span><select id="actions">
 							<option value="signin">signin</option>
 							<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >signup</option>
-						</select>
-						<span class="whitetext">;</span>
+						</select><span class="whitetext">;</span>
 					</div>
 					<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.user !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else {} %> >
 						<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">signin</span></button><span class="whitetext">(</span><input type="text" id="signin_username" class="orangetext" name="signin_username" placeholder="username"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">);</span>

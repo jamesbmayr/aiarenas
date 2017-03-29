@@ -2,12 +2,14 @@
 	const processes = require("../processes");
 	const vm = require("vm");
 
-/* create(user, parameters) */
-	function create(user, parameters) {
+/* create(session, post, callback) */
+	function create(session, post, callback) {
+		var parameters = JSON.parse(post.data) || null;
+
 		var arena = {
 			id: processes.random(),
 			created: new Date().getTime(),
-			users: [user.id],
+			users: [session.user.id],
 			state: {
 				playing: false,
 				start: null,
@@ -487,34 +489,81 @@
 			rounds: [],
 		}
 
-		return arena;
+		processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
+			processes.store("arenas", null, arena, function(data) {
+				callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,3)});
+			});
+		});
 	}
 
-/* join(arena, user) */
-	function join(arena, user) {
-		if (arena.users.length >= arena.rules.robots.maxCount) {
-			return {
-				arena: arena,
-				success: false,
-				messages: {navbar: "//unable to join; maxCount exceeded"}
-			};
-		}
-		else if (arena.users.indexOf(user.id) > -1) {
-			return {
-				arena: arena,
-				success: false,
-				messages: {navbar: "//already joined"}
-			};
+/* destroy(session, post, callback) */
+	function destroy(session, post, callback) {
+		var data = JSON.parse(post.data);
+
+		processes.retrieve("arenas", {id: data.id}, function(arena) {
+			if (typeof arena.id === "undefined") { arena = arena[0]; }
+			
+			if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
+				callback({success: false, messages: {top: "//not authorized"}});
+			}
+			else {
+				proceses.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
+					processes.store("arenas", {id: arena.id}, null, function(results) {
+						callback({success: true, messages: {top: "//arena deleted"}, redirect: "../../../../arenas"});
+					});
+				});
+			}
+		});
+	}
+
+/* join(session, post, callback) */
+	function join(session, post, callback) {
+		var data = JSON.parse(post.data);
+
+		if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
+			callback({success: false, messages: {top: "//invalid arena id", navbar: "//invalid arena id"}});
 		}
 		else {
-			arena.users.push(user.id);
+			processes.retrieve("arenas", {$where: "this.id.substring(0,3) === " + data.arena_id}, function(arena) {
+				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
-			return {
-				arena: arena,
-				success: true,
-				messages: {navbar: "//successfully joined"},
-				redirect: "../../../../arenas/" + arena.id.substring(0,3)
-			};
+				if (typeof arena !== "undefined") {
+					if (arena.users.length >= arena.rules.robots.maxCount) {
+						callback({success: false, arena: arena,	messages: {navbar: "//unable to join; maxCount exceeded", top: "//unable to join; maxCount exceeded"}});
+					}
+					else if (arena.users.indexOf(session.user.id) > -1) {
+						callback({success: false, arena: arena,	messages: {navbar: "//already joined", top: "//already joined"}});
+					}
+					else {
+						arena.users.push(session.user.id);
+						
+						processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
+							processes.store("arenas", {id: arena.id}, {$push: {users: session.user.id}}, function(arena) {
+								callback({success: true, messages: {navbar: "//successfully joined", top: "//successfully joined"}, redirect: "../../../../arenas/" + arena.id.substring(0,3)});
+							});
+						});
+					}
+				}
+				else {
+					callback({success: false, messages: {navbar: "//invalid arena id"}});
+				}
+			});
+		}
+	}
+
+/* leave(session, post, callback) */
+	function leave(session, post, callback) {
+		var data = JSON.parse(post.data);
+		
+		if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
+			callback({success: false, messages: {top: "//invalid arena id"}});
+		}
+		else {
+			processes.store("users", {id: session.user.id}, {$pull: {arenas: arena.id}}, function(user) {
+				processes.store("arenas", {$where: "this.id.substring(0,3) === " + post.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
+					callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
+				});
+			});
 		}
 	}
 
@@ -537,5 +586,7 @@
 	module.exports = {
 		create: create,
 		join: join,
+		leave: leave,
 		update: update,
+		destroy: destroy,
 	};

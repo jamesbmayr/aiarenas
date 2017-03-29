@@ -1,6 +1,6 @@
-$(document).ready(function() {
+/*** settings ***/
 
-	/* * settings * */
+	$(document).ready(function() {
 		/* delete user */
 			$(document).on("click", "#user_cancel", function() {
 				$("#user_cancel").hide();
@@ -327,4 +327,4 @@ $(document).ready(function() {
 				});
 			});
 
-});
+	});

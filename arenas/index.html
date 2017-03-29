@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ai_arenas.<% data.id.substring(0,3) || "arenas" %></title>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<% colors(session); %>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<% navbar(session); %>
+		<div class="container" value="<% data.id || null %>">
+			<div class="section">
+				<span class="whitetext header"><% try {data.id.substring(0,3)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
+			</div>
+			<div class="indented">
+				<div class="megasection">
+					<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
+						<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">);</span>
+					</form>
+					<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
+						<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
+							<% 
+								var options = "";
+								var presets = assets("arena_presets");
+								for (var i = 0; i < presets.length; i++) {
+									options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
+								}
+
+								options;
+							%>
+						</select><span class="whitetext">);</span>
+					</form>							
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						test test test	
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

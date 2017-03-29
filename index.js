@@ -558,31 +558,75 @@
 						/* arenas */
 							case "create_arena":
 								try {
-									if (session.user === null) {
-										_403("//not authorized");
+									if (session.user !== null) {
+										arenas.create(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create arena"}}));
+										});
 									}
 									else {
-										var arena = arenas.create(session.user, post.parameters || null);
-										processes.store("arenas", null, arena, function(arena) {
-											if (typeof arena.id === "undefined") { arena = arena[0]; }
-											processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
-												if (typeof user.id === "undefined") { user = user[0]; }
-												response.end(JSON.stringify({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,3)}));
-											});
-										});
+										_403("//not authorized");
 									}
 								}
 								catch (error) {_403();}
 							break;
 
-							case "edit_arena":
+							case "delete_arena":
+								try {
+									if (session.user !== null) {
+										arenas.destroy(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete arena"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "join_arena":
+								try {
+									if (session.user !== null) {
+										arenas.join(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join arena", navbar: "//unable to join arena"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "leave_arena":
+								try {
+									if (session.user !== null) {
+										arenas.leave(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to leave arena"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "read_arena":
+								try {
+									//
+								}
+								catch (error) {_403();}
+							break;
+
+							/*case "edit_arena":
 								try {
 									if (session.user !== null) {
 										arenas.update(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update arena"}}));
 										});
 
-										/*processes.retrieve("arenas", {$and: [{$where: "this.id.substring(0,3) === " + routes[2]}, {"users[0]": session.user.id}]}, function(arena) {
+										processes.retrieve("arenas", {$and: [{$where: "this.id.substring(0,3) === " + routes[2]}, {"users[0]": session.user.id}]}, function(arena) {
 											if (typeof arena.id === "undefined") { arena = arena[0]; }
 											
 											if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
@@ -601,33 +645,6 @@
 													response.end(JSON.stringify(arena));
 												}
 											}
-										});*/
-									}
-									else {
-										_403("//not authorized");
-									}
-								}
-								catch (error) {_403();}
-							break;
-
-							case "delete_arena":
-								try {
-									if (session.user !== null) {
-										processes.retrieve("arenas", {id: routes[2]}, function(arena) {
-											if (typeof arena.id === "undefined") { arena = arena[0]; }
-											
-											if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
-												_403("//not authorized");
-											}
-											else {
-												proceses.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
-													if (typeof user.id === "undefined") { user = user[0]; }
-													processes.store("arenas", {id: arena.id}, null, function(results) {
-														if (typeof arena.id === "undefined") { arena = arena[0]; }
-														response.end(JSON.stringify({success: true, redirect: "../../../../"}));
-													});
-												});
-											}
 										});
 									}
 									else {
@@ -635,76 +652,7 @@
 									}
 								}
 								catch (error) {_403();}
-							break;
-
-							case "join_arena":
-								try {
-									if (session.user !== null) {
-										if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
-											_403("//invalid arena id");
-										}
-										else {
-											processes.retrieve("arenas", {$where: "this.id.substring(0,3) === " + post.arena_id}, function(arena) {
-												if (typeof arena.id === "undefined") { arena = arena[0]; }
-
-												if (typeof arena !== "undefined") {
-													var results = arenas.join(arena, session.user);
-
-													if (results.success) {
-														processes.store("arenas", {id: results.arena.id}, {$push: {users: user.id}}, function(arena) {
-															if (typeof arena.id === "undefined") { arena = arena[0]; }
-															processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
-																if (typeof user.id === "undefined") { user = user[0]; }
-																response.end(JSON.stringify(results));
-															});
-														});
-													}
-													else {
-														response.end(JSON.stringify(results));
-													}
-												}
-												else {
-													response.end(JSON.stringify({success: false, messages: {navbar: "//invalid arena id"}}));
-												}
-											});
-										}
-									}
-									else {
-										_403("//not authorized");
-									}
-								}
-								catch (error) {_403();}
-							break;
-
-							case "leave_arena":
-								try {
-									if (session.user !== null) {
-										if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
-											_403("//invalid arena id");
-										}
-										else {
-											processes.store("arenas", {$where: "this.id.substring(0,3) === " + post.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
-												if (typeof arena.id === "undefined") { arena = arena[0]; }
-												processes.store("users", {id: session.user.id}, {$pull: {arenas: arena.id}}, function(user) {
-													if (typeof user.id === "undefined") { user = user[0]; }
-													_302();
-												});
-											});
-										}
-									}
-									else {
-										_403("//not authorized");
-									}
-								}
-								catch (error) {_403();}
-							break;
-
-							case "read_arena":
-								try {
-									//
-								}
-								catch (error) {_403();}
-							break;
+							break;*/
 
 						/* all others */
 							default:

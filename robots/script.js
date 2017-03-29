@@ -1,6 +1,6 @@
-$(document).ready(function() {
+/*** robots ***/
 
-	/* robots */
+	$(document).ready(function() {
 		/* avatar */
 			$(document).on("change", "#avatar_color select", function() {
 				var value = $("#avatar_color select").val();
@@ -366,4 +366,4 @@ $(document).ready(function() {
 			}
 		}
 
-});
+	});
