@@ -14,6 +14,7 @@
 			},
 			created: new Date().getTime(),
 			information: {
+				show_code: true,
 				bio: null,
 				animation: {},
 				sounds: {
@@ -47,7 +48,7 @@
 				wins: 0,
 				losses: 0,
 			},
-			code: "action = \"charge\";\nreturn action;"
+			code: "action = \"sleep\";\nreturn action;"
 		}
 
 		processes.store("robots", null, robot, function(robot) {
@@ -94,6 +95,20 @@
 								
 								robot.name = data.name;
 								messages.name = "//name updated";
+							}
+						break;
+
+						case "show_code":
+							if (data.show_code === robot.show_code) {
+								//no change
+							}
+							else if ((data.show_code !== "true") && (data.show_code !== "false")) {
+								data.show_code = robot.show_code
+								messages.show_code = "//not a valid option";
+							}
+							else {
+								robot.show_code = data.show_code;
+								messages.show_code = "//code visibility updated";
 							}
 						break;
 

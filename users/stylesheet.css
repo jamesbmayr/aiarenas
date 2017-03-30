@@ -2,3 +2,10 @@
 	.container {
 		border-color: var(--blue);
 	}
+
+	#bio {
+		user-select: auto;
+		-webkit-user-select: auto;
+		-moz-user-select: auto;
+		cursor: auto;
+	}

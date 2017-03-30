@@ -132,22 +132,28 @@
 							arena = arena.rules.victory.tie(arena);
 
 						//check for pause
-							if ((arena.playing) && ((arena.rounds.length - 1) % arena.rules.pause.period == 0)) {
+							if ((arena.playing) && ((arena.rounds.length - 1) % arena.rules.players.pausePeriod == 0)) {
 								arena.state.playing = false;
-								arena.state.pauseTo = (new Date().getTime() + arena.rules.pause.duration);
+								arena.state.pauseTo = (new Date().getTime() + arena.rules.players.pauseDuration);
 							}
 					}
 
 					return arena;
 				},
+				players: {
+					minimum: parameters.players.minimum || 2,
+					maximum: parameters.players.maximum || 8,
+					pauseDuration: parameters.players.pauseDuration || (1000 * 60 * 5),
+					pausePeriod: parameters.players.pausePeriod || 10,
+				},
 				cubes: {
-					animation: parameters.cubes.animation || false,
+					colors: parameters.cubes.colors || ["red", "orange", "yellow", "green", "blue", "purple"],
+					startCount: parameters.cubes.startCount || 1,
+					maximum: parameters.cubes.maximum || 255,
 					spawnRate: parameters.cubes.spawnRate || 1,
 					spawnMemory: parameters.cubes.spawnMemory || 3,
 					dissolveRate: parameters.cubes.dissolveRate || 0,
 					dissolveIndex: parameters.cubes.dissolveIndex || "Math.floor(Math.random() * cubes.length)",
-					startingCount: parameters.cubes.startingCount || 1,
-					colors: parameters.cubes.colors || ["red", "orange", "yellow", "green", "blue", "purple"],
 					actions: {
 						dissolve: function (arena) {
 							var dissolveRate = arena.rules.cubes.dissolveRate;
@@ -187,17 +193,10 @@
 					}
 				},
 				robots: {
-					minCount: parameters.robots.minCount || 2,
-					maxCount: parameters.robots.maxCount || 6,
-					visibleNames: parameters.robots.visibleNames || true,
-					visibleCode: parameters.robots.visibleCode || false,
-					animation: parameters.robots.animation || false,
 					startPower: parameters.robots.startPower || 0,
-					chargeRate: parameters.robots.chargeRate || 1,
-					defaultAction: parameters.robots.defaultAction || "charge",
-					takeTie: parameters.robots.takeTie || "cascade",
-					maxCharge: parameters.robots.maxCharge || 256,
-					maxTake: parameters.robots.maxTake || "currentRound.cubes.length",
+					maxPower: parameters.robots.maxPower || 255,
+					powerRate: parameters.robots.powerRate || 1,
+					tieBreaker: parameters.robots.tieBreaker || "cascade",
 					actions: {
 						take: function(arena) {
 							//get the variables
@@ -315,17 +314,17 @@
 
 							return arena;
 						},
-						charge: function(arena) {
+						power: function(arena) {
 							//get the variables
-								var chargeRate = arena.rules.robots.chargeRate; //get the rate of charge
+								var powerRate = arena.rules.robots.powerRate; //get the rate of charge
 							
 							//charge up
 								for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-									if (robots[i].action == "charge") { //for all robots charging...
-										arena.rounds[arena.rounds.length - 1].robots[i].power += chargeRate; //... add to their power
+									if (robots[i].action == "power") { //for all robots charging...
+										arena.rounds[arena.rounds.length - 1].robots[i].power += powerRate; //... add to their power
 
-										if (arena.rounds[arena.rounds.length - 1].robots[i].power > arena.rules.robots.maxCharge) { //don't let anyone go over the maxCharge
-											arena.rounds[arena.rounds.length - 1].robots[i].power = arena.rules.robots.maxCharge;
+										if (arena.rounds[arena.rounds.length - 1].robots[i].power > arena.rules.robots.maxPower) { //don't let anyone go over the maxCharge
+											arena.rounds[arena.rounds.length - 1].robots[i].power = arena.rules.robots.maxPower;
 										}
 									}
 								}
@@ -334,14 +333,11 @@
 						}
 					}
 				},
-				pause: {
-					roundLength: parameters.pause.roundLength || (1000 * 10),
-					duration: parameters.pause.duration || (1000 * 60 * 5),
-					period: parameters.pause.period || 10,
-				},
+				
 				victory: {
 					conditions: parameters.victory.conditions || ["6_of_1", "2_of_3", "1_of_6"],
-					tieMethod: parameters.victory.tieMethod || "efficient",
+					tieBreaker: parameters.victory.tieBreaker || "efficient",
+					multiplier: parameters.victory.multiplier || 1,
 					check: function(arena) { //check for victory
 						var conditions = arena.rules.victory.conditions;
 						var robots = arena.rounds[arena.rounds.length - 1].robots;
@@ -429,7 +425,7 @@
 
 						if (victors.length > 1) {
 							switch (arena.rules.victory.tieMethod) {
-								case "multiple":
+								case "tie":
 									//do nothing
 								break;
 

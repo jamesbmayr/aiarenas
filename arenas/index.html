@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai_arenas.<% data.id.substring(0,3) || "arenas" %></title>
+		<title>ai_arenas.<% try {data.id.substring(0,3)} catch(error) {"arenas"} %></title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
@@ -36,9 +36,201 @@
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
-				<div class="megasection">
-					<div class="section">
-						test test test	
+				<div class="megasection" id="parameters">
+					<div class="section" id="players">
+						<span class="whitetext">.players</span><span class="redtext"> = </span><span class="whitetext">{</span>
+						<div class="indented">
+							<span class="whitetext">minimum: </span><select class="purpletext" id="players_minimum"><% 
+								var options = "";
+								var values = [2,3,4,5,6];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='2'", "value='2' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">maximum: </span><select class="purpletext" id="players_maximum"><% 
+								var options = "";
+								var values = [2,3,4,5,6];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='6'", "value='6' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">pauseDuration: </span><select class="purpletext" id="players_pauseDuration"><% 
+								var options = "";
+								var values = ["00:00","01:00","02:00","05:00","10:00"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='05:00'", "value='05:00' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">pausePeriod: </span><select class="purpletext" id="players_pausePeriod"><% 
+								var options = "";
+								var values = [1,5,10,20,50,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='10'", "value='10' selected");
+							%></select>
+						</div>
+						<span class="whitetext">}</span>
+					</div>
+					<div class="section" id="cubes">
+						<span class="whitetext">.cubes</span><span class="redtext"> = </span><span class="whitetext">{</span>
+						<div class="indented">
+							<span class="whitetext">colors: [</span><span id="cubes_colors" class="whitetext"><% 
+								var options = "";
+								var values = ["red","orange","yellow","green","blue","purple"];
+								for (var i = 0; i < values.length; i++) {
+									options += " <input type='checkbox' value='" + values[i] + "' id='cubes_colors_" + values[i] + "' checked/> <label for='cubes_colors_" + values[i] + "' class='" + values[i] + "text'>" + values[i] + "</label>,";
+								}
+
+								options.substring(0,options.length - 1);
+							%></span><span class="whitetext">],</span><br>
+							<span class="whitetext">startCount: </span><select class="purpletext" id="cubes_startCount"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">maximum: </span><select class="purpletext" id="cubes_maximum"><% 
+								var options = "";
+								var values = [6,12,24,48,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='255'", "value='255' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">spawnRate: </span><select class="purpletext" id="cubes_spawnRate"><% 
+								var options = "";
+								var values = [1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">spawnMemory: </span><select class="purpletext" id="cubes_spawnMemory"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='3'", "value='3' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">dissolveRate: </span><select class="purpletext" id="cubes_dissolveRate"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='0'", "value='0' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">dissolveIndex: </span><select class="yellowtext" id="cubes_dissolveIndex"><% 
+								var options = "";
+								var values = ["newest","oldest","random","none"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='oldest'", "value='oldest' selected");
+							%></select>
+						</div>
+						<span class="whitetext">}</span>
+					</div>
+					<div class="section" id="robots">
+						<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">{</span>
+						<div class="indented">
+							<span class="whitetext">startPower: </span><select class="purpletext" id="robots_startPower"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">maxPower: </span><select class="purpletext" id="robots_maxPower"><% 
+								var options = "";
+								var values = [1,2,5,10,20,50,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='255'", "value='255' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">powerRate: </span><select class="purpletext" id="robots_powerRate"><% 
+								var options = "";
+								var values = [1,2,3,4,5,10,20];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
+								var options = "";
+								var values = ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"];
+								for (var i = 0; i < values.length; i++) {
+									options += " <input type='checkbox' value='" + values[i] + "' id='robots_actions_" + values[i] + "'/> <label for='robots_actions_" + values[i] + "' class='greentext'>" + values[i] + "<span class='whitetext'>()</span></label>,";
+								}
+
+								options.substring(0,options.length - 1).replace("id='robots_actions_take'", "id='robots_actions_take' checked").replace("id='robots_actions_power'", "id='robots_actions_power' checked").replace("id='robots_actions_sleep'", "id='robots_actions_sleep' checked");
+							%></span><span class="whitetext">],</span><br>
+							<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="robots_tieBreaker"><% 
+								var options = "";
+								var values = ["leave","split","dissolve","cascade","random"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='cascade'", "value='cascade' selected");
+							%></select>
+						</div>
+						<span class="whitetext">}</span>
+					</div>
+					<div class="section" id="victory">
+						<span class="whitetext">.victory</span><span class="redtext"> = </span><span class="whitetext">{</span>
+						<div class="indented">
+							<span class="whitetext">conditions: [</span><span id="robots_actions" class="whitetext"><% 
+								var options = "";
+								var values = ["1of6","2of3","3of2","6of1"];
+								for (var i = 0; i < values.length; i++) {
+									options += " <input type='checkbox' value='" + values[i] + "' id='victory_conditions_" + values[i] + "'/> <label for='victory_conditions_" + values[i] + "' class='yellowtext'>" + values[i] + "</label>,";
+								}
+
+								options.substring(0,options.length - 1).replace("id='victory_conditions_1of6'", "id='victory_conditions_1of6' checked").replace("id='victory_conditions_2of3'", "id='victory_conditions_2of3' checked").replace("id='victory_conditions_6of1'", "id='victory_conditions_6of1' checked");
+							%></span><span class="whitetext">],</span><br>
+							<span class="whitetext">multiplier: </span><select class="purpletext" id="victory_multiplier"><% 
+								var options = "";
+								var values = [1,2,3,4,5,10];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><br>
+							<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="victory_tieBreaker"><% 
+								var options = "";
+								var values = ["tie","random","greedy","efficient"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='efficient'", "value='efficient' selected");
+							%></select><span class="whitetext">,</span><br>
+						</div>
+						<span class="whitetext">}</span>
 					</div>
 				</div>
 			</div>

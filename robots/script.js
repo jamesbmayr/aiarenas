@@ -21,6 +21,8 @@
 					$(this).prop("contenteditable",true).closest(".field_frame").addClass("active");
 				});
 
+				$("#robot_settings").show();
+
 				/* avatar */
 					var avatar = {}
 					$(".avatar").each(function() {
@@ -56,6 +58,8 @@
 					$(this).text(value);
 				});
 
+				$("#robot_settings").hide();
+
 				/* avatar */
 					var avatar = {}
 					$("#avatar_pre").show();
@@ -72,11 +76,14 @@
 				var data = {
 					id: $(".container").attr("value")
 				};
+
 				$(".field").each(function() {
 					var field = $(this).attr("id");
 					var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 					data[field] = value;
 				});
+
+				data.show_code = $("#show_code").val();
 
 				/* avatar */
 					var avatar = {};
@@ -136,6 +143,8 @@
 						$("#robot_cancel").hide();
 						$("#robot_delete").hide();
 						$("#robot_confirm_delete").hide();
+
+						$("#robot_settings").hide();
 
 						/* avatar */
 							var avatar = {}
@@ -340,18 +349,25 @@
 				}
 
 				function rgbopizer(text) {
-					/* math */ 		text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&+|\|+|\\+|\!+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* math */ 		text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&\&|\|\||\\+|\!+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s)(\<+|\>+|&amp;|&amp;&amp;|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&lt;&lt;&lt;|&gt;&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|&lt;\=\=|\=\=&gt;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
-					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s)(if|else|return|typeof|switch|case|break|new|for|while|\$|const|do|try|catch|throw|finally)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
-					/* types */		text = text.replace(/(^|\{|\[|\(|\s)(Math|Number|String|Object|function|var|eval)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
-					/* actions */	text = text.replace(/(\.)(length|replace|substring|log|random|floor|push|pull|shift|pop|split|join|indexOf|slice|splice|filter|sort|test|getTime|min|max|toString|toArray|parse)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s)(if|else|return|typeof|switch|case|break|new|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* booleans */	text = text.replace(/(^|\{|\[|\(|\s)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
-					
-					/* numbers */	text = text.replace(/(^|\{|\[|\(|\s|\,)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
-					/* again */		text = text.replace(/(^|\{|\[|\(|\s|\,)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
+					/* types */		text = text.replace(/(^|\{|\[|\(|\s)(Math|Number|String|Object|function|var|eval|Date|Error)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+
+					/* misc */		text = text.replace(/(\.)(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|exec|length|log|parse|parseFloat|parseInt|pull|test|toArray)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* arrays */	text = text.replace(/(\.)(concat|copyWithin|every|fill|filter|find|findIndex|forEach|indexOf|isArray|join|lastIndexOf|map|pop|push|reduce|reduceRight|reverse|shift|slice|some|sort|splice|toString|unshift|valueOf)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* numbers */	text = text.replace(/(\.)(isFinite|isInteger|isNaN|isSafeInteger|toExponential|toFixed|toPrecision|toString|valueOf)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* math */		text = text.replace(/(\.)(abs|acos|asin|atan|atan2|ceil|cos|exp|floor|log|max|min|pow|random|round|sin|sqrt|tan)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* strings */	text = text.replace(/(\.)(charAt|charCodeAt|concat|endsWith|fromCharCode|includes|indexOf|lastIndexOf|localeCompare|match|repeat|replace|search|slice|split|startsWith|substr|substring|toLocaleLowerCase|toLocaleUpperCase|toLowerCase|toString|toUpperCase|trim|valueOf)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* dates */		text = text.replace(/(\.)(getDate|getDay|getFullYear|getHours|getMilliseconds|getMinutes|getMonth|getSeconds|getTime|setDate|setFullYear|setHours|setMilliseconds|setMinutes|setMonth|setSeconds|setTime|getUTCDate|getUTCDay|getUTCFullYear|getUTCHours|getUTCMilliseconds|getUTCMinutes|getUTCMonth|getUTCSeconds)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+				
+					/* numbers */	text = text.replace(/(^|-|\-|\{|\[|\(|\s|\,|[\-|\+|\!|\/|\*|\=]\<\/span\>)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
+					/* again */		text = text.replace(/(^|-|\-|\{|\[|\(|\s|\,|[\-|\+|\!|\/|\*|\=]\<\/span\>)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
 					
 					/* functions */	text = text.replace(/([a-zA-Z0-9_]+)(\s?\<span\ redtext\>\=\<\/span\>\s?)(\<span\ bluetext\>function\<\/span\>\s?)\((\s?[a-zA-Z0-9_,\s]*?\s?)\)/g,"<span greentext>$1</span>$2$3(<span orangetext>$4</span>)");
 					/* functions */	text = text.replace(/(\s?\<span\ bluetext\>function\<\/span\>\s?)([a-zA-Z0-9_]*\s?)\((\s?[a-zA-Z0-9_,\s]*?\s?)\)/g,"$1<span greentext>$2</span>(<span orangetext>$3</span>)");
+					/* functions */ text = text.replace(/([a-zA-Z0-9_]+)(\s?\:\s?)(\<span\ bluetext\>function\<\/span\>\s?)/g,"<span greentext>$1</span>$2$3");
 
 					return text;
 				}
