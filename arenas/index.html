@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai_arenas.<% try {data.id.substring(0,3)} catch(error) {"arenas"} %></title>
+		<title>ai_arenas.<% try {data.id.substring(0,4)} catch(error) {"arenas"} %></title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
@@ -13,7 +13,7 @@
 		<% navbar(session); %>
 		<div class="container" value="<% data.id || null %>">
 			<div class="section">
-				<span class="whitetext header"><% try {data.id.substring(0,3)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
+				<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
 			</div>
 			<div class="indented">
 				<div class="megasection">
@@ -189,7 +189,7 @@
 							%></span><span class="whitetext">],</span><br>
 							<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="robots_tieBreaker"><% 
 								var options = "";
-								var values = ["leave","split","dissolve","cascade","random"];
+								var values = ["leave","dissolve","cascade","random","catchup"];
 								for (var i = 0; i < values.length; i++) {
 									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 								}
@@ -235,5 +235,10 @@
 				</div>
 			</div>
 		</div>
+		<%
+			if ((typeof data.id !== "undefined") && (data.id !== null)) {
+				"<hr><hr><hr><pre id='json' class='whitetext' style='font-weight: normal'>" + JSON.stringify(data, null, 4) + "</pre>";
+			}
+		%>
 	</body>
 </html>

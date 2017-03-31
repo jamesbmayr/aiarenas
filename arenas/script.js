@@ -17,7 +17,7 @@
 								window.location = data.redirect;
 							}
 							else {
-								$("#message_top").animateText({text: (data.messages.top || "//unable to create robot")}, 1000);
+								$("#message_top").animateText({text: (data.messages.top || "//unable to join arena")}, 1000);
 							}
 						}
 					});
@@ -183,7 +183,7 @@
 						$("#robots_startPower").val(10);
 						$("#robots_maxPower").val(255);
 						$("#robots_powerRate").val(10);
-						$("#robots_tieBreaker").val("split");
+						$("#robots_tieBreaker").val("catchup");
 
 						$("#robots_actions_power").prop("checked",true);
 						$("#robots_actions_take").prop("checked",true);

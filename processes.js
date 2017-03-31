@@ -336,7 +336,7 @@
 
 				var arenas = "";
 				for (var i = 0; i < session.user.arenas.length; i++) {
-					arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.user.arenas[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.user.arenas[i].id).substring(0,3) + "</span></a></div>";
+					arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.user.arenas[i].substring(0,4) + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.user.arenas[i]).substring(0,4) + "</span></a></div>";
 				}
 
 				navbar += "<div id='navbar'>\

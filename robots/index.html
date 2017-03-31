@@ -55,14 +55,27 @@
 						</div>
 						<span class="whitetext">};</span>
 					</div>
-					<div class="section" id="robot_settings" style="display: none">
-						<span class="whitetext">.showCode</span><span class="redtext"> = </span>
-						<select id="show_code" class="purpletext">
-							<option value="true" <% if (data.show_code === "true") {"selected"} %>>true</option>
-							<option value="false" <% if (data.show_code === "false") {"selected"} %>>false</option>
-						</select>
-						<span class="whitetext">;</span> <span class='message graytext'></span>
-					</div>
+					<%
+						if ((session.user !== null) && (session.user.id === data.user.id)) {
+							if (data.show_code === "true") {
+								var show_code_true = " selected";
+								var show_code_false = "";
+							}
+							else if (data.show_code === "false") {
+								var show_code_true = "";
+								var show_code_false = " selected";
+							}
+
+							'<div class="section" id="robot_settings" style="display: none">\
+								<span class="whitetext">.showCode</span><span class="redtext"> = </span>\
+								<select id="show_code" class="purpletext">\
+									<option value="true"' + show_code_true + '>true</option>\
+									<option value="false"' + show_code_true + '>false</option>\
+								</select>\
+								<span class="whitetext">;</span> <span class="message graytext"></span>\
+							</div>';
+						}
+					%>
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
@@ -248,17 +261,20 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="orangetext">arena</span><span class="whitetext">) {</span> <span class='message graytext'></span>
+						<% 
+							if (((typeof data.show_code !== "undefined") && (data.show_code === "true")) || (session.user !== null) && (data.user.id === session.user.id)) {
+								var code = data.code || " /* no code */ ";
+								var inputs = data.inputs || "";
+							} 
+							else {
+								var code = " /* hidden */ ";
+								var inputs = "";
+							}
+						%>
+						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span>
 						<div class="indented">
 							<div class="field_frame">
-								<span class="whitetext field" id="code" value='<% data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><%
-										if (((typeof data.show_code !== "undefined") && (data.show_code === "true")) || (session.user !== null) && (data.user.id === session.user.id)) {
-											data.code || " /* no code */ ";
-										} 
-										else {
-											" /* hidden */ ";
-										}
-									%></span>
+								<span class="whitetext field" id="code" value='<% code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% code %></span>
 							</div>
 						</div>
 						<span class="whitetext">};</span>

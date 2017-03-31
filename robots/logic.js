@@ -48,6 +48,7 @@
 				wins: 0,
 				losses: 0,
 			},
+			inputs: "",
 			code: "action = \"sleep\";\nreturn action;"
 		}
 
@@ -119,6 +120,16 @@
 							else {
 								robot.information.bio = data.bio;
 								messages.bio = "//bio updated";
+							}
+						break;
+
+						case "inputs":
+							if (data.inputs === robot.inputs) {
+								//no change
+							}
+							else {
+								robot.inputs = String(data.inputs.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&"));
+								messages.code = "//code updated";
 							}
 						break;
 
