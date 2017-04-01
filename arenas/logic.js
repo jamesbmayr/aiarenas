@@ -40,8 +40,8 @@
 					maxPower: parameters.robots.maxPower || 255,
 					powerRate: parameters.robots.powerRate || 1,
 					tieBreaker: parameters.robots.tieBreaker || "cascade",
+					actions: parameters.robots.actions || ["power", "take", "sleep"],
 				},
-				
 				victory: {
 					conditions: parameters.victory.conditions || ["6_of_1", "2_of_3", "1_of_6"],
 					tieBreaker: parameters.victory.tieBreaker || "efficient",
@@ -91,10 +91,16 @@
 
 				if (typeof arena !== "undefined") {
 					if (arena.users.length >= arena.rules.robots.maxCount) {
-						callback({success: false, arena: arena,	messages: {navbar: "//unable to join; maxCount exceeded", top: "//unable to join; maxCount exceeded"}});
+						callback({success: false, messages: {navbar: "//unable to join; maxCount exceeded", top: "//unable to join; maxCount exceeded"}});
 					}
 					else if (arena.users.indexOf(session.user.id) > -1) {
-						callback({success: false, arena: arena,	messages: {navbar: "//already joined", top: "//already joined"}});
+						callback({success: false, messages: {navbar: "//already joined", top: "//already joined"}});
+					}
+					else if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 15) && ((arena.rules.robots.actions.indexOf("sap") > -1) || (arena.rules.robots.actions.indexOf("halftake") > -1) || (arena.rules.robots.actions.indexOf("fliptake") > -1))) {
+						callback({success: false, messages: {navbar: "//unable to join; arena contains advanced actions", top: "//unable to join; arena contains advanced actions"}});
+					}
+					else if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 30) && ((arena.rules.robots.actions.indexOf("shock") > -1) || (arena.rules.robots.actions.indexOf("burn") > -1) || (arena.rules.robots.actions.indexOf("swaptake") > -1))) {
+						callback({success: false, messages: {navbar: "//unable to join; arena contains expert actions", top: "//unable to join; arena contains expert actions"}});
 					}
 					else {
 						arena.users.push(session.user.id);
@@ -148,7 +154,6 @@
 				}
 			});
 		}
-
 	}
 
 /* leave(session, post, callback) */
@@ -245,10 +250,43 @@
 								else { //evaluate it yourself
 									var arena = update(locked_arena); //update the arena
 									arena.state.locked = false; //unlock it
-									
-									processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
-										callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
-									});
+
+									if (arena.state.end === null) { //if the arena has not concluded...
+										processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
+											callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
+										});
+									}
+									else { //if it has concluded...
+										if (arena.state.victors.length > 0) { //update stats for those robots
+											var robot_ids = Object.keys(arena.entrants);
+											var robot_victors = arena.state.victors;
+											var robot_losers = robot_ids.filter(function(robot_id) { return (!(robot_victors.indexOf(robot_id) > -1))});
+											
+											var user_victors = [];
+											var user_losers = [];
+											
+											for (var i = 0; i < robot_ids.length; i++) {
+												if (robot_victors.indexOf(robot_ids[i]) > -1) {
+													user_victors.push(arena.entrants[robot_ids[i]].user.id);
+												}
+												else {
+													user_losers.push(arena.entrants[robot_ids[i]].user.id);	
+												}
+											}
+
+											processes.store("users", {id: {$in: user_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //users +1 win
+												processes.store("users", {id: {$in: user_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //users +1 loss
+													processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //robots +1 win
+														processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //robots +1 loss
+															processes.store("arenas", {id: arena.id}, arena, function(data) { //store the arena
+																callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
+															});
+														});
+													});
+												});
+											});
+										}
+									}
 								}
 							});
 						}
@@ -882,8 +920,8 @@
 
 			//phase 8: check for pause
 				if ((arena.state.end === null) && ((arena.rounds.length - 1) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete, unless victory
-					arena.state.pauseFrom = new Date().getTime();
-					arena.state.pauseTo = (new Date().getTime() + arena.rules.players.pauseDuration);
+					arena.state.pauseFrom = new Date().getTime() + ((arena.rounds.length - startLength) * 1000 * 10); //set the pause start for now + 10 seconds per new round evaluated
+					arena.state.pauseTo = arena.state.pauseFrom + arena.rules.players.pauseDuration; //set pause end for pauseFrom + duration of the pause
 				}
 		}
 			

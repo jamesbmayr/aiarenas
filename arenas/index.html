@@ -24,7 +24,15 @@
 						<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
 							<% 
 								var options = "";
-								var presets = assets("arena_presets");
+								if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+									var presets = ["default", "simple", "advanced", "intense", "random", "custom"];
+								}
+								else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+									var presets = ["default", "simple", "advanced", "custom"]
+								}
+								else {
+									var presets = ["default", "custom"];
+								}
 								for (var i = 0; i < presets.length; i++) {
 									options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
 								}
@@ -180,7 +188,15 @@
 							%></select><span class="whitetext">,</span><br>
 							<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
 								var options = "";
-								var values = ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"];
+								if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+									var values = ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"];
+								}
+								else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+									var values = ["power","take","sleep","sap","halftake","fliptake"];
+								}
+								else {
+									var values = ["power", "take", "sleep"];
+								}
 								for (var i = 0; i < values.length; i++) {
 									options += " <input type='checkbox' value='" + values[i] + "' id='robots_actions_" + values[i] + "'/> <label for='robots_actions_" + values[i] + "' class='greentext'>" + values[i] + "<span class='whitetext'>()</span></label>,";
 								}

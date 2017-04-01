@@ -72,10 +72,6 @@
 					asset = ["default", "inverted", "chroma", "old_school", "black_and_white", "electric", "underblue"];
 				break;
 
-				case "arena_presets":
-					asset = ["default", "simple", "advanced", "intense", "random", "custom"];
-				break;
-
 				default:
 					asset = null;
 				break;
