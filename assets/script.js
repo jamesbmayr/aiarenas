@@ -394,4 +394,8 @@ $(document).ready(function() {
 			}
 		});
 
+	/* resizeTop */
+		window.resizeTop = function() {
+			$(".content").css("margin-top",($(".top_outer").css("height").replace("px","") - 46));
+		};
 });

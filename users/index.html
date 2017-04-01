@@ -12,28 +12,35 @@
 	<body>
 		<% navbar(session); %>
 		<div class="container" value="<% data.id %>">
-			<div class="section">
-				<span class="whitetext header" id="name"><% data.name %></span> <span class="graytext" id="message_top"></span>
+			<div class="top_outer">
+				<div class="top_inner">
+					<div class="section">
+						<span class="whitetext header" id="name"><% data.name %></span> <span class="graytext" id="message_top"></span>
+					</div>
+					<div class="indented">
+						<%
+							if ((session.user !== null) && (session.user.id === data.id)) {
+								"<div class='megasection'>\
+									<div class='section'>\
+										<button id='user_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+									</div>\
+									<div class='section'>\
+										<button id='user_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+									</div>\
+									<div class='section'>\
+										<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+									</div>\
+									<div class='section'>\
+										<a id='settings' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a>\
+									</div>\
+								</div>";
+							}
+						%>
+					</div>
+					<hr>
+				</div>
 			</div>
-			<div class="indented">
-				<%
-					if ((session.user !== null) && (session.user.id === data.id)) {
-						"<div class='megasection'>\
-							<div class='section'>\
-								<button id='user_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
-							</div>\
-							<div class='section'>\
-								<button id='user_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
-							</div>\
-							<div class='section'>\
-								<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
-							</div>\
-							<div class='section'>\
-								<a id='settings' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a>\
-							</div>\
-						</div>";
-					}
-				%>
+			<div class="indented content">
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">

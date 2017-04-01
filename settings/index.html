@@ -12,15 +12,22 @@
 	<body>
 		<% navbar(session); %>
 		<div class="container" value="<% data.id %>">
-			<div class="section">
-				<span class="whitetext header">settings</span> <span class="graytext" id="message_top"></span>
-			</div>
-			<div class="indented">
-				<div class="megasection">
-					<div class='section'>
-						<a id='exit' href="../../../../users"><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
+			<div class="top_outer">
+				<div class="top_inner">
+					<div class="section">
+						<span class="whitetext header">settings</span> <span class="graytext" id="message_top"></span>
 					</div>
+					<div class="indented">
+						<div class="megasection">
+							<div class='section'>
+								<a id='exit' href="../../../../users"><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
+							</div>
+						</div>
+					</div>
+					<hr>
 				</div>
+			</div>
+			<div class="content indented">
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">

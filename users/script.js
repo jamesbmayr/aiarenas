@@ -1,5 +1,7 @@
 /*** users ***/
 	$(document).ready(function() {
+		resizeTop();
+
 		/* avatar */
 			$(document).on("change", "#avatar_color select", function() {
 				var value = $("#avatar_color select").val();
@@ -19,6 +21,8 @@
 				$(".field").prop("contenteditable",true).closest(".field_frame").addClass("active");
 				$(".message").text("");
 				$("#message_top").animateText({text: "//now editing"}, 1000);
+
+				resizeTop();
 			});
 
 			$(document).on("click", "#user_cancel", function() {
@@ -36,6 +40,8 @@
 					$(this).text(value);
 				});
 				$("#message_top").animateText({text: "//edits canceled"}, 1000);
+
+				resizeTop();
 			});
 
 			$(document).on("click", "#user_save", function() {
@@ -84,6 +90,8 @@
 
 						$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 						$("#message_top").animateText({text: (messages.top || "//edits submitted")}, 1000);
+
+						resizeTop();
 					}
 				});
 			});

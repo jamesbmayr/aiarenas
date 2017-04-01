@@ -1,5 +1,7 @@
 /*** arenas ***/
 	$(document).ready(function() {
+		resizeTop();
+		
 		/* inactive arena */
 			window.join_arena = function() {
 				var arena_id = $("#join_key").val();

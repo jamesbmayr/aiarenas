@@ -3,6 +3,10 @@
 		border-color: var(--green);
 	}
 
+	.top_inner {
+		border-color: var(--green);
+	}
+
 	#name_frame.active {
 		padding-top: 28px;
 	}

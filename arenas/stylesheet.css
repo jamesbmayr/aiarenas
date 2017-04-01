@@ -2,3 +2,7 @@
 	.container {
 		border-color: var(--red);
 	}
+
+	.top_inner {
+		border-color: var(--red);
+	}

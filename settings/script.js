@@ -1,6 +1,7 @@
 /*** settings ***/
-
 	$(document).ready(function() {
+		resizeTop();
+
 		/* delete user */
 			$(document).on("click", "#user_cancel", function() {
 				$("#user_cancel").hide();

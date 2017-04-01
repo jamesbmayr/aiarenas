@@ -1,6 +1,6 @@
 /*** robots ***/
-
 	$(document).ready(function() {
+		resizeTop();
 		$(".field#code").html(colorText(String($(".field#code").html())));
 
 		/* avatar */
@@ -45,6 +45,7 @@
 
 				$(".message").text("");
 				$("#message_top").animateText({text: "//now editing"}, 1000);
+				resizeTop();
 			});
 
 			$(document).on("click", "#robot_cancel", function() {
@@ -72,6 +73,7 @@
 
 				$("#message_top").animateText({text: "//edits canceled"}, 1000);
 				$(".field#code").html(colorText(String($(".field#code").html())));
+				resizeTop();
 			});
 
 			$(document).on("click", "#robot_save", function() {
@@ -153,6 +155,8 @@
 						$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 						$("#message_top").animateText({text: (messages.top || "//changes submitted")}, 1000);
 						$(".field#code").html(colorText(String($(".field#code").html())));
+
+						resizeTop();
 					}
 				});
 			});
@@ -171,6 +175,8 @@
 					$(this).text(value);
 				});
 				$("#message_top").animateText({text: "//are you sure you want to delete this robot?"}, 1000);
+
+				resizeTop();
 			});
 
 			$(document).on("click", "#robot_confirm_delete", function() {
@@ -204,6 +210,8 @@
 
 							$("#message_top").animateText({text: (results.messages.top || "//unable to delete robot")}, 1000);
 						}
+
+						resizeTop();
 					}
 				});
 			});

@@ -80,7 +80,7 @@
 			});
 		}
 		else {
-			callback({success: true, messages: {top: "//no changes"}});
+			callback({success: true, data: data, messages: {top: "//no changes"}});
 		}
 	}
 

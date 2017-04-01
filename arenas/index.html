@@ -12,36 +12,43 @@
 	<body>
 		<% navbar(session); %>
 		<div class="container" value="<% data.id || null %>">
-			<div class="section">
-				<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
-			</div>
-			<div class="indented">
-				<div class="megasection">
-					<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
-						<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">);</span>
-					</form>
-					<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
-						<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
-							<% 
-								var options = "";
-								if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
-									var presets = ["default", "simple", "advanced", "intense", "random", "custom"];
-								}
-								else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
-									var presets = ["default", "simple", "advanced", "custom"]
-								}
-								else {
-									var presets = ["default", "custom"];
-								}
-								for (var i = 0; i < presets.length; i++) {
-									options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
-								}
+			<div class="top_outer">
+				<div class="top_inner">
+					<div class="section">
+						<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
+					</div>
+					<div class="indented">
+						<div class="megasection">
+							<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
+								<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">);</span>
+							</form>
+							<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
+								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
+									<% 
+										var options = "";
+										if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+											var presets = ["default", "simple", "advanced", "intense", "random", "custom"];
+										}
+										else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+											var presets = ["default", "simple", "advanced", "custom"]
+										}
+										else {
+											var presets = ["default", "custom"];
+										}
+										for (var i = 0; i < presets.length; i++) {
+											options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
+										}
 
-								options;
-							%>
-						</select><span class="whitetext">);</span>
-					</form>							
+										options;
+									%>
+								</select><span class="whitetext">);</span>
+							</form>							
+						</div>
+					</div>
+					<hr>
 				</div>
+			</div>
+			<div class="indented content">
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection" id="parameters">
