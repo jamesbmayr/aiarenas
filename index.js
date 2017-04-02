@@ -324,7 +324,12 @@
 						/* arenas */
 							case (/^\/arenas\/?$/).test(request.url):
 								try {
-									response.end(processes.render("./arenas/index.html", session, null));
+									if (session.user !== null) {
+										response.end(processes.render("./arenas/index.html", session, null));
+									}
+									else {
+										_302();
+									}
 								}
 								catch (error) {_404();}
 							break;
@@ -335,7 +340,7 @@
 										if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 										if (arena) {
-											response.end(processes.render("./arenas/index.html", session, arena));
+											response.end(processes.render("./arenas/game.html", session, arena));
 										}
 										else {
 											_302();
@@ -612,39 +617,11 @@
 								catch (error) {_403();}
 							break;
 
-							case "read_arena":
-								try {
-									//
-								}
-								catch (error) {_403();}
-							break;
-
-							/*case "edit_arena":
+							case "select_robot":
 								try {
 									if (session.user !== null) {
-										arenas.update(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update arena"}}));
-										});
-
-										processes.retrieve("arenas", {$and: [{$where: "this.id.substring(0,3) === " + routes[2]}, {"users[0]": session.user.id}]}, function(arena) {
-											if (typeof arena.id === "undefined") { arena = arena[0]; }
-											
-											if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
-												_403("//not authorized");
-											}
-											else {
-												var before = JSON.stringify(arena);
-												var arena = arenas.update(arena);
-												
-												if (before !== JSON.stringify(arena)) {
-													processes.store("arenas", {id: arena.id}, arena, function(arena) {
-														response.end(JSON.stringify(arena));
-													});
-												}
-												else {
-													response.end(JSON.stringify(arena));
-												}
-											}
+										arenas.selectRobot(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to select robot"}}));
 										});
 									}
 									else {
@@ -652,7 +629,42 @@
 									}
 								}
 								catch (error) {_403();}
-							break;*/
+							break;
+
+							case "launch_arena":
+								try {
+									if (session.user !== null) {
+										arenas.launch(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to launch arena"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "adjust_robot":
+								try {
+									if (session.user !== null) {
+										arenas.adjustRobot(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to save changes"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "read_arena":
+								try {
+									//
+								}
+								catch (error) {_403();}
+							break;
 
 						/* all others */
 							default:

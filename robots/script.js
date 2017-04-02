@@ -28,7 +28,7 @@
 				/* avatar */
 					var avatar = {}
 					$(".avatar").each(function() {
-						var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+						var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
 						var value = String($(this).text());
 						avatar[key] = String(value);
 					});
@@ -38,7 +38,7 @@
 					$("#avatar_color").show();
 
 					$("#avatar_selection select").each(function() {
-						var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+						var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
 						var value = String(avatar[key]);
 						$(this).find("option[value=\"" + value + "\"]").attr("selected",true);
 					});
@@ -92,7 +92,7 @@
 				/* avatar */
 					var avatar = {};
 					$("#avatar_selection select").each(function() {
-						var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+						var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
 						var value = $(this).val();
 						avatar[key] = String(value);
 					});
@@ -121,7 +121,7 @@
 
 							/* avatar */
 								$(".avatar").each(function() {
-									var key = $(this).attr("id").substring($(this).attr("id").indexOf(".") + 1);
+									var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
 									var value = data.avatar[key];
 
 									if (value === null) {

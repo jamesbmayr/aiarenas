@@ -6,3 +6,41 @@
 	.top_inner {
 		border-color: var(--red);
 	}
+
+	/* game */
+		.spectatorMessage {
+			font-size: 32px;
+		}
+
+	/* robots */
+		.self {
+			width: 200px;
+			border: 2px solid var(--white);
+			border-radius: 5px;
+			padding: 10px;
+			display: inline-block;
+			margin: 0px 20px 0px 0px;
+			line-height: 1;
+		}
+
+		.self pre {
+			width: 180px;
+			text-align: center;
+			overflow: hidden;
+		}
+
+		.opponent {
+			width: 200px;
+			border: 2px solid var(--gray);
+			border-radius: 5px;
+			padding: 10px;
+			display: inline-block;
+			margin: 0px 20px 0px 0px;
+			line-height: 1;
+		}
+
+		.opponent pre {
+			width: 180px;
+			text-align: center;
+			overflow: hidden;
+		}

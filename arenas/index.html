@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai_arenas.<% try {data.id.substring(0,4)} catch(error) {"arenas"} %></title>
+		<title>ai_arenas.arenas</title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
@@ -11,18 +11,18 @@
 	</head>
 	<body>
 		<% navbar(session); %>
-		<div class="container" value="<% data.id || null %>">
+		<div class="container">
 			<div class="top_outer">
 				<div class="top_inner">
 					<div class="section">
-						<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
+						<span class="whitetext header">arenas</span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
 						<div class="megasection">
-							<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
+							<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();">
 								<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">);</span>
 							</form>
-							<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();" <% if (session.user === null) {"style='display: none;'"} else {} %> >
+							<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();">
 								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
 									<% 
 										var options = "";
@@ -258,10 +258,5 @@
 				</div>
 			</div>
 		</div>
-		<%
-			if ((typeof data.id !== "undefined") && (data.id !== null)) {
-				"<hr><hr><hr><pre id='json' class='whitetext' style='font-weight: normal'>" + JSON.stringify(data, null, 4) + "</pre>";
-			}
-		%>
 	</body>
 </html>

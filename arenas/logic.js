@@ -82,11 +82,11 @@
 	function join(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
+		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 4)) {
 			callback({success: false, messages: {top: "//invalid arena id", navbar: "//invalid arena id"}});
 		}
 		else {
-			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === " + data.arena_id}, function(arena) {
+			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + data.arena_id + "'"}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if (typeof arena !== "undefined") {
@@ -106,7 +106,7 @@
 						arena.users.push(session.user.id);
 						
 						processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
-							processes.store("arenas", {id: arena.id}, {$push: {users: session.user.id}}, function(arena) {
+							processes.store("arenas", {id: arena.id}, {$push: {users: session.user.id}}, function(data) {
 								callback({success: true, messages: {navbar: "//successfully joined", top: "//successfully joined"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
 							});
 						});
@@ -123,31 +123,38 @@
 	function selectRobot(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		if (typeof post.arena_id === "undefined") {
+		if (typeof data.arena_id === "undefined") {
 			callback({success: false, messages: {top: "//invalid arena id"}});
 		}
-		else if (typeof post.robot_id === "undefined") {
+		else if (typeof data.robot_id === "undefined") {
 			callback({success: false, messages: {top: "//no robot selected"}});
 		}
 		else {
-			processes.retrieve("arenas", {id: post.arena_id}, function(arena) {
+			processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
-				if ((typeof arena.id !== "undefined") && (arena.id !== null) && (arena.users.indexOf(session.user.id) > -1) && (arena.state.start === null)) {
-					processes.retrieve("robots", {$and: [{id: post.robot_id}, {"user.id": session.user.id}]}, function(robot) {
-						if (typeof robot.id === "undefined") { robot = robot[0]; }
+				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
+					if ((arena.users.indexOf(session.user.id) > -1) && (arena.state.start === null)) {
+						processes.retrieve("robots", {$and: [{id: data.robot_id}, {"user.id": session.user.id}]}, function(robot) {
+							if (typeof robot.id === "undefined") { robot = robot[0]; }
 
-						if ((typeof robot.id !== "undefined") && (robot.id !== null)) {
-							arena.entrants[robot.id] = robot;
+							if ((typeof robot.id !== "undefined") && (robot.id !== null)) {
+								arena.entrants[robot.id] = robot;
 
-							processes.store("arenas", {id: arena.id}, arena, function(arena) {
-								callback({success: true, messages: {top: "//successfully joined arena"}});
-							});
-						}
-						else {
-							callback({success: false, messages: {top: "//unable to retrieve robot"}});
-						}				
-					});
+								processes.store("arenas", {id: arena.id}, arena, function(arena) {
+									if (typeof arena.id === "undefined") { arena = arena[0]; }
+
+									callback({success: true, messages: {top: "//successfully joined arena"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+								});
+							}
+							else {
+								callback({success: false, messages: {top: "//unable to retrieve robot"}});
+							}				
+						});
+					}
+					else {
+						callback({success: false, messages: {top: "//join arena first"}});
+					}
 				}
 				else {
 					callback({success: false, messages: {top: "//unable to retrieve arena"}});
@@ -160,14 +167,37 @@
 	function leave(session, post, callback) {
 		var data = JSON.parse(post.data);
 		
-		if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
+		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 32)) {
 			callback({success: false, messages: {top: "//invalid arena id"}});
 		}
 		else {
-			processes.store("users", {id: session.user.id}, {$pull: {arenas: arena.id}}, function(user) {
-				processes.store("arenas", {$where: "this.id.substring(0,4) === " + post.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
-					callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
-				});
+			processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
+				if (typeof arena.id === "undefined") { arena = arena[0]; }
+
+				if ((typeof arena.id === "undefined") || (arena.id == null)) {
+					callback({success: false, messages: {top: "//not a valid arena id"}});
+				}
+				else if (!(arena.users.indexOf(session.user.id) > -1)) {
+					callback({success: false, messages: {top: "//already left this arena"}});
+				}
+				else {
+					var robot_id = Object.keys(arena.entrants).find(function(i) { return arena.entrants[i].user.id === session.user.id });
+
+					if ((typeof robot_id !== "undefined") && (robot_id !== null) && (robot_id.length > 0)) {
+						var unset = {};
+						unset["entrants." + robot_id] = "";
+						processes.store("users", {id: session.user.id}, {$pull: {arenas: data.arena_id}}, function(user) {
+							processes.store("arenas", {id: data.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
+								processes.store("arenas", {id: data.arena_id}, {$unset: unset}, function(arena) {
+									callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
+								});
+							});
+						});
+					}
+					else {
+						callback({success: false, messages: {top: "//unable to find robot in this arena"}});
+					}
+				}
 			});
 		}
 	}
@@ -176,11 +206,11 @@
 	function launch(session, post, callback) {
 		var data = JSON.parse(post.data);
 		
-		if ((typeof post.arena_id === "undefined") || (post.arena_id.length !== 4)) {
+		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 32)) {
 			callback({success: false, messages: {top: "//invalid arena id"}});
 		}
 		else {
-			processes.retrieve("arenas", {id: arena_id}, function(arena) {
+			processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
@@ -197,6 +227,12 @@
 				}
 			});
 		}
+	}
+
+/* adjustRobot(session, post, callback) */
+	function adjustRobot(session, post, callback) {
+		//???
+		//based on edit_robot, but only for code/inputs, and only update this iteration of the robot (in the arena)
 	}
 
 /* read(session, post, callback) */
@@ -935,6 +971,7 @@
 		selectRobot: selectRobot,
 		leave: leave,
 		launch: launch,
+		adjustRobot: adjustRobot,
 		read: read,
 		update: update,
 		destroy: destroy,
