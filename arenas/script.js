@@ -368,7 +368,7 @@
 					},
 					success: function(data) {
 						if (data.success) {
-							updateFields(data.arena);
+							window.location = window.location;
 						}
 						else {
 							$("#message_top").animateText({text: (data.messages.top || "//unable to launch arena")}, 1000);
@@ -407,145 +407,168 @@
 								});
 
 							}
-
-							$(".field#code").html(colorText(String($(".field#code").html())));
 						}
 					});
 				}
 			});
 	
 		/* gameLoop */
-			window.read_arena = function() {
-				var arena_id = $(".container").attr("value");
+			if ($(".container").attr("value").length > 0) { //if this is an individual game
+				var state = $("#round").attr("value");
+				
+				if (state === "unstarted") { //unstarted game --> checkLoop
+					window.checkLoop = setInterval(function() {
+						var arena_id = $(".container").attr("value");
 
-				$.ajax({
-					type: "POST",
-					url: window.location.pathname,
-					data: {
-						action: "read_arena",
-						data: JSON.stringify({arena_id: arena_id || null})
-					},
-					success: function(data) {
-						if (data.success) {
-							window.arena = data.arena;
-						}
-						else {
-							$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
-						}
-					}
-				});
-			}
-
-			window.updateFields = function() {
-				if (window.round >= window.arena.rounds.length) {
-					window.read_arena();
-				}
-				else {
-					var timeNow = new Date().getTime();
-
-					//state
-						if (window.arena.state.start === null) {
-							$("#state").text("false");
-						}
-						else if ((window.round >= window.arena.rounds.length) && (window.arena.state.end !== null)) {
-							$("#state").text("false");
-						}
-						else if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow >= window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
-							$("#state").text("true");
-						}
-						else {
-							$("#state").text("true");
-						}
-
-					//pause
-						if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow >= window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
-							$("#pauseDetails").show();
-							$("#players").hide();
-							$("#cubes").hide();
-							$("#victors").hide();
-							$("#workshop").show();
-
-							window.pause = true;
-						}
-						else {
-							$("#pauseDetails").hide();
-							$("#players").hide();
-							$("#cubes").show();
-							$("#victors").hide();
-							$("#workshop").hide();
-
-							window.pause = false;
-						}
-
-					//cubes
-						var currentRound = window.arena.rounds[window.round] || {};
-						var cubes = "";
-						for (var i = 0; i < currentRound.cubes.length; i++) {
-							cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
-						}
-						$(".currentCubes").html(cubes);
-
-					//robots
-						var lastRound = window.arena.rounds[window.round - 1] || {};
-
-						for (var i = 0; i < currentRound.robots.length; i++) {
-							var id = currentRound.robots[i].id;
-							$("#" + id).find(".action").animateText({text: lastRound.robots[i].action, indicator: "[]", "color: var(--white)"}, 2000);
-							setTimeout(function() {	
-								$("#" + id).find(".power").text(currentRound.robots[i].action);
-								$("#" + id).find(".cubes_red").text(currentRound.robots[i].cubes.red);
-								$("#" + id).find(".cubes_orange").text(currentRound.robots[i].cubes.orange);
-								$("#" + id).find(".cubes_yellow").text(currentRound.robots[i].cubes.yellow);
-								$("#" + id).find(".cubes_green").text(currentRound.robots[i].cubes.green);
-								$("#" + id).find(".cubes_blue").text(currentRound.robots[i].cubes.blue);
-								$("#" + id).find(".cubes_purple").text(currentRound.robots[i].cubes.purple);
-							}, 3000);
-						}
-
-					//victors
-						if ((window.round >= window.arena.rounds.length) && (window.arena.state.end !== null)) {
-							clearInterval(pauseTimeout);
-							clearInterval(gameLoop);
-
-							$("#pauseDetails").hide();
-							$("#players").hide();
-							$("#cubes").hide();
-							$("#victors").show();
-							$("#workshop").hide();
-
-							var victors = "";
-							for (var i = 0; i < window.arena.state.victors.length; i++); {
-								victors += "<span class='victor'>\
-									<a class='victor_robot bluetext' href='../../../../robots/" + window.arena.state.victors[i] + "'>" + window.arena.entrants[window.arena.state.victors[i]].name + "</a>\
-									<a class='victor_user bluetext' href='../../../../users/" + window.arena.entrants[window.arena.state.victors[i]].user.name + "'>" + window.arena.entrants[window.arena.state.victors[i]].user.name + "</a>\
-								</span>";
+						$.ajax({
+							type: "POST",
+							url: window.location.pathname,
+							data: {
+								action: "read_arena",
+								data: JSON.stringify({arena_id: arena_id || null})
+							},
+							success: function(data) {
+								if (data.success) {
+									if (data.state.start !== null) { //game has started
+										clearInterval(window.checkLoop);
+										window.location = window.location; //refresh to start gameLoop
+									}
+									else {
+										$("#messages_top").animateText({text: "//not started... checking again..."}, 3000);	
+									}
+								}
+								else {
+									$("#messages_top").animateText({text: "//having trouble reading arena"}, 1000);
+								}
 							}
-							$(".victorList").html(victors);
+						});
+					},5000);
+				}
+				else if (state === "concluded") { //concluded game --> do nothing
+					clearInterval(window.checkLoop);
+					clearInterval(window.gameLoop);
+
+					$("#pauseDetails").hide();
+					$("#players").hide();
+					$("#cubes").hide();
+					$("#victors").show();
+					$("#workshop").hide();
+				}
+				else { //active game --> gameLoop
+					window.gameLoop = setInterval(function() {
+						if ((typeof window.arena === "undefined") || (window.arena === null)) {
+							window.read_arena();
 						}
 						else {
-							window.round++;
+							var timeNow = new Date().getTime();
+							var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
+							
+							//display up-to-date info
+								if ($("#round").text() < (pastRounds.length - 1)) { //displayedRound is out of date
+									
+									//state
+										$("#round").text(pastRounds.length - 1);
+										var currentRound = pastRounds[pastRounds.length - 1] || {};
+
+									//cubes
+										var cubes = "";
+										for (var i = 0; i < currentRound.cubes.length; i++) {
+											cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
+										}
+										$(".currentCubes").html(cubes);
+
+									//robots
+										for (var i = 0; i < currentRound.robots.length; i++) {
+											var id = currentRound.robots[i].id;
+											$("#" + id).find(".action").animateText({text: currentRound.robots[i].action, indicator: "[]", "color: var(--white)"}, 2000);
+											setTimeout(function() {	
+												$("#" + id).find(".power").text(currentRound.robots[i].action);
+												$("#" + id).find(".cubes_red").text(currentRound.robots[i].cubes.red);
+												$("#" + id).find(".cubes_orange").text(currentRound.robots[i].cubes.orange);
+												$("#" + id).find(".cubes_yellow").text(currentRound.robots[i].cubes.yellow);
+												$("#" + id).find(".cubes_green").text(currentRound.robots[i].cubes.green);
+												$("#" + id).find(".cubes_blue").text(currentRound.robots[i].cubes.blue);
+												$("#" + id).find(".cubes_purple").text(currentRound.robots[i].cubes.purple);
+											}, 3000);
+										}
+								}
+
+							//concluded
+								if (window.arena.state.end !== null) {
+									clearInterval(gameLoop);
+
+									//sections
+										$("#pauseDetails").hide();
+										$("#players").hide();
+										$("#cubes").hide();
+										$("#victors").show();
+										$("#workshop").hide();
+
+										$("#round").text("null");
+										$("#round").attr("value", "concluded");
+
+									//victors
+										var victors = "";
+										for (var i = 0; i < window.arena.state.victors.length; i++); {
+											victors += "<span class='victor'>\
+												<a class='victor_robot bluetext' href='../../../../robots/" + window.arena.state.victors[i] + "'>" + window.arena.entrants[window.arena.state.victors[i]].name + "</a>\
+												<a class='victor_user bluetext' href='../../../../users/" + window.arena.entrants[window.arena.state.victors[i]].user.name + "'>" + window.arena.entrants[window.arena.state.victors[i]].user.name + "</a>\
+											</span>";
+										}
+										$(".victorList").html(victors);
+								}
+								
+							//still active
+								else {
+									var lastTime = window.arena.rounds[window.arena.rounds.length = 1].start;
+
+									//paused
+										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow >= window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
+											$("#pauseDetails").show();
+											$("#players").hide();
+											$("#cubes").hide();
+											$("#victors").hide();
+											$("#workshop").show();
+
+											lastTime = window.arena.state.pauseTo;
+											$("#pause").text(Math.floor((lastTime - timeNow) / 1000));
+										}
+
+									//unpaused
+										else {
+											$("#pauseDetails").hide();
+											$("#players").hide();
+											$("#cubes").show();
+											$("#victors").hide();
+											$("#workshop").hide();
+
+											$("#pause").text("null");
+										}
+
+									//fetch more data if necessary
+										if (now >= lastTime) {
+											var arena_id = $(".container").attr("value");
+
+											$.ajax({
+												type: "POST",
+												url: window.location.pathname,
+												data: {
+													action: "read_arena",
+													data: JSON.stringify({arena_id: arena_id || null})
+												},
+												success: function(data) {
+													if (data.success) {
+														window.arena = data.arena;
+													}
+													else {
+														$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
+													}
+												}
+											});
+										}
+								}
 						}
+					}, 1000);
 				}
 			}
-
-		//start???
-			window.round = 0; //how do we accurately determine the round???
-			window.pause = true; //how do we determine this???
-
-			window.gameLoop = setInterval(function() {
-				if (window.pause) {
-					var timeRemaining = Math.floor((data.state.pauseTo - (new Date().getTime())) / 1000);
-					if (timeRemaining >= 0) {
-						$("#pause").text(timeRemaining);
-					}
-					else {
-						window.pause = false;
-						read_arena();
-					}
-				}
-				else {
-					updateFields();
-				}
-			}, 10000);
-
 	});

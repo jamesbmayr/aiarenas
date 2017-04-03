@@ -214,13 +214,25 @@
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
-					arena.state.start = new Date().getTime(); //start the game!
-					var arena = update(arena); //update the arena for the first batch of rounds
-					arena.state.locked = false; //unlock it for the future
-								
-					processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
-						callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
-					});
+
+					if (Object.keys(arena.entrants).length !== arena.users.length) {
+						callback({success: false, messages: {top: "//some users have not selected robots yet"}});
+					}
+					else if (Object.keys(arena.entrants).length > arena.rules.players.maximum) {
+						callback({success: false, messages: {top: "//robot count exceeds maximum set"}});
+					}
+					else if (Object.keys(arena.entrants).length < arena.rules.players.minimum) {
+						callback({success: false, messages: {top: "//robot count does not meet minimum set"}});
+					}
+					else {
+						arena.state.start = (new Date().getTime()) + (1000 * 5); //start the game (in 5 seconds)!
+						var arena = update(arena); //update the arena for the first batch of rounds
+						arena.state.locked = false; //unlock it for the future
+									
+						processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
+							callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
+						});
+					}
 				}
 				else {
 					callback({success: false, messages: {top: "//unable to retrieve arena"}});
@@ -246,7 +258,10 @@
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
-					if ((timeNow >= arena.state.pauseFrom) && (timeNow < arena.state.pauseTo)) { //if the game is paused...
+					if (arena.state.start === null) { //if the game has not started...
+						callback({success: true, arena: arena, messages: {top: "//this arena has not started"}});
+					}
+					else if ((timeNow >= arena.state.pauseFrom) && (timeNow < arena.state.pauseTo)) { //if the game is paused...
 						callback({success: true, arena: arena, messages: {top: "//this arena is paused"}});
 					}
 					else if (arena.state.end !== null) { //if the game is over...
@@ -340,8 +355,12 @@
 
 /* update(arena) */
 	function update(arena) {
-		arena.state.pauseFrom = null;
-		arena.state.pauseTo = null;
+		if ((arena.state.pauseFrom !== null) || (arena.state.pauseTo !== null)) { //if it's paused
+			var unpauseStart = arena.state.pauseTo; //get the timestamp for the pause end
+			arena.state.pauseFrom = null; //unpause
+			arena.state.pauseTo = null;
+		}
+
 		var startLength = arena.rounds.length; //get the round # where we're starting
 
 		while ((arena.rounds.length < (startLength + 10)) && (arena.state.pauseFrom === null) && (arena.state.pauseTo === null)) { //until pause or 10 rounds
@@ -349,6 +368,7 @@
 				if (arena.rounds.length === 0) { //first round
 					//create newRound object
 						var newRound = {
+							start: arena.state.start,
 							cubes: [],
 							robots: [],
 							winner: null
@@ -383,15 +403,22 @@
 				}
 				else { //all subsequent rounds
 					var newRound = JSON.parse(JSON.stringify(arena.rounds[arena.rounds.length - 1])); //copy the current round data into a newRound
+					
+					if ((typeof unpauseStart !== "undefined") && (unpauseStart > 0)) { //if it was paused
+						newRound.start = unpauseStart; //set the new round to start immediately after the pause
+					}
+					else {
+						newRound.start = newRound.start + (1000 * 10); //otherwise, the round starts 10 seconds after the last one
+					}
 				}
 
 			//phase 1: running the user scripts
 				if (arena.rounds.length > 0) { //don't do this for the first round
 					var robot_actions = [];
 
-					for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
+					for (var i = 0; i < newRound.robots.length; i++) {
 						//get robot data
-							var robot = arena.rounds[arena.rounds.length - 1].robots[i];
+							var robot = newRound.robots[i];
 								var name = robot.name //this is actually the id - we won't use the robot's string name except for display
 								var inputs = String(arena.entrants[name].inputs);
 								var code = String(arena.entrants[name].code);
@@ -464,16 +491,12 @@
 										sandbox.cubes = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).cubes;
 									break;
 
-									case "lastAction":
-										sandbox.lastAction = arena.rounds[arena.rounds.length - 2].robots.find(function(robot) {return robot.name === name}).action;
+									case "action":
+										sandbox.action = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).action;
 									break;
 
-									case "lastWinner":
-										sandbox.lastWinner = arena.rounds[arena.rounds.length - 2].winners[0];
-									break;
-
-									case "lastWinners":
-										sandbox.lastWinners = arena.rounds[arena.rounds.length - 2].winners;
+									case "winner":
+										sandbox.winner = arena.rounds[arena.rounds.length - 1].winner;
 									break;
 
 									case "opponents":
@@ -506,23 +529,23 @@
 							}
 					}
 
-					for (var i = 0; i < actions.length; i++) { //then put all those actions back in their respective robots
-						arena.rounds[arena.rounds.length - 1].robots[i].action = robot_actions[i];
+					for (var i = 0; i < actions.length; i++) { //then put all those actions in their respective robots for the newRound
+						newRound.robots[i].action = robot_actions[i];
 					}
 				}
 
 			//phase 2: robot actions: shock, power, sap, burn, sleep
 				if (arena.rounds.length > 0) { //don't do this for the first round
 					//shock
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (arena.rounds[arena.rounds.length - 1].robots[i].action === "shock") { //for all robots shocking...
-								var shocker = arena.rounds[arena.rounds.length - 1].robots[i];
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (newRound.robots[i].action === "shock") { //for all robots shocking...
+								var shocker = newRound.robots[i];
 								var cubeCount = (shocker.cubes.red + shocker.cubes.orange + shocker.cubes.yellow + shocker.cubes.green + shocker.cubes.blue + shocker.cubes.purple); //add up the shocker's cubes
 
-								for (var j = 0; j < arena.rounds[arena.rounds.length - 1].robots.length; j++) { //loop through all robots to find potential shockees
-									var opponent = arena.rounds[arena.rounds.length - 1].robots[j]; //we can call them "opponents" because we know that the "if" will filter out the shocker anyway
+								for (var j = 0; j < newRound.robots.length; j++) { //loop through all robots to find potential shockees
+									var opponent = newRound.robots[j]; //we can call them "opponents" because we know that the "if" will filter out the shocker anyway
 									if ((opponent.action !== "shock") && ((opponent.cubes.red + opponent.cubes.orange + opponent.cubes.yellow + opponent.cubes.green + opponent.cubes.blue + opponent.cubes.purple) > cubeCount)) {
-										arena.rounds[arena.rounds.length - 1].robots[j].action = "sleep"; //sleep all robots who aren't themselves shocking and have more cubes than the shocker
+										newRound.robots[j].action = "sleep"; //sleep all robots who aren't themselves shocking and have more cubes than the shocker
 									}
 								}
 							}
@@ -531,8 +554,8 @@
 					//power
 						var powerRate = arena.rules.robots.powerRate; //get the rate of powering
 					
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (arena.rounds[arena.rounds.length - 1].robots[i].action === "power") { //for all robots powering...
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (newRound.robots[i].action === "power") { //for all robots powering...
 								newRound.robots[i].power += powerRate; //... add to their newRound's power
 
 								if (newRound.robots[i].power > arena.rules.robots.maxPower) { //don't let anyone go over the maxPower
@@ -544,12 +567,12 @@
 					//sap
 						var powerRate = arena.rules.robots.powerRate; //get the rate of powering
 
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (arena.rounds[arena.rounds.length - 1].robots[i].action === "sap") { //for all robots sapping...
-								var sapper = arena.rounds[arena.rounds.length - 1].robots[i];
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (newRound.robots[i].action === "sap") { //for all robots sapping...
+								var sapper = newRound.robots[i];
 
-								for (var j = 0; j < arena.rounds[arena.rounds.length - 1].robots.length; j++) {
-									var opponent = arena.rounds[arena.rounds.length - 1].robots[j]; //we can call them "opponents" because we know that the "if" will filter out the sapper anyway
+								for (var j = 0; j < newRound.robots.length; j++) {
+									var opponent = newRound.robots[j]; //we can call them "opponents" because we know that the "if" will filter out the sapper anyway
 									if ((opponent.action === "power") && (opponent.power > sapper.power)) { //for all opponents who have more power and are powering up now
 										newRound.robots[j].power = Math.max(0, (newRound.robots[j].power - powerRate)); //reduce their power for the newRound by the powerRate, with a minimum of 0
 										newRound.robots[i].power += powerRate; //add that power to this sapper for the newRound
@@ -565,9 +588,9 @@
 					//burn
 						var powerRate = arena.rules.robots.powerRate; //get the rate of powering
 
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (arena.rounds[arena.rounds.length - 1].robots[i].action === "burn") { //for all robots burning...
-								var burner = arena.rounds[arena.rounds.length - 1].robots[i];
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (newRound.robots[i].action === "burn") { //for all robots burning...
+								var burner = newRound.robots[i];
 								var cubeCount = (burner.cubes.red + burner.cubes.orange + burner.cubes.yellow + burner.cubes.green + burner.cubes.blue + burner.cubes.purple); //add up the burner's cubes
 
 								if (cubeCount > 0) {
@@ -599,7 +622,7 @@
 									}
 									else {
 										//error
-										arena.rounds[arena.rounds.length - 1].robots[i].action = "sleep";
+										newRound.robots[i].action = "sleep";
 									}
 
 									if (newRound.robots[i].power > arena.rules.robots.maxPower) { //don't let anyone go over the maxPower
@@ -607,7 +630,7 @@
 									}
 								}
 								else {
-									arena.rounds[arena.rounds.length - 1].robots[i].action = "sleep"; //if the robot has no cubes to burn, just sleep
+									newRound.robots[i].action = "sleep"; //if the robot has no cubes to burn, just sleep
 								}
 							}
 						}
@@ -618,13 +641,13 @@
 					var takers = []; //empty array of robots attempting to take
 
 					//get a list of all takers
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (["take","halftake","swaptake","fliptake"].indexOf(arena.rounds[arena.rounds.length - 1].robots[i].action) > -1) { //all robots with one of those actions
-								if (!(arena.rounds[arena.rounds.length - 1].robots[i].power > 0)) { //no power?
-									arena.rounds[arena.rounds.length - 1].robots[i].action = "sleep"; //sleep!
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (["take","halftake","swaptake","fliptake"].indexOf(newRound.robots[i].action) > -1) { //all robots with one of those actions
+								if (!(newRound.robots[i].power > 0)) { //no power?
+									newRound.robots[i].action = "sleep"; //sleep!
 								}
 								else {
-									takers.push(arena.rounds[arena.rounds.length - 1].robots[i]); //focus on that robot's current status
+									takers.push(newRound.robots[i]); //focus on that robot's current status
 								}
 							}
 						}
@@ -717,13 +740,13 @@
 
 					//give the winner all the cubes, up to the maximum
 						if ((typeof winner !== "undefined") && (winner !== null)) {
-							arena.rounds[arena.rounds.length - 1].winner = winner.name; //log the winner's id in the current round
+							newRound.winner = winner.name; //log the winner's id in the current round
 
 							if (winner.action === "swaptake") { //for swaptakers, build a swapBack pile
 								var swapBack = [];
 							}		
 							
-							var cubes = arena.rounds[arena.rounds.length - 1].cubes; //get all the cubes from this round
+							var cubes = newRound.cubes; //get all the cubes from this round
 							while ((cubes.length) && ((winner.cubes.red + winner.cubes.orange + winner.cubes.yellow + winner.cubes.green + winner.cubes.blue + winner.cubes.purple) < arena.rules.cubes.maximum)) { //while there are cubes and the winner has fewer than the max
 								
 								if (winner.action === "fliptake") { //for fliptakers, change the color to the complimentary color
@@ -777,18 +800,18 @@
 						}
 						
 					//remove power from all takers
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (arena.rounds[arena.rounds.length - 1].robots[i].action === "take") {
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (newRound.robots[i].action === "take") {
 								newRound.robots[i].power = 0; //set the robot's power to 0 for newRound
 							}
-							else if (arena.rounds[arena.rounds.length - 1].robots[i].action === "fliptake") {
+							else if (newRound.robots[i].action === "fliptake") {
 								newRound.robots[i].power = 0; //set the robot's power to 0 for newRound
 							}
-							else if (arena.rounds[arena.rounds.length - 1].robots[i].action === "halftake") {
-								newRound.robots[i].power = Math.floor(arena.rounds[arena.rounds.length - 1].robots[i].power / 2); //set the robot's power to 50%, rounded down
+							else if (newRound.robots[i].action === "halftake") {
+								newRound.robots[i].power = Math.floor(newRound.robots[i].power / 2); //set the robot's power to 50%, rounded down
 							}
-							else if (arena.rounds[arena.rounds.length - 1].robots[i].action === "swaptake") {
-								newRound.robots[i].power = Math.floor(arena.rounds[arena.rounds.length - 1].robots[i].power / 2); //set the robot's power to 50%, rounded down
+							else if (newRound.robots[i].action === "swaptake") {
+								newRound.robots[i].power = Math.floor(newRound.robots[i].power / 2); //set the robot's power to 50%, rounded down
 							}
 						}
 				}
@@ -796,8 +819,8 @@
 			//phase 4: robot actions: sleep
 				if (arena.rounds.length > 0) { //don't do this for the first round
 					//sleep
-						for (var i = 0; i < arena.rounds[arena.rounds.length - 1].robots.length; i++) {
-							if (arena.rounds[arena.rounds.length - 1].robots[i].action === "sleep") { //for all robots sleeping...
+						for (var i = 0; i < newRound.robots.length; i++) {
+							if (newRound.robots[i].action === "sleep") { //for all robots sleeping...
 								//do nothing
 							}
 						}
@@ -956,7 +979,7 @@
 
 			//phase 8: check for pause
 				if ((arena.state.end === null) && ((arena.rounds.length - 1) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete, unless victory
-					arena.state.pauseFrom = new Date().getTime() + ((arena.rounds.length - startLength) * 1000 * 10); //set the pause start for now + 10 seconds per new round evaluated
+					arena.state.pauseFrom = (arena.rounds[arena.rounds.length - 1].start) + (1000 * 10); //set the pause start for 10 seconds after the last newRound
 					arena.state.pauseTo = arena.state.pauseFrom + arena.rules.players.pauseDuration; //set pause end for pauseFrom + duration of the pause
 				}
 		}

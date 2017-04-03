@@ -19,18 +19,16 @@
 					</div>
 					<div class="indented">
 						<div class="section">
-							<span class="whitetext">.active</span><span class="redtext"> = </span><span id="state" class="purpletext"><%
+							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if (data.state.end !== null) { 'concluded' } else { 'active'} %>"><%
 								if (data.state.start === null) {
-									"false";
+									"null";
 								}
 								else if (data.state.end !== null) {
-									"false";
-								}
-								else if ((data.state.pauseFrom !== null) && (data.state.pauseTo !== null)) {
-									"true";
+									"null";
 								}
 								else {
-									"true";
+									var pastRounds = data.rounds.filter(function(round) { var now = new Date().getTime(); return (round.start <= now);});
+									Number(pastRounds.length - 1);
 								}
 							%></span><span class="whitetext">;</span>
 						</div>
@@ -39,6 +37,9 @@
 								if ((data.state.pauseFrom !== null) && (data.state.pauseTo !== null)) {
 									Math.floor((data.state.pauseTo - (new Date().getTime())) / 1000);
 								}
+							else {
+								"null";
+							}
 							%></span><span class="whitetext">;</span>
 						</div>
 						<% 
