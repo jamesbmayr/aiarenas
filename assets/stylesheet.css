@@ -203,10 +203,6 @@
 			border-radius: 5px;
 			border: 2px solid var(--transparent);
 			min-height: calc(100vh - 8px);
-			user-select: none;
-			-webkit-user-select: none;
-			-moz-user-select; none;
-			cursor: default;
 		}
 
 		.section {

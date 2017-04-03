@@ -378,8 +378,11 @@
 			}
 
 			$(document).on("click", "#robot_save", function() {
-				if ((data.state.pauseFrom !== null) && (data.state.pauseTo !== null)) {
-					var arena_id = $(".container").attr("value");
+				if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null)) {
+					var data = {
+						arena_id: $(".container").attr("value"),
+						robot_id: $("#workshop").attr("value")
+					}
 					
 					$(".field").each(function() {
 						var field = $(this).attr("id");
@@ -392,7 +395,7 @@
 						url: window.location.pathname,
 						data: {
 							action: "adjust_robot",
-							data: JSON.stringify({arena_id: arena_id, inputs: inputs, code: code})
+							data: JSON.stringify(data)
 						},
 						success: function(results) {
 							if (results.success) {
@@ -413,11 +416,12 @@
 			});
 	
 		/* gameLoop */
-			if ($(".container").attr("value").length > 0) { //if this is an individual game
+			if ((typeof $(".container").attr("value") !== "undefined") && ($(".container").attr("value").length > 0)) { //if this is an individual game
 				var state = $("#round").attr("value");
 				
 				if (state === "unstarted") { //unstarted game --> checkLoop
 					window.checkLoop = setInterval(function() {
+						console.log("checking...");
 						var arena_id = $(".container").attr("value");
 
 						$.ajax({
@@ -429,16 +433,89 @@
 							},
 							success: function(data) {
 								if (data.success) {
-									if (data.state.start !== null) { //game has started
+									if (data.arena.state.start !== null) { //game has started
 										clearInterval(window.checkLoop);
 										window.location = window.location; //refresh to start gameLoop
 									}
 									else {
-										$("#messages_top").animateText({text: "//not started... checking again..."}, 3000);	
+										$("#message_top").animateText({text: "//not started... checking again..."}, 1000);
+										
+										//update player list								
+											if ($("#players").attr("value") !== data.arena.users.join()) {
+												var string = "";
+												for (var i = 0; i < data.arena.users.length; i++) {
+													var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].user.id === data.arena.users[i])})];
+													if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
+														string += "<a class='bluetext' target='_blank' href='../../../../users/" + entrant.user.name + "'>" + entrant.user.name + "</a>, ";
+													}
+													else {
+														string += "<span class='yellowtext'>???</span>, ";
+													}
+												}
+
+												$("#players").attr("value", data.arena.users);
+												$("#players").find("div.indented").html(string.substring(0, string.length - 2));
+											}
+
+										//update robot list
+											if ($("#robots").attr("value") !== Object.keys(data.arena.entrants).join()) {
+												if ((data.arena.entrants !== null) && (Object.keys(data.arena.entrants).length > 0)) {
+													var string = "";
+													var entrants = Object.keys(data.arena.entrants);
+
+													for (var i = 0; i < entrants.length; i++) {
+														var entrant = data.arena.entrants[entrants[i]];
+														if (data.arena.rounds.length > 0) {
+															var robot = data.arena.rounds[data.arena.rounds.length - 1].robots.find(function(i) { return i.name = entrant.id}) || {};
+														}
+														else {
+															var robot = {
+																power: 0,
+																cubes: {
+																	red: 0,
+																	orange: 0,
+																	yellow: 0,
+																	green: 0,
+																	blue: 0,
+																	purple: 0
+																}
+															};
+														}
+
+														string += ('<div class="section opponent" id="' + entrant.id + '">\
+															<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
+<span class="transparenttext">••••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_arm" value="' + (entrant.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (entrant.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (entrant.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext">••••••</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext">••••••</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext">•••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span></pre>\
+															<span class="whitetext">name: </span><a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a><span class="whitetext">,</span><br>\
+															<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span><span class="whitetext">(),</span><br>\
+															<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+															<span class="whitetext">cubes: {\
+																<div class="indented">\
+																	<span class="redtext">r:<span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,\
+																	<span class="orangetext">o:<span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,\
+																	<span class="yellowtext">y:<span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,\
+																	<span class="greentext">g:<span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,\
+																	<span class="bluetext">b:<span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,\
+																	<span class="purpletext">p:<span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
+																</div>\
+															}</span>\
+														</div>');
+													}
+
+													$("#robots").attr("value", Object.keys(data.arena.entrants));
+													$("#robots").find("div.indented").html(string);
+												}
+											}
 									}
 								}
 								else {
-									$("#messages_top").animateText({text: "//having trouble reading arena"}, 1000);
+									$("#message_top").animateText({text: (data.messages.top || "//having trouble reading arena")}, 1000);
 								}
 							}
 						});
@@ -456,8 +533,35 @@
 				}
 				else { //active game --> gameLoop
 					window.gameLoop = setInterval(function() {
+						console.log("gaming...");
 						if ((typeof window.arena === "undefined") || (window.arena === null)) {
-							window.read_arena();
+							if ((typeof window.wait === "undefined") || (window.wait === null)) {
+								window.wait = true;		
+								setTimeout(function() {
+									window.wait = null;
+								}, 5000);
+
+								console.log("first fetch...");
+								var arena_id = $(".container").attr("value");
+
+								$.ajax({
+									type: "POST",
+									url: window.location.pathname,
+									data: {
+										action: "read_arena",
+										data: JSON.stringify({arena_id: arena_id || null})
+									},
+									success: function(data) {
+										console.log(data);
+										if (data.success) {
+											window.arena = data.arena;
+										}
+										else {
+											$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
+										}
+									}
+								});
+							}
 						}
 						else {
 							var timeNow = new Date().getTime();
@@ -480,7 +584,7 @@
 									//robots
 										for (var i = 0; i < currentRound.robots.length; i++) {
 											var id = currentRound.robots[i].id;
-											$("#" + id).find(".action").animateText({text: currentRound.robots[i].action, indicator: "[]", "color: var(--white)"}, 2000);
+											$("#" + id).find(".action").animateText({text: currentRound.robots[i].action, indicator: "[]", color: "var(--white)"}, 2000);
 											setTimeout(function() {	
 												$("#" + id).find(".power").text(currentRound.robots[i].action);
 												$("#" + id).find(".cubes_red").text(currentRound.robots[i].cubes.red);
@@ -520,7 +624,7 @@
 								
 							//still active
 								else {
-									var lastTime = window.arena.rounds[window.arena.rounds.length = 1].start;
+									var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start;
 
 									//paused
 										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow >= window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
@@ -546,7 +650,8 @@
 										}
 
 									//fetch more data if necessary
-										if (now >= lastTime) {
+										if (timeNow >= lastTime) {
+											console.log("fetching...");
 											var arena_id = $(".container").attr("value");
 
 											$.ajax({

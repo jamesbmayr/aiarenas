@@ -86,7 +86,7 @@
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
-					<div class="section" id="players" <% if (data.state.start !== null) {"style='display: none';"} %>>
+					<div class="section" id="players" value="<% data.users %>" <% if (data.state.start !== null) {"style='display: none';"} %>>
 						<span class="whitetext">.players</span><span class="redtext"> = </span><span class="whitetext">[</span>
 						<div class="indented whitetext">
 							<% 
@@ -142,7 +142,7 @@
 							</div>
 						<span class="whitetext">];</span>
 					</div>
-					<div class="section" id="workshop" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
+					<div class="section" id="workshop" value="<% if ((session.user !== null) && (data.users.indexOf(session.user.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].user.id === session.user.id)}).id || null) } %>" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
 						<% 
 							if ((session.user !== null) && (data.users.indexOf(session.user.id) > -1)) {
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].user.id === session.user.id); })] || null;
@@ -151,10 +151,10 @@
 										<button id="robot_save"><span class="whitetext">.</span><span class="greentext">save</span><span class="whitetext">();</span></button>\
 									</div> <span class="message graytext"></span>\
 									<div class="section">\
-										<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value=' + (entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null) + '><' + entrant.inputs + '></span></span><span class="whitetext">) {</span> <span class="message graytext"></span>\
+										<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>\
 										<div class="indented">\
-											<div class="field_frame">\
-												<span class="whitetext field" id="code" value=' + (entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null) + '>' + entrant.code + '</span>\
+											<div class="field_frame active">\
+												<span class="whitetext field" contenteditable="true" id="code" value=' + (String(entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(entrant.code) + '</span>\
 											</div>\
 										</div>\
 										<span class="whitetext">};</span>\
@@ -171,15 +171,21 @@
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
-				<div class="megasection" id="robots">
+				<div class="megasection" id="robots" value="<% Object.keys(data.entrants) %>">
 					<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
 					<div class="indented">
 						<%  
 							if ((data.entrants !== null) && (Object.keys(data.entrants).length > 0)) {
 								var string = "";
 								
-								var entrants = Object.keys(data.entrants).filter(function(i) { return data.entrants[i].user.id !== session.user.id }) || [];
-								entrants.unshift(Object.keys(data.entrants).find(function (i) { return data.entrants[i].user.id === session.user.id }));
+								if ((session.user !== null) && (data.users.indexOf(session.user.id) > -1)) {
+									var entrants = Object.keys(data.entrants).filter(function(i) { return data.entrants[i].user.id !== session.user.id }) || [];
+									entrants.unshift(Object.keys(data.entrants).find(function (i) { return data.entrants[i].user.id === session.user.id }));
+								}
+								else {
+									var entrants = Object.keys(data.entrants);
+								}
+
 								for (var i = 0; i < entrants.length; i++) {
 									var entrant = data.entrants[entrants[i]];
 									if (data.rounds.length > 0) {
