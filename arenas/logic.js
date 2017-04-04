@@ -31,7 +31,7 @@
 					players: {
 						minimum: Number(parameters.players.minimum) || 2,
 						maximum: Number(parameters.players.maximum) || 8,
-						pauseDuration: parameters.players.pauseDuration || "05:00",
+						pauseDuration: Number(parameters.players.pauseDuration.replace(":00","") * 60 * 1000) || (5 * 60 * 1000),
 						pausePeriod: Number(parameters.players.pausePeriod) || 10,
 					},
 					cubes: {
@@ -1115,7 +1115,7 @@
 				if ((arena.state.end === null) && (arena.rounds.length > 1) && ((arena.rounds.length - 2) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete (not counting round 0), unless victory
 					console.log("phase 8");
 					arena.state.pauseFrom = (arena.rounds[arena.rounds.length - 1].start) + (1000 * 10); //set the pause start for 10 seconds after the last newRound
-					arena.state.pauseTo = arena.state.pauseFrom + (Number(arena.rules.players.pauseDuration.replace(":00","")) * 60 * 1000); //set pause end for pauseFrom + duration of the pause
+					arena.state.pauseTo = arena.state.pauseFrom + arena.rules.players.pauseDuration; //set pause end for pauseFrom + duration of the pause
 
 					console.log("pausing at " + (new Date().getTime()) + " after round " + (arena.rounds.length - 1) + " from " + arena.state.pauseFrom + " to " + arena.state.pauseTo);
 				}

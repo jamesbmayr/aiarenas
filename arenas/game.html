@@ -4,10 +4,10 @@
 		<title>ai_arenas.<% try {data.id.substring(0,4)} catch(error) {"arenas"} %></title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
-		<link rel="stylesheet" type="text/css" href="./stylesheet.css"/>
+		<link rel="stylesheet" type="text/css" href="../../arenas/stylesheet.css"/>
 		<% colors(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="../../arenas/script.js"></script>
 	</head>
 	<body>
 		<% navbar(session); %>
@@ -253,7 +253,7 @@
 								<div class="indented">
 									<span class="whitetext">minimum: </span><span class="purpletext"><% data.rules.players.minimum || "null" %></span><span class="whitetext">,</span><br>
 									<span class="whitetext">maximum: </span><span class="purpletext"><% data.rules.players.maximum || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">pauseDuration: </span><span class="purpletext"><% data.rules.players.pauseDuration || "null" %></span><span class="whitetext">,</span><br>
+									<span class="whitetext">pauseDuration: </span><span class="purpletext"><% ((data.rules.players.pauseDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><br>
 									<span class="whitetext">pausePeriod: </span><span class="purpletext"><% data.rules.players.pausePeriod || "null" %></span>
 								</div>
 								<span class="whitetext">},</span>

@@ -10,7 +10,7 @@
 					case "default":
 						$("#players_minimum").val(2);
 						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("05:00");
+						$("#players_pauseDuration").val("5:00");
 						$("#players_pausePeriod").val(10);
 
 						$("#cubes_colors_red").prop("checked",true);
@@ -53,7 +53,7 @@
 					case "simple":
 						$("#players_minimum").val(2);
 						$("#players_maximum").val(4);
-						$("#players_pauseDuration").val("05:00");
+						$("#players_pauseDuration").val("5:00");
 						$("#players_pausePeriod").val(10);
 
 						$("#cubes_colors_red").prop("checked",true);
@@ -96,7 +96,7 @@
 					case "advanced":
 						$("#players_minimum").val(2);
 						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("05:00");
+						$("#players_pauseDuration").val("5:00");
 						$("#players_pausePeriod").val(10);
 
 						$("#cubes_colors_red").prop("checked",true);
@@ -139,7 +139,7 @@
 					case "intense":
 						$("#players_minimum").val(6);
 						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("02:00");
+						$("#players_pauseDuration").val("2:00");
 						$("#players_pausePeriod").val(20);
 
 						$("#cubes_colors_red").prop("checked",true);
@@ -182,7 +182,7 @@
 					case "random":
 						$("#players_minimum").val(2);
 						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("00:00");
+						$("#players_pauseDuration").val("1:00");
 						$("#players_pausePeriod").val(255);
 
 						$("#cubes_colors_red").prop("checked",true);

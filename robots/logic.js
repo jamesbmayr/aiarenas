@@ -16,15 +16,7 @@
 			information: {
 				show_code: true,
 				bio: null,
-				animation: {},
-				sounds: {
-					cube: null,
-					charge: null,
-					take: null,
-					victory: null,
-					defeat: null
-				},
-				music: {},
+				music: {}
 			},
 			avatar: {
 				color: "var(--white)",
