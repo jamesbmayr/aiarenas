@@ -377,6 +377,27 @@
 				});
 			}
 
+			window.delete_arena = function() {
+				var arena_id = $(".container").attr("value");
+
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "delete_arena",
+						data: JSON.stringify({arena_id: arena_id || null})
+					},
+					success: function(data) {
+						if (data.success) {
+							window.location = data.redirect;
+						}
+						else {
+							$("#message_top").animateText({text: (data.messages.top || "//unable to delete arena")}, 1000);
+						}
+					}
+				});
+			}
+
 			window.launch_arena = function() {
 				var arena_id = $(".container").attr("value");
 

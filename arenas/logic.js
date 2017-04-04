@@ -71,14 +71,17 @@
 	function destroy(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		processes.retrieve("arenas", {id: data.id}, function(arena) {
+		processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 			if (typeof arena.id === "undefined") { arena = arena[0]; }
 			
-			if ((typeof arena === "undefined") || (typeof arena.users === "undefined") || (arena.users[0].id !== session.user.id)) {
+			if ((typeof arena === "undefined") || (typeof arena.users === "undefined")) {
+				callback({success: false, messages: {top: "//unable to retrieve arena"}});
+			}
+			else if (arena.users[0] !== session.user.id) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
-				proceses.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
+				processes.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
 					processes.store("arenas", {id: arena.id}, null, function(results) {
 						callback({success: true, messages: {top: "//arena deleted"}, redirect: "../../../../arenas"});
 					});
