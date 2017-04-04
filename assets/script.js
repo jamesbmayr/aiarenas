@@ -346,27 +346,27 @@ $(document).ready(function() {
 		$("#navbar_join_arena").click(function() {
 			var arena_id = $("#navbar_arena_id").val();
 
-			if (arena_id.length === 4) {
-				$.ajax({
-					type: "POST",
-					url: window.location.pathname,
-					data: {
-						action: "join_arena",
-						arena_id: arena_id
-					},
-					success: function(data) {
-						if (data.success) {
-							window.location = data.redirect;
+				if (arena_id.length === 4) {
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "join_arena",
+							data: JSON.stringify({arena_id: arena_id || null})
+						},
+						success: function(data) {
+							if (data.success) {
+								window.location = data.redirect;
+							}
+							else {
+								$("#message_top").animateText({text: (data.messages.top || "//unable to join arena")}, 1000);
+							}
 						}
-						else {
-							$("#navbar_message").text(data.messages.navbar || "//unable to join");
-						}
-					}
-				});
-			}
-			else {
-				$("#navbar_arena_id").css("border-color","var(--red)");
-			}
+					});
+				}
+				else {
+					$("#message_top").animateText({text: "//enter a 4-character arena_id"}, 1000);
+				}
 		});
 
 	/* sectionToggle */

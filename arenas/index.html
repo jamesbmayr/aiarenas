@@ -22,6 +22,27 @@
 							<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();">
 								<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">);</span>
 							</form>
+							<form id="random_form" method="post" action="javascript:;" onsubmit="window.random_arena();">
+								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">random</span></button><span class="whitetext">(</span><select id="random_preset" class="whitetext">
+									<% 
+										var options = "";
+										if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+											var presets = ["default", "simple", "advanced", "intense", "random"];
+										}
+										else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+											var presets = ["default", "simple", "advanced"]
+										}
+										else {
+											var presets = ["default"];
+										}
+										for (var i = 0; i < presets.length; i++) {
+											options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
+										}
+
+										options;
+									%>
+								</select><span class="whitetext">);</span>
+							</form>
 							<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();">
 								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
 									<% 
@@ -42,7 +63,7 @@
 										options;
 									%>
 								</select><span class="whitetext">);</span>
-							</form>							
+							</form>
 						</div>
 					</div>
 					<hr>
@@ -149,7 +170,7 @@
 									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 								}
 
-								options.replace("value='0'", "value='0' selected");
+								options.replace("value='1'", "value='1' selected");
 							%></select><span class="whitetext">,</span><br>
 							<span class="whitetext">dissolveIndex: </span><select class="yellowtext" id="cubes_dissolveIndex"><% 
 								var options = "";

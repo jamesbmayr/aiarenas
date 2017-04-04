@@ -603,6 +603,20 @@
 								catch (error) {_403();}
 							break;
 
+							case "random_arena":
+								try {
+									if (session.user !== null) {
+										arenas.random(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join random arena", navbar: "//unable to join random arena"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
 							case "leave_arena":
 								try {
 									if (session.user !== null) {

@@ -24,7 +24,7 @@
 						$("#cubes_maximum").val(255);
 						$("#cubes_spawnRate").val(1);
 						$("#cubes_spawnMemory").val(3);
-						$("#cubes_dissolveRate").val(0);
+						$("#cubes_dissolveRate").val(1);
 						$("#cubes_dissolveIndex").val("oldest");
 
 						$("#robots_startPower").val(1);
@@ -309,6 +309,27 @@
 				});
 			}
 
+			window.random_arena = function() {
+				var preset = $("#random_preset").val() || "default";
+				
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "random_arena",
+						data: JSON.stringify({preset: preset || null})
+					},
+					success: function(data) {
+						if (data.success) {
+							window.location = data.redirect;
+						}
+						else {
+							$("#message_top").animateText({text: (data.messages.top || "//unable to join a random arena of that type")}, 1000);
+						}
+					}
+				});
+			}
+
 		/* arenas individual page */
 			window.leave_arena = function() {
 				var arena_id = $(".container").attr("value");
@@ -368,6 +389,7 @@
 					},
 					success: function(data) {
 						if (data.success) {
+							resizeTop();
 							window.location = window.location;
 						}
 						else {
@@ -535,6 +557,8 @@
 					window.gameLoop = setInterval(function() {
 						console.log("gaming...");
 						if ((typeof window.arena === "undefined") || (window.arena === null)) {
+							$("#message_top").animateText({text: "//fetching the arena..."}, 1000);
+
 							if ((typeof window.wait === "undefined") || (window.wait === null)) {
 								window.wait = true;		
 								setTimeout(function() {
@@ -567,12 +591,23 @@
 							var timeNow = new Date().getTime();
 							var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
 							
+							//starting soon
+								if (timeNow < window.arena.state.start) {
+									$("#message_top").animateText({text: "//starting the arena..."}, 1000);
+								}
+
 							//display up-to-date info
-								if ($("#round").text() < (pastRounds.length - 1)) { //displayedRound is out of date
+								else if (($("#round").text() === "null") || ($("#round").text() < (pastRounds.length - 1))) { //displayedRound is out of date
 									
 									//state
-										$("#round").text(pastRounds.length - 1);
+										if (pastRounds.length - 1 >= 0) {
+											$("#round").text(pastRounds.length - 1);
+										}
+										else {
+											$("#round").text("null");	
+										}
 										var currentRound = pastRounds[pastRounds.length - 1] || {};
+
 
 									//cubes
 										var cubes = "";
@@ -584,9 +619,9 @@
 									//robots
 										for (var i = 0; i < currentRound.robots.length; i++) {
 											var id = currentRound.robots[i].id;
-											$("#" + id).find(".action").animateText({text: currentRound.robots[i].action, indicator: "[]", color: "var(--white)"}, 2000);
+											$("#" + id).find(".action").animateText({text: (currentRound.robots[i].action || "???"), indicator: "[]", color: "var(--white)"}, 2000);
 											setTimeout(function() {	
-												$("#" + id).find(".power").text(currentRound.robots[i].action);
+												$("#" + id).find(".power").text(currentRound.robots[i].power);
 												$("#" + id).find(".cubes_red").text(currentRound.robots[i].cubes.red);
 												$("#" + id).find(".cubes_orange").text(currentRound.robots[i].cubes.orange);
 												$("#" + id).find(".cubes_yellow").text(currentRound.robots[i].cubes.yellow);
@@ -598,7 +633,7 @@
 								}
 
 							//concluded
-								if (window.arena.state.end !== null) {
+								if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
 									clearInterval(gameLoop);
 
 									//sections
@@ -622,8 +657,8 @@
 										$(".victorList").html(victors);
 								}
 								
-							//still active
-								else {
+							//active
+								else if (timeNow > window.arena.state.start) {
 									var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start;
 
 									//paused

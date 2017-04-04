@@ -6,56 +6,65 @@
 	function create(session, post, callback) {
 		var parameters = JSON.parse(post.data) || null;
 
-		var arena = {
-			id: processes.random(),
-			created: new Date().getTime(),
-			users: [session.user.id],
-			entrants: {},
-			state: {
-				start: null,
-				locked: true,
-				pauseFrom: null,
-				pauseTo: null,
-				end: null,
-				victors: []
-			},
-			rules: {
-				players: {
-					minimum: parameters.players.minimum || 2,
-					maximum: parameters.players.maximum || 8,
-					pauseDuration: parameters.players.pauseDuration || "05:00",
-					pausePeriod: parameters.players.pausePeriod || 10,
-				},
-				cubes: {
-					colors: parameters.cubes.colors || ["red", "orange", "yellow", "green", "blue", "purple"],
-					startCount: parameters.cubes.startCount || 1,
-					maximum: parameters.cubes.maximum || 255,
-					spawnRate: parameters.cubes.spawnRate || 1,
-					spawnMemory: parameters.cubes.spawnMemory || 3,
-					dissolveRate: parameters.cubes.dissolveRate || 0,
-					dissolveIndex: parameters.cubes.dissolveIndex || "Math.floor(Math.random() * cubes.length)",
-				},
-				robots: {
-					startPower: parameters.robots.startPower || 0,
-					maxPower: parameters.robots.maxPower || 255,
-					powerRate: parameters.robots.powerRate || 1,
-					tieBreaker: parameters.robots.tieBreaker || "cascade",
-					actions: parameters.robots.actions || ["power", "take", "sleep"],
-				},
-				victory: {
-					conditions: parameters.victory.conditions || ["6_of_1", "2_of_3", "1_of_6"],
-					tieBreaker: parameters.victory.tieBreaker || "efficient",
-					multiplier: parameters.victory.multiplier || 1,
-				}
-			},	
-			rounds: [],
+		if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 15) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
+			callback({success: false, messages: {navbar: "//unable to create; arena contains advanced actions", top: "//unable to create; arena contains advanced actions"}});
 		}
+		else if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 30) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
+			callback({success: false, messages: {navbar: "//unable to create; arena contains expert actions", top: "//unable to create; arena contains expert actions"}});
+		}
+		else {
 
-		processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
-			processes.store("arenas", null, arena, function(data) {
-				callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+			var arena = {
+				id: processes.random(),
+				created: new Date().getTime(),
+				users: [session.user.id],
+				entrants: {},
+				state: {
+					start: null,
+					locked: true,
+					pauseFrom: null,
+					pauseTo: null,
+					end: null,
+					victors: []
+				},
+				rules: {
+					players: {
+						minimum: Number(parameters.players.minimum) || 2,
+						maximum: Number(parameters.players.maximum) || 8,
+						pauseDuration: parameters.players.pauseDuration || "05:00",
+						pausePeriod: Number(parameters.players.pausePeriod) || 10,
+					},
+					cubes: {
+						colors: parameters.cubes.colors || ["red", "orange", "yellow", "green", "blue", "purple"],
+						startCount: Number(parameters.cubes.startCount) || 1,
+						maximum: Number(parameters.cubes.maximum) || 255,
+						spawnRate: Number(parameters.cubes.spawnRate) || 1,
+						spawnMemory: Number(parameters.cubes.spawnMemory) || 3,
+						dissolveRate: Number(parameters.cubes.dissolveRate) || 0,
+						dissolveIndex: parameters.cubes.dissolveIndex || "Math.floor(Math.random() * cubes.length)",
+					},
+					robots: {
+						startPower: Number(parameters.robots.startPower) || 0,
+						maxPower: Number(parameters.robots.maxPower) || 255,
+						powerRate: Number(parameters.robots.powerRate) || 1,
+						tieBreaker: parameters.robots.tieBreaker || "cascade",
+						actions: parameters.robots.actions || ["power", "take", "sleep"],
+					},
+					victory: {
+						conditions: parameters.victory.conditions || ["6_of_1", "2_of_3", "1_of_6"],
+						tieBreaker: parameters.victory.tieBreaker || "efficient",
+						multiplier: Number(parameters.victory.multiplier) || 1,
+					}
+				},	
+				rounds: [],
+			}
+
+			processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
+				processes.store("arenas", null, arena, function(data) {
+					callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+				});
 			});
-		});
+		}
 	}
 
 /* destroy(session, post, callback) */
@@ -119,6 +128,11 @@
 		}
 	}
 
+/* random(session, post, callback) */
+	function random(session, post, callback) {
+		//???
+	}
+
 /* selectRobot(session, post, callback) */
 	function selectRobot(session, post, callback) {
 		var data = JSON.parse(post.data);
@@ -133,7 +147,7 @@
 			processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
-				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
+				if ((typeof arena !== "undefined") && (typeof arena.id !== "undefined") && (arena.id !== null)) {
 					if ((arena.users.indexOf(session.user.id) > -1) && (arena.state.start === null)) {
 						processes.retrieve("robots", {$and: [{id: data.robot_id}, {"user.id": session.user.id}]}, function(robot) {
 							if (typeof robot.id === "undefined") { robot = robot[0]; }
@@ -174,7 +188,7 @@
 			processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
-				if ((typeof arena.id === "undefined") || (arena.id == null)) {
+				if ((typeof arena === "undefined") || (typeof arena.id === "undefined") || (arena.id == null)) {
 					callback({success: false, messages: {top: "//not a valid arena id"}});
 				}
 				else if (!(arena.users.indexOf(session.user.id) > -1)) {
@@ -309,6 +323,7 @@
 		var data = JSON.parse(post.data);
 		var arena_id = data.arena_id; //arena we're asking for
 		var timeNow = new Date().getTime(); //millisecond we're at
+		console.log("timeNow: " + timeNow);
 
 		console.log(1);
 
@@ -318,7 +333,7 @@
 
 				console.log(2);
 
-				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
+				if ((typeof arena !== "undefined") && (typeof arena.id !== "undefined") && (arena.id !== null)) {
 					if (arena.state.start === null) { //if the game has not started...
 						callback({success: true, arena: arena, messages: {top: "//this arena has not started"}});
 					}
@@ -345,47 +360,55 @@
 								else { //evaluate it yourself
 									processes.store("arenas", {id: locked_arena.id}, {$set:{"state.locked": true}}, function(data) { //lock it so we can update it without someone else also updating it
 										console.log(7);
-										var arena = update(locked_arena); //update the arena
-										arena.state.locked = false; //unlock it
+										var updated_arena = update(locked_arena); //update the arena
+										updated_arena.state.locked = false; //unlock it
 
-										if (arena.state.end === null) { //if the arena has not concluded...
-											console.log(8);
-											processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
-												callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
-											});
-										}
-										else { //if it has concluded...
-											console.log(9);
-											if (arena.state.victors.length > 0) { //update stats for those robots
-												var robot_ids = Object.keys(arena.entrants);
-												var robot_victors = arena.state.victors;
-												var robot_losers = robot_ids.filter(function(robot_id) { return (!(robot_victors.indexOf(robot_id) > -1))});
-												
-												var user_victors = [];
-												var user_losers = [];
-												
-												for (var i = 0; i < robot_ids.length; i++) {
-													if (robot_victors.indexOf(robot_ids[i]) > -1) {
-														user_victors.push(arena.entrants[robot_ids[i]].user.id);
-													}
-													else {
-														user_losers.push(arena.entrants[robot_ids[i]].user.id);	
-													}
-												}
+										processes.retrieve("arenas",{$and: [{id: arena_id}, {"state.locked":true}]}, function(locked_arena) { //it should still be locked in the database
+											if (typeof locked_arena.id === "undefined") { locked_arena = locked_arena[0]; }
 
-												processes.store("users", {id: {$in: user_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //users +1 win
-													processes.store("users", {id: {$in: user_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //users +1 loss
-														processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //robots +1 win
-															processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //robots +1 loss
-																processes.store("arenas", {id: arena.id}, arena, function(data) { //store the arena
-																	callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
+											if ((typeof locked_arena === "undefined") || (locked_arena.id === null)) { //somebody already evaluated and put it back
+												callback({success: false, arena: arena, messages: {top: "//unable to retrieve or update arena"}});
+											}
+											else {
+												processes.store("arenas", {id: arena.id}, updated_arena, function(data) { //store it
+													if (updated_arena.state.end === null) { //if the arena has not concluded...
+														console.log(8);
+														callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
+													}
+													else { //if it has concluded...
+														console.log(9);
+														if (updated_arena.state.victors.length > 0) { //update stats for those robots
+															var robot_ids = Object.keys(updated_arena.entrants);
+															var robot_victors = updated_arena.state.victors;
+															var robot_losers = robot_ids.filter(function(robot_id) { return (!(robot_victors.indexOf(robot_id) > -1))});
+															
+															var user_victors = [];
+															var user_losers = [];
+															
+															for (var i = 0; i < robot_ids.length; i++) {
+																if (robot_victors.indexOf(robot_ids[i]) > -1) {
+																	user_victors.push(updated_arena.entrants[robot_ids[i]].user.id);
+																}
+																else {
+																	user_losers.push(updated_arena.entrants[robot_ids[i]].user.id);	
+																}
+															}
+
+															processes.store("users", {id: {$in: user_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //users +1 win
+																processes.store("users", {id: {$in: user_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //users +1 loss
+																	processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //robots +1 win
+																		processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //robots +1 loss
+																			callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
+																		});
+																	});
 																});
 															});
-														});
-													});
+														}
+													}
 												});
 											}
-										}
+										});
+										
 									});
 								}
 							});
@@ -405,19 +428,23 @@
 /* update(arena) */
 	function update(arena) {
 		if ((arena.state.pauseFrom !== null) || (arena.state.pauseTo !== null)) { //if it's paused
+			console.log("it was paused");
 			var unpauseStart = arena.state.pauseTo; //get the timestamp for the pause end
 			arena.state.pauseFrom = null; //unpause
 			arena.state.pauseTo = null;
 		}
 		else {
+			console.log("it wasn't paused");
 			var unpauseStart = 0;
 		}
 
 		var startLength = arena.rounds.length; //get the round # where we're starting
+		console.log("starting at round " + startLength);
 
-		while ((arena.rounds.length < (startLength + 10)) && (arena.state.pauseFrom === null) && (arena.state.pauseTo === null) && (arena.state.end === null)  && (arena.state.start !== null)) { //until pause or 10 rounds or victory
+		while ((arena.rounds.length < (startLength + 10)) && (arena.state.pauseFrom === null) && (arena.state.pauseTo === null) && (arena.state.end === null) && (arena.state.start !== null)) { //until pause or 10 rounds or victory
 			//phase 0: create newRound
 				if (arena.rounds.length === 0) { //first round
+					console.log("phase 0: first round");
 					//create newRound object
 						var newRound = {
 							start: arena.state.start,
@@ -454,9 +481,11 @@
 						}							
 				}
 				else { //all subsequent rounds
+					console.log("phase 0");
 					var newRound = JSON.parse(JSON.stringify(arena.rounds[arena.rounds.length - 1])); //copy the current round data into a newRound
-					
-					if ((typeof unpauseStart !== "undefined") && (unpauseStart > 0)) { //if it was paused
+					console.log("newRound: " + JSON.stringify(newRound));
+
+					if (unpauseStart > 0) { //if it was paused
 						newRound.start = unpauseStart; //set the new round to start immediately after the pause
 					}
 					else {
@@ -466,18 +495,22 @@
 
 			//phase 1: running the user scripts
 				if (arena.rounds.length > 0) { //don't do this for the first round
+					console.log("phase 1");
 					var robot_actions = [];
 
 					for (var i = 0; i < newRound.robots.length; i++) {
 						//get robot data
 							var robot = newRound.robots[i];
 								var name = robot.name //this is actually the id - we won't use the robot's string name except for display
-								var inputs = String(arena.entrants[name].inputs);
-								var code = String(arena.entrants[name].code);
+								var inputs = arena.entrants[name].inputs.replace(/\s/g,"").split(",") || [];
+								var code = String(arena.entrants[name].code) || "";
+
+							console.log("running script for " + name);
 						
 						//build the sandbox
 							var sandbox = {}; //clear existing sandbox
 							for (var j = 0; j < inputs.length; j++) { //only add the variables specified by the user's code
+								console.log("input: " + inputs[j]);
 								switch(inputs[j]) {
 									case "arena": //all other inputs can be derived from this one
 										sandbox.arena = { //for arena, only include state, rules, and rounds data (no id, created, users, or entrants)
@@ -564,30 +597,37 @@
 						//run robot code
 							var random = processes.random(); //the results variable will have an unpredictable name so it's almost impossible for the user to mess with it
 							try {
+								console.log("trying at " + new Date().getTime() + " : sandbox:\n " + JSON.stringify(sandbox));
 								vm.runInNewContext(
 									"function " + name + "() {" + (code || "") + "}; var " + random + " = " + name + "();",
 									sandbox,
 									{timeout: 1000}
 								); //try to run the code --> function 12345678() { return "something"; } var abcdefgh = 12345678();
+								console.log("completed at " + new Date().getTime());
+								console.log("action is " + sandbox[random]);
 								robot_actions[i] = sandbox[random] || "sleep"; //extract that randomly named variable's contents or default to sleep
 							}
 							catch (error) {
+								console.log("error at " + new Date().getTime() + " : \n" + error);
 								robot_actions[i] = "sleep"; //if the code breaks, default to sleep
 							}
 
 						//prevent illegal actions
 							if (!(arena.rules.robots.actions.indexOf(robot_actions[i]) > -1)) {
+								console.log("illegal action");
 								robot_actions[i] = "sleep"; //robots who perform actions outside the scope of this arena will instead sleep
 							}
 					}
 
 					for (var i = 0; i < robot_actions.length; i++) { //then put all those actions in their respective robots for the newRound
 						newRound.robots[i].action = robot_actions[i];
+						console.log(newRound.robots[i].name + ":" + robot_actions[i]);
 					}
 				}
 
 			//phase 2: robot actions: shock, power, sap, burn, sleep
 				if (arena.rounds.length > 0) { //don't do this for the first round
+					console.log("phase 2");
 					//shock
 						for (var i = 0; i < newRound.robots.length; i++) {
 							if (newRound.robots[i].action === "shock") { //for all robots shocking...
@@ -608,6 +648,7 @@
 					
 						for (var i = 0; i < newRound.robots.length; i++) {
 							if (newRound.robots[i].action === "power") { //for all robots powering...
+								console.log("powering now: " + newRound.robots[i].name);
 								newRound.robots[i].power += powerRate; //... add to their newRound's power
 
 								if (newRound.robots[i].power > arena.rules.robots.maxPower) { //don't let anyone go over the maxPower
@@ -690,11 +731,13 @@
 
 			//phase 3: robot actions: take, halftake, swaptake, fliptake
 				if (arena.rounds.length > 0) { //don't do this for the first round
+					console.log("phase 3");
 					var takers = []; //empty array of robots attempting to take
 
 					//get a list of all takers
 						for (var i = 0; i < newRound.robots.length; i++) {
 							if (["take","halftake","swaptake","fliptake"].indexOf(newRound.robots[i].action) > -1) { //all robots with one of those actions
+								console.log("taking now: " + newRound.robots[i].name);
 								if (!(newRound.robots[i].power > 0)) { //no power?
 									newRound.robots[i].action = "sleep"; //sleep!
 								}
@@ -770,7 +813,7 @@
 										var reset = false;
 
 										for (var i = 0; i < takers.length; i++) { 
-											if (takers[i].power == winner.power) { //if anyone ties with the current winner...
+											if (takers[i].power === winner.power) { //if anyone ties with the current winner...
 												takers.shift(); //...remove them...
 												i--; //...keep checking the rest...
 												reset = true;
@@ -792,6 +835,7 @@
 
 					//give the winner all the cubes, up to the maximum
 						if ((typeof winner !== "undefined") && (winner !== null)) {
+							console.log("winner: " + winner.name);
 							newRound.winner = winner.name; //log the winner's id in the current round
 
 							if (winner.action === "swaptake") { //for swaptakers, build a swapBack pile
@@ -847,7 +891,7 @@
 								cubes = cubes.concat(swapBack);
 							}
 
-							newRound.robots.find(function(robot) {return robot.name = winner.name}).cubes = winner.cubes; //the winner gets the cubes in the new round
+							newRound.robots.find(function(robot) {return robot.name === winner.name}).cubes = winner.cubes; //the winner gets the cubes in the new round
 							newRound.cubes = cubes || []; //remaining cubes go to the new round
 						}
 						
@@ -870,42 +914,49 @@
 
 			//phase 4: robot actions: sleep
 				if (arena.rounds.length > 0) { //don't do this for the first round
+					console.log("phase 4");
 					//sleep
 						for (var i = 0; i < newRound.robots.length; i++) {
 							if (newRound.robots[i].action === "sleep") { //for all robots sleeping...
 								//do nothing
+								console.log("sleeping now: " + newRound.robots[i].name);
 							}
 						}
 				}
 
 			//phase 5: spawn & dissolve cubes
 				//dissolve
-					var i = 0;
-					while ((i < arena.rules.cubes.dissolveRate) && (newRound.cubes > 0)) { //loop through to dissolve the dissolveRate number of cubes (or until none remain)
-						switch (arena.rules.cubes.dissolveIndex) { //figure out which cube is getting dissolved
-							case "none":
-								var dissolveIndex = 256;
-							break;
+					if (arena.rounds.length > 0) { //don't do this for the first round
+						console.log("phase 5: dissolving cubes from " + newRound.cubes);
+						var i = 0;
+						while ((i < arena.rules.cubes.dissolveRate) && (newRound.cubes > 0)) { //loop through to dissolve the dissolveRate number of cubes (or until none remain)
+							switch (arena.rules.cubes.dissolveIndex) { //figure out which cube is getting dissolved
+								case "none":
+									var dissolveIndex = 256;
+								break;
 
-							case "newest":
-								var dissolveIndex = newRound.cubes.length - 1;
-							break;
+								case "newest":
+									var dissolveIndex = newRound.cubes.length - 1;
+								break;
 
-							case "oldest":
-								var dissolveIndex = 0;
-							break;
+								case "oldest":
+									var dissolveIndex = 0;
+								break;
 
-							case "random":
-							default:
-								var dissolveIndex = Math.floor(Math.random() * newRound.cubes.length);
-							break;
+								case "random":
+								default:
+									var dissolveIndex = Math.floor(Math.random() * newRound.cubes.length);
+								break;
+							}
+
+							newRound.cubes = newRound.cubes.splice(dissolveIndex,1); //remove one cube from the dissolveIndex position
+							i++;
+							console.log(" to " + newRound.cubes);
 						}
-
-						newRound.cubes.splice(dissolveIndex,1); //remove one cube from the dissolveIndex position
-						i++;
 					}
 
 				//spawn
+					console.log("phase 5: spawning cubes from " + newRound.cubes);
 					var colors = arena.rules.cubes.colors;
 					var spawnRate = arena.rules.cubes.spawnRate;
 					var spawnMemory = arena.rules.cubes.spawnMemory;
@@ -922,134 +973,148 @@
 						if (newCube !== null) {
 							newRound.cubes.push(newCube);
 						}
+						console.log(" to " + newRound.cubes);
 					}
 
 			//phase 6: merge newRound
+				console.log("phase 6");
 				arena.rounds.push(newRound); //merge the newRound into the existing rounds array
 
 			//phase 7: check for victory
-				//loop through all conditions
-					for (var c = 0; c < arena.rules.victory.conditions.length; c++) { //loop through for all conditions
-						switch(arena.rules.victory.conditions[c]) {
-							case "6of1": //6 cubes of 1 color
-								var victors = [];
+				if (arena.rounds.length > 0) { //don't do this for the first round
+					//loop through all conditions
+						console.log("phase 7");
+						for (var c = 0; c < arena.rules.victory.conditions.length; c++) { //loop through for all conditions
+							console.log("checking for victory: " + arena.rules.victory.conditions[c]);
+							switch(arena.rules.victory.conditions[c]) {
+								case "6of1": //6 cubes of 1 color
+									var victors = [];
 
-								for (var i = 0; i < newRound.robots.length; i++) {
-									for (j = 0; j < arena.rules.cubes.colors.length; j++) {
-										if (newRound.robots[i].cubes[arena.rules.cubes.colors[j]] >= (6 * arena.rules.victory.multiplier)) {
+									for (var i = 0; i < newRound.robots.length; i++) {
+										for (j = 0; j < arena.rules.cubes.colors.length; j++) {
+											if (newRound.robots[i].cubes[arena.rules.cubes.colors[j]] >= (6 * arena.rules.victory.multiplier)) {
+												victors.push(newRound.robots[i].name);
+											}
+										}
+									}
+
+									arena.state.victors = victors;
+								break;
+
+								case "2of3": //2 of all primary or all secondary cubes
+									var victors = [];
+
+									for (var i = 0; i < newRound.robots.length; i++) {
+										if ((newRound.robots[i].red >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].yellow >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].blue >= (2 * arena.rules.victory.multiplier))) {
+											victors.push(newRound.robots[i].name);
+										}
+										else if ((newRound.robots[i].orange >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].green >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].purple >= (2 * arena.rules.victory.multiplier))) {
 											victors.push(newRound.robots[i].name);
 										}
 									}
-								}
 
-								arena.state.victors = victors;
-							break;
+									arena.state.victors = victors;
+								break;
 
-							case "2of3": //2 of all primary or all secondary cubes
-								var victors = [];
+								case "1of6": //one of each color
+									var victors = [];
 
-								for (var i = 0; i < newRound.robots.length; i++) {
-									if ((newRound.robots[i].red >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].yellow >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].blue >= (2 * arena.rules.victory.multiplier))) {
-										victors.push(newRound.robots[i].name);
+									for (var i = 0; i < newRound.robots.length; i++) {
+										var victory = true;
+
+										for (j = 0; j < arena.rules.cubes.colors.length; j++) {
+											if (newRound.robots[i].cubes[arena.rules.cubes.colors[j]] < (1 * arena.rules.victory.multiplier)) {
+												victory = false;
+											}
+										}
+
+										if (victory) {
+											victors.push(newRound.robots[i].name);
+										}
+
 									}
-									else if ((newRound.robots[i].orange >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].green >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].purple >= (2 * arena.rules.victory.multiplier))) {
-										victors.push(newRound.robots[i].name);
-									}
-								}
 
-								arena.state.victors = victors;
-							break;
+									arena.state.victors = victors;
+								break;
 
-							case "1of6": //one of each color
-								var victors = [];
+								case "3of2": //3 of each of 2 complementary colors
+									var victors = [];
 
-								for (var i = 0; i < newRound.robots.length; i++) {
-									var victory = true;
-
-									for (j = 0; j < arena.rules.cubes.colors.length; j++) {
-										if (newRound.robots[i].cubes[arena.rules.cubes.colors[j]] < (1 * arena.rules.victory.multiplier)) {
-											victory = false;
+									for (var i = 0; i < newRound.robots.length; i++) {
+										if ((newRound.robots[i].red >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].green >= (3 * arena.rules.victory.multiplier))) {
+											victors.push(newRound.robots[i].name);
+										}
+										else if ((newRound.robots[i].orange >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].blue >= (3 * arena.rules.victory.multiplier))) {
+											victors.push(newRound.robots[i].name);
+										}
+										else if ((newRound.robots[i].yellow >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].purple >= (3 * arena.rules.victory.multiplier))) {
+											victors.push(newRound.robots[i].name);
 										}
 									}
 
-									if (victory) {
-										victors.push(newRound.robots[i].name);
-									}
-
-								}
-
-								arena.state.victors = victors;
-							break;
-
-							case "3of2": //3 of each of 2 complementary colors
-								var victors = [];
-
-								for (var i = 0; i < newRound.robots.length; i++) {
-									if ((newRound.robots[i].red >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].green >= (3 * arena.rules.victory.multiplier))) {
-										victors.push(newRound.robots[i].name);
-									}
-									else if ((newRound.robots[i].orange >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].blue >= (3 * arena.rules.victory.multiplier))) {
-										victors.push(newRound.robots[i].name);
-									}
-									else if ((newRound.robots[i].yellow >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].purple >= (3 * arena.rules.victory.multiplier))) {
-										victors.push(newRound.robots[i].name);
-									}
-								}
-
-								arena.state.victors = victors;
-							break;
+									arena.state.victors = victors;
+								break;
+							}
 						}
-					}
 
-				//remove duplicates
-					arena.state.victors = arena.state.victors.filter(function (victor, position) {
-						return arena.state.victors.indexOf(victor) === position;
-					});
+					//remove duplicates
+						arena.state.victors = arena.state.victors.filter(function (victor, position) {
+							return arena.state.victors.indexOf(victor) === position;
+						});
 
-				//resolve ties
-					if (arena.state.victors.length > 1) {
-						switch (arena.rules.victory.tieBreaker) {
-							case "tie":
-								//do nothing
-							break;
+					//resolve ties
+						if (arena.state.victors.length > 1) {
+							console.log("resolving ties: " + arena.rules.victory.tieBreaker);
+							switch (arena.rules.victory.tieBreaker) {
+								case "tie":
+									//do nothing
+								break;
 
-							case "random":
-								arena.state.victors = [arena.state.victors[Math.floor(Math.random() * arena.state.victors.length)]];
-							break;
+								case "random":
+									arena.state.victors = [arena.state.victors[Math.floor(Math.random() * arena.state.victors.length)]];
+								break;
 
-							case "greedy":
-								arena.state.victors.sort(function(a, b) { //order the tied victors based on total cubeCount, ascending
-									var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
-									var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
+								case "greedy":
+									arena.state.victors.sort(function(a, b) { //order the tied victors based on total cubeCount, ascending
+										var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
+										var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
 
-									return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) > (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
-								});
+										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) > (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
+									});
 
-								arena.state.victors = [arena.state.victors[0]]; //whoever has the *most* cubes is the victor
-							break;
+									arena.state.victors = [arena.state.victors[0]]; //whoever has the *most* cubes is the victor
+								break;
 
-							case "efficient":
-								arena.state.victors.sort(function(a, b) { //order the tied victors based on total cubeCount, descending
-									var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
-									var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
+								case "efficient":
+									arena.state.victors.sort(function(a, b) { //order the tied victors based on total cubeCount, descending
+										var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
+										var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
 
-									return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) < (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
-								});
+										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) < (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
+									});
 
-								arena.state.victors = [arena.state.victors[0]]; //whoever has the *least* cubes is the victor
-							break;
+									arena.state.victors = [arena.state.victors[0]]; //whoever has the *least* cubes is the victor
+								break;
+							}
 						}
-					}
 
-				//change state
-					if (arena.state.victors.length > 0) {
-						arena.state.end = new Date().getTime(); //add end time if victory
-					}
+					//change state
+						if (arena.state.victors.length > 0) {
+							console.log("victors: " + arena.state.victors);
+							arena.state.end = arena.rounds[arena.rounds.length - 1].start + (1000 * 10); //add end time if victory (10 seconds after the last round starts)
+						}
+						else {
+							console.log("no victors");
+						}
+				}
 
 			//phase 8: check for pause
-				if ((arena.state.end === null) && (arena.rounds.length > 0) && ((arena.rounds.length - 1) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete, unless victory
+				if ((arena.state.end === null) && (arena.rounds.length > 1) && ((arena.rounds.length - 2) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete (not counting round 0), unless victory
+					console.log("phase 8");
 					arena.state.pauseFrom = (arena.rounds[arena.rounds.length - 1].start) + (1000 * 10); //set the pause start for 10 seconds after the last newRound
 					arena.state.pauseTo = arena.state.pauseFrom + (Number(arena.rules.players.pauseDuration.replace(":00","")) * 60 * 1000); //set pause end for pauseFrom + duration of the pause
+
+					console.log("pausing at " + (new Date().getTime()) + " after round " + (arena.rounds.length - 1) + " from " + arena.state.pauseFrom + " to " + arena.state.pauseTo);
 				}
 		}
 		
@@ -1060,6 +1125,7 @@
 	module.exports = {
 		create: create,
 		join: join,
+		random: random,
 		selectRobot: selectRobot,
 		leave: leave,
 		launch: launch,
