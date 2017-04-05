@@ -4,7 +4,7 @@
 /* create(name, email, password) */
 	function create(name, email, password) {
 		var salt = processes.random();
-		var user = {
+		var human = {
 			id: processes.random(),
 			name: name,
 			email: null,
@@ -35,13 +35,13 @@
 			arenas: [],
 		}
 
-		return user;
+		return human;
 	}
 
 /* update(session, post, callback) */
 	function update(session, post, callback) {
 		var data = JSON.parse(post.data);
-		var before = JSON.stringify(session.user)
+		var before = JSON.stringify(session.human)
 
 		var fields = Object.keys(data);
 		var messages = {top: "//changes submitted"};
@@ -49,34 +49,34 @@
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
 				case "bio":
-					if (data.bio === session.user.information.bio) {
+					if (data.bio === session.human.information.bio) {
 						//no change
 					}
 					else {
-						session.user.information.bio = data.bio;
+						session.human.information.bio = data.bio;
 						messages.bio = "//bio updated";
 					}
 				break;
 
 				case "avatar":
-					if (data.avatar.color === session.user.avatar.color) {
+					if (data.avatar.color === session.human.avatar.color) {
 						//no change
 					}
 					else if (!(processes.ascii_robot("color").indexOf(data.avatar.color) > -1)) {
 						//no change
 					}
 					else {
-						session.user.avatar.color = data.avatar.color;
+						session.human.avatar.color = data.avatar.color;
 						messages.avatar = "//color updated";
 					}
 				break;
 			}
 		}
 
-		if (before !== JSON.stringify(session.user)) {
-			processes.store("users", {id: session.user.id}, session.user, function(user) {
-				if (typeof user.id === "undefined") { user = user[0]; }
-				callback({success: true, messages: messages, data: data, user: user});
+		if (before !== JSON.stringify(session.human)) {
+			processes.store("humans", {id: session.human.id}, session.human, function(human) {
+				if (typeof human.id === "undefined") { human = human[0]; }
+				callback({success: true, messages: messages, data: data, human: human});
 			});
 		}
 		else {
@@ -88,22 +88,22 @@
 	function destroy(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		if ((session.user !== null) && (typeof data.id !== null) && (data.id === session.user.id)) {
-			processes.retrieve("users", {id: session.user.id}, function(user) {
-				if (typeof user.id === "undefined") { user = user[0]; }
+		if ((session.human !== null) && (typeof data.id !== null) && (data.id === session.human.id)) {
+			processes.retrieve("humans", {id: session.human.id}, function(human) {
+				if (typeof human.id === "undefined") { human = human[0]; }
 				
-				if ((typeof user === "undefined") || (typeof user.id === "undefined") || (user.id !== session.user.id)) {
-					callback({success: false, messages: {top: "//unable to delete user"}});
+				if ((typeof human === "undefined") || (typeof human.id === "undefined") || (human.id !== session.human.id)) {
+					callback({success: false, messages: {top: "//unable to delete human"}});
 				}
 				else {
 					var robots = [];
-					for (var i = 0; i < user.robots.length; i++) {
-						robots.push(user.robots[i].id);
+					for (var i = 0; i < human.robots.length; i++) {
+						robots.push(human.robots[i].id);
 					}
 
 					processes.store("robots", {id: {$in: robots}}, null, function(robot) {
-						processes.store("users", {id: session.user.id}, null, function(user) {
-							processes.store("sessions", {user: session.user.id}, {$set: {user: null}}, function(session) {
+						processes.store("humans", {id: session.human.id}, null, function(human) {
+							processes.store("sessions", {human: session.human.id}, {$set: {human: null}}, function(session) {
 								callback({success: true, redirect: "../../../../"});
 							});
 						});
@@ -112,7 +112,7 @@
 			});
 		}
 		else {
-			callback({success: false, messages: {top: "//unable to delete user"}});
+			callback({success: false, messages: {top: "//unable to delete human"}});
 		}
 	}
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ai_arenas.<% data.name || "users" %></title>
+		<title>ai_arenas.<% data.name || "humans" %></title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
-		<link rel="stylesheet" type="text/css" href="../../users/stylesheet.css"/>
+		<link rel="stylesheet" type="text/css" href="../../humans/stylesheet.css"/>
 		<% colors(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
-		<script type="text/javascript" src="../../users/script.js"></script>
+		<script type="text/javascript" src="../../humans/script.js"></script>
 	</head>
 	<body>
 		<% navbar(session); %>
@@ -19,16 +19,16 @@
 					</div>
 					<div class="indented">
 						<%
-							if ((session.user !== null) && (session.user.id === data.id)) {
+							if ((session.human !== null) && (session.human.id === data.id)) {
 								"<div class='megasection'>\
 									<div class='section'>\
-										<button id='user_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+										<button id='human_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
 									</div>\
 									<div class='section'>\
-										<button id='user_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+										<button id='human_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
 									</div>\
 									<div class='section'>\
-										<button id='user_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+										<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
 									</div>\
 									<div class='section'>\
 										<a id='settings' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a>\
@@ -45,7 +45,7 @@
 				<hr>
 				<div class="megasection">
 					<% 
-						if (data.settings.show_email === "true") {
+						if ((data.settings.show_email === "true") && (data.email !== null)) {
 							'<div class="section">\
 								<span class="whitetext">.email</span><span class="redtext"> = </span><a class="bluetext" id="email" href="mailto:' + data.email + '">' + data.email + '</a>\
 								<span class="whitetext">;</span>\
@@ -58,15 +58,12 @@
 					</div>
 					<div class="section">
 						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
-						<div class="indented">
-							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
-							<span class='whitetext'>,</span><br>
+							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span><span class='whitetext'>,</span>
 							<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
-						</div>
 						<span class="whitetext">};</span>
 					</div>
 				</div>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<!-- <span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
 					<div class="section" id="avatar">
@@ -77,7 +74,7 @@
 						<span class="whitetext">}</span>
 					</div>
 					<% 
-						if ((session.user !== null) && (session.user.id === data.id)) {
+						if ((session.human !== null) && (session.human.id === data.id)) {
 							var display = '<div class="section" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
 								<span class="whitetext">.color</span><span class="redtext"> = </span><select>\
 									<option value="var(--white)">white</option>\
@@ -96,7 +93,7 @@
 							display;
 						}
 					%>
-				</div>
+				</div> -->
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
@@ -117,9 +114,9 @@
 						<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
 						<div class="indented">
 							<% 
-								if ((session.user !== null) && (session.user.id === data.id)) {
+								if ((session.human !== null) && (session.human.id === data.id)) {
 									var robots = "<div class='section'>\
-										<button id='user_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
+										<button id='human_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
 									</div>"
 								}
 								else {

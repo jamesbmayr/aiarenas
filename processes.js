@@ -133,6 +133,12 @@
 				output += (set[Math.floor(Math.random() * set.length)]);
 			}
 
+			if ((/[a-zA-Z]/).test(set)) {
+				while (!(/[a-zA-Z]/).test(output[0])) {
+					output = (set[Math.floor(Math.random() * set.length)]) + output.substring(1);
+				}
+			}
+
 			return output;
 		}
 
@@ -154,7 +160,7 @@
 		function isReserved(string) {
 			var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings",
 				"signup","signin","signout","login","logout",
-				"user","users","robot","robots","arena","arenas",
+				"user","users","robot","robots","arena","arenas","human","humans",
 				"game","games","statistic","statistics",
 				"create","new","delete","read","start","go","all"];
 
@@ -169,8 +175,8 @@
 /*** page content ***/
 	/* colors(session) */
 		function colors(session) {
-			if (session.user !== null) {
-				var color_scheme = session.user.settings.color_scheme || "default";
+			if (session.human !== null) {
+				var color_scheme = session.human.settings.color_scheme || "default";
 			}
 			else {
 				var color_scheme = "default";
@@ -300,7 +306,7 @@
 			var navbar = "<button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button>\
 				<button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button>";
 			
-			if (session.user === null) {
+			if (session.human === null) {
 				navbar += "<div id='navbar'>\
 					<div class='navbar_item'>\
 						<a id='logo_block' href='../../../../'>\
@@ -311,8 +317,8 @@
 					<div class='navbar_item'>\
 						<span class='graytext' id='navbar_message'></span>\
 					</div>\
-					<div id='navbar_user'>\
-						<div class='navbar_item'><span class='whitetext navbar_heading'>user</span></div>\
+					<div id='navbar_human'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>human</span></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../signin'><span class='whitetext'>.</span><span class='greentext'>signin</span><span class='whitetext'>();</span></a></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../signup'><span class='whitetext'>.</span><span class='greentext'>signup</span><span class='whitetext'>();</span></a></div>\
 					</div>\
@@ -326,13 +332,13 @@
 			}
 			else {
 				var robots = "";
-				for (var i = 0; i < session.user.robots.length; i++) {
-					robots += "<div class='navbar_item'><a class='navbar_link' href='../../../../robots/" + session.user.robots[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + session.user.robots[i].name + "</span></a></div>";
+				for (var i = 0; i < session.human.robots.length; i++) {
+					robots += "<div class='navbar_item'><a class='navbar_link' href='../../../../robots/" + session.human.robots[i].id + "'><span class='whitetext'>.</span><span class='bluetext'>" + session.human.robots[i].name + "</span></a></div>";
 				}
 
 				var arenas = "";
-				for (var i = 0; i < session.user.arenas.length; i++) {
-					arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.user.arenas[i].substring(0,4) + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.user.arenas[i]).substring(0,4) + "</span></a></div>";
+				for (var i = 0; i < session.human.arenas.length; i++) {
+					arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.human.arenas[i].substring(0,4) + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.human.arenas[i]).substring(0,4) + "</span></a></div>";
 				}
 
 				navbar += "<div id='navbar'>\
@@ -345,9 +351,9 @@
 					<div class='navbar_item'>\
 						<span class='graytext' id='navbar_message'></span>\
 					</div>\
-					<div id='navbar_user'>\
-						<div class='navbar_item'><span class='whitetext navbar_heading'>" + session.user.name + "</span></div>\
-						<div class='navbar_item'><a class='navbar_button' href='../../../../users/'" + session.user.name + "><span class='whitetext'>.</span><span class='bluetext'>profile</span></a></div>\
+					<div id='navbar_human'>\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>" + session.human.name + "</span></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../humans/'" + session.human.name + "><span class='whitetext'>.</span><span class='bluetext'>profile</span></a></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a></div>\
 						<div class='navbar_item'><button class='navbar_button' id='navbar_signout'><span class='whitetext'>.</span><span class='greentext'>signout</span><span class='whitetext'>();</span></button></div>\
 					</div>\
@@ -604,7 +610,7 @@
 							"accept-language": request.headers["accept-language"],
 							created: new Date().getTime(),
 							end: null,
-							user: null
+							human: null
 						}
 						store("sessions", null, newSession, callback);
 					}

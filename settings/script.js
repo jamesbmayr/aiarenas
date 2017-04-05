@@ -2,23 +2,23 @@
 	$(document).ready(function() {
 		resizeTop();
 
-		/* delete user */
-			$(document).on("click", "#user_cancel", function() {
-				$("#user_cancel").hide();
-				$("#user_delete").show();
-				$("#user_confirm_delete").hide();
+		/* delete human */
+			$(document).on("click", "#human_cancel", function() {
+				$("#human_cancel").hide();
+				$("#human_delete").show();
+				$("#human_confirm_delete").hide();
 
-				$("#delete").find(".message").animateText({text: "//canceled user deletion"}, 1000);
+				$("#delete").find(".message").animateText({text: "//canceled human deletion"}, 1000);
 			});
 
-			$(document).on("click", "#user_delete", function() {
-				$("#user_cancel").show();
-				$("#user_delete").hide();
-				$("#user_confirm_delete").show();
+			$(document).on("click", "#human_delete", function() {
+				$("#human_cancel").show();
+				$("#human_delete").hide();
+				$("#human_confirm_delete").show();
 				$("#delete").find(".message").animateText({text: "//are you sure you want to delete your account?"}, 1000);
 			});
 
-			$(document).on("click", "#user_confirm_delete", function() {
+			$(document).on("click", "#human_confirm_delete", function() {
 				var data = {
 					id: $(".container").attr("value")
 				};
@@ -27,7 +27,7 @@
 					type: "POST",
 					url: window.location.pathname,
 					data: {
-						action: "delete_user",
+						action: "delete_human",
 						data: JSON.stringify(data)
 					},
 					success: function(results) {
@@ -35,9 +35,9 @@
 							window.location = results.redirect;
 						}
 						else {
-							$("#user_cancel").hide();
-							$("#user_delete").show();
-							$("#user_confirm_delete").hide();
+							$("#human_cancel").hide();
+							$("#human_delete").show();
+							$("#human_confirm_delete").hide();
 
 							$("#delete").find(".message").animateText({text: (results.messages.top || "//unable to delete account")}, 1000);
 						}

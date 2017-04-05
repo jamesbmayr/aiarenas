@@ -484,19 +484,19 @@
 										$("#message_top").animateText({text: "//not started... checking again..."}, 1000);
 										
 										//update player list								
-											if ($("#players").attr("value") !== data.arena.users.join()) {
+											if ($("#players").attr("value") !== data.arena.humans.join()) {
 												var string = "";
-												for (var i = 0; i < data.arena.users.length; i++) {
-													var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].user.id === data.arena.users[i])})];
+												for (var i = 0; i < data.arena.humans.length; i++) {
+													var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].human.id === data.arena.humans[i])})];
 													if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-														string += "<a class='bluetext' target='_blank' href='../../../../users/" + entrant.user.name + "'>" + entrant.user.name + "</a>, ";
+														string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
 													}
 													else {
 														string += "<span class='yellowtext'>???</span>, ";
 													}
 												}
 
-												$("#players").attr("value", data.arena.users);
+												$("#players").attr("value", data.arena.humans);
 												$("#players").find("div.indented").html(string.substring(0, string.length - 2));
 											}
 
@@ -672,7 +672,7 @@
 										for (var i = 0; i < window.arena.state.victors.length; i++); {
 											victors += "<span class='victor'>\
 												<a class='victor_robot bluetext' href='../../../../robots/" + window.arena.state.victors[i] + "'>" + window.arena.entrants[window.arena.state.victors[i]].name + "</a>\
-												<a class='victor_user bluetext' href='../../../../users/" + window.arena.entrants[window.arena.state.victors[i]].user.name + "'>" + window.arena.entrants[window.arena.state.victors[i]].user.name + "</a>\
+												<a class='victor_human bluetext' href='../../../../humans/" + window.arena.entrants[window.arena.state.victors[i]].human.name + "'>" + window.arena.entrants[window.arena.state.victors[i]].human.name + "</a>\
 											</span>";
 										}
 										$(".victorList").html(victors);

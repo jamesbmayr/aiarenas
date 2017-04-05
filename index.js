@@ -6,7 +6,7 @@
 /* my modules */
 	const processes = require("./processes");
 	const home = require("./home/logic");
-	const users = require("./users/logic");
+	const humans = require("./humans/logic");
 	const robots = require("./robots/logic");
 	const arenas = require("./arenas/logic");
 	const settings = require("./settings/logic");
@@ -47,14 +47,14 @@
 				else {
 					processes.session(request, response, cookie.session || null, function(session) {
 						if (typeof session.id === "undefined") { session = session[0]; }
-						if (typeof session.user === "undefined") { session.user = null; }
+						if (typeof session.human === "undefined") { session.human = null; }
 
-						if (session.user !== null) {
-							processes.retrieve("users", {id: session.user}, function(user) {
-								if (typeof user.id === "undefined") { user = user[0]; }
+						if (session.human !== null) {
+							processes.retrieve("humans", {id: session.human}, function(human) {
+								if (typeof human.id === "undefined") { human = human[0]; }
 
-								if (user) {
-									session.user = user;
+								if (human) {
+									session.human = human;
 									routing(session);
 								}
 								else {
@@ -133,9 +133,9 @@
 
 							case (/^\/create\/?$/).test(request.url):
 							case (/^\/join\/?$/).test(request.url):
-							case (/\/newuser\/?$/).test(request.url):
-							case (/\/builduser\/?$/).test(request.url):
-							case (/\/createuser\/?$/).test(request.url):
+							case (/\/newhuman\/?$/).test(request.url):
+							case (/\/buildhuman\/?$/).test(request.url):
+							case (/\/createhuman\/?$/).test(request.url):
 								try {
 									_302("../../../../signout");
 								}
@@ -146,8 +146,8 @@
 							case (/\/buildrobot\/?$/).test(request.url):
 							case (/\/createrobot\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
-										_302("../../../../users");
+									if (session.human !== null) {
+										_302("../../../../humans");
 									}
 									else {
 										_302();
@@ -160,7 +160,7 @@
 							case (/\/buildarena\/?$/).test(request.url):
 							case (/\/createarena\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										_302("../../../../arenas");
 									}
 									else {
@@ -172,7 +172,7 @@
 
 							case (/\/preferences\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										_302("../../../../settings");
 									}
 									else {
@@ -185,8 +185,8 @@
 						/* home */
 							case (/^\/$/).test(request.url):
 								try {
-									if (session.user !== null) {
-										data = {messages: {top: "//human identified as " + session.user.name}};
+									if (session.human !== null) {
+										data = {messages: {top: "//human identified as " + session.human.name}};
 									}
 									else {
 										data = {};
@@ -199,7 +199,7 @@
 
 							case (/^\/signin\/?$/).test(request.url):
 								try {
-									if (session.user === null) {
+									if (session.human === null) {
 										response.end(processes.render("./home/index.html", session, {action: "signin", messages: {top: "//authenticate human"}}));
 									}
 									else {
@@ -211,7 +211,7 @@
 
 							case (/^\/signout\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										response.end(processes.render("./home/index.html", session, {action: "signout", messages: {top: "//leave ai_arenas?"}}));
 									}
 									else {
@@ -223,7 +223,7 @@
 
 							case (/^\/signup\/?$/).test(request.url):
 								try {
-									if (session.user === null) {
+									if (session.human === null) {
 										response.end(processes.render("./home/index.html", session, {action: "signup", messages: {top: "//join ai_arenas"}}));
 									}
 									else {
@@ -235,7 +235,7 @@
 
 							case (/^\/verify/).test(request.url):
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										response.end(processes.render("./home/index.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
 									}
 									else {
@@ -248,10 +248,10 @@
 						/* settings */
 							case (/^\/settings\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
-										processes.retrieve("sessions", {user: session.user.id}, function(data) {
-											session.user.sessions = data;
-											response.end(processes.render("./settings/index.html", session, session.user));
+									if (session.human !== null) {
+										processes.retrieve("sessions", {human: session.human.id}, function(data) {
+											session.human.sessions = data;
+											response.end(processes.render("./settings/index.html", session, session.human));
 										});
 									}
 									else {
@@ -261,11 +261,11 @@
 								catch (error) {_404();}
 							break;
 
-						/* users */
-							case (/^\/users\/?$/).test(request.url):
+						/* humans */
+							case (/^\/humans\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
-										_302("../../../../users/" + session.user.name);
+									if (session.human !== null) {
+										_302("../../../../humans/" + session.human.name);
 									}
 									else {
 										_302();
@@ -274,13 +274,13 @@
 								catch (error) {_404();}
 							break;
 
-							case (/^\/users\/[0-9a-zA-Z]*\/?$/).test(request.url):
+							case (/^\/humans\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									processes.retrieve("users", {name: routes[2]}, function (user) {
-										if (typeof user.id === "undefined") { user = user[0]; }
+									processes.retrieve("humans", {name: routes[2]}, function (human) {
+										if (typeof human.id === "undefined") { human = human[0]; }
 
-										if (user) {
-											response.end(processes.render("./users/index.html", session, user));
+										if (human) {
+											response.end(processes.render("./humans/index.html", session, human));
 										}
 										else {
 											_302();
@@ -293,8 +293,8 @@
 						/* robots */
 							case (/^\/robots\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
-										_302("../../../../users/" + session.user.name);
+									if (session.human !== null) {
+										_302("../../../../humans/" + session.human.name);
 									}
 									else {
 										_302();
@@ -322,7 +322,7 @@
 						/* arenas */
 							case (/^\/arenas\/?$/).test(request.url):
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										response.end(processes.render("./arenas/index.html", session, null));
 									}
 									else {
@@ -361,7 +361,7 @@
 						/* home */
 							case "signup":
 								try {
-									if (session.user === null) {
+									if (session.human === null) {
 										home.signup(session, post, function(data) {
 											response.end(JSON.stringify(data));
 										});
@@ -375,7 +375,7 @@
 							
 							case "signin":
 								try {
-									if (session.user === null) {
+									if (session.human === null) {
 										home.signin(session, post, function(data) {
 											response.end(JSON.stringify(data));
 										});
@@ -389,7 +389,7 @@
 							
 							case "signout":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										home.signout(session, function(data) {
 											response.end(JSON.stringify(data));
 										});
@@ -403,7 +403,7 @@
 
 							case "verify_email":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										home.verify(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to verify email"}}));
 										});
@@ -418,7 +418,7 @@
 						/* settings */
 							case "destroy_session":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										settings.destroy(session, post, function (data) {
 											response.end(JSON.stringify(data || {success: false, messages: {sessions: "//unable to delete session"}}));
 										});
@@ -432,7 +432,7 @@
 
 							case "send_verification":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										settings.sendVerification(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to send email"}}));
 										});
@@ -446,7 +446,7 @@
 
 							case "change_name":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										settings.updateName(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {name: "//unable to change name"}}));
 										});
@@ -460,7 +460,7 @@
 
 							case "change_password":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										settings.updatePassword(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {password: "//unable to change password"}}));
 										});
@@ -474,7 +474,7 @@
 
 							case "edit_settings":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										settings.update(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update settings"}}));
 										});
@@ -486,12 +486,12 @@
 								catch (error) {_403();}
 							break;
 
-						/* users */
-							case "edit_user":
+						/* humans */
+							case "edit_human":
 								try {
-									if (session.user !== null) {
-										users.update(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update user"}}));
+									if (session.human !== null) {
+										humans.update(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update human"}}));
 										});
 									}
 									else {
@@ -501,11 +501,11 @@
 								catch (error) {_403();}
 							break;
 
-							case "delete_user":
+							case "delete_human":
 								try {
-									if (session.user !== null) {
-										users.destroy(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete user"}}));
+									if (session.human !== null) {
+										humans.destroy(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete human"}}));
 										});
 									}
 									else {
@@ -518,7 +518,7 @@
 						/* robots */
 							case "create_robot":
 								try {
-									if (session.user !== null) {												
+									if (session.human !== null) {												
 										robots.create(session, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create robot"}}));
 										});
@@ -532,7 +532,7 @@
 
 							case "edit_robot":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										robots.update(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update robot"}}));
 										});
@@ -546,7 +546,7 @@
 
 							case "delete_robot":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										robots.destroy(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete robot"}}));
 										});
@@ -561,7 +561,7 @@
 						/* arenas */
 							case "create_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.create(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create arena"}}));
 										});
@@ -575,7 +575,7 @@
 
 							case "delete_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.destroy(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete arena"}}));
 										});
@@ -589,7 +589,7 @@
 
 							case "join_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.join(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join arena", navbar: "//unable to join arena"}}));
 										});
@@ -603,7 +603,7 @@
 
 							case "random_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.random(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join random arena", navbar: "//unable to join random arena"}}));
 										});
@@ -617,7 +617,7 @@
 
 							case "leave_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.leave(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to leave arena"}}));
 										});
@@ -631,7 +631,7 @@
 
 							case "select_robot":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.selectRobot(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to select robot"}}));
 										});
@@ -645,7 +645,7 @@
 
 							case "launch_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.launch(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to launch arena"}}));
 										});
@@ -659,7 +659,7 @@
 
 							case "adjust_robot":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.adjustRobot(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to save changes"}}));
 										});
@@ -673,7 +673,7 @@
 
 							case "read_arena":
 								try {
-									if (session.user !== null) {
+									if (session.human !== null) {
 										arenas.read(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to read arena"}}));
 										});

@@ -25,7 +25,7 @@
 					url: window.location.pathname,
 					data: {
 						action: "signin",
-						signin_username: $("#signin_username").val() || null,
+						signin_name: $("#signin_name").val() || null,
 						signin_password: $("#signin_password").val() || null
 					},
 					success: function(data) {
@@ -45,7 +45,7 @@
 					url: window.location.pathname,
 					data: {
 						action: "signup",
-						signup_username: $("#signup_username").val() || null,
+						signup_name: $("#signup_name").val() || null,
 						signup_email: $("#signup_email").val() || null,
 						signup_password: $("#signup_password").val() || null,
 						signup_confirm: $("#signup_confirm").val() || null,

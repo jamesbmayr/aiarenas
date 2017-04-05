@@ -8,9 +8,9 @@
 		var robot = {
 			id: id,
 			name: id.substring(0,4) + "_bot",
-			user: {
-				id: session.user.id,
-				name: session.user.name
+			human: {
+				id: session.human.id,
+				name: session.human.name
 			},
 			created: new Date().getTime(),
 			information: {
@@ -45,7 +45,7 @@
 		}
 
 		processes.store("robots", null, robot, function(robot) {
-			processes.store("users", {id: session.user.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(user) {
+			processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
 				callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}});
 			});
 		});
@@ -55,10 +55,10 @@
 	function update(session, post, callback) {
 		var data = JSON.parse(post.data);
 		
-		processes.retrieve("robots", {$and: [{id: data.id || null}, {"user.id": session.user.id}]}, function(robot) {
+		processes.retrieve("robots", {$and: [{id: data.id || null}, {"human.id": session.human.id}]}, function(robot) {
 			if (typeof robot.id === "undefined") { robot = robot[0]; }
 			
-			if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
+			if ((typeof robot === "undefined") || (typeof robot.human === "undefined") || (robot.human.id !== session.human.id)) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
@@ -160,8 +160,8 @@
 						if (typeof robot.id === "undefined") { robot = robot[0]; }
 
 						if (before.name !== robot.name) {
-							processes.store("users", {id: session.user.id}, {$pull: {robots: {id: robot.id}}}, function(user) {
-								processes.store("users", {id: session.user.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(user) {
+							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}}, function(human) {
+								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
 									callback({success: true, messages: messages, data: data, robot: robot});
 								});
 							});
@@ -181,16 +181,16 @@
 /* destroy(session, post, callback) */
 	function destroy(session, post, callback) {
 		var data = JSON.parse(post.data);
-		processes.retrieve("robots", {$and: [{id: data.id || null}, {"user.id": session.user.id}]}, function(robot) {
+		processes.retrieve("robots", {$and: [{id: data.id || null}, {"human.id": session.human.id}]}, function(robot) {
 			if (typeof robot.id === "undefined") { robot = robot[0]; }
 			
-			if ((typeof robot === "undefined") || (typeof robot.user === "undefined") || (robot.user.id !== session.user.id)) {
+			if ((typeof robot === "undefined") || (typeof robot.human === "undefined") || (robot.human.id !== session.human.id)) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
-				processes.store("users", {id: robot.user.id || null}, {$pull: {robots: {id: robot.id}}}, function(user) {
+				processes.store("humans", {id: robot.human.id || null}, {$pull: {robots: {id: robot.id}}}, function(human) {
 					processes.store("robots", {id: robot.id}, null, function(results) {
-						callback({success: true, redirect: "../../../../users/" + session.user.name, messages: {top: "//robot deleted"}});
+						callback({success: true, redirect: "../../../../humans/" + session.human.name, messages: {top: "//robot deleted"}});
 					});
 				});
 			}

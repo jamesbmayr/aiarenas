@@ -26,10 +26,10 @@
 								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">random</span></button><span class="whitetext">(</span><select id="random_preset" class="whitetext">
 									<% 
 										var options = "";
-										if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+										if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
 											var presets = ["default", "simple", "advanced", "intense", "random"];
 										}
-										else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+										else if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
 											var presets = ["default", "simple", "advanced"]
 										}
 										else {
@@ -47,10 +47,10 @@
 								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
 									<% 
 										var options = "";
-										if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+										if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
 											var presets = ["default", "simple", "advanced", "intense", "random", "custom"];
 										}
-										else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+										else if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
 											var presets = ["default", "simple", "advanced", "custom"]
 										}
 										else {
@@ -216,10 +216,10 @@
 							%></select><span class="whitetext">,</span><br>
 							<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
 								var options = "";
-								if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 29) {
+								if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
 									var values = ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"];
 								}
-								else if (((session.user.statistics.wins * 5) + session.user.statistics.losses) > 14) {
+								else if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
 									var values = ["power","take","sleep","sap","halftake","fliptake"];
 								}
 								else {

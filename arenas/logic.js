@@ -6,10 +6,10 @@
 	function create(session, post, callback) {
 		var parameters = JSON.parse(post.data) || null;
 
-		if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 15) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
+		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
 			callback({success: false, messages: {navbar: "//unable to create; arena contains advanced actions", top: "//unable to create; arena contains advanced actions"}});
 		}
-		else if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 30) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
+		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
 			callback({success: false, messages: {navbar: "//unable to create; arena contains expert actions", top: "//unable to create; arena contains expert actions"}});
 		}
 		else {
@@ -17,7 +17,7 @@
 			var arena = {
 				id: processes.random(),
 				created: new Date().getTime(),
-				users: [session.user.id],
+				humans: [session.human.id],
 				entrants: {},
 				state: {
 					start: null,
@@ -59,7 +59,7 @@
 				rounds: [],
 			}
 
-			processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
+			processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}}, function(human) {
 				processes.store("arenas", null, arena, function(data) {
 					callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
 				});
@@ -74,14 +74,14 @@
 		processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 			if (typeof arena.id === "undefined") { arena = arena[0]; }
 			
-			if ((typeof arena === "undefined") || (typeof arena.users === "undefined")) {
+			if ((typeof arena === "undefined") || (typeof arena.humans === "undefined")) {
 				callback({success: false, messages: {top: "//unable to retrieve arena"}});
 			}
-			else if (arena.users[0] !== session.user.id) {
+			else if (arena.humans[0] !== session.human.id) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
-				processes.store("users", {id: {$in: arena.users}}, {$pull: {arenas: arena.id}}, function(user) {
+				processes.store("humans", {id: {$in: arena.humans}}, {$pull: {arenas: arena.id}}, function(human) {
 					processes.store("arenas", {id: arena.id}, null, function(results) {
 						callback({success: true, messages: {top: "//arena deleted"}, redirect: "../../../../arenas"});
 					});
@@ -102,23 +102,23 @@
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if (typeof arena !== "undefined") {
-					if (arena.users.length >= arena.rules.robots.maxCount) {
+					if (arena.humans.length >= arena.rules.robots.maxCount) {
 						callback({success: false, messages: {navbar: "//unable to join; maxCount exceeded", top: "//unable to join; maxCount exceeded"}});
 					}
-					else if (arena.users.indexOf(session.user.id) > -1) {
+					else if (arena.humans.indexOf(session.human.id) > -1) {
 						callback({success: false, messages: {navbar: "//already joined", top: "//already joined"}});
 					}
-					else if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 15) && ((arena.rules.robots.actions.indexOf("sap") > -1) || (arena.rules.robots.actions.indexOf("halftake") > -1) || (arena.rules.robots.actions.indexOf("fliptake") > -1))) {
+					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((arena.rules.robots.actions.indexOf("sap") > -1) || (arena.rules.robots.actions.indexOf("halftake") > -1) || (arena.rules.robots.actions.indexOf("fliptake") > -1))) {
 						callback({success: false, messages: {navbar: "//unable to join; arena contains advanced actions", top: "//unable to join; arena contains advanced actions"}});
 					}
-					else if ((((session.user.statistics.wins * 5) + session.user.statistics.losses) < 30) && ((arena.rules.robots.actions.indexOf("shock") > -1) || (arena.rules.robots.actions.indexOf("burn") > -1) || (arena.rules.robots.actions.indexOf("swaptake") > -1))) {
+					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((arena.rules.robots.actions.indexOf("shock") > -1) || (arena.rules.robots.actions.indexOf("burn") > -1) || (arena.rules.robots.actions.indexOf("swaptake") > -1))) {
 						callback({success: false, messages: {navbar: "//unable to join; arena contains expert actions", top: "//unable to join; arena contains expert actions"}});
 					}
 					else {
-						arena.users.push(session.user.id);
+						arena.humans.push(session.human.id);
 						
-						processes.store("users", {id: session.user.id}, {$push: {arenas: arena.id}}, function(user) {
-							processes.store("arenas", {id: arena.id}, {$push: {users: session.user.id}}, function(data) {
+						processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}}, function(human) {
+							processes.store("arenas", {id: arena.id}, {$push: {humans: session.human.id}}, function(data) {
 								callback({success: true, messages: {navbar: "//successfully joined", top: "//successfully joined"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
 							});
 						});
@@ -151,8 +151,8 @@
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if ((typeof arena !== "undefined") && (typeof arena.id !== "undefined") && (arena.id !== null)) {
-					if ((arena.users.indexOf(session.user.id) > -1) && (arena.state.start === null)) {
-						processes.retrieve("robots", {$and: [{id: data.robot_id}, {"user.id": session.user.id}]}, function(robot) {
+					if ((arena.humans.indexOf(session.human.id) > -1) && (arena.state.start === null)) {
+						processes.retrieve("robots", {$and: [{id: data.robot_id}, {"human.id": session.human.id}]}, function(robot) {
 							if (typeof robot.id === "undefined") { robot = robot[0]; }
 
 							if ((typeof robot.id !== "undefined") && (robot.id !== null)) {
@@ -194,17 +194,17 @@
 				if ((typeof arena === "undefined") || (typeof arena.id === "undefined") || (arena.id == null)) {
 					callback({success: false, messages: {top: "//not a valid arena id"}});
 				}
-				else if (!(arena.users.indexOf(session.user.id) > -1)) {
+				else if (!(arena.humans.indexOf(session.human.id) > -1)) {
 					callback({success: false, messages: {top: "//already left this arena"}});
 				}
 				else {
-					var robot_id = Object.keys(arena.entrants).find(function(i) { return arena.entrants[i].user.id === session.user.id });
+					var robot_id = Object.keys(arena.entrants).find(function(i) { return arena.entrants[i].human.id === session.human.id });
 
 					if ((typeof robot_id !== "undefined") && (robot_id !== null) && (robot_id.length > 0)) {
 						var unset = {};
 						unset["entrants." + robot_id] = "";
-						processes.store("users", {id: session.user.id}, {$pull: {arenas: data.arena_id}}, function(user) {
-							processes.store("arenas", {id: data.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
+						processes.store("humans", {id: session.human.id}, {$pull: {arenas: data.arena_id}}, function(human) {
+							processes.store("arenas", {id: data.arena_id}, {$pull: {humans: session.human.id}}, function(arena) {
 								processes.store("arenas", {id: data.arena_id}, {$unset: unset}, function(arena) {
 									callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
 								});
@@ -212,8 +212,8 @@
 						});
 					}
 					else {
-						processes.store("users", {id: session.user.id}, {$pull: {arenas: data.arena_id}}, function(user) {
-							processes.store("arenas", {id: data.arena_id}, {$pull: {users: session.user.id}}, function(arena) {
+						processes.store("humans", {id: session.human.id}, {$pull: {arenas: data.arena_id}}, function(human) {
+							processes.store("arenas", {id: data.arena_id}, {$pull: {humans: session.human.id}}, function(arena) {
 								callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
 							});
 						});
@@ -236,8 +236,8 @@
 
 				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
 
-					if (Object.keys(arena.entrants).length !== arena.users.length) {
-						callback({success: false, messages: {top: "//some users have not selected robots yet"}});
+					if (Object.keys(arena.entrants).length !== arena.humans.length) {
+						callback({success: false, messages: {top: "//some humans have not selected robots yet"}});
 					}
 					else if (Object.keys(arena.entrants).length > arena.rules.players.maximum) {
 						callback({success: false, messages: {top: "//robot count exceeds maximum set"}});
@@ -269,7 +269,7 @@
 		processes.retrieve("arenas", {id: data.arena_id}, function(arena) {
 			if (typeof arena.id === "undefined") { arena = arena[0]; }
 			
-			if ((typeof arena === "undefined") || (arena === null) || (!(arena.users.indexOf(session.user.id) > -1))) {
+			if ((typeof arena === "undefined") || (arena === null) || (!(arena.humans.indexOf(session.human.id) > -1))) {
 				callback({success: false, messages: {top: "//unable to retrieve arena"}});
 			}
 			else if (!(Object.keys(arena.entrants).indexOf(data.robot_id) > -1)) {
@@ -385,20 +385,20 @@
 															var robot_victors = updated_arena.state.victors;
 															var robot_losers = robot_ids.filter(function(robot_id) { return (!(robot_victors.indexOf(robot_id) > -1))});
 															
-															var user_victors = [];
-															var user_losers = [];
+															var human_victors = [];
+															var human_losers = [];
 															
 															for (var i = 0; i < robot_ids.length; i++) {
 																if (robot_victors.indexOf(robot_ids[i]) > -1) {
-																	user_victors.push(updated_arena.entrants[robot_ids[i]].user.id);
+																	human_victors.push(updated_arena.entrants[robot_ids[i]].human.id);
 																}
 																else {
-																	user_losers.push(updated_arena.entrants[robot_ids[i]].user.id);	
+																	human_losers.push(updated_arena.entrants[robot_ids[i]].human.id);	
 																}
 															}
 
-															processes.store("users", {id: {$in: user_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //users +1 win
-																processes.store("users", {id: {$in: user_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //users +1 loss
+															processes.store("humans", {id: {$in: human_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //humans +1 win
+																processes.store("humans", {id: {$in: human_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //humans +1 loss
 																	processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //robots +1 win
 																		processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //robots +1 loss
 																			callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
@@ -496,7 +496,7 @@
 					}
 				}
 
-			//phase 1: running the user scripts
+			//phase 1: running the human scripts
 				if (arena.rounds.length > 0) { //don't do this for the first round
 					console.log("phase 1");
 					var robot_actions = [];
@@ -512,11 +512,11 @@
 						
 						//build the sandbox
 							var sandbox = {}; //clear existing sandbox
-							for (var j = 0; j < inputs.length; j++) { //only add the variables specified by the user's code
+							for (var j = 0; j < inputs.length; j++) { //only add the variables specified by the human's code
 								console.log("input: " + inputs[j]);
 								switch(inputs[j]) {
 									case "arena": //all other inputs can be derived from this one
-										sandbox.arena = { //for arena, only include state, rules, and rounds data (no id, created, users, or entrants)
+										sandbox.arena = { //for arena, only include state, rules, and rounds data (no id, created, humans, or entrants)
 											state: arena.state,
 											rules: arena.rules,
 											rounds: arena.rounds
@@ -598,7 +598,7 @@
 							}
 
 						//run robot code
-							var random = processes.random(); //the results variable will have an unpredictable name so it's almost impossible for the user to mess with it
+							var random = processes.random(); //the results variable will have an unpredictable name so it's almost impossible for the human to mess with it
 							try {
 								console.log("trying at " + new Date().getTime() + " : sandbox:\n " + JSON.stringify(sandbox));
 								vm.runInNewContext(

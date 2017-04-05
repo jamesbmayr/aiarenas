@@ -19,7 +19,7 @@
 					</div>
 					<div class="indented">
 						<%
-							if ((session.user !== null) && (session.user.id === data.user.id)) {
+							if ((session.human !== null) && (session.human.id === data.human.id)) {
 								"<div class='megasection'><div class='section'>\
 									<button id='robot_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
 								</div>\
@@ -46,7 +46,7 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
-						<span class="whitetext">.user</span><span class="redtext"> = </span><a class="bluetext" id="user" href="../../../../users/<% data.user.name %>"><% data.user.name %></a>
+						<span class="whitetext">.human</span><span class="redtext"> = </span><a class="bluetext" id="human" href="../../../../humans/<% data.human.name %>"><% data.human.name %></a>
 						<span class="whitetext">;</span>
 					</div>
 					<div class="section">
@@ -55,44 +55,9 @@
 					</div>
 					<div class="section">
 						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
-						<div class="indented">
-							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span>
-							<span class='whitetext'>,</span><br>
+							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span><span class='whitetext'>,</span>
 							<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
-						</div>
 						<span class="whitetext">};</span>
-					</div>
-					<%
-						if ((session.user !== null) && (session.user.id === data.user.id)) {
-							if (data.show_code === "true") {
-								var show_code_true = " selected";
-								var show_code_false = "";
-							}
-							else if (data.show_code === "false") {
-								var show_code_true = "";
-								var show_code_false = " selected";
-							}
-
-							'<div class="section" id="robot_settings" style="display: none">\
-								<span class="whitetext">.showCode</span><span class="redtext"> = </span>\
-								<select id="show_code" class="purpletext">\
-									<option value="true"' + show_code_true + '>true</option>\
-									<option value="false"' + show_code_true + '>false</option>\
-								</select>\
-								<span class="whitetext">;</span> <span class="message graytext"></span>\
-							</div>';
-						}
-					%>
-				</div>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
-				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <span class='message graytext'></span>
-							<div class="indented">
-								<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
-							</div>
-							<span class="yellowtext">"</span><span class="whitetext">;</span>
 					</div>
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -113,7 +78,7 @@
 <span class="transparenttext">•••••</span><span class="avatar" id="avatar_left_foot" value="<% data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••' %>"><% data.avatar.left_foot || "•••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_right_foot" value="<% data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••' %>"><% data.avatar.right_foot || "•••" %></span><span class="transparenttext">••••</span>
 </pre>
 							<% 
-								if ((session.user !== null) && (session.user.id === data.user.id)) {
+								if ((session.human !== null) && (session.human.id === data.human.id)) {
 									var display = '\<div id="avatar_selection" style="color:' + (data.avatar.color || 'var(--white)') + '">\
 										<span class="transparenttext">••••••</span><select id="select_antennae" class="avatar_select">';
 											
@@ -244,7 +209,7 @@
 						<span class="whitetext">}</span>
 					</div>
 					<% 
-						if ((session.user !== null) && (session.user.id === data.user.id)) {
+						if ((session.human !== null) && (session.human.id === data.human.id)) {
 							var display = '<div class="section" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
 								<span class="whitetext">.color</span><span class="redtext"> = </span><select>\
 									<option value="var(--white)">white</option>\
@@ -268,8 +233,41 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
+						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <span class='message graytext'></span>
+							<div class="indented">
+								<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
+							</div>
+							<span class="yellowtext">"</span><span class="whitetext">;</span>
+					</div>
+				</div>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<%
+						if ((session.human !== null) && (session.human.id === data.human.id)) {
+							if (data.show_code === "true") {
+								var show_code_true = " selected";
+								var show_code_false = "";
+							}
+							else if (data.show_code === "false") {
+								var show_code_true = "";
+								var show_code_false = " selected";
+							}
+
+							'<div class="section" id="robot_settings" style="display: none">\
+								<span class="whitetext">.showCode</span><span class="redtext"> = </span>\
+								<select id="show_code" class="purpletext">\
+									<option value="true"' + show_code_true + '>true</option>\
+									<option value="false"' + show_code_true + '>false</option>\
+								</select>\
+								<span class="whitetext">;</span> <span class="message graytext"></span>\
+							<br><br>\
+							</div>';
+						}
+					%>
+					<div class="section">
 						<% 
-							if (((typeof data.show_code !== "undefined") && (data.show_code === "true")) || (session.user !== null) && (data.user.id === session.user.id)) {
+							if (((typeof data.show_code !== "undefined") && (data.show_code === "true")) || (session.human !== null) && (data.human.id === session.human.id)) {
 								var code = data.code || " /* no code */ ";
 								var inputs = data.inputs || "";
 							} 

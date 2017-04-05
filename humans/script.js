@@ -1,4 +1,4 @@
-/*** users ***/
+/*** humans ***/
 	$(document).ready(function() {
 		resizeTop();
 
@@ -10,10 +10,10 @@
 			});
 
 		/* edit */
-			$(document).on("click", "#user_edit", function() {
-				$("#user_edit").hide();
-				$("#user_save").show();
-				$("#user_cancel").show();
+			$(document).on("click", "#human_edit", function() {
+				$("#human_edit").hide();
+				$("#human_save").show();
+				$("#human_cancel").show();
 				
 				/* avatar */
 					$("#avatar_color").show();
@@ -25,10 +25,10 @@
 				resizeTop();
 			});
 
-			$(document).on("click", "#user_cancel", function() {
-				$("#user_edit").show();
-				$("#user_save").hide();
-				$("#user_cancel").hide();
+			$(document).on("click", "#human_cancel", function() {
+				$("#human_edit").show();
+				$("#human_save").hide();
+				$("#human_cancel").hide();
 
 				/* avatar */
 					$("#avatar_color").hide();
@@ -44,7 +44,7 @@
 				resizeTop();
 			});
 
-			$(document).on("click", "#user_save", function() {
+			$(document).on("click", "#human_save", function() {
 				var data = {};
 				$(".field").each(function() {
 					var field = $(this).attr("id");
@@ -61,7 +61,7 @@
 					type: "POST",
 					url: window.location.pathname,
 					data: {
-						action: "edit_user",
+						action: "edit_human",
 						data: JSON.stringify(data)
 					},
 					success: function(results) {
@@ -75,9 +75,9 @@
 							});
 						}
 
-						$("#user_edit").show();
-						$("#user_save").hide();
-						$("#user_cancel").hide();
+						$("#human_edit").show();
+						$("#human_save").hide();
+						$("#human_cancel").hide();
 
 							/* avatar  */
 								$("#avatar_color").hide();
@@ -97,7 +97,7 @@
 			});
 		
 		/* robots */
-			$("#user_create_robot").click(function() {
+			$("#human_create_robot").click(function() {
 				$.ajax({
 					type: "POST",
 					url: window.location.pathname,
