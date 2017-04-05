@@ -69,7 +69,7 @@
 				break;
 
 				case "color_schemes":
-					asset = ["default", "inverted", "chroma", "old_school", "black_and_white", "electric", "underblue"];
+					asset = ["default", "inverted", "chroma", "old_school", "black_and_white", "electric", "underblue", "dreamhatcher"];
 				break;
 
 				default:
@@ -279,6 +279,22 @@
 						}";
 				break;
 
+				case "dreamhatcher":
+					color_scheme = "\
+						:root {\
+							--red: #e06666;\
+							--orange: #f6b26b;\
+							--yellow: #ffd966;\
+							--green: #93c47d;\
+							--blue: #6d9eeb;\
+							--purple: #8e7cc3;\
+							--white: #f3f3f3;\
+							--gray: #b7b7b7;\
+							--black: #222222;\
+							--transparent: rgba(000,000,000,0);\
+						}";
+				break;
+
 				case "default":
 				default:
 					color_scheme = "\
@@ -392,50 +408,50 @@
 				break;
 
 				case "antennae":
-					options = [" _|_ "," _∆_ "," _M_ "," _I_ ","|||||", " iii ", "][ ]["," .:. "];
+					options = [" _|_ "," _∆_ "," _M_ "," _I_ ","|||||", " iii ", "][ ]["," .:. ","∆___∆","_____"];
 				break;
 
 				case "eyes":
-					options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]"];
+					options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]","(---)","=^.^="];
 				break;
 
 				case "mouth":
-					options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| "];
+					options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| ","\\_T_/"," ||| "];
 				break;
 
 				case "hand":
 				case "left_hand":
 				case "right_hand":
-					options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#"];
+					options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#","H++H","$--$"];
 				break;
 
 				case "wrist":
 				case "left_wrist":
 				case "right_wrist":
-					options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "];
+					options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "," <> "," () "];
 				break;
 
 				case "arm":
 				case "left_arm":
 				case "right_arm":
-					options = ["--","==","::","••","||","II","HH","OO"];
+					options = ["--","==","::","••","||","II","HH","OO","><","88"];
 				break;
 
 				case "torso":
 				case "torso_1":
 				case "torso_2":
 				case "torso_3":
-					options = ["/HHH\\","IHHHI","[[-]]","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "];
+					options = ["/HHH\\","IHHHI","[[-]]","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "," WWW ","V-V-V"," (O) "];
 				break;
 
 				case "legs":
-					options = ["//---\\\\","/// \\\\\\",".Y. .Y."," /---\\ "," || || "," |---| ","::: :::"," : - : "];
+					options = ["//---\\\\","/// \\\\\\",".Y. .Y."," /---\\ "," || || "," |---| ","::: :::"," : - : "," OO OO ","[-] [-]"];
 				break;
 
 				case "foot":
 				case "left_foot":
 				case "right_foot":
-					options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV"];
+					options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV","\\_/","^^^"];
 				break;
 			}
 

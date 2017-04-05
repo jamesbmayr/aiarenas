@@ -238,6 +238,22 @@
 							}";
 					break;
 
+					case "dreamhatcher":
+						color_scheme = "\
+							:root {\
+								--red: #e06666;\
+								--orange: #f6b26b;\
+								--yellow: #ffd966;\
+								--green: #93c47d;\
+								--blue: #6d9eeb;\
+								--purple: #8e7cc3;\
+								--white: #f3f3f3;\
+								--gray: #b7b7b7;\
+								--black: #222222;\
+								--transparent: rgba(000,000,000,0);\
+							}";
+					break;
+
 					case "default":
 					default:
 						color_scheme = "\
