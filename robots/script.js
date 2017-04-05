@@ -39,7 +39,8 @@
 
 					$("#avatar_selection select").each(function() {
 						var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
-						var value = String(avatar[key]);
+						var value = String(avatar[key]).replace(/\\/g,"\\\\");
+						console.log("finding " + value);
 						$(this).find("option[value=\"" + value + "\"]").attr("selected",true);
 					});
 

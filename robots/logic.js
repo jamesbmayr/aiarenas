@@ -147,7 +147,7 @@
 									//no change
 								}
 								else {
-									robot.avatar[avatar_keys[i]] = data.avatar[avatar_keys[i]].replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+									robot.avatar[avatar_keys[i]] = data.avatar[avatar_keys[i]].replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
 									messages.avatar = "//avatar updated";
 								}
 							}
