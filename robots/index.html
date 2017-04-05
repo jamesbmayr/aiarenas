@@ -4,8 +4,9 @@
 		<title>ai_arenas.<% data.name || "robots" %></title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('google_fonts') %>"/>
 		<link rel="stylesheet" type="text/css" href="../../robots/stylesheet.css"/>
-		<% colors(session); %>
+		<% colors(session) + fonts(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
 		<script type="text/javascript" src="../../robots/script.js"></script>
 	</head>

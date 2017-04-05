@@ -60,16 +60,16 @@
 					asset = "https://code.jquery.com/jquery-1.7.2.min.js";
 				break;
 
-				case "Roboto":
-					asset = "http://fonts.googleapis.com/css?family=Roboto:regular,bold;italic;bolditalic";
+				case "google_fonts":
+					asset = "https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Nova+Mono|Roboto+Mono|Share+Tech+Mono|Ubuntu+Mono";
 				break;
-
-				case "Ubuntu":
-					asset = "http://fonts.googleapis.com/css?family=Ubuntu:regular,bold;italic;bolditalic";
-				break;
-
+				
 				case "color_schemes":
 					asset = ["default", "inverted", "chroma", "old_school", "black_and_white", "electric", "underblue", "dreamhatcher"];
+				break;
+
+				case "fonts":
+					asset = ["Droid Sans Mono","Nova Mono","Roboto Mono","Share Tech Mono","Ubuntu Mono","Monaco","Menlo","Courier","Courier New","monospace"];
 				break;
 
 				default:
@@ -173,6 +173,63 @@
 		}
 
 /*** page content ***/
+	/* fonts(session) */
+		function fonts(session) {
+			if (session.human !== null) {
+				var font = session.human.settings.font_scheme || "default";
+			}
+			else {
+				var font = "default";
+			}
+
+			switch (font) {
+				case "Ubuntu Mono":
+					font = ":root {--font_scheme: 'Ubuntu Mono', monospace;}";
+				break;
+
+				case "Share Tech Mono":
+					font = ":root {--font_scheme: 'Share Tech Mono', monospace;}";
+				break;
+
+				case "Roboto Mono":
+					font = ":root {--font_scheme: 'Roboto Mono', monospace;}";
+				break;
+
+				case "Nova Mono":
+					font = ":root {--font_scheme: 'Nova Mono', monospace;}";
+				break;
+
+				case "Droid Sans Mono":
+					font = ":root {--font_scheme: 'Droid Sans Mono', monospace;}";
+				break;
+
+				case "Menlo":
+					font = ":root {--font_scheme: Menlo, monospace;}";
+				break;
+
+				case "Monaco":
+					font = ":root {--font_scheme: Monaco, monospace;}";
+				break;
+
+				case "Courier New":
+					font = ":root {--font_scheme: 'Courier New', monospace;}";
+				break;
+
+				case "monospace":
+					font = ":root {--font_scheme: monospace;}";
+				break;
+
+				case "Courier":
+				case "default":
+				default: 
+					font = ":root {--font_scheme: Courier, monospace;}";
+				break;
+			}
+
+			return "<style id='font'>" + font + "</style>";
+
+		}
+	
 	/* colors(session) */
 		function colors(session) {
 			if (session.human !== null) {

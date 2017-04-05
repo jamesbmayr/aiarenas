@@ -4,8 +4,9 @@
 		<title>ai_arenas.settings</title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('google_fonts') %>"/>
 		<link rel="stylesheet" type="text/css" href="../../settings/stylesheet.css"/>
-		<% colors(session); %>
+		<% colors(session) + fonts(session); %>
 		<script type="text/javascript" src="<% assets('jquery') %>"></script>
 		<script type="text/javascript" src="../../settings/script.js"></script>
 	</head>
@@ -31,6 +32,23 @@
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.font</span><span class="redtext"> = </span>
+						<select id="font_scheme" class="whitetext">
+							<% 
+								var options = "";
+								var fonts = assets("fonts");
+								for (var i = 0; i < fonts.length; i++) {
+									options += "<option value=\"" + fonts[i] + "\">" + fonts[i] + "</option>";
+								}
+
+								options = options.replace("\"" + data.settings.font_scheme + "\"", "\"" + data.settings.font_scheme + "\" selected");
+
+								options;
+							%>
+						</select>
+						<span class="whitetext">;</span> <span class='message graytext'></span>
+					</div>
 					<div class="section">
 						<span class="whitetext">.color_scheme</span><span class="redtext"> = </span>
 						<select id="color_scheme" class="whitetext">

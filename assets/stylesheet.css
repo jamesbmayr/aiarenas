@@ -1,5 +1,5 @@
 /* * page * */
-	/* colors */
+	/* colors & fonts */
 		:root {
 			--red: #F92672;
 			--orange: #FD971F;
@@ -12,6 +12,7 @@
 			--gray: #75715E;
 			--black: #272822;
 			--transparent: rgba(000,000,000,0);
+			--font_scheme: Courier, monospace;
 		}
 
 	/* elements */
@@ -19,10 +20,25 @@
 			margin: 0;
 			padding: 4px;
 			background-color: var(--black);
+			font-family: var(--font_scheme);
 			color: (--white);
-			font-family: courier, monospace;
 			font-size: 16px;
 			text-shadow: 0px;
+		}
+
+		pre {
+			line-height: 1.15;
+			background-color: var(--transparent);
+			font-family: var(--font_scheme);
+			width: auto;
+			border: 0px;
+			margin: 0px;
+			font-size: 16px;
+			font-weight: bold;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			cursor: default;
 		}
 
 		a {
@@ -147,21 +163,6 @@
 			outline: none;
 			cursor: pointer;
 			height: 30px;
-		}
-
-		pre {
-			line-height: 1.15;
-			background-color: var(--transparent);
-			width: auto;
-			border: 0px;
-			margin: 0px;
-			font-size: 16px;
-			font-family: Courier, monospace;
-			font-weight: bold;
-			user-select: none;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			cursor: default;
 		}
 
 		hr {

@@ -16,6 +16,7 @@
 			created: new Date().getTime(),
 			settings: {
 				color_scheme: "default",
+				font_scheme: "default",
 				show_email: true,
 				email_notifications: true,
 			},

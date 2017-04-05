@@ -137,6 +137,58 @@
 				});
 			});
 
+		/* font_scheme */
+			$(document).on("change", "select#font_scheme", function() {
+				var font = String($("#font_scheme").val());
+				console.log(font);
+
+				switch (font) {
+					case "Ubuntu Mono":
+						font = ":root {--font_scheme: 'Ubuntu Mono', monospace;}";
+					break;
+
+					case "Share Tech Mono":
+						font = ":root {--font_scheme: 'Share Tech Mono', monospace;}";
+					break;
+
+					case "Roboto Mono":
+						font = ":root {--font_scheme: 'Roboto Mono', monospace;}";
+					break;
+
+					case "Nova Mono":
+						font = ":root {--font_scheme: 'Nova Mono', monospace;}";
+					break;
+
+					case "Droid Sans Mono":
+						font = ":root {--font_scheme: 'Droid Sans Mono', monospace;}";
+					break;
+
+					case "Menlo":
+						font = ":root {--font_scheme: Menlo, monospace;}";
+					break;
+
+					case "Monaco":
+						font = ":root {--font_scheme: Monaco, monospace;}";
+					break;
+
+					case "Courier New":
+						font = ":root {--font_scheme: 'Courier New', monospace;}";
+					break;
+
+					case "monospace":
+						font = ":root {--font_scheme: monospace;}";
+					break;
+
+					case "Courier":
+					case "default":
+					default: 
+						font = ":root {--font_scheme: Courier, monospace;}";
+					break;
+				}
+
+				$("#font").replaceWith("<style id='font'>" + font + "</style>");
+			});
+
 		/* color_scheme */
 			$(document).on("change", "select#color_scheme", function() {
 				var color_scheme = String($("#color_scheme").val());

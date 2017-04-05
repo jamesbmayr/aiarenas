@@ -11,6 +11,20 @@
 		
 		for (var i = 0; i < fields.length; i++) {
 			switch (fields[i]) {
+				case "font_scheme":
+					if (session.human.settings.font_scheme === data.font_scheme) {
+						//no change
+					}
+					else if (!(processes.assets("fonts").indexOf(data.font_scheme) > -1)) {
+						//not a valid color scheme
+						messages.font_scheme = "//not a valid font choice";
+					}
+					else {
+						session.human.settings.font_scheme = data.font_scheme;
+						messages.font_scheme = "//font updated";
+					}
+				break;
+
 				case "color_scheme":
 					if (session.human.settings.color_scheme === data.color_scheme) {
 						//no change

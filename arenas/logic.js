@@ -358,7 +358,7 @@
 					}
 					else { //if the game is in play...
 						console.log(3);
-						if (timeNow <= arena.rounds[arena.rounds.length - 1].start) { //asking for a round that * does * exist already
+						if ((arena.rounds.length > 0) && (timeNow <= arena.rounds[arena.rounds.length - 1].start)) { //asking for a round that * does * exist already
 							callback({success: true, arena: arena, messages: {top: "//this arena is in play"}});
 						}
 						else { //asking for a round that hasn't been evaluated yet
