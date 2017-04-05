@@ -599,9 +599,11 @@
 									success: function(data) {
 										console.log(data);
 										if (data.success) {
+											console.log("...got the initial data!");
 											window.arena = data.arena;
 										}
 										else {
+											console.log("...didn't get the initial data");
 											$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
 										}
 									}
@@ -611,10 +613,14 @@
 						else {
 							var timeNow = new Date().getTime();
 							var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
+
+							console.log("thisRound: " + (window.arena.rounds.length - 1));
+							console.log("timeNow__: " + timeNow);
+							console.log("nextRound: " + pastRounds[pastRounds.length - 1].start || "???");
 							
 							//starting soon
 								if (timeNow < window.arena.state.start) {
-									$("#message_top").animateText({text: "//starting the arena..."}, 1000);
+									$("#message_top").animateText({text: "//starting the arena..."}, 500);
 								}
 
 							//display up-to-date info
@@ -684,6 +690,7 @@
 
 									//paused
 										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow >= window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
+											console.log("pausing...");
 											$("#pauseDetails").show();
 											$("#players").hide();
 											$("#cubes").hide();
@@ -696,6 +703,7 @@
 
 									//unpaused
 										else {
+											console.log("unpausing...");
 											$("#pauseDetails").hide();
 											$("#players").hide();
 											$("#cubes").show();
@@ -707,7 +715,7 @@
 
 									//fetch more data if necessary
 										if (timeNow >= lastTime) {
-											console.log("fetching...");
+											console.log("fetching more data...");
 											var arena_id = $(".container").attr("value");
 
 											$.ajax({
@@ -719,9 +727,11 @@
 												},
 												success: function(data) {
 													if (data.success) {
+														console.log("...got the more data!");
 														window.arena = data.arena;
 													}
 													else {
+														console.log("...didn't get the more data");
 														$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
 													}
 												}

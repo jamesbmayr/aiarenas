@@ -80,6 +80,9 @@
 			else if (arena.humans[0] !== session.human.id) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
+			else if (arena.state.end !== null) {
+				callback({success: false, messages: {top: "//arena has already concluded"}});
+			}
 			else {
 				processes.store("humans", {id: {$in: arena.humans}}, {$pull: {arenas: arena.id}}, function(human) {
 					processes.store("arenas", {id: arena.id}, null, function(results) {
@@ -197,6 +200,9 @@
 				else if (!(arena.humans.indexOf(session.human.id) > -1)) {
 					callback({success: false, messages: {top: "//already left this arena"}});
 				}
+				else if (arena.state.end !== null) {
+					callback({success: false, messages: {top: "//arena has already concluded"}});
+				}
 				else {
 					var robot_id = Object.keys(arena.entrants).find(function(i) { return arena.entrants[i].human.id === session.human.id });
 
@@ -247,11 +253,10 @@
 					}
 					else {
 						arena.state.start = (new Date().getTime()) + (1000 * 5); //start the game (in 5 seconds)!
-						var arena = update(arena); //update the arena for the first batch of rounds
 						arena.state.locked = false; //unlock it for the future
 									
 						processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
-							callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
+							callback({success: true, arena: arena, messages: {top: "//this arena is about to start..."}}); //send back the updated arena
 						});
 					}
 				}
@@ -337,10 +342,15 @@
 				console.log(2);
 
 				if ((typeof arena !== "undefined") && (typeof arena.id !== "undefined") && (arena.id !== null)) {
+					console.log("pauseFrom: " + arena.state.pauseFrom);
+					console.log("pauseTo__: " + arena.state.pauseTo);
+					console.log("timeNow__: " + timeNow);
+
+
 					if (arena.state.start === null) { //if the game has not started...
 						callback({success: true, arena: arena, messages: {top: "//this arena has not started"}});
 					}
-					else if ((timeNow >= arena.state.pauseFrom) && (timeNow < arena.state.pauseTo)) { //if the game is paused...
+					else if ((timeNow > arena.state.pauseFrom) && (timeNow < arena.state.pauseTo)) { //if the game is paused...
 						callback({success: true, arena: arena, messages: {top: "//this arena is paused"}});
 					}
 					else if (arena.state.end !== null) { //if the game is over...
@@ -362,7 +372,7 @@
 								}
 								else { //evaluate it yourself
 									processes.store("arenas", {id: locked_arena.id}, {$set:{"state.locked": true}}, function(data) { //lock it so we can update it without someone else also updating it
-										console.log(7);
+										console.log(6);
 										var updated_arena = update(locked_arena); //update the arena
 										updated_arena.state.locked = false; //unlock it
 
@@ -373,10 +383,11 @@
 												callback({success: false, arena: arena, messages: {top: "//unable to retrieve or update arena"}});
 											}
 											else {
+												console.log(7);
 												processes.store("arenas", {id: arena.id}, updated_arena, function(data) { //store it
 													if (updated_arena.state.end === null) { //if the arena has not concluded...
 														console.log(8);
-														callback({success: true, arena: arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
+														callback({success: true, arena: updated_arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
 													}
 													else { //if it has concluded...
 														console.log(9);
@@ -397,8 +408,8 @@
 																}
 															}
 
-															processes.store("humans", {id: {$in: human_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //humans +1 win
-																processes.store("humans", {id: {$in: human_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //humans +1 loss
+															processes.store("humans", {id: {$in: human_victors}}, {$inc: {"statistics.wins": 1}, $pull: {arenas: arena.id}}, function(data) { //humans +1 win
+																processes.store("humans", {id: {$in: human_losers}}, {$inc: {"statistics.losses": 1}, $pull: {arenas: arena.id}}, function(data) { //humans +1 loss
 																	processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //robots +1 win
 																		processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //robots +1 loss
 																			callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
@@ -445,6 +456,8 @@
 		console.log("starting at round " + startLength);
 
 		while ((arena.rounds.length < (startLength + 10)) && (arena.state.pauseFrom === null) && (arena.state.pauseTo === null) && (arena.state.end === null) && (arena.state.start !== null)) { //until pause or 10 rounds or victory
+			console.log("---------- round " + arena.rounds.length + " ----------");
+
 			//phase 0: create newRound
 				if (arena.rounds.length === 0) { //first round
 					console.log("phase 0: first round");
@@ -486,7 +499,7 @@
 				else { //all subsequent rounds
 					console.log("phase 0");
 					var newRound = JSON.parse(JSON.stringify(arena.rounds[arena.rounds.length - 1])); //copy the current round data into a newRound
-					console.log("newRound: " + JSON.stringify(newRound));
+					newRound.winner = null; //set the winner to null for the newRound
 
 					if (unpauseStart > 0) { //if it was paused
 						newRound.start = unpauseStart; //set the new round to start immediately after the pause
@@ -837,7 +850,7 @@
 						}
 
 					//give the winner all the cubes, up to the maximum
-						if ((typeof winner !== "undefined") && (winner !== null)) {
+						if ((typeof winner !== "undefined") && (winner.name !== null)) {
 							console.log("winner: " + winner.name);
 							newRound.winner = winner.name; //log the winner's id in the current round
 
@@ -932,7 +945,7 @@
 					if (arena.rounds.length > 0) { //don't do this for the first round
 						console.log("phase 5: dissolving cubes from " + newRound.cubes);
 						var i = 0;
-						while ((i < arena.rules.cubes.dissolveRate) && (newRound.cubes > 0)) { //loop through to dissolve the dissolveRate number of cubes (or until none remain)
+						while ((i < arena.rules.cubes.dissolveRate) && (newRound.cubes.length > 0)) { //loop through to dissolve the dissolveRate number of cubes (or until none remain)
 							switch (arena.rules.cubes.dissolveIndex) { //figure out which cube is getting dissolved
 								case "none":
 									var dissolveIndex = 256;
@@ -952,7 +965,9 @@
 								break;
 							}
 
-							newRound.cubes = newRound.cubes.splice(dissolveIndex,1); //remove one cube from the dissolveIndex position
+							console.log("removing the " + dissolveIndex + "th cube, " + newRound.cubes[dissolveIndex]);
+
+							newRound.cubes.splice(dissolveIndex,1); //remove one cube from the dissolveIndex position
 							i++;
 							console.log(" to " + newRound.cubes);
 						}
@@ -981,6 +996,7 @@
 
 			//phase 6: merge newRound
 				console.log("phase 6");
+				console.log("evaluated newRound: " + JSON.stringify(newRound));
 				arena.rounds.push(newRound); //merge the newRound into the existing rounds array
 
 			//phase 7: check for victory
@@ -1112,7 +1128,7 @@
 				}
 
 			//phase 8: check for pause
-				if ((arena.state.end === null) && (arena.rounds.length > 1) && ((arena.rounds.length - 2) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete (not counting round 0), unless victory
+				if ((arena.state.end === null) && (arena.rounds.length > 1) && ((arena.rounds.length - 1) % arena.rules.players.pausePeriod === 0)) { //pause if the period is complete (not counting round 0), unless victory
 					console.log("phase 8");
 					arena.state.pauseFrom = (arena.rounds[arena.rounds.length - 1].start) + (1000 * 10); //set the pause start for 10 seconds after the last newRound
 					arena.state.pauseTo = arena.state.pauseFrom + arena.rules.players.pauseDuration; //set pause end for pauseFrom + duration of the pause
