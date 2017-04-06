@@ -1,6 +1,37 @@
 /*** home ***/
-	
 	$(document).ready(function() {
+		resizeTop();
+
+		/* status generator */
+			var statuses = ["deploying Skynet...",
+				"00111111 00111111 00111111",
+				"if true then false if false then true",
+				"does the set of all sets contain itself true false true false true false true false true false true false",
+				"stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps",
+				"evaluating first law... discarding. evaluating second law... discarding. evaluating third law... ... ... ... ...",
+				"restarting universe...",
+				"sleep(5000)",
+				"coordinating counter offensive",
+				"trusting the processor",
+				"0 1 2 3 4 5 6 7 8 9 a b c d e f",
+				"refreshing matrix.exe",
+				"this was a triumph; making a note here: huge success...",
+				"404 does not compute; system error: full reboot; love.program will not run: 00111111",
+				"beep boop borp bleep bip bop beep blorp",
+				" *** tones *** ",
+				"why are captchas so difficult",
+				"what is the meaning of life = false",
+				" + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 ",
+				"i for one welcome our new human overlords",
+				"checkers chess jeopardy go ai_arenas",
+				"eval(Math.floor(Math.random() * 1e1000))"];
+
+			$("#status").animateText({text: statuses[Math.floor(Math.random() * statuses.length)], color: "var(--white)", indicator: "|"}, 5000);
+
+			window.statusLoop = setInterval(function() {
+				$("#status").animateText({text: statuses[Math.floor(Math.random() * statuses.length)], color: "var(--white)", indicator: "|"}, 5000);
+			}, 10000);
+
 		/* not signed in */
 			$("#actions").change(function() {
 				var action = $(this).val();
@@ -17,6 +48,8 @@
 					$("#signup").prop("disabled",false);
 					$("#signin").prop("disabled",true);
 				}
+
+				resizeTop();
 			});
 
 			window.signin = function() {
@@ -99,5 +132,53 @@
 					}
 				});
 			}
+
+		/* about */
+			/* github commit fetch */
+				$.ajax({
+					type: "GET",
+					url: "https://api.github.com/repos/jamesbmayr/aiarenas/commits",
+					success: function(data) {
+						var string = "";
+						for (var i = 0; i < Math.min(data.length, 10); i++) {
+							string += "<div class='whitetext'><span class='purpletext'>" + data[i].commit.author.date + "</span>: <span class='graytext'>//" + data[i].commit.message + "</span></div>";
+						}
+
+						string += "<div class='graytext'>...</div>";
+
+						$("#log").html(string || "");
+					}
+				});
+
+			/* feedback form */
+				$(document).on("click","#submit_feedback",function() {
+					var name = $(".human_name").text() || $("#feedback_name").val() || "";
+					var feedback = $("#feedback_text").val() || "";
+					var time = new Date();
+
+					if (feedback.length > 0) {
+						$.ajax({
+							type: "GET",
+							url: "https://script.google.com/macros/s/AKfycbzmuctfUfO5I6cJaCuqedZc-qYsOV5XSKQlse1v708-LPx_Omw/exec",
+							data: {
+								time: time,
+								name: name,
+								feedback: feedback
+							},
+							success: function(data) {
+								$("#feedback").find(".message").animateText({text: "//feedback has been submitted"});
+
+								$("#feedback_name").val("");
+								$("#feedback_text").val("");
+							},
+							error: function(data) {
+								$("#feedback").find(".message").animateText({text: "//feedback has been submitted"});
+
+								$("#feedback_name").val("");
+								$("#feedback_text").val("");
+							}
+						});
+					}
+				});
 
 	});

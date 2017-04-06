@@ -156,6 +156,19 @@
 			color: var(--purple);
 		}
 
+		textarea {
+			border: 2px solid var(--white);
+			border-radius: 5px;
+			text-align: center;
+			background-color: var(--black);
+			outline: none;
+			margin-bottom: 2px;
+			height: 30px;
+			padding: 0px;
+			vertical-align: bottom;
+			padding: 0px 2px 0px 2px;
+		}
+
 		select {
 			background-color: var(--black);
 			font-size: 16px;
@@ -224,7 +237,18 @@
 
 		.indented {
 			padding-left: 32px;
-		}	
+		}
+
+		.code {
+			background-color: #111111;
+			border-radius: 5px;
+			padding: 5px;
+		}
+
+		.strong {
+			font-weight: bold;
+			font-size: 24px;
+		}
 
 	/* top */
 		.top_outer {

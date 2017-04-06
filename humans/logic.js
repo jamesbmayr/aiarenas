@@ -22,6 +22,7 @@
 			},
 			notifications: {},
 			information: {
+				sites: [],
 				bio: "...",
 			},
 			avatar: {
@@ -56,6 +57,26 @@
 					else {
 						session.human.information.bio = data.bio;
 						messages.bio = "//bio updated";
+					}
+				break;
+
+				case "sites":
+					if (data.sites.replace(/\s/g,"").replace(/\,/g,"") === session.human.information.sites.join()) {
+						//no change
+					}
+					else {
+						data.sites = data.sites.replace(/\s/g,"").split(",");
+						for (var i = 0; i < data.sites.length; i++) {
+							if (!(data.sites[i].length > 0)) {
+								data.sites.splice(i,1);
+								i--;
+							}
+							else if (!(/^(http\:\/\/|https\:\/\/)/g).test(data.sites[i])) {
+								data.sites[i] = "http://" + data.sites[i];
+							}
+						}
+						session.human.information.sites = data.sites;
+						messages.sites = "//sites updated";
 					}
 				break;
 

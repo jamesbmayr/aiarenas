@@ -61,7 +61,7 @@
 				break;
 
 				case "google_fonts":
-					asset = "https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Nova+Mono|Roboto+Mono|Share+Tech+Mono|Ubuntu+Mono";
+					asset = "https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Nova+Mono|Roboto+Mono|Share+Tech+Mono|Ubuntu+Mono|VT323";
 				break;
 				
 				case "color_schemes":
@@ -69,7 +69,7 @@
 				break;
 
 				case "fonts":
-					asset = ["Droid Sans Mono","Nova Mono","Roboto Mono","Share Tech Mono","Ubuntu Mono","Monaco","Menlo","Courier","Courier New","monospace"];
+					asset = ["Droid Sans Mono","Nova Mono","Roboto Mono","Share Tech Mono","VT323","Ubuntu Mono","Monaco","Menlo","Courier","Courier New","monospace"];
 				break;
 
 				default:
@@ -201,6 +201,10 @@
 
 				case "Droid Sans Mono":
 					font = ":root {--font_scheme: 'Droid Sans Mono', monospace;}";
+				break;
+
+				case "VT323":
+					font = ":root {--font_scheme: 'VT323', monospace;}";
 				break;
 
 				case "Menlo":
@@ -399,7 +403,7 @@
 					<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
-						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarena.com?subject=aiarena bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
+						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarenas.com?subject=ai_arenas bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
 					</div>\
 				</div>";
 			}
@@ -425,7 +429,7 @@
 						<span class='graytext' id='navbar_message'></span>\
 					</div>\
 					<div id='navbar_human'>\
-						<div class='navbar_item'><span class='whitetext navbar_heading'>" + session.human.name + "</span></div>\
+						<div class='navbar_item'><span class='whitetext navbar_heading human_name'>" + session.human.name + "</span></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../humans/'" + session.human.name + "><span class='whitetext'>.</span><span class='bluetext'>profile</span></a></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a></div>\
 						<div class='navbar_item'><button class='navbar_button' id='navbar_signout'><span class='whitetext'>.</span><span class='greentext'>signout</span><span class='whitetext'>();</span></button></div>\

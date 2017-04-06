@@ -163,6 +163,10 @@
 						font = ":root {--font_scheme: 'Droid Sans Mono', monospace;}";
 					break;
 
+					case "VT323":
+						font = ":root {--font_scheme: 'VT323', monospace;}";
+					break;
+
 					case "Menlo":
 						font = ":root {--font_scheme: Menlo, monospace;}";
 					break;

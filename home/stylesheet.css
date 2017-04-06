@@ -3,3 +3,6 @@
 		color: var(--green);
 	}
 
+	.top_inner {
+		line-height: 3;
+	}

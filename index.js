@@ -245,6 +245,13 @@
 								catch (error) {_404();}
 							break;
 
+							case (/^\/about\/?$/).test(request.url):
+								try {
+									response.end(processes.render("./home/about.html", session));
+								}
+								catch (error) {_404();}
+							break;
+
 						/* settings */
 							case (/^\/settings\/?$/).test(request.url):
 								try {

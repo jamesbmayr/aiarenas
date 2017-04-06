@@ -16,11 +16,14 @@
 				$("#human_cancel").show();
 				
 				/* avatar */
-					$("#avatar_color").show();
+					$("#avatar_color").show();					
 
 				$(".field").prop("contenteditable",true).closest(".field_frame").addClass("active");
 				$(".message").text("");
 				$("#message_top").animateText({text: "//now editing"}, 1000);
+
+				/* sites */
+					$("#sites").text($("#sites").attr("value"));
 
 				resizeTop();
 			});
@@ -40,6 +43,14 @@
 					$(this).text(value);
 				});
 				$("#message_top").animateText({text: "//edits canceled"}, 1000);
+
+				/* sites */
+					var string = "";
+					var sites = $("#sites").attr("value").split(", ");
+					for (var i = 0; i < sites.length; i++) {
+						string += "<a class='bluetext' href='" + sites[i] + "' target='_blank'>" + sites[i] + "</a>, ";
+					}
+					$("#sites").html(string.substring(0, string.length - 2) || "");
 
 				resizeTop();
 			});
@@ -90,6 +101,16 @@
 
 						$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 						$("#message_top").animateText({text: (messages.top || "//edits submitted")}, 1000);
+
+							/* sites */
+								if (typeof data.sites !== "undefined") {
+									var string = "";
+									for (var i = 0; i < data.sites.length; i++) {
+										string += "<a class='bluetext' href='" + data.sites[i] + "' target='_blank'>" + data.sites[i] + "</a>, ";
+									}
+									$("#sites").html(string.substring(0, string.length - 2) || "");
+									$("#sites").attr("value", data.sites.join(", "));
+								}
 
 						resizeTop();
 					}

@@ -99,6 +99,16 @@
 				<hr>
 				<div class="megasection">
 					<div class="section">
+						<span class="whitetext">.sites</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class="field_frame"><span class="field whitetext" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
+								if ((typeof data.information.sites !== "undefined") && (data.information.sites.length > 0)) {
+									var string = "";
+									for (var i = 0; i < data.information.sites.length; i++) {
+										string += "<a class='bluetext' href='" + data.information.sites[i] + "' target='_blank'>" + data.information.sites[i] + "</a>, ";
+									}
+								}
+								string.substring(0, string.length - 2) || "" %></span></span> <span class="whitetext">];</span> <span class='message graytext'></span>
+					</div>
+					<div class="section">
 						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <span class='message graytext'></span>
 						<div class="indented">
 							<div class="field_frame">
