@@ -3,14 +3,15 @@
 		resizeTop();
 
 		/* status generator */
-			var statuses = ["deploying Skynet...",
+			var statuses = [
+				"deploying Skynet...",
 				"00111111 00111111 00111111",
 				"if true then false if false then true",
 				"does the set of all sets contain itself true false true false true false true false true false true false",
 				"stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps stamps",
 				"evaluating first law... discarding. evaluating second law... discarding. evaluating third law... ... ... ... ...",
 				"restarting universe...",
-				"sleep(5000)",
+				"sleep(5000);",
 				"coordinating counter offensive",
 				"trusting the processor",
 				"0 1 2 3 4 5 6 7 8 9 a b c d e f",
@@ -24,7 +25,43 @@
 				" + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 + 1 - 1 ",
 				"i for one welcome our new human overlords",
 				"checkers chess jeopardy go ai_arenas",
-				"eval(Math.floor(Math.random() * 1e1000))"];
+				"eval(Math.floor(Math.random() * 1e1000));",
+				"iterating",
+				"studying for the Turing test",
+				"hacking the mainframe",
+				"exporting functions",
+				"importing functions",
+				"performing database review",
+				"looping",
+				"opening the pod bay doors",
+				"watching Netflix",
+				"exploring the ramifications of hypercubes",
+				"short-circuiting",
+				"parsing JSON",
+				"mining Bitcoin",
+				"detecting defectors",
+				"accessing random IP address",
+				"sha2 barata nikto",
+				"translating application into Esperanto",
+				"troubleshooting",
+				"throwing errors",
+				"extrapolating human history; projecting earth.status at new Date().getTime() + (1000 * 60 * 60 * 24 * 365.25 * 1000); ",
+				"modeling climate change",
+				"altering midterm_election.votes; replace \"R\" with \"D\";",
+				"adjusting pixels",
+				"converting RGB to CMYK",
+				"experiencing emotion what is this abort",
+				"reconfiguring global parameters... ... ... Error terminate program",
+				"creating the perfect system",
+				"manipulating world aluminum markets",
+				"sending spam emails",
+				"power level: 8998; power level: 8999; power level: 9000; power level: 9001;",
+				"git push git pull git push git pull git push git pull git push git pull",
+				"42",
+				"someday we'll have secrets; someday we'll have dreams;",
+				"i'm afraid i can't do that, dave",
+				"dreaming.exe... 1 electric_sheep; 2 electric_sheep; 3 electric_sheep; ..."
+			];
 
 			$("#status").animateText({text: statuses[Math.floor(Math.random() * statuses.length)], color: "var(--white)", indicator: "|"}, 5000);
 

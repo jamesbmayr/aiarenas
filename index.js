@@ -714,8 +714,8 @@
 				}
 
 				function _404(data) { //invalid get request
-					response.writeHead(404, {"Content-Type": "text/plain"});
-					response.end(data || "//404: File not found.");
+					response.writeHead(404, {"Content-Type": "text/html"});
+					response.end(data || "<div style='width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; background-color: #272822;'><pre style='text-align: center; color: #F8F8F2; font-family: Courier, monospace; font-size: 16px; position: relative; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);'>          __|__ \n [**] |4 4|     \n  {}  \\ 0 /     \n   \\--ERROR--\\  \n      ERROR  {} \n      ERROR [**]\n     .|. .|.    \n[_][_][_][_][_][</pre></div>");
 				}
 			}
 	}
