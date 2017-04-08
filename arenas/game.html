@@ -18,7 +18,7 @@
 						<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
-						<div class="section">
+						<div class="section" <% if (data.state.end !== null) { "style='display: none;'";} %>>
 							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if (data.state.end !== null) { 'concluded' } else { 'active'} %>"><%
 								if (data.state.start === null) {
 									"null";
@@ -28,7 +28,13 @@
 								}
 								else {
 									var pastRounds = data.rounds.filter(function(round) { var now = new Date().getTime(); return (round.start <= now);});
-									Number(pastRounds.length - 1);
+
+									if (pastRounds.length > 0) {
+										Number(pastRounds.length - 1);
+									}
+									else {
+										"null";
+									}
 								}
 							%></span><span class="whitetext">;</span>
 						</div>
@@ -43,7 +49,7 @@
 							%></span><span class="whitetext">;</span>
 						</div>
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
+							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start === null)) {
 								var string = "";
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return data.entrants[i].human.id === session.human.id })] || null;
 								
@@ -60,7 +66,7 @@
 										</form>';
 								}
 
-								if ((data.state.start === null) && (data.humans[0] === session.human.id)) {
+								if (data.humans[0] === session.human.id) {
 									string += '<form id="launch_form" method="post" action="javascript:;" onsubmit="window.launch_arena();">\
 										<span class="whitetext">.</span><button id="launch_arena" name="action" value="launch_arena"><span class="greentext">launch</span></button><span class="whitetext">();</span>\
 									</form>';
@@ -86,6 +92,24 @@
 								</form>';
 							}
 						%>
+						<div class="section" id="victors" <% if (data.state.end === null) {"style='display: none';"} %>>
+						<span class="whitetext">.victors</span><span class="redtext"> = </span><span class="whitetext">[</span>
+							<div class="indented victorList whitetext">
+								<% 
+									if (data.state.end !== null) {
+										var victors = data.state.victors;
+										var string = "";
+
+										for (var i = 0; i < victors.length; i++) {
+											string += "{<span class='victor'><a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + data.entrants[victors[i]].name + "</a>: <a class='victor_human bluetext' href='../../../../humans/" + data.entrants[victors[i]].human.name + "'>" + data.entrants[victors[i]].human.name + "</a></span>}, ";
+										}
+
+										string.substring(0, string.length - 2);
+									}
+								%>
+							</div>
+						<span class="whitetext">];</span>
+					</div>
 					</div>
 					<hr>
 				</div>
@@ -132,25 +156,7 @@
 							</div>
 						<span class="whitetext">];</span>
 					</div>
-					<div class="section" id="victors" <% if (data.state.end === null) {"style='display: none';"} %>>
-						<span class="whitetext">.victors</span><span class="redtext"> = </span><span class="whitetext">[</span>
-							<div class="indented victorList">
-								<% 
-									if (data.state.end !== null) {
-										var victors = data.state.victors;
-										var string = "";
-
-										for (var i = 0; i < victors.length; i++) {
-											string += "<span class='victor'><a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + data.entrants[victors[i]].name + "</a><a class='victor_human bluetext' href='../../../../humans/" + data.entrants[victors[i]].human.name + "'>" + data.entrants[victors[i]].human.name + "</a></span>";
-										}
-
-										string;
-									}
-								%>
-							</div>
-						<span class="whitetext">];</span>
-					</div>
-					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && (data.state.end === null)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}) || null) } %>" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
+					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}) || null) } %>" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
 						<% 
 							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && (data.state.end === null)) {
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
@@ -173,6 +179,36 @@
 								'<div class="indented">\
 									<span class="graytext spectatorMessage">//the arena is not in play</span>\
 								</div>';
+							}
+						%>
+					</div>
+					<div class="section" id="postgame" <% if (data.state.end === null) {"style='display: none';"} %>>
+						<%
+							if (data.state.end !== null) {
+								if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
+									var victory = false;
+									for (var i = 0; i < data.state.victors.length; i++) {
+										if (data.entrants[data.state.victors[i]].human.id === session.human.id) {
+											victory = true;
+										}
+									}
+
+									if (victory) {
+										'<div class="indented">\
+											<span class="graytext spectatorMessage">//your robot has achieved victory in this arena</span>\
+										</div>';
+									}
+									else {
+										'<div class="indented">\
+											<span class="graytext spectatorMessage">//your robot has achieved defeat in this arena</span>\
+										</div>';
+									}
+								}
+								else {
+									'<div class="indented">\
+										<span class="graytext spectatorMessage">//this arena has concluded</span>\
+									</div>';
+								}
 							}
 						%>
 					</div>
@@ -245,90 +281,111 @@
 					</div>
 					<span class="whitetext">];</span>
 				</div>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 				<hr>
-				<div class="megasection" id="rules">
+				<div class="megasection" id="rules" <% if (data.state.start !== null) {'style="display: none;"';} %>>
 					<span class="whitetext">.rules</span><span class="redtext"> = </span><span class="whitetext">{</span>
-						<div class="indented">
-							<div class="section" id="rules_players">
-								<span class="whitetext">players: {</span>
-								<div class="indented">
-									<span class="whitetext">minimum: </span><span class="purpletext"><% data.rules.players.minimum || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">maximum: </span><span class="purpletext"><% data.rules.players.maximum || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">pauseDuration: </span><span class="purpletext"><% ((data.rules.players.pauseDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">pausePeriod: </span><span class="purpletext"><% data.rules.players.pausePeriod || "null" %></span>
-								</div>
-								<span class="whitetext">},</span>
+					<div class="indented">
+						<div class="section" id="rules_players">
+							<span class="whitetext">players: {</span>
+							<div class="indented">
+								<span class="whitetext">minimum: </span><span class="purpletext"><% data.rules.players.minimum || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">maximum: </span><span class="purpletext"><% data.rules.players.maximum || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">pauseDuration: </span><span class="purpletext"><% ((data.rules.players.pauseDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">pausePeriod: </span><span class="purpletext"><% data.rules.players.pausePeriod || "null" %></span>
 							</div>
-							<div class="section" id="rules_cubes">
-								<span class="whitetext">cubes: {</span>
-								<div class="indented">
-									<span class="whitetext">colors: [</span><span class="whitetext"><% 
-										try {
-											var string = "";
-											for (var i = 0; i < data.rules.cubes.colors.length; i++) {
-												string += ("<span class='" + data.rules.cubes.colors[i] + "text'>" + data.rules.cubes.colors[i] + "</span>, ");
-											}
-											string.substring(0, string.length - 2);
-										}
-										catch (error) {
-											"null";
-										}
-									%></span><span class="whitetext">],</span><br>
-									<span class="whitetext">startCount: </span><span class="purpletext"><% data.rules.cubes.startCount || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">maximum: </span><span class="purpletext"><% data.rules.cubes.maximum || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">spawnRate: </span><span class="purpletext"><% data.rules.cubes.spawnRate || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">spawnMemory: </span><span class="purpletext"><% data.rules.cubes.spawnMemory || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">dissolveRate: </span><span class="purpletext"><% data.rules.cubes.dissolveRate || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">dissolveIndex: </span><span class="yellowtext">"<% data.rules.cubes.dissolveIndex || "null" %>"</span>
-								</div>
-								<span class="whitetext">},</span>
-							</div>
-							<div class="section" id="rules_robots">
-								<span class="whitetext">robots: {</span>
-								<div class="indented">
-									<span class="whitetext">startPower: </span><span class="purpletext"><% data.rules.robots.startPower || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">maxPower: </span><span class="purpletext"><% data.rules.robots.maxPower || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">powerRate: </span><span class="purpletext"><% data.rules.robots.powerRate || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">actions: [</span><span class="whitetext"><% 
-										try {
-											var string = "";
-											for (var i = 0; i < data.rules.robots.actions.length; i++) {
-												string += ("<span class='greentext'>" + data.rules.robots.actions[i] + "</span>(), ");
-											}
-											string.substring(0, string.length - 2);
-										}
-										catch (error) {
-											"null";
-										}
-									%></span><span class="whitetext">],</span><br>
-									<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.robots.tieBreaker || "null" %>"</span>
-								</div>
-								<span class="whitetext">},</span>
-							</div>
-							<div class="section" id="rules_victory">
-								<span class="whitetext">victory: {</span>
-								<div class="indented">
-									<span class="whitetext">conditions: [</span><span class="whitetext"><% 
-										try {
-											var string = "";
-											for (var i = 0; i < data.rules.victory.conditions.length; i++) {
-												string += ("<span class='yellowtext'>\"" + data.rules.victory.conditions[i] + "\"</span>, ");
-											}
-											string.substring(0, string.length - 2);
-										}
-										catch (error) {
-											"null";
-										}
-									%></span><span class="whitetext">],</span><br>
-									<span class="whitetext">multiplier: </span><span class="purpletext"><% data.rules.victory.multiplier || "null" %></span><span class="whitetext">,</span><br>
-									<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.victory.tieBreaker || "null" %>"</span><br>
-								</div>
-								<span class="whitetext">}</span>
-							</div>
+							<span class="whitetext">},</span>
 						</div>
-						<span class="whitetext">}</span>
+						<div class="section" id="rules_cubes">
+							<span class="whitetext">cubes: {</span>
+							<div class="indented">
+								<span class="whitetext">colors: [</span><span class="whitetext"><% 
+									try {
+										var string = "";
+										for (var i = 0; i < data.rules.cubes.colors.length; i++) {
+											string += ("<span class='" + data.rules.cubes.colors[i] + "text'>" + data.rules.cubes.colors[i] + "</span>, ");
+										}
+										string.substring(0, string.length - 2);
+									}
+									catch (error) {
+										"null";
+									}
+								%></span><span class="whitetext">],</span><br>
+								<span class="whitetext">startCount: </span><span class="purpletext"><% data.rules.cubes.startCount || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">maximum: </span><span class="purpletext"><% data.rules.cubes.maximum || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">spawnRate: </span><span class="purpletext"><% data.rules.cubes.spawnRate || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">spawnMemory: </span><span class="purpletext"><% data.rules.cubes.spawnMemory || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">dissolveRate: </span><span class="purpletext"><% data.rules.cubes.dissolveRate || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">dissolveIndex: </span><span class="yellowtext">"<% data.rules.cubes.dissolveIndex || "null" %>"</span>
+							</div>
+							<span class="whitetext">},</span>
+						</div>
+						<div class="section" id="rules_robots">
+							<span class="whitetext">robots: {</span>
+							<div class="indented">
+								<span class="whitetext">startPower: </span><span class="purpletext"><% data.rules.robots.startPower || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">maxPower: </span><span class="purpletext"><% data.rules.robots.maxPower || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">powerRate: </span><span class="purpletext"><% data.rules.robots.powerRate || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">actions: [</span><span class="whitetext"><% 
+									try {
+										var string = "";
+										for (var i = 0; i < data.rules.robots.actions.length; i++) {
+											string += ("<span class='greentext'>" + data.rules.robots.actions[i] + "</span>(), ");
+										}
+										string.substring(0, string.length - 2);
+									}
+									catch (error) {
+										"null";
+									}
+								%></span><span class="whitetext">],</span><br>
+								<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.robots.tieBreaker || "null" %>"</span>
+							</div>
+							<span class="whitetext">},</span>
+						</div>
+						<div class="section" id="rules_victory">
+							<span class="whitetext">victory: {</span>
+							<div class="indented">
+								<span class="whitetext">conditions: [</span><span class="whitetext"><% 
+									try {
+										var string = "";
+										for (var i = 0; i < data.rules.victory.conditions.length; i++) {
+											string += ("<span class='yellowtext'>\"" + data.rules.victory.conditions[i] + "\"</span>, ");
+										}
+										string.substring(0, string.length - 2);
+									}
+									catch (error) {
+										"null";
+									}
+								%></span><span class="whitetext">],</span><br>
+								<span class="whitetext">multiplier: </span><span class="purpletext"><% data.rules.victory.multiplier || "null" %></span><span class="whitetext">,</span><br>
+								<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.victory.tieBreaker || "null" %>"</span><br>
+							</div>
+							<span class="whitetext">}</span>
+						</div>
 					</div>
+					<span class="whitetext">}</span>
+				</div>
+				<% 
+					if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start !== null) && (data.state.end === null)) {
+							var string = '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
+							<hr>\
+							<div class="megasection">';
+
+						if ((data.humans[0] === session.human.id) && (data.state.end === null)) {
+							string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
+								<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">();</span>\
+							</form>';
+						}
+
+						string += '<form id="leave_form" method="post" action="javascript:;" onsubmit="window.leave_arena();">\
+							<span class="whitetext">.</span><button id="leave_arena" name="action" value="leave_arena"><span class="greentext">leave</span></button><span class="whitetext">();</span>\
+						</form>';
+
+						string += '</div>';
+
+						string;
+					}
+				%>
 				</div>
 			</div>
 		</div>

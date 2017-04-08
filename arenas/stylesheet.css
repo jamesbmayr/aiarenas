@@ -12,6 +12,10 @@
 			font-size: 32px;
 		}
 
+		#rules {
+			line-height: 1;
+		}
+
 	/* robots */
 		.self {
 			width: 200px;

@@ -313,14 +313,14 @@
 				
 				if (before !== JSON.stringify(robot)) {
 					var update = {};
-					update["entrants." + robot_id] = robot;
+					update["entrants." + data.robot_id] = robot;
 					
-					processes.store("arenas", {id: arena.id}, {$set: set}, function(robot) {
-						callback({success: true, messages: messages, arena: arena});
+					processes.store("arenas", {id: arena.id}, {$set: update}, function(robot) {
+						callback({success: true, messages: messages, arena: arena, data: data});
 					});
 				}
 				else {
-					callback({success: true, arena: arena, messages: {top: "//no changes"}});
+					callback({success: false, arena: arena, messages: {top: "//no changes"}});
 				}
 			}
 		});
@@ -350,7 +350,7 @@
 					if (arena.state.start === null) { //if the game has not started...
 						callback({success: true, arena: arena, messages: {top: "//this arena has not started"}});
 					}
-					else if ((timeNow > arena.state.pauseFrom) && (timeNow < arena.state.pauseTo)) { //if the game is paused...
+					else if (timeNow < arena.state.pauseTo) { //if the game is paused...
 						callback({success: true, arena: arena, messages: {top: "//this arena is paused"}});
 					}
 					else if (arena.state.end !== null) { //if the game is over...
@@ -505,7 +505,7 @@
 						newRound.start = unpauseStart; //set the new round to start immediately after the pause
 					}
 					else {
-						newRound.start = newRound.start + (1000 * 10); //otherwise, the round starts 10 seconds after the last one
+						newRound.start += (10000); //otherwise, the round starts 10 seconds after the last one
 					}
 				}
 
@@ -1000,15 +1000,14 @@
 				arena.rounds.push(newRound); //merge the newRound into the existing rounds array
 
 			//phase 7: check for victory
-				if (arena.rounds.length > 0) { //don't do this for the first round
+				if (arena.rounds.length > 1) { //don't do this after the first round
 					//loop through all conditions
 						console.log("phase 7");
+						var victors = [];
 						for (var c = 0; c < arena.rules.victory.conditions.length; c++) { //loop through for all conditions
 							console.log("checking for victory: " + arena.rules.victory.conditions[c]);
 							switch(arena.rules.victory.conditions[c]) {
 								case "6of1": //6 cubes of 1 color
-									var victors = [];
-
 									for (var i = 0; i < newRound.robots.length; i++) {
 										for (j = 0; j < arena.rules.cubes.colors.length; j++) {
 											if (newRound.robots[i].cubes[arena.rules.cubes.colors[j]] >= (6 * arena.rules.victory.multiplier)) {
@@ -1017,12 +1016,10 @@
 										}
 									}
 
-									arena.state.victors.push(victors);
+									console.log("6of1: " + victors);
 								break;
 
 								case "2of3": //2 of all primary or all secondary cubes
-									var victors = [];
-
 									for (var i = 0; i < newRound.robots.length; i++) {
 										if ((newRound.robots[i].cubes.red >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].cubes.yellow >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].cubes.blue >= (2 * arena.rules.victory.multiplier))) {
 											victors.push(newRound.robots[i].name);
@@ -1032,46 +1029,42 @@
 										}
 									}
 
-									arena.state.victors.push(victors);
+									console.log("2of3: " + victors);
 								break;
 
 								case "1of6": //one of each color
-									var victors = [];
-
 									for (var i = 0; i < newRound.robots.length; i++) {
-										var victory = false;
+										var victory = true;
 
-										if (newRound.robots[i].cubes.red > (1 * arena.rules.victory.multiplier)) {
-											victory = true;
+										if (newRound.robots[i].cubes.red < (1 * arena.rules.victory.multiplier)) {
+											victory = false;
 										}
-										if (newRound.robots[i].cubes.orange > (1 * arena.rules.victory.multiplier)) {
-											victory = true;
+										if (newRound.robots[i].cubes.orange < (1 * arena.rules.victory.multiplier)) {
+											victory = false;
 										}
-										if (newRound.robots[i].cubes.yellow > (1 * arena.rules.victory.multiplier)) {
-											victory = true;
+										if (newRound.robots[i].cubes.yellow < (1 * arena.rules.victory.multiplier)) {
+											victory = false;
 										}
-										if (newRound.robots[i].cubes.green > (1 * arena.rules.victory.multiplier)) {
-											victory = true;
+										if (newRound.robots[i].cubes.green < (1 * arena.rules.victory.multiplier)) {
+											victory = false;
 										}
-										if (newRound.robots[i].cubes.blue > (1 * arena.rules.victory.multiplier)) {
-											victory = true;
+										if (newRound.robots[i].cubes.blue < (1 * arena.rules.victory.multiplier)) {
+											victory = false;
 										}
-										if (newRound.robots[i].cubes.purple > (1 * arena.rules.victory.multiplier)) {
-											victory = true;
+										if (newRound.robots[i].cubes.purple < (1 * arena.rules.victory.multiplier)) {
+											victory = false;
 										}
 
-										if (victory) {
+										if (victory === true) {
 											victors.push(newRound.robots[i].name);
 										}
 
 									}
 
-									arena.state.victors.push(victors);
+									console.log("1of6: " + victors);
 								break;
 
 								case "3of2": //3 of each of 2 complementary colors
-									var victors = [];
-
 									for (var i = 0; i < newRound.robots.length; i++) {
 										if ((newRound.robots[i].red >= (3 * arena.rules.victory.multiplier)) && (newRound.robots[i].green >= (3 * arena.rules.victory.multiplier))) {
 											victors.push(newRound.robots[i].name);
@@ -1084,18 +1077,20 @@
 										}
 									}
 
-									arena.state.victors.push(victors);
+									console.log("3of2: " + victors);
 								break;
 							}
 						}
 
 					//remove duplicates
-						arena.state.victors = arena.state.victors.filter(function (victor, position) {
-							return arena.state.victors.indexOf(victor) === position;
+						console.log("removing duplicates");
+						victors = victors.filter(function (victor, position) {
+							return victors.indexOf(victor) === position;
 						});
+						console.log(victors);
 
 					//resolve ties
-						if (arena.state.victors.length > 1) {
+						if (victors.length > 1) {
 							console.log("resolving ties: " + arena.rules.victory.tieBreaker);
 							switch (arena.rules.victory.tieBreaker) {
 								case "tie":
@@ -1103,36 +1098,38 @@
 								break;
 
 								case "random":
-									arena.state.victors = [arena.state.victors[Math.floor(Math.random() * arena.state.victors.length)]];
+									victors = [victors[Math.floor(Math.random() * victors.length)]];
 								break;
 
 								case "greedy":
-									arena.state.victors.sort(function(a, b) { //order the tied victors based on total cubeCount, ascending
+									victors.sort(function(a, b) { //order the tied victors based on total cubeCount, ascending
 										var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
 										var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
 
 										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) > (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
 									});
 
-									arena.state.victors = [arena.state.victors[0]]; //whoever has the *most* cubes is the victor
+									victors = [victors[0]]; //whoever has the *most* cubes is the victor
 								break;
 
 								case "efficient":
-									arena.state.victors.sort(function(a, b) { //order the tied victors based on total cubeCount, descending
+									victors.sort(function(a, b) { //order the tied victors based on total cubeCount, descending
 										var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
 										var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
 
 										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) < (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
 									});
 
-									arena.state.victors = [arena.state.victors[0]]; //whoever has the *least* cubes is the victor
+									victors = [victors[0]]; //whoever has the *least* cubes is the victor
 								break;
 							}
 						}
+						console.log("post-tiebreaker: " + victors);
 
 					//change state
-						if (arena.state.victors.length > 0) {
-							console.log("victors: " + arena.state.victors);
+						if (victors.length > 0) {
+							console.log("victors: " + victors);
+							arena.state.victors = victors;
 							arena.state.end = arena.rounds[arena.rounds.length - 1].start + (1000 * 10); //add end time if victory (10 seconds after the last round starts)
 						}
 						else {

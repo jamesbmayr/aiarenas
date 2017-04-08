@@ -567,19 +567,12 @@
 				else if (state === "concluded") { //concluded game --> do nothing
 					clearInterval(window.checkLoop);
 					clearInterval(window.gameLoop);
-
-					$("#pauseDetails").hide();
-					$("#players").hide();
-					$("#cubes").hide();
-					$("#victors").show();
-					$("#workshop").hide();
 				}
 				else { //active game --> gameLoop
 					window.gameLoop = setInterval(function() {
 						console.log("gaming...");
 						if ((typeof window.arena === "undefined") || (window.arena === null)) {
 							console.log("no arena yet");
-							$("#message_top").animateText({text: "//fetching the arena..."}, 1000);
 
 							if ((typeof window.wait === "undefined") || (window.wait === null)) {
 								window.wait = true;		
@@ -602,6 +595,7 @@
 										if (data.success) {
 											console.log("...got the initial data!");
 											window.arena = data.arena;
+											$("#message_top").animateText({text: (data.messages.top || "//got the arena")}, 1000);
 										}
 										else {
 											console.log("...didn't get the initial data");
@@ -625,8 +619,8 @@
 								}
 
 							//display up-to-date info
-								else if (($("#round").text() === "null") || ($("#round").text() < (pastRounds.length - 1))) { //displayedRound is out of date
-									console.log("nextRound: " + pastRounds[pastRounds.length - 1].start || "???");
+								else if (($("#round").text() === "null") || (Number($("#round").text()) < (pastRounds.length - 1))) { //displayedRound is out of date
+									console.log("nextRound: " + (pastRounds.length - 1) + " : " + pastRounds[pastRounds.length - 1].start || "???");
 
 									//state
 										if (pastRounds.length - 1 >= 0) {
@@ -646,7 +640,7 @@
 												console.log(i + " :: "  + currentRound.cubes[i]);
 												cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
 											}
-											$(".currentCubes").html(cubes);
+											$("#currentCubes").html(cubes);
 										}
 
 									//robots
@@ -659,20 +653,20 @@
 												$("#" + id).find(".action").animateText({text: (String(currentRound.robots[i].action) || "?"), indicator: "|", color: "var(--white)"}, 2000);
 												console.log("power...");
 												console.log("power: " + currentRound.robots[i].power);
-												$("#" + id).find(".power").delay(2000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".power").delay(3000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("cubes...");
 												console.log("red: " + currentRound.robots[i].cubes.red);
-												$("#" + id).find(".cubes_red").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".cubes_red").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("orange: " + currentRound.robots[i].cubes.orange);
-												$("#" + id).find(".cubes_orange").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".cubes_orange").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("yellow: " + currentRound.robots[i].cubes.yellow);
-												$("#" + id).find(".cubes_yellow").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".cubes_yellow").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("green: " + currentRound.robots[i].cubes.green);
-												$("#" + id).find(".cubes_green").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".cubes_green").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("blue: " + currentRound.robots[i].cubes.blue);
-												$("#" + id).find(".cubes_blue").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".cubes_blue").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("purple: " + currentRound.robots[i].cubes.purple);
-												$("#" + id).find(".cubes_purple").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												$("#" + id).find(".cubes_purple").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
 												console.log("finished this robot");
 											}
 										}
@@ -692,28 +686,47 @@
 										$("#cubes").hide();
 										$("#victors").show();
 										$("#workshop").hide();
+										$("#postgame").show();
 
-										$("#round").text("null");
+										$("#round").text("null").hide();
 										$("#round").attr("value", "concluded");
 
 									//victors
-										var victors = "";
-										for (var i = 0; i < window.arena.state.victors.length; i++); {
-											victors += "<span class='victor'>\
-												<a class='victor_robot bluetext' href='../../../../robots/" + window.arena.state.victors[i] + "'>" + window.arena.entrants[window.arena.state.victors[i]].name + "</a>\
-												<a class='victor_human bluetext' href='../../../../humans/" + window.arena.entrants[window.arena.state.victors[i]].human.name + "'>" + window.arena.entrants[window.arena.state.victors[i]].human.name + "</a>\
-											</span>";
+										var victors = window.arena.state.victors;
+										var string = "";
+
+										for (var i = 0; i < victors.length; i++) {
+											string += "{<span class='victor'><a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + window.arena.entrants[victors[i]].name + "</a> : <a class='victor_human bluetext' href='../../../../humans/" + window.arena.entrants[victors[i]].human.name + "'>" + window.arena.entrants[victors[i]].human.name + "</a></span>}, ";
 										}
-										$(".victorList").html(victors);
+
+										$(".victorList").html(string.substring(0, string.length - 2));
+
+									//message
+										if (window.arena.state.victors.indexOf(String($("#workshop").attr("value"))) > -1) {
+											var message = '<div class="indented">\
+												<span class="graytext spectatorMessage">//your robot has achieved victory in this arena</span>\
+											</div>';
+										}
+										else if (String($("#workshop").attr("value")).length > 0) {
+											var message = '<div class="indented">\
+												<span class="graytext spectatorMessage">//your robot has achieved defeat in this arena</span>\
+											</div>';
+										}
+										else {
+											var message = '<div class="indented">\
+												<span class="graytext spectatorMessage">//this arena has concluded</span>\
+											</div>';
+										}
+
+										$("#postgame").html(message || "//this arena has concluded");
 								}
 								
 							//active
 								else if (timeNow > window.arena.state.start) {
 									var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start;
-									console.log("lastTime: " + lastTime);
 
 									//paused
-										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null)) {
+										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
 											if ($("#pauseDetails").css("display") === "none") {
 												console.log("paused...");
 												$("#pauseDetails").show();
@@ -740,6 +753,8 @@
 										}
 
 									//fetch more data if necessary
+										console.log("lastTime: " + lastTime);
+										
 										if (timeNow >= lastTime) {
 											console.log("fetching more data...");
 											var arena_id = $(".container").attr("value");
