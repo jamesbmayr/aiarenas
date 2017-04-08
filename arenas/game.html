@@ -118,7 +118,7 @@
 						<span class="whitetext">.cubes</span><span class="redtext"> = </span><span class="whitetext">[</span>
 							<div class="indented" id="currentCubes">
 								<% 
-									if ((data.state.start !== null) && (data.state.end === null)) {
+									if ((data.state.start !== null) && (data.state.end === null) && (data.rounds.length > 0)) {
 										var currentRound = data.rounds[data.rounds.length - 1];
 										var string = "";
 
@@ -150,9 +150,9 @@
 							</div>
 						<span class="whitetext">];</span>
 					</div>
-					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}).id || null) } %>" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
+					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && (data.state.end === null)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}) || null) } %>" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
+							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && (data.state.end === null)) {
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
 								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 									'<div class="section">\
@@ -171,7 +171,7 @@
 							}
 							else {
 								'<div class="indented">\
-									<span class="graytext spectatorMessage">//the arena is paused</span>\
+									<span class="graytext spectatorMessage">//the arena is not in play</span>\
 								</div>';
 							}
 						%>
@@ -197,7 +197,7 @@
 								for (var i = 0; i < entrants.length; i++) {
 									var entrant = data.entrants[entrants[i]];
 									if (data.rounds.length > 0) {
-										var robot = data.rounds[data.rounds.length - 1].robots.find(function(i) { return i.name = entrant.id}) || {};
+										var robot = data.rounds[data.rounds.length - 1].robots.find(function(i) { return i.name === entrant.id}) || {};
 									}
 									else {
 										var robot = {

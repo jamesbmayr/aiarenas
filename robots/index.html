@@ -56,8 +56,8 @@
 					</div>
 					<div class="section">
 						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
-							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span><span class='whitetext'>,</span>
-							<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
+							<span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>,</span>
+							<span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span>
 						<span class="whitetext">};</span>
 					</div>
 				</div>

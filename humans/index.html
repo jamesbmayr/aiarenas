@@ -59,8 +59,8 @@
 					</div>
 					<div class="section">
 						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
-							<span class="whitetext">wins: </span><span class="purpletext"><% Object.keys(data.statistics.wins).length || 0 %></span><span class='whitetext'>,</span>
-							<span class="whitetext">losses: </span><span class="purpletext"><% Object.keys(data.statistics.losses).length || 0 %></span>
+							<span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>,</span>
+							<span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span>
 						<span class="whitetext">};</span>
 					</div>
 				</div>
@@ -105,8 +105,9 @@
 									for (var i = 0; i < data.information.sites.length; i++) {
 										string += "<a class='bluetext' href='" + data.information.sites[i] + "' target='_blank'>" + data.information.sites[i] + "</a>, ";
 									}
-								}
-								string.substring(0, string.length - 2) || "" %></span></span> <span class="whitetext">];</span> <span class='message graytext'></span>
+									string.substring(0, string.length - 2) || ""
+								} 
+						%></span></span> <span class="whitetext">];</span> <span class='message graytext'></span>
 					</div>
 					<div class="section">
 						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <span class='message graytext'></span>

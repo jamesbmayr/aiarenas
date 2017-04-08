@@ -578,6 +578,7 @@
 					window.gameLoop = setInterval(function() {
 						console.log("gaming...");
 						if ((typeof window.arena === "undefined") || (window.arena === null)) {
+							console.log("no arena yet");
 							$("#message_top").animateText({text: "//fetching the arena..."}, 1000);
 
 							if ((typeof window.wait === "undefined") || (window.wait === null)) {
@@ -611,12 +612,12 @@
 							}
 						}
 						else {
+							console.log("displaying arena...");
 							var timeNow = new Date().getTime();
 							var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
 
 							console.log("thisRound: " + (window.arena.rounds.length - 1));
 							console.log("timeNow__: " + timeNow);
-							console.log("nextRound: " + pastRounds[pastRounds.length - 1].start || "???");
 							
 							//starting soon
 								if (timeNow < window.arena.state.start) {
@@ -625,42 +626,64 @@
 
 							//display up-to-date info
 								else if (($("#round").text() === "null") || ($("#round").text() < (pastRounds.length - 1))) { //displayedRound is out of date
-									
+									console.log("nextRound: " + pastRounds[pastRounds.length - 1].start || "???");
+
 									//state
 										if (pastRounds.length - 1 >= 0) {
 											$("#round").text(pastRounds.length - 1);
+											var currentRound = pastRounds[pastRounds.length - 1] || {};
+											console.log("currentRound: " + JSON.stringify(currentRound));
 										}
 										else {
-											$("#round").text("null");	
+											console.log("no currentRound");
+											$("#round").text("null");
 										}
-										var currentRound = pastRounds[pastRounds.length - 1] || {};
-
 
 									//cubes
-										var cubes = "";
-										for (var i = 0; i < currentRound.cubes.length; i++) {
-											cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
+										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
+											var cubes = "";
+											for (var i = 0; i < currentRound.cubes.length; i++) {
+												console.log(i + " :: "  + currentRound.cubes[i]);
+												cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
+											}
+											$(".currentCubes").html(cubes);
 										}
-										$(".currentCubes").html(cubes);
 
 									//robots
-										for (var i = 0; i < currentRound.robots.length; i++) {
-											var id = currentRound.robots[i].id;
-											$("#" + id).find(".action").animateText({text: (currentRound.robots[i].action || "???"), indicator: "[]", color: "var(--white)"}, 2000);
-											setTimeout(function() {	
-												$("#" + id).find(".power").text(currentRound.robots[i].power);
-												$("#" + id).find(".cubes_red").text(currentRound.robots[i].cubes.red);
-												$("#" + id).find(".cubes_orange").text(currentRound.robots[i].cubes.orange);
-												$("#" + id).find(".cubes_yellow").text(currentRound.robots[i].cubes.yellow);
-												$("#" + id).find(".cubes_green").text(currentRound.robots[i].cubes.green);
-												$("#" + id).find(".cubes_blue").text(currentRound.robots[i].cubes.blue);
-												$("#" + id).find(".cubes_purple").text(currentRound.robots[i].cubes.purple);
-											}, 3000);
+										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
+											for (var i = 0; i < currentRound.robots.length; i++) {
+												console.log(i + " : " + JSON.stringify(currentRound.robots[i]));
+												var id = currentRound.robots[i].name;
+												console.log("action...");
+												console.log("action: " + currentRound.robots[i].action);
+												$("#" + id).find(".action").animateText({text: (String(currentRound.robots[i].action) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("power...");
+												console.log("power: " + currentRound.robots[i].power);
+												$("#" + id).find(".power").delay(2000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("cubes...");
+												console.log("red: " + currentRound.robots[i].cubes.red);
+												$("#" + id).find(".cubes_red").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("orange: " + currentRound.robots[i].cubes.orange);
+												$("#" + id).find(".cubes_orange").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("yellow: " + currentRound.robots[i].cubes.yellow);
+												$("#" + id).find(".cubes_yellow").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("green: " + currentRound.robots[i].cubes.green);
+												$("#" + id).find(".cubes_green").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("blue: " + currentRound.robots[i].cubes.blue);
+												$("#" + id).find(".cubes_blue").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("purple: " + currentRound.robots[i].cubes.purple);
+												$("#" + id).find(".cubes_purple").delay(2000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												console.log("finished this robot");
+											}
 										}
+								}
+								else {
+									console.log("round is up to date...");
 								}
 
 							//concluded
 								if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
+									console.log("concluded");
 									clearInterval(gameLoop);
 
 									//sections
@@ -687,23 +710,26 @@
 							//active
 								else if (timeNow > window.arena.state.start) {
 									var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start;
+									console.log("lastTime: " + lastTime);
 
 									//paused
-										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow >= window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
-											console.log("pausing...");
-											$("#pauseDetails").show();
-											$("#players").hide();
-											$("#cubes").hide();
-											$("#victors").hide();
-											$("#workshop").show();
+										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null)) {
+											if ($("#pauseDetails").css("display") === "none") {
+												console.log("paused...");
+												$("#pauseDetails").show();
+												$("#players").hide();
+												$("#cubes").hide();
+												$("#victors").hide();
+												$("#workshop").show();
+											}
 
 											lastTime = window.arena.state.pauseTo;
 											$("#pause").text(Math.floor((lastTime - timeNow) / 1000));
 										}
 
 									//unpaused
-										else {
-											console.log("unpausing...");
+										else if ($("#pauseDetails").css("display") !== "none") {
+											console.log("unpaused...");
 											$("#pauseDetails").hide();
 											$("#players").hide();
 											$("#cubes").show();

@@ -455,7 +455,7 @@
 		var startLength = arena.rounds.length; //get the round # where we're starting
 		console.log("starting at round " + startLength);
 
-		while ((arena.rounds.length < (startLength + 10)) && (arena.state.pauseFrom === null) && (arena.state.pauseTo === null) && (arena.state.end === null) && (arena.state.start !== null)) { //until pause or 10 rounds or victory
+		while (((arena.rounds.length - 1) < (startLength + 10)) && (arena.state.pauseFrom === null) && (arena.state.pauseTo === null) && (arena.state.end === null) && (arena.state.start !== null)) { //until pause or 10 rounds or victory
 			console.log("---------- round " + arena.rounds.length + " ----------");
 
 			//phase 0: create newRound
@@ -1017,34 +1017,47 @@
 										}
 									}
 
-									arena.state.victors = victors;
+									arena.state.victors.push(victors);
 								break;
 
 								case "2of3": //2 of all primary or all secondary cubes
 									var victors = [];
 
 									for (var i = 0; i < newRound.robots.length; i++) {
-										if ((newRound.robots[i].red >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].yellow >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].blue >= (2 * arena.rules.victory.multiplier))) {
+										if ((newRound.robots[i].cubes.red >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].cubes.yellow >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].cubes.blue >= (2 * arena.rules.victory.multiplier))) {
 											victors.push(newRound.robots[i].name);
 										}
-										else if ((newRound.robots[i].orange >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].green >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].purple >= (2 * arena.rules.victory.multiplier))) {
+										else if ((newRound.robots[i].cubes.orange >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].cubes.green >= (2 * arena.rules.victory.multiplier)) && (newRound.robots[i].cubes.purple >= (2 * arena.rules.victory.multiplier))) {
 											victors.push(newRound.robots[i].name);
 										}
 									}
 
-									arena.state.victors = victors;
+									arena.state.victors.push(victors);
 								break;
 
 								case "1of6": //one of each color
 									var victors = [];
 
 									for (var i = 0; i < newRound.robots.length; i++) {
-										var victory = true;
+										var victory = false;
 
-										for (j = 0; j < arena.rules.cubes.colors.length; j++) {
-											if (newRound.robots[i].cubes[arena.rules.cubes.colors[j]] < (1 * arena.rules.victory.multiplier)) {
-												victory = false;
-											}
+										if (newRound.robots[i].cubes.red > (1 * arena.rules.victory.multiplier)) {
+											victory = true;
+										}
+										if (newRound.robots[i].cubes.orange > (1 * arena.rules.victory.multiplier)) {
+											victory = true;
+										}
+										if (newRound.robots[i].cubes.yellow > (1 * arena.rules.victory.multiplier)) {
+											victory = true;
+										}
+										if (newRound.robots[i].cubes.green > (1 * arena.rules.victory.multiplier)) {
+											victory = true;
+										}
+										if (newRound.robots[i].cubes.blue > (1 * arena.rules.victory.multiplier)) {
+											victory = true;
+										}
+										if (newRound.robots[i].cubes.purple > (1 * arena.rules.victory.multiplier)) {
+											victory = true;
 										}
 
 										if (victory) {
@@ -1053,7 +1066,7 @@
 
 									}
 
-									arena.state.victors = victors;
+									arena.state.victors.push(victors);
 								break;
 
 								case "3of2": //3 of each of 2 complementary colors
@@ -1071,7 +1084,7 @@
 										}
 									}
 
-									arena.state.victors = victors;
+									arena.state.victors.push(victors);
 								break;
 							}
 						}
