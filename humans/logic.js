@@ -33,8 +33,9 @@
 				wins: 0,
 				losses: 0,
 			},
+			tutorials: [],
 			robots: [],
-			arenas: [],
+			arenas: []
 		}
 
 		return human;

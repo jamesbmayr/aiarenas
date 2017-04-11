@@ -357,6 +357,26 @@
 								catch (error) {_404();}
 							break;
 
+						/* tutorials */
+							case (/^\/tutorials\/?$/).test(request.url):
+								try {
+									if (session.human !== null) {
+										response.end(processes.render("./tutorials/index.html", session, null));
+									}
+									else {
+										_302();
+									}
+								}
+								catch (error) {_404();}
+							break;
+
+							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
+								try {
+									response.end(processes.render("./tutorials/individual.html", session, null));
+								}
+								catch (error) {_404();}
+							break;
+
 						/* all others */
 							default:
 								_404();

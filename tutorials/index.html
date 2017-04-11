@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ai_arenas.tutorials</title>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('google_fonts') %>"/>
+		<link rel="stylesheet" type="text/css" href="../../tutorials/stylesheet.css"/>
+		<% colors(session) + fonts(session); %>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="../../tutorials/script.js"></script>
+	</head>
+	<body>
+		<% navbar(session); %>
+		<div class="container">
+			<div class="top_outer">
+				<div class="top_inner">
+					<div class="section">
+						<span class="whitetext header">tutorials</span> <span class="graytext" id="message_top"></span>
+					</div>
+					<div class="indented">
+						<div class='section'>
+							<a id='exit' href='../../../../humans'><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+			<div class="indented content">
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.list</span><span class="redtext"> = </span><span class="whitetext">[</span>
+						<div class="indented whitetext">
+							<% 
+								var tutorials = ["functions","conditionals","loops"];
+								var string = "";
+								for (var i = 0; i < tutorials.length; i++) {
+									if ((session.human !== null) && (typeof session.human.tutorials !== "undefined") && (session.human.tutorials.indexOf(tutorials[i]) > 0)) {
+										var status = "true";
+									}
+									else {
+										var status = "false";
+									}
+
+									string += "{<a class='bluetext' href='../../../../tutorials/" + tutorials[i] + "'>" + tutorials[i] + "</a><span class='whitetext'>: </span><span class='purpletext'>" + status + "</span>},<br>";
+								}
+
+								string.substring(string, string.length - 5) || "";
+							%>
+						</div>
+						<span class="whitetext">];</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

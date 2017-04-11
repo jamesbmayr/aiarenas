@@ -403,6 +403,7 @@
 					<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
+						<div class='navbar_item'><a class='navbar_link' href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>tutorials</span></a></div>\
 						<div class='navbar_item'><a class='navbar_link' href='mailto:bugs@aiarenas.com?subject=ai_arenas bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
 					</div>\
 				</div>";
@@ -451,6 +452,7 @@
 					<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
+						<div class='navbar_item'><a class='navbar_link' href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>tutorials</span></a></div>\
 						<div class='navbar_item'><a class='navbar_link' href='mailto:bugBot@aiarenas.com?subject=ai_arenas bugs'><span class='whitetext'>.</span><span class='bluetext'>bugs?</span></a></div>\
 					</div>\
 				</div>";
