@@ -567,6 +567,8 @@
 				else if (state === "concluded") { //concluded game --> do nothing
 					clearInterval(window.checkLoop);
 					clearInterval(window.gameLoop);
+					$("#message_top").animateText({text: "//the arena has concluded..."}, 1000);
+					resizeTop();
 				}
 				else { //active game --> gameLoop
 					window.gameLoop = setInterval(function() {
@@ -620,6 +622,7 @@
 
 							//display up-to-date info
 								else if (($("#round").text() === "null") || (Number($("#round").text()) < (pastRounds.length - 1))) { //displayedRound is out of date
+									$("#message_top").animateText({text: "//displaying round " + (pastRounds.length - 1)}, 1000);
 									console.log("nextRound: " + (pastRounds.length - 1) + " : " + pastRounds[pastRounds.length - 1].start || "???");
 
 									//state
@@ -633,16 +636,6 @@
 											$("#round").text("null");
 										}
 
-									//cubes
-										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
-											var cubes = "";
-											for (var i = 0; i < currentRound.cubes.length; i++) {
-												console.log(i + " :: "  + currentRound.cubes[i]);
-												cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
-											}
-											$("#currentCubes").html(cubes);
-										}
-
 									//robots
 										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
 											for (var i = 0; i < currentRound.robots.length; i++) {
@@ -650,30 +643,41 @@
 												$("#" + id).find(".action").animateText({text: (String(currentRound.robots[i].action) || "?"), indicator: "|", color: "var(--white)"}, 2000);
 												
 												if ($("#" + id).find(".power").text() !== String(Number(currentRound.robots[i].power))) {
-													$("#" + id).find(".power").delay(3000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".power").delay(2000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												
 												if ($("#" + id).find(".cubes_red").text() !== String(Number(currentRound.robots[i].cubes.red))) {
-													$("#" + id).find(".cubes_red").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".cubes_red").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												if ($("#" + id).find(".cubes_orange").text() !== String(Number(currentRound.robots[i].cubes.orange))) {
-													$("#" + id).find(".cubes_orange").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".cubes_orange").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												if ($("#" + id).find(".cubes_yellow").text() !== String(Number(currentRound.robots[i].cubes.yellow))) {
-													$("#" + id).find(".cubes_yellow").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".cubes_yellow").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												if ($("#" + id).find(".cubes_green").text() !== String(Number(currentRound.robots[i].cubes.green))) {
-													$("#" + id).find(".cubes_green").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".cubes_green").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												if ($("#" + id).find(".cubes_blue").text() !== String(Number(currentRound.robots[i].cubes.blue))) {
-													$("#" + id).find(".cubes_blue").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".cubes_blue").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												if ($("#" + id).find(".cubes_purple").text() !== String(Number(currentRound.robots[i].cubes.purple))) {
-													$("#" + id).find(".cubes_purple").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+													$("#" + id).find(".cubes_purple").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 
 											}
 										}
+
+									//cubes
+										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
+											var cubes = "";
+											for (var i = 0; i < currentRound.cubes.length; i++) {
+												console.log(i + " :: "  + currentRound.cubes[i]);
+												cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
+											}
+											$("#currentCubes").html("").delay(5000).html(cubes);
+										}
+
 								}
 								else {
 									console.log("round is up to date...");
@@ -681,7 +685,9 @@
 
 							//concluded
 								if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
+									$("#message_top").animateText({text: "//the arena has concluded"}, 1000);
 									console.log("concluded");
+									resizeTop();
 									clearInterval(gameLoop);
 
 									//sections
@@ -732,6 +738,8 @@
 									//paused
 										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
 											if ($("#pauseDetails").css("display") === "none") {
+												resizeTop();
+
 												console.log("paused...");
 												$("#pauseDetails").show();
 												$("#players").hide();
@@ -746,6 +754,8 @@
 
 									//unpaused
 										else if ($("#pauseDetails").css("display") !== "none") {
+											resizeTop();
+
 											console.log("unpaused...");
 											$("#pauseDetails").hide();
 											$("#players").hide();

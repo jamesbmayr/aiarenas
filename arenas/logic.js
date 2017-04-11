@@ -503,6 +503,7 @@
 
 					if (unpauseStart > 0) { //if it was paused
 						newRound.start = unpauseStart; //set the new round to start immediately after the pause
+						unpauseStart = 0;
 					}
 					else {
 						newRound.start += (10000); //otherwise, the round starts 10 seconds after the last one

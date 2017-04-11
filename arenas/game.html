@@ -93,7 +93,7 @@
 							}
 						%>
 						<div class="section" id="victors" <% if (data.state.end === null) {"style='display: none';"} %>>
-						<span class="whitetext">.victors</span><span class="redtext"> = </span><span class="whitetext">[</span>
+							<span class="whitetext">.victors</span><span class="redtext"> = </span><span class="whitetext">[</span>
 							<div class="indented victorList whitetext">
 								<% 
 									if (data.state.end !== null) {
@@ -115,6 +115,74 @@
 				</div>
 			</div>
 			<div class="indented content">
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection" id="robots" value="<% Object.keys(data.entrants) %>">
+					<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
+					<div class="indented">
+						<%  
+							if ((data.entrants !== null) && (Object.keys(data.entrants).length > 0)) {
+								var string = "";
+								
+								if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
+									var entrants = Object.keys(data.entrants).filter(function(i) { return data.entrants[i].human.id !== session.human.id }) || [];
+									entrants.unshift(Object.keys(data.entrants).find(function (i) { return data.entrants[i].human.id === session.human.id }));
+								}
+								else {
+									var entrants = Object.keys(data.entrants);
+								}
+
+								for (var i = 0; i < entrants.length; i++) {
+									var entrant = data.entrants[entrants[i]];
+									if (data.rounds.length > 0) {
+										var robot = data.rounds[data.rounds.length - 1].robots.find(function(i) { return i.name === entrant.id}) || {};
+									}
+									else {
+										var robot = {
+											power: 0,
+											cubes: {
+												red: 0,
+												orange: 0,
+												yellow: 0,
+												green: 0,
+												blue: 0,
+												purple: 0
+											}
+										};
+									}
+
+									string += ('<div class="section opponent" id="' + entrant.id + '">\
+										<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
+<span class="transparenttext">••••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_arm" value="' + (entrant.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (entrant.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (entrant.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext">••••••</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext">••••••</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext">•••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span></pre>\
+										<span class="whitetext">name: </span><a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a><span class="whitetext">,</span><br>\
+										<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span><span class="whitetext">(),</span><br>\
+										<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+										<span class="whitetext">cubes: {\
+											<div class="indented">\
+												<span class="redtext">r:<span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,\
+												<span class="orangetext">o:<span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,\
+												<span class="yellowtext">y:<span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,\
+												<span class="greentext">g:<span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,\
+												<span class="bluetext">b:<span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,\
+												<span class="purpletext">p:<span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
+											</div>\
+										}</span>\
+									</div>');
+								}
+
+								string.replace("section opponent", "section self");
+							}
+						%>
+					</div>
+					<span class="whitetext">];</span>
+				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<hr>
 				<div class="megasection">
@@ -214,74 +282,6 @@
 							}
 						%>
 					</div>
-				</div>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
-				<div class="megasection" id="robots" value="<% Object.keys(data.entrants) %>">
-					<span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span>
-					<div class="indented">
-						<%  
-							if ((data.entrants !== null) && (Object.keys(data.entrants).length > 0)) {
-								var string = "";
-								
-								if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
-									var entrants = Object.keys(data.entrants).filter(function(i) { return data.entrants[i].human.id !== session.human.id }) || [];
-									entrants.unshift(Object.keys(data.entrants).find(function (i) { return data.entrants[i].human.id === session.human.id }));
-								}
-								else {
-									var entrants = Object.keys(data.entrants);
-								}
-
-								for (var i = 0; i < entrants.length; i++) {
-									var entrant = data.entrants[entrants[i]];
-									if (data.rounds.length > 0) {
-										var robot = data.rounds[data.rounds.length - 1].robots.find(function(i) { return i.name === entrant.id}) || {};
-									}
-									else {
-										var robot = {
-											power: 0,
-											cubes: {
-												red: 0,
-												orange: 0,
-												yellow: 0,
-												green: 0,
-												blue: 0,
-												purple: 0
-											}
-										};
-									}
-
-									string += ('<div class="section opponent" id="' + entrant.id + '">\
-										<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
-<span class="transparenttext">••••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
-<span class="transparenttext">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
-<span class="transparenttext">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
-<span class="transparenttext">•••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_arm" value="' + (entrant.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (entrant.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (entrant.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
-<span class="transparenttext">••••••</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
-<span class="transparenttext">••••••</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
-<span class="transparenttext">•••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
-<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span></pre>\
-										<span class="whitetext">name: </span><a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a><span class="whitetext">,</span><br>\
-										<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span><span class="whitetext">(),</span><br>\
-										<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
-										<span class="whitetext">cubes: {\
-											<div class="indented">\
-												<span class="redtext">r:<span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,\
-												<span class="orangetext">o:<span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,\
-												<span class="yellowtext">y:<span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,\
-												<span class="greentext">g:<span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,\
-												<span class="bluetext">b:<span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,\
-												<span class="purpletext">p:<span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
-											</div>\
-										}</span>\
-									</div>');
-								}
-
-								string.replace("section opponent", "section self");
-							}
-						%>
-					</div>
-					<span class="whitetext">];</span>
 				</div>
 				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 				<hr>
