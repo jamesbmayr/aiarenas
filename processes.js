@@ -380,8 +380,8 @@
 
 	/* navbar(session) */
 		function navbar(session) {
-			var navbar = "<button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button>\
-				<button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button>";
+			var navbar = "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
+				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 			
 			if (session.human === null) {
 				navbar += "<div id='navbar'>\
@@ -432,19 +432,19 @@
 						<div class='navbar_item'><span class='whitetext navbar_heading human_name'>" + session.human.name + "</span></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../humans/'" + session.human.name + "><span class='whitetext'>.</span><span class='bluetext'>profile</span></a></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a></div>\
-						<div class='navbar_item'><button class='navbar_button' id='navbar_signout'><span class='whitetext'>.</span><span class='greentext'>signout</span><span class='whitetext'>();</span></button></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_signout();'><button class='navbar_button' id='navbar_signout'><span class='whitetext'>.</span><span class='greentext'>signout</span><span class='whitetext'>();</span></button></form></div>\
 					</div>\
 					<br>\
 					<div id='navbar_robots'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>robots</span></div>\
-						<div class='navbar_item'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></button></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_robot();'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></button></form></div>\
 						" + robots + "\
 					</div>\
 					<br>\
 					<div id='navbar_arenas'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../arenas/'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></a></div>\
-						<div class='navbar_item'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>);</span></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_join_arena();'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>);</span></form></div>\
 						" + arenas + "\
 					</div>\
 					<br>\

@@ -11,7 +11,7 @@
 			});
 
 		/* edit */
-			$(document).on("click", "#robot_edit", function() {
+			window.robot_edit = function() {
 				$("#robot_edit").hide();
 				$("#robot_save").show();
 				$("#robot_cancel").show();
@@ -47,9 +47,9 @@
 				$(".message").text("");
 				$("#message_top").animateText({text: "//now editing"}, 1000);
 				resizeTop();
-			});
+			}
 
-			$(document).on("click", "#robot_cancel", function() {
+			window.robot_cancel = function() {
 				$("#robot_edit").show();
 				$("#robot_save").hide();
 				$("#robot_cancel").hide();
@@ -75,9 +75,9 @@
 				$("#message_top").animateText({text: "//edits canceled"}, 1000);
 				$(".field#code").html(colorText(String($(".field#code").html())));
 				resizeTop();
-			});
+			}
 
-			$(document).on("click", "#robot_save", function() {
+			window.robot_save = function() {
 				var data = {
 					id: $(".container").attr("value")
 				};
@@ -160,10 +160,10 @@
 						resizeTop();
 					}
 				});
-			});
+			}
 	
 		/* delete */
-			$(document).on("click", "#robot_delete", function() {
+			window.robot_delete = function() {
 				$("#robot_edit").hide();
 				$("#robot_save").hide();
 				$("#robot_cancel").show();
@@ -178,9 +178,9 @@
 				$("#message_top").animateText({text: "//are you sure you want to delete this robot?"}, 1000);
 
 				resizeTop();
-			});
+			}
 
-			$(document).on("click", "#robot_confirm_delete", function() {
+			window.robot_confirm_delete = function() {
 				var data = {
 					id: $(".container").attr("value")
 				};
@@ -215,6 +215,6 @@
 						resizeTop();
 					}
 				});
-			});
+			}
 
 	});

@@ -232,7 +232,7 @@
 				});
 
 			/* feedback form */
-				$(document).on("click","#submit_feedback",function() {
+				window.submit_feedback = function() {
 					var name = $(".human_name").text() || $("#feedback_name").val() || "";
 					var feedback = $("#feedback_text").val() || "";
 					var time = new Date();
@@ -260,6 +260,6 @@
 							}
 						});
 					}
-				});
+				}
 
 	});

@@ -83,7 +83,9 @@
 						<span class="whitetext">;</span> <span class='message graytext'></span>
 					</div>
 					<div class="section">
-						<button id='settings_save'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
+						<form method='post' action='javascript:;' onsubmit='window.settings_save();'>
+							<button id='settings_save'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
+						</form>
 					</div>
 				</div>				
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -96,7 +98,9 @@
 								<span class="whitetext"> current: </span><span class="yellowtext" id="current_name"><% data.name %></span><span class="whitetext">,</span>
 							</div>
 							<div id="name_new">
-								<button id="change_name" name="action" value="change_name"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_name" class="orangetext" name="new_name" placeholder="new name"/><span class="whitetext">)</span>
+								<form method='post' action='javascript:;' onsubmit='window.change_name();'>
+									<button id="change_name" name="action" value="change_name"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_name" class="orangetext" name="new_name" placeholder="new name"/><span class="whitetext">)</span>
+								</form>
 							</div>
 						</div>
 						<span class="whitetext">}</span>
@@ -108,10 +112,9 @@
 								<span class="whitetext"> current: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email || "<span class='purpletext'>null</span>" %></a><span class="whitetext">,</span>
 							</div>
 							<div id="email_new">
-								<button id="send_verification" name="action" value="send_verification"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">)</span>
-							</div>
-							<div id="email_verify" style="display: none">
-								<button id="verify_email" name="action" value="verify_email"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">,</span><input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key"/><span class="whitetext">)</span>
+								<form method='post' action='javascript:;' onsubmit='window.send_verification();'>
+									<button id="send_verification" name="action" value="send_verification"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="text" id="new_email" class="orangetext" name="new_email" placeholder="new email"/><span class="whitetext">)</span>
+								</form>
 							</div>
 						</div>
 						<span class="whitetext">}</span>
@@ -123,7 +126,9 @@
 								<span class="whitetext"> current: </span><span class="purpletext">••••••••</span><span class="whitetext">,</span>
 							</div>
 							<div id="password_new">
-								<button id="change_password" name="action" value="change_name"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="password" id="new_password" class="orangetext" name="new_password" placeholder="new password"/><span class="whitetext">,</span><input type="password" id="confirm_password" class="orangetext" name="confirm_password" placeholder="confirm password"/><span class="whitetext">)</span>
+								<form method='post' action='javascript:;' onsubmit='window.change_password();'>
+									<button id="change_password" name="action" value="change_password"><span class="greentext">change</span></button><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><input type="password" id="new_password" class="orangetext" name="new_password" placeholder="new password"/><span class="whitetext">,</span><input type="password" id="confirm_password" class="orangetext" name="confirm_password" placeholder="confirm password"/><span class="whitetext">)</span>
+								</form>
 							</div>
 						</div>
 						<span class="whitetext">}</span>
@@ -151,10 +156,15 @@
 				<hr>
 				<div class="megasection">
 					<div class='section' id="delete">
-						<button id='human_delete'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>
-						<button id='human_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button> <span class='message graytext'></span>
-						<br>
-						<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>
+						<form method='post' action='javascript:;' onsubmit='window.human_delete();'>
+							<button id='human_delete'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>
+						</form>
+						<form method='post' action='javascript:;' onsubmit='window.human_confirm_delete();'>
+							<button id='human_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button> <span class='message graytext'></span>
+						</form>
+						<form method='post' action='javascript:;' onsubmit='window.human_cancel();'>
+							<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>
+						</form>
 					</div>
 				</div>
 			</div>

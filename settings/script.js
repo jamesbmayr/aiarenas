@@ -3,22 +3,22 @@
 		resizeTop();
 
 		/* delete human */
-			$(document).on("click", "#human_cancel", function() {
+			window.human_cancel = function() {
 				$("#human_cancel").hide();
 				$("#human_delete").show();
 				$("#human_confirm_delete").hide();
 
 				$("#delete").find(".message").animateText({text: "//canceled human deletion"}, 1000);
-			});
+			}
 
-			$(document).on("click", "#human_delete", function() {
+			window.human_delete = function() {
 				$("#human_cancel").show();
 				$("#human_delete").hide();
 				$("#human_confirm_delete").show();
 				$("#delete").find(".message").animateText({text: "//are you sure you want to delete your account?"}, 1000);
-			});
+			}
 
-			$(document).on("click", "#human_confirm_delete", function() {
+			window.human_confirm_delete = function() {
 				var data = {
 					id: $(".container").attr("value")
 				};
@@ -43,10 +43,10 @@
 						}
 					}
 				});
-			});
+			}
 
 		/* email */
-			$(document).on("click", "#send_verification", function () {
+			window.send_verification = function () {
 				$.ajax({
 					type: "POST",
 					url: window.location.pathname,
@@ -59,38 +59,14 @@
 							$("#email").find(".message").animateText({text: (data.messages.top || "//verification email sent")}, 1000);
 						}
 						else {
-							$("#email_new").hide();
-							$("#email_verify").show();
 							$("#email").find(".message").animateText({text: (data.messages.top || "//unable to send verification email")}, 1000);
 						}
 					}
 				});
-			});
-
-			$(document).on("click", "#verify_email", function () {
-				$.ajax({
-					type: "POST",
-					url: window.location.pathname,
-					data: {
-						action: "verify_email",
-						email: $("#new_email").val() || null,
-						verification: $("#verify_key").val() || null,
-					},
-					success: function(data) {
-						if (data.success) {
-							$("#email").find(".message").animateText({text: (data.messages.top || "//email has been verified")}, 1000);
-						}
-						else {
-							$("#email_new").show();
-							$("#email_verify").hide();
-							$("#email").find(".message").animateText({text: (data.messages.top || "//unable to verify")}, 1000);
-						}
-					}
-				});
-			});
+			}
 
 		/* name */
-			$(document).on("click", "#change_name", function () {
+			window.change_name = function () {
 				$.ajax({
 					type: "POST",
 					url: window.location.pathname,
@@ -110,10 +86,10 @@
 						}
 					}
 				});
-			});
+			}
 
 		/* password */
-			$(document).on("click", "#change_password", function () {
+			window.change_password = function () {
 				$.ajax({
 					type: "POST",
 					url: window.location.pathname,
@@ -126,16 +102,16 @@
 						if (data.success) {
 							$("#new_password").val("");
 							$("#confirm_password").val("");
-							$("#password").find(".message").animateText({text: (data.messages.name || "//password has been changed")}, 1000);
+							$("#password").find(".message").animateText({text: (data.messages.password || "//password has been changed")}, 1000);
 						}
 						else {
 							$("#new_password").val("");
 							$("#confirm_password").val("");
-							$("#password").find(".message").animateText({text: (data.messages.name || "//unable to change password")}, 1000);
+							$("#password").find(".message").animateText({text: (data.messages.password || "//unable to change password")}, 1000);
 						}
 					}
 				});
-			});
+			}
 
 		/* font_scheme */
 			$(document).on("change", "select#font_scheme", function() {
@@ -333,7 +309,7 @@
 			});
 
 		/* save */
-			$(document).on("click", "#settings_save", function() {
+			window.settings_save = function() {
 				var data = {};
 				$("select").each(function() {
 					var field = $(this).attr("id");
@@ -370,7 +346,7 @@
 						$("#message_top").animateText({text: (messages.top || "//settings updated")}, 1000);
 					}
 				});
-			});
+			}
 		
 		/* destroy session */
 			$(document).on("click", ".session_destroy", function() {

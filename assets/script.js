@@ -263,7 +263,7 @@ $(document).ready(function() {
 		}
 
 	/* navbar */
-		$("#navbar_open").click(function() {
+		window.navbar_open = function() {
 			$("#navbar_open").animate({left: "+=256px"}, 500);
 			$("#navbar_open").find(".glyphicon").animate({opacity: 0},500);
 			setTimeout(function() {
@@ -274,9 +274,9 @@ $(document).ready(function() {
 			$("#navbar_close").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			
 			$("#navbar").animate({left: "+=256px"}, 500);
-		});
+		}
 
-		$("#navbar_close").click(function() {
+		window.navbar_close = function() {
 			$("#navbar_close").animate({left: "-=256px"}, 500);
 			$("#navbar_close").find(".glyphicon").animate({opacity: 0},500);;
 			setTimeout(function() {
@@ -287,9 +287,9 @@ $(document).ready(function() {
 			$("#navbar_open").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			
 			$("#navbar").animate({left: "-=256px"}, 500);
-		});
+		}
 
-		$("#navbar_signout").click(function() {
+		window.navbar_signout = function() {
 			$.ajax({
 				type: "POST",
 				url: window.location.pathname,
@@ -305,9 +305,9 @@ $(document).ready(function() {
 					}
 				}
 			});
-		});
+		}
 
-		$("#navbar_create_robot").click(function() {
+		window.navbar_create_robot = function() {
 			$.ajax({
 				type: "POST",
 				url: window.location.pathname,
@@ -323,9 +323,9 @@ $(document).ready(function() {
 					}
 				}
 			});
-		});
+		}
 
-		$("#navbar_create_arena").click(function() {
+		window.navbar_create_arena = function() {
 			$.ajax({
 				type: "POST",
 				url: window.location.pathname,
@@ -341,9 +341,9 @@ $(document).ready(function() {
 					}
 				}
 			});
-		});
+		}
 
-		$("#navbar_join_arena").click(function() {
+		window.navbar_join_arena = function() {
 			var arena_id = $("#navbar_arena_id").val();
 
 				if (arena_id.length === 4) {
@@ -367,7 +367,7 @@ $(document).ready(function() {
 				else {
 					$("#message_top").animateText({text: "//enter a 4-character arena_id"}, 1000);
 				}
-		});
+		}
 
 	/* sectionToggle */
 		$(document).on("click", ".section-toggle", function() {

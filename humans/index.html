@@ -23,13 +23,19 @@
 							if ((session.human !== null) && (session.human.id === data.id)) {
 								"<div class='megasection'>\
 									<div class='section'>\
-										<button id='human_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+										<form method='post' action='javascript:;' onsubmit='window.human_edit();'>\
+											<button id='human_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+										</form>\
 									</div>\
 									<div class='section'>\
-										<button id='human_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+										<form method='post' action='javascript:;' onsubmit='window.human_save();'>\
+											<button id='human_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+										</form>\
 									</div>\
 									<div class='section'>\
-										<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+										<form method='post' action='javascript:;' onsubmit='window.human_cancel();'>\
+											<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+										</form>\
 									</div>\
 									<div class='section'>\
 										<a id='settings' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a>\
@@ -128,7 +134,9 @@
 							<% 
 								if ((session.human !== null) && (session.human.id === data.id)) {
 									var robots = "<div class='section'>\
-										<button id='human_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
+										<form method='post' action='javascript:;' onsubmit='window.create_robot();'>\
+											<button id='human_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
+										</form>\
 									</div>"
 								}
 								else {

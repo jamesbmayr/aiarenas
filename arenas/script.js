@@ -420,7 +420,7 @@
 				});
 			}
 
-			$(document).on("click", "#robot_save", function() {
+			window.robot_save = function() {
 				if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null)) {
 					var data = {
 						arena_id: $(".container").attr("value"),
@@ -456,7 +456,7 @@
 						}
 					});
 				}
-			});
+			}
 	
 		/* gameLoop */
 			if ((typeof $(".container").attr("value") !== "undefined") && ($(".container").attr("value").length > 0)) { //if this is an individual game

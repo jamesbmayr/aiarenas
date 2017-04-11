@@ -162,7 +162,9 @@
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
 								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 									'<div class="section">\
-										<button id="robot_save"><span class="whitetext">.</span><span class="greentext">save</span><span class="whitetext">();</span></button>\
+										<form id="save_form" method="post" action="javascript:;" onsubmit="window.robot_save();">\
+											<button id="robot_save"><span class="whitetext">.</span><span class="greentext">save</span><span class="whitetext">();</span></button>\
+										</form>\
 									</div> <span class="message graytext"></span>\
 									<div class="section">\
 										<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>\
