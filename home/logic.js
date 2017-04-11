@@ -93,24 +93,24 @@
 /* verify(session, post, callback) */
 	function verify(session, post, callback) {
 		if ((typeof post.verification === "undefined") || (post.verification.length !== 32)) {
-			callback({success: false, messages: {top: "//please enter a 32-character verification key"}});
+			callback({success: false, messages: {top: "//enter a 32-character verification key"}});
 		}
 		else if ((typeof post.email === "undefined") || (!isEmail(post.email))) {
-			callback({success: false, messages: {top: "//please enter a valid email address"}});
+			callback({success: false, messages: {top: "//enter a valid email address"}});
 		}
 		else {
 			processes.retrieve("humans", {email: post.email}, function(human) {
 				if (typeof human.id === "undefined") {human = human[0];}
 
 				if ((typeof human !== "undefined") && (human.id !== null)) {
-					callback({success: false, messages: {top: "//email is taken"}});
+					callback({success: false, messages: {top: "//email is not available"}});
 				}
 				else {
-					processes.retrieve("humans", {$and: [{id: session.human.id}, {verification: post.verification}, {new_email: post.email}]}, function(human) {
+					processes.retrieve("humans", {$and: [{verification: post.verification}, {new_email: post.email}]}, function(human) {
 						if (typeof human.id === "undefined") {human = human[0];}
 
 						if ((typeof human !== "undefined") && (human.id !== null)) {
-							processes.store("humans", {id: session.human.id}, {$set: {verified: true, verification: null, email: post.email, new_email: null}}, function(human) {
+							processes.store("humans", {id: human.id}, {$set: {verified: true, verification: null, email: post.email, new_email: null}}, function(human) {
 								callback({success: true, messages: {top: "//email verified"}});
 							});
 						}
@@ -123,10 +123,69 @@
 		}
 	}
 
+/* sendReset(session, post, callback) */
+	function sendReset(session, post, callback) {
+		if ((typeof post.reset_email === "undefined") || (!(post.reset_email.length > 0)) || (!processes.isEmail(post.reset_email))) {
+			callback({success: false, messages: {top: "//enter a valid email address"}});
+		}
+		else {
+			processes.retrieve("humans", {$or: [{email: post.reset_email}, {new_email: post.reset_email}]}, function(human) {
+				if (typeof human.id === "undefined") { human = human[0]; }
+
+				if (typeof human === "undefined") {
+					callback({success: false, messages: {top: "//email not in database"}});
+				}
+				else {
+					var random = processes.random();
+
+					processes.store("humans", {id: human.id}, {$set: {verification: random}}, function (results) {
+						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='http://aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>();</div>", function(data) {
+							callback({success: true, messages: {top: "//reset email has been sent"}});
+						});
+					});
+				}
+			});
+		}
+	}
+
+/* verifyReset(session, post, callback) */
+	function verifyReset(session, post, callback) {
+		if ((typeof post.reset_verification === "undefined") || (post.reset_verification.length !== 32)) {
+			callback({success: false, messages: {top: "//enter a 32-character verification key"}});
+		}
+		else if ((typeof post.reset_email === "undefined") || (!processes.isEmail(post.reset_email))) {
+			callback({success: false, messages: {top: "//enter a valid email address"}});
+		}
+		else if ((typeof post.reset_password == "undefined") || (post.reset_password.length < 8)) {
+			callback({success: false, messages: {top: "//enter a password of 8 or more characters"}});
+		}
+		else if ((typeof post.reset_confirm == "undefined") || (post.reset_confirm.length < 8) || (post.reset_confirm !== post.reset_password)) {
+			callback({success: false, messages: {top: "//passwords do not match"}});
+		}
+		else {
+			processes.retrieve("humans", {$and: [{$or:[{email: post.reset_email}, {new_email: post.reset_email}]}, {verification: post.reset_verification}]}, function(human) {
+				if (typeof human.id === "undefined") { human = human[0]; }
+
+				if (typeof human === "undefined") {
+					callback({success: false, messages: {top: "//unable to verify email"}});
+				}
+				else {
+					var salt = processes.random();
+					var password = processes.hash(post.reset_password, salt);
+					processes.store("humans", {id: human.id}, {$set: {password: password, salt: salt, verified: true, verification: null, email: post.reset_email, new_email: null}}, function(data) {
+						callback({success: true, messages: {top: "//email verified; password reset"}, redirect: "../../../../signin"});
+					});
+				}
+			});
+		}
+	}
+
 /* exports */
 	module.exports = {
 		signin: signin,
 		signout: signout,
 		signup: signup,
-		verify: verify
+		verify: verify,
+		sendReset: sendReset,
+		verifyReset: verifyReset
 	};

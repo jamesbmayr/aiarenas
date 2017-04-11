@@ -104,6 +104,7 @@
 						}
 						else {
 							$("#message_top").animateText({text: (data.messages.top || "//unable to signin")}, 1000);
+							$("#send_form").show();
 						}
 					}
 				});
@@ -128,6 +129,49 @@
 							$("#message_top").animateText({text: (data.messages.top || "//unable to signup")}, 1000);
 						}
 					}
+				});
+			}
+
+			window.sendReset = function() {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "send_reset",
+						reset_email: $("#sendReset_email").val() || null
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#message_top").animateText({text: data.messages.top || "//reset email sent"},1000);
+						}
+						else {
+							$("#message_top").animateText({text: (data.messages.top || "//unable to send reset")}, 1000);
+						}
+					}
+				});
+			}
+
+			window.verifyReset = function() {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "verify_reset",
+						reset_email: $("#reset_email").val() || null,
+						reset_verification: $("#reset_key").val() || null,
+						reset_password: $("#reset_password").val() || null,
+						reset_confirm: $("#reset_confirm").val() || null
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#message_top").animateText({text: data.messages.top || "//reset email validated; password reset"}, 1000);
+							window.location = data.redirect || "../../../../signin";
+						}
+						else {
+							$("#message_top").animateText({text: data.messages.top || "//unable to validate reset email"}, 1000);
+						}
+					}
+
 				});
 			}
 

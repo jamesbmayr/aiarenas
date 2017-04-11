@@ -646,28 +646,32 @@
 									//robots
 										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
 											for (var i = 0; i < currentRound.robots.length; i++) {
-												console.log(i + " : " + JSON.stringify(currentRound.robots[i]));
 												var id = currentRound.robots[i].name;
-												console.log("action...");
-												console.log("action: " + currentRound.robots[i].action);
 												$("#" + id).find(".action").animateText({text: (String(currentRound.robots[i].action) || "?"), indicator: "|", color: "var(--white)"}, 2000);
-												console.log("power...");
-												console.log("power: " + currentRound.robots[i].power);
-												$("#" + id).find(".power").delay(3000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("cubes...");
-												console.log("red: " + currentRound.robots[i].cubes.red);
-												$("#" + id).find(".cubes_red").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("orange: " + currentRound.robots[i].cubes.orange);
-												$("#" + id).find(".cubes_orange").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("yellow: " + currentRound.robots[i].cubes.yellow);
-												$("#" + id).find(".cubes_yellow").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("green: " + currentRound.robots[i].cubes.green);
-												$("#" + id).find(".cubes_green").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("blue: " + currentRound.robots[i].cubes.blue);
-												$("#" + id).find(".cubes_blue").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("purple: " + currentRound.robots[i].cubes.purple);
-												$("#" + id).find(".cubes_purple").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
-												console.log("finished this robot");
+												
+												if ($("#" + id).find(".power").text() !== String(Number(currentRound.robots[i].power))) {
+													$("#" + id).find(".power").delay(3000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+												
+												if ($("#" + id).find(".cubes_red").text() !== String(Number(currentRound.robots[i].cubes.red))) {
+													$("#" + id).find(".cubes_red").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+												if ($("#" + id).find(".cubes_orange").text() !== String(Number(currentRound.robots[i].cubes.orange))) {
+													$("#" + id).find(".cubes_orange").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+												if ($("#" + id).find(".cubes_yellow").text() !== String(Number(currentRound.robots[i].cubes.yellow))) {
+													$("#" + id).find(".cubes_yellow").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+												if ($("#" + id).find(".cubes_green").text() !== String(Number(currentRound.robots[i].cubes.green))) {
+													$("#" + id).find(".cubes_green").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+												if ($("#" + id).find(".cubes_blue").text() !== String(Number(currentRound.robots[i].cubes.blue))) {
+													$("#" + id).find(".cubes_blue").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+												if ($("#" + id).find(".cubes_purple").text() !== String(Number(currentRound.robots[i].cubes.purple))) {
+													$("#" + id).find(".cubes_purple").delay(5000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 2000);
+												}
+
 											}
 										}
 								}

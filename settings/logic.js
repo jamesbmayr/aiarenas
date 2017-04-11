@@ -131,29 +131,22 @@
 /* sendVerification(session, post, callback) */
 	function sendVerification(session, post, callback) {
 		if ((typeof post.email === "undefined") || (!processes.isEmail(post.email))) {
-			callback({success: false, messages: {top: "//please enter a valid email"}});
+			callback({success: false, messages: {top: "//enter a valid email address"}});
 		}
 		else {
 			processes.retrieve("humans", {email: post.email}, function(human) {
 				if (typeof human.id === "undefined") {human = human[0];}
 
 				if ((typeof human !== "undefined") && (human.id !== null)) {
-					callback({success: false, messages: {top: "//email is taken"}});
+					callback({success: false, messages: {top: "//email is not available"}});
 				}
 				else {
 					var random = processes.random();
 
-					processes.store("humans", {id: session.human.id}, {$set: {verification: random, new_email: post.email}}, function(human) {
-						if (typeof human.id === "undefined") {human = human[0];}
-
-						if (human.id !== null) {
-							processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div>commence human verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='http://aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>();</div>", function(data) {
-								callback(data);
-							});
-						}
-						else {
-							callback({success: false, messages: {top: "//unable to send email"}});;
-						}
+					processes.store("humans", {id: session.human.id}, {$set: {verification: random, new_email: post.email}}, function(results) {
+						processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div>commence human verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='http://aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>();</div>", function(data) {
+							callback(data);
+						});
 					});
 				}
 			});

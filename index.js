@@ -235,12 +235,14 @@
 
 							case (/^\/verify/).test(request.url):
 								try {
-									if (session.human !== null) {
-										response.end(processes.render("./home/index.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
-									}
-									else {
-										_302();
-									}
+									response.end(processes.render("./home/index.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
+								}
+								catch (error) {_404();}
+							break;
+
+							case (/^\/reset/).test(request.url):
+								try {
+									response.end(processes.render("./home/index.html", session, {action: "reset", messages: {top: "//reset password"}, email: (get.email || null), verification: (get.verification || null) }));
 								}
 								catch (error) {_404();}
 							break;
@@ -410,14 +412,27 @@
 
 							case "verify_email":
 								try {
-									if (session.human !== null) {
-										home.verify(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to verify email"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									home.verify(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to verify email"}}));
+									});
+								}
+								catch (error) {_403();}
+							break;
+
+							case "send_reset":
+								try {
+									home.sendReset(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to send reset email"}}));
+									});
+								}
+								catch (error) {_403();}
+							break;
+
+							case "verify_reset":
+								try {
+									home.verifyReset(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to verify reset email"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
