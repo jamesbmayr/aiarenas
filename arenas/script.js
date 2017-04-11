@@ -93,6 +93,49 @@
 						$("#victory_conditions_6of1").prop("checked",true);
 					break;
 
+					case "deathmatch":
+						$("#players_minimum").val(2);
+						$("#players_maximum").val(2);
+						$("#players_pauseDuration").val("5:00");
+						$("#players_pausePeriod").val(5);
+
+						$("#cubes_colors_red").prop("checked",true);
+						$("#cubes_colors_orange").prop("checked",true);
+						$("#cubes_colors_yellow").prop("checked",true);
+						$("#cubes_colors_green").prop("checked",true);
+						$("#cubes_colors_blue").prop("checked",true);
+						$("#cubes_colors_purple").prop("checked",true);
+
+						$("#cubes_startCount").val(1);
+						$("#cubes_maximum").val(24);
+						$("#cubes_spawnRate").val(2);
+						$("#cubes_spawnMemory").val(3);
+						$("#cubes_dissolveRate").val(0);
+						$("#cubes_dissolveIndex").val("none");
+
+						$("#robots_startPower").val(10);
+						$("#robots_maxPower").val(20);
+						$("#robots_powerRate").val(2);
+						$("#robots_tieBreaker").val("leave");
+
+						$("#robots_actions_power").prop("checked",true);
+						$("#robots_actions_take").prop("checked",true);
+						$("#robots_actions_sleep").prop("checked",true);
+						$("#robots_actions_sap").prop("checked",true);
+						$("#robots_actions_shock").prop("checked",false);
+						$("#robots_actions_burn").prop("checked",false);
+						$("#robots_actions_halftake").prop("checked",true);
+						$("#robots_actions_swaptake").prop("checked",false);
+						$("#robots_actions_fliptake").prop("checked",false);
+
+						$("#victory_multiplier").val(1);
+						$("#victory_tieBreaker").val("efficient");
+						$("#victory_conditions_1of6").prop("checked",true);
+						$("#victory_conditions_2of3").prop("checked",true);
+						$("#victory_conditions_3of2").prop("checked",false);
+						$("#victory_conditions_6of1").prop("checked",true);
+					break;
+
 					case "advanced":
 						$("#players_minimum").val(2);
 						$("#players_maximum").val(6);
@@ -179,8 +222,51 @@
 						$("#victory_conditions_6of1").prop("checked",true);
 					break;
 
+					case "scarcity":
+						$("#players_minimum").val(4);
+						$("#players_maximum").val(6);
+						$("#players_pauseDuration").val("2:00");
+						$("#players_pausePeriod").val(10);
+
+						$("#cubes_colors_red").prop("checked",true);
+						$("#cubes_colors_orange").prop("checked",true);
+						$("#cubes_colors_yellow").prop("checked",true);
+						$("#cubes_colors_green").prop("checked",true);
+						$("#cubes_colors_blue").prop("checked",true);
+						$("#cubes_colors_purple").prop("checked",true);
+
+						$("#cubes_startCount").val(2);
+						$("#cubes_maximum").val(255);
+						$("#cubes_spawnRate").val(1);
+						$("#cubes_spawnMemory").val(4);
+						$("#cubes_dissolveRate").val(0);
+						$("#cubes_dissolveIndex").val("none");
+
+						$("#robots_startPower").val(255);
+						$("#robots_maxPower").val(255);
+						$("#robots_powerRate").val(10);
+						$("#robots_tieBreaker").val("leave");
+
+						$("#robots_actions_power").prop("checked",false);
+						$("#robots_actions_take").prop("checked",false);
+						$("#robots_actions_sleep").prop("checked",true);
+						$("#robots_actions_sap").prop("checked",true);
+						$("#robots_actions_shock").prop("checked",true);
+						$("#robots_actions_burn").prop("checked",true);
+						$("#robots_actions_halftake").prop("checked",true);
+						$("#robots_actions_swaptake").prop("checked",true);
+						$("#robots_actions_fliptake").prop("checked",true);
+
+						$("#victory_multiplier").val(1);
+						$("#victory_tieBreaker").val("greedy");
+						$("#victory_conditions_1of6").prop("checked",true);
+						$("#victory_conditions_2of3").prop("checked",false);
+						$("#victory_conditions_3of2").prop("checked",false);
+						$("#victory_conditions_6of1").prop("checked",true);
+					break;
+
 					case "random":
-						$("#players_minimum").val(2);
+						$("#players_minimum").val(3);
 						$("#players_maximum").val(6);
 						$("#players_pauseDuration").val("1:00");
 						$("#players_pausePeriod").val(255);
@@ -218,7 +304,7 @@
 						$("#victory_tieBreaker").val("random");
 						$("#victory_conditions_1of6").prop("checked",true);
 						$("#victory_conditions_2of3").prop("checked",false);
-						$("#victory_conditions_3of2").prop("checked",false);
+						$("#victory_conditions_3of2").prop("checked",true);
 						$("#victory_conditions_6of1").prop("checked",true);
 					break;
 
@@ -291,22 +377,51 @@
 					}
 				});
 
-				$.ajax({
-					type: "POST",
-					url: window.location.pathname,
-					data: {
-						action: "create_arena",
-						data: JSON.stringify(parameters)
-					},
-					success: function(data) {
-						if (data.success) {
-							window.location = data.redirect;
-						}
-						else {
-							$("#message_top").animateText({text: (data.messages.top || "//unable to create arena")}, 1000);
-						}
+				//sanity checks
+					if (parameters.players.minimum > parameters.players.maximum) {
+						$("#message_top").animateText({text: "//minimum player count cannot exceed maximum player count"}, 1000);
 					}
-				});
+					else if (parameters.cubes.colors.length < 1) {
+						$("#message_top").animateText({text: "//select at least 1 cube color"}, 1000);
+					}
+					else if (parameters.cubes.startCount > parameters.cubes.maximum) {
+						$("#message_top").animateText({text: "//starting cube count cannot exceed maximum cube count"}, 1000);
+					}
+					else if (parameters.cubes.spawnMemory >= parameters.cubes.colors.length) {
+						$("#message_top").animateText({text: "//cube spawnMemory must be less than the number of cube colors"}, 1000);
+					}
+					else if (parameters.robots.startPower > parameters.robots.maxPower) {
+						$("#message_top").animateText({text: "//starting power cannot exceed maximum power"}, 1000);
+					}
+					else if (!(parameters.robots.actions.indexOf("take") > -1) && !(parameters.robots.actions.indexOf("swaptake") > -1) && !(parameters.robots.actions.indexOf("fliptake") > -1) && !(parameters.robots.actions.indexOf("halftake") > -1)) {
+						$("#message_top").animateText({text: "//select at least 1 take action"}, 1000);
+					}
+					else if (!(parameters.robots.actions.indexOf("power") > -1) && !(parameters.robots.actions.indexOf("sap") > -1) && !(parameters.robots.actions.indexOf("burn") > -1)) {
+						$("#message_top").animateText({text: "//select at least 1 power action"}, 1000);
+					}
+					else if (parameters.victory.conditions.length < 1) {
+						$("#message_top").animateText({text: "//select at least 1 victory condition"}, 1000);
+					}
+				else {
+
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "create_arena",
+							data: JSON.stringify(parameters)
+						},
+						success: function(data) {
+							if (data.success) {
+								window.location = data.redirect;
+							}
+							else {
+								$("#message_top").animateText({text: (data.messages.top || "//unable to create arena")}, 1000);
+							}
+						}
+					});
+
+				}
 			}
 
 			window.random_arena = function() {

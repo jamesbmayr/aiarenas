@@ -28,10 +28,10 @@
 									<% 
 										var options = "";
 										if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
-											var presets = ["default", "simple", "advanced", "intense", "random"];
+											var presets = ["default", "simple", "deathmatch", "advanced", "intense", "scarcity", "random"];
 										}
 										else if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
-											var presets = ["default", "simple", "advanced"]
+											var presets = ["default", "simple", "deathmatch", "advanced"]
 										}
 										else {
 											var presets = ["default"];
@@ -49,10 +49,10 @@
 									<% 
 										var options = "";
 										if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
-											var presets = ["default", "simple", "advanced", "intense", "random", "custom"];
+											var presets = ["default", "simple", "deathmatch", "advanced", "intense", "scarcity", "random", "custom"];
 										}
 										else if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
-											var presets = ["default", "simple", "advanced", "custom"]
+											var presets = ["default", "simple", "deathmatch", "advanced", "custom"]
 										}
 										else {
 											var presets = ["default", "custom"];
@@ -190,7 +190,7 @@
 						<div class="indented">
 							<span class="whitetext">startPower: </span><select class="purpletext" id="robots_startPower"><% 
 								var options = "";
-								var values = [0,1,2,3,4,5];
+								var values = [0,1,2,3,4,5,10,255];
 								for (var i = 0; i < values.length; i++) {
 									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 								}
@@ -208,7 +208,7 @@
 							%></select><span class="whitetext">,</span><br>
 							<span class="whitetext">powerRate: </span><select class="purpletext" id="robots_powerRate"><% 
 								var options = "";
-								var values = [1,2,3,4,5,10,20];
+								var values = [1,2,3,4,5,10,20,255];
 								for (var i = 0; i < values.length; i++) {
 									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 								}
