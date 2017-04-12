@@ -1,0 +1,41 @@
+{
+	"name": "functions",
+	"overview": "this tutorial is about functions",
+	"steps": [
+		{},
+		{
+			"messages": {
+				"instructions": "test test test",
+				"error": "nope!",
+				"success": "yay!"
+			},
+			"start": {
+				"inputs": "",
+				"code": "//test <br> return \"test\";",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "//test/nreturn \"test\";",
+				"output": "test"
+			}
+		},
+		{
+			"messages": {
+				"instructions": "test2 test2 test2",
+				"error": "nope!",
+				"success": "yay!"
+			},
+			"start": {
+				"inputs": "",
+				"code": "//test",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "//test/nreturn \"test\";",
+				"output": "test"
+			}
+		}
+	]
+}

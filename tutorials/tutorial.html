@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ai_arenas.<% data.name || "tutorials" %></title>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('google_fonts') %>"/>
+		<link rel="stylesheet" type="text/css" href="../../tutorials/stylesheet.css"/>
+		<% colors(session) + fonts(session); %>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="../../tutorials/script.js"></script>
+		<script>
+			window.tutorial = <% JSON.stringify(data) %>;
+		</script>
+	</head>
+	<body>
+		<% navbar(session); %>
+		<div class="container">
+			<div class="top_outer">
+				<div class="top_inner">
+					<div class="section">
+						<span class="whitetext header"><% data.name || "tutorials" %></span> <span class="graytext" id="message_top"></span>
+					</div>
+					<div class="indented">
+						<div class='section'>
+							<span class="whitetext">.step</span><span class="redtext"> = </span><span class="purpletext" id="step" value="0">0</span><span class="whitetext">;</span>
+						</div>
+						<div class="section">
+							<form method="post" action="javascript:;" onsubmit="window.next_step();">
+								<button class="whitetext" id="next_step" name="action" value="next_step">.<span class="greentext">next</span>();</button>
+							</form>
+						</div>
+						<div class='section'>
+							<a id='exit' href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+			<div class="indented content">
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<hr>
+				<div class="megasection">
+					<div class="section">
+						<span class="whitetext">.instructions</span><span class="redtext"> = </span><span class="yellowtext">"</span><span class="yellowtext" id="instructions"><% (data.overview || '') + '; select <span class="whitetext">.<span class="greentext">next</span>();</span> to continue...'; %></span><span class="yellowtext">"</span><span class="whitetext">;</span>
+					</div>
+					<div class="section">
+						<form method="post" action="javascript:;" onsubmit="window.eval_code();">
+							<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext">code</span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span>
+						</form>
+					</div>
+					<br>
+					<div class="section">
+						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value=''></span></span><span class="whitetext">) {</span> <span class='message graytext'></span>
+						<div class="indented">
+							<div class="field_frame">
+								<span class="whitetext field" id="code" value=''> /* initiate tutorial */ </span>
+							</div>
+						</div>
+						<span class="whitetext">};</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

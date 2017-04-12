@@ -10,6 +10,7 @@
 	const robots = require("./robots/logic");
 	const arenas = require("./arenas/logic");
 	const settings = require("./settings/logic");
+	const tutorials = require("./tutorials/logic");
 
 /* server */
 	const port = 3000;
@@ -372,7 +373,18 @@
 
 							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									response.end(processes.render("./tutorials/individual.html", session, null));
+									if (session.human !== null) {
+										var tutorial = fs.readFileSync("./assets/tutorials/functions.json","utf8") || null;
+										if (tutorial !== null) {
+											response.end(processes.render("./tutorials/tutorial.html", session, JSON.parse(tutorial)));
+										}
+										else {
+											_302("../../../../tutorials");
+										}
+									}
+									else {
+										_302();
+									}
 								}
 								catch (error) {_404();}
 							break;
@@ -726,6 +738,24 @@
 								}
 								catch (error) {_403();}
 							break;
+
+						/* tutorials */
+							case "complete_tutorial":
+								try {
+									if (session.human !== null) {
+										console.log("first here");
+										tutorials.complete(session, post, function(data) {
+											console.log("later here");
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to store tutorial completion"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
 
 						/* all others */
 							default:

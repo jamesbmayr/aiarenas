@@ -37,7 +37,7 @@
 								var tutorials = ["functions","conditionals","loops"];
 								var string = "";
 								for (var i = 0; i < tutorials.length; i++) {
-									if ((session.human !== null) && (typeof session.human.tutorials !== "undefined") && (session.human.tutorials.indexOf(tutorials[i]) > 0)) {
+									if ((session.human !== null) && (typeof session.human.tutorials !== "undefined") && (session.human.tutorials.indexOf(tutorials[i]) > -1)) {
 										var status = "true";
 									}
 									else {

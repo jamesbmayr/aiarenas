@@ -1,4 +1,4 @@
-/* * users * */
+/* * tutorials * */
 	.container {
 		border-color: var(--yellow);
 	}
@@ -6,3 +6,77 @@
 	.top_inner {
 		border-color: var(--yellow);
 	}
+
+	/* code colors */
+		[redtext] {
+			color: var(--red);
+		}
+
+		[orangetext] {
+			color: var(--orange);
+		}
+
+		[yellowtext] {
+			color: var(--yellow);
+		}
+
+		[greentext] {
+			color: var(--green);
+		}
+
+		[bluetext] {
+			color: var(--blue);
+		}
+
+		[purpletext] {
+			color: var(--purple);
+		}
+
+		[whitetext] {
+			color: var(--white);
+		}
+
+		[graytext] {
+			color: var(--gray);
+		}
+
+		[blacktext] {
+			color: var(--black);
+		}
+
+	/* comment colors */
+		[graytext] [redtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [orangetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [yellowtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [greentext] {
+			color: var(--gray);
+		}
+
+		[graytext] [bluetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [purpletext] {
+			color: var(--gray);
+		}
+
+		[graytext] [whitetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [graytext] {
+			color: var(--gray);
+		}
+
+		[graytext] [blacktext] {
+			color: var(--gray);
+		}
