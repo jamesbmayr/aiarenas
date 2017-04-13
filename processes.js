@@ -380,7 +380,23 @@
 
 	/* navbar(session) */
 		function navbar(session) {
-			var navbar = "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
+			var navbar = "<noscript><style>\
+					.container { display: none; }\
+					#navbar { display: none; }\
+					#navbar_open { display: none; }\
+					#navbar_close { display: none; }\
+				</style><div><pre>\
+       _?_      \n\
+ [xx] [O o]     \n\
+  --  [  _]     \n\
+   \\--JavaS--\\  \n\
+      cript  -- \n\
+      IsOff [xx]\n\
+      -   -     \n\
+     [x] [x]    \n\
+					</pre></div></noscript>";
+
+			navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
 				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 			
 			if (session.human === null) {

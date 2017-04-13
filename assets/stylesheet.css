@@ -208,6 +208,28 @@
 			outline: none;
 		}
 
+	/* noscript */
+		noscript div {
+			width: 100vw;
+			height: 100vh;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: #272822;
+		}
+		
+		noscript pre {
+			text-align: center; 
+			color: #F8F8F2;
+			font-family: Courier, monospace;
+			font-size: 16px;
+			position: relative;
+			top: 50%; 
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			line-height: 1.25;
+		}
+
 	/* components */
 		.container {
 			width: 100%;
@@ -468,7 +490,7 @@
 		[graytext] [blacktext] {
 			color: var(--gray);
 		}
-		
+
 /* * navbar * */
 	#navbar {
 		z-index: 3;
