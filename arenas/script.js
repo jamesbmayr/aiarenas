@@ -788,7 +788,7 @@
 											var cubes = "";
 											for (var i = 0; i < currentRound.cubes.length; i++) {
 												console.log(i + " :: "  + currentRound.cubes[i]);
-												cubes += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
+												cubes += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner'>" + currentRound.cubes[i] + "</div></div>";
 											}
 											$("#currentCubes").html("").delay(5000).html(cubes);
 										}
@@ -802,7 +802,6 @@
 								if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
 									$("#message_top").animateText({text: "//the arena has concluded"}, 1000);
 									console.log("concluded");
-									resizeTop();
 									clearInterval(gameLoop);
 
 									//sections
@@ -844,6 +843,8 @@
 										}
 
 										$("#postgame").html(message || "//this arena has concluded");
+										
+										resizeTop();
 								}
 								
 							//active
@@ -853,14 +854,15 @@
 									//paused
 										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
 											if ($("#pauseDetails").css("display") === "none") {
-												resizeTop();
-
 												console.log("paused...");
 												$("#pauseDetails").show();
 												$("#players").hide();
 												$("#cubes").hide();
 												$("#victors").hide();
 												$("#workshop").show();
+
+												resizeTop();
+												$("#message_top").animateText({text: "//this arena is paused"}, 1000);
 											}
 
 											lastTime = window.arena.state.pauseTo;
@@ -869,8 +871,6 @@
 
 									//unpaused
 										else if ($("#pauseDetails").css("display") !== "none") {
-											resizeTop();
-
 											console.log("unpaused...");
 											$("#pauseDetails").hide();
 											$("#players").hide();
@@ -879,6 +879,8 @@
 											$("#workshop").hide();
 
 											$("#pause").text("null");
+
+											resizeTop();
 										}
 
 									//fetch more data if necessary

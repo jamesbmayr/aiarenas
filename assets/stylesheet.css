@@ -354,6 +354,121 @@
 			color: var(--transparent);
 		}
 
+	/* colorback */
+		.redback {
+			background-color: var(--red);
+		}
+
+		.orangeback {
+			background-color: var(--orange);
+		}
+
+		.yellowback {
+			background-color: var(--yellow);
+		}
+
+		.greenback {
+			background-color: var(--green);
+		}
+
+		.blueback {
+			background-color: var(--blue);
+		}
+
+		.purpleback {
+			background-color: var(--purple);
+		}
+
+		.whiteback {
+			background-color: var(--white);
+		}
+
+		.grayback {
+			background-color: var(--gray);
+		}
+
+		.blackback {
+			background-color: var(--black);
+		}
+
+		.transparentback {
+			background-color: var(--transparent);
+		}
+
+	/* code colors */
+		[redtext] {
+			color: var(--red);
+		}
+
+		[orangetext] {
+			color: var(--orange);
+		}
+
+		[yellowtext] {
+			color: var(--yellow);
+		}
+
+		[greentext] {
+			color: var(--green);
+		}
+
+		[bluetext] {
+			color: var(--blue);
+		}
+
+		[purpletext] {
+			color: var(--purple);
+		}
+
+		[whitetext] {
+			color: var(--white);
+		}
+
+		[graytext] {
+			color: var(--gray);
+		}
+
+		[blacktext] {
+			color: var(--black);
+		}
+
+	/* comment colors */
+		[graytext] [redtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [orangetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [yellowtext] {
+			color: var(--gray);
+		}
+
+		[graytext] [greentext] {
+			color: var(--gray);
+		}
+
+		[graytext] [bluetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [purpletext] {
+			color: var(--gray);
+		}
+
+		[graytext] [whitetext] {
+			color: var(--gray);
+		}
+
+		[graytext] [graytext] {
+			color: var(--gray);
+		}
+
+		[graytext] [blacktext] {
+			color: var(--gray);
+		}
+		
 /* * navbar * */
 	#navbar {
 		z-index: 3;

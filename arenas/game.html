@@ -215,7 +215,7 @@
 										var string = "";
 
 										for (var i = 0; i < currentRound.cubes.length; i++) {
-											string += "<span class='bigCube_outer " + currentRound.cubes[i] + "text'>[<span class='bigCube_inner'>" + currentRound.cubes[i] + "</span>]</span>";
+											string += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner'>" + currentRound.cubes[i] + "</div></div>";
 										}
 
 										string;
@@ -285,7 +285,7 @@
 				</div>
 				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 				<hr>
-				<div class="megasection" id="rules" <% if (data.state.start !== null) {'style="display: none;"';} %>>
+				<div class="megasection" id="rules" style="display: none;">
 					<span class="whitetext">.rules</span><span class="redtext"> = </span><span class="whitetext">{</span>
 					<div class="indented">
 						<div class="section" id="rules_players">

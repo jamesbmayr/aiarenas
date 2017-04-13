@@ -105,6 +105,7 @@
 						else {
 							$("#message_top").animateText({text: (data.messages.top || "//unable to signin")}, 1000);
 							$("#send_form").show();
+							resizeTop();
 						}
 					}
 				});
