@@ -612,7 +612,7 @@
 												}
 
 												$("#players").attr("value", data.arena.humans);
-												$("#players").find("div.indented").html(string.substring(0, string.length - 2));
+												$("#players").html(string.substring(0, string.length - 2));
 											}
 
 										//update robot list
@@ -641,6 +641,20 @@
 														}
 
 														string += ('<div class="section opponent" id="' + entrant.id + '">\
+															<div class="stats">\
+																<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+																<span class="whitetext">cubes: {\
+																	<div class="indented">\
+																		<span class="redtext">r: <span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,<br>\
+																		<span class="orangetext">o: <span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,<br>\
+																		<span class="yellowtext">y: <span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,<br>\
+																		<span class="greentext">g: <span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,<br>\
+																		<span class="bluetext">b: <span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,<br>\
+																		<span class="purpletext">p: <span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
+																	</div>\
+																},</span><br>\
+																<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span>\
+															</div>\
 															<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
 <span class="transparenttext">••••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
 <span class="transparenttext">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
@@ -649,20 +663,8 @@
 <span class="transparenttext">••••••</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
 <span class="transparenttext">••••••</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
 <span class="transparenttext">•••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
-<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span></pre>\
-															<span class="whitetext">name: </span><a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a><span class="whitetext">,</span><br>\
-															<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span><span class="whitetext">(),</span><br>\
-															<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
-															<span class="whitetext">cubes: {\
-																<div class="indented">\
-																	<span class="redtext">r:<span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,\
-																	<span class="orangetext">o:<span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,\
-																	<span class="yellowtext">y:<span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,\
-																	<span class="greentext">g:<span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,\
-																	<span class="bluetext">b:<span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,\
-																	<span class="purpletext">p:<span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
-																</div>\
-															}</span>\
+<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
+ <a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a></pre>\
 														</div>');
 													}
 
@@ -790,8 +792,47 @@
 												console.log(i + " :: "  + currentRound.cubes[i]);
 												cubes += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner'>" + currentRound.cubes[i] + "</div></div>";
 											}
-											$("#currentCubes").html("").delay(5000).html(cubes);
+											$("#cubes").html("").delay(5000).html(cubes);
 										}
+
+										//???
+										// if (currentRound.winner !== null) {
+										//     var winnerTop = $("#" + currentRound.winner).find("pre").position().top;
+										//     var winnerLeft = $("#" + currentRound.winner).find("pre").position().left;
+										//     var winnerBottom = winnerTop + Number($("#" + currentRound.winner).find("pre").css("height").replace("px",""));
+										//     var winnerRight = winnerLeft + Number($("#" + currentRound.winner).find("pre").css("width").replace("px",""));
+										    
+										//     window.cubes = $(".cube_outer").toArray();
+										//     window.cubeLoop = setInterval(function() {
+										//         if (window.cubes.length > 0) {
+										//             $(window.cubes[window.cubes.length - 1]).css("position","absolute").animate({
+										//                 top: (((winnerTop + winnerBottom) / 2) - 40 + "px"),
+										//                 left: (((winnerLeft + winnerRight) / 2) - 40 + "px")
+										//             }, 1000);
+										//             window.cubes.pop();
+										//             console.log(window.cubes);
+										//         }
+										//         else {
+										//             console.log("ending");
+										//             clearInterval(window.cubeLoop);
+										//         }
+										//     }, 500);
+										// }
+
+										//cubes
+										// $(".cube_outer").animate({
+										//     opacity: 0,
+										// }, 2000).delay(2000).remove();
+
+										// var newCubes = "";
+										// for (var i = 0; i < currentRound.cubes.length; i++) {
+										//     newCubes += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class = 'cube_inner whitetext'>" + currentRound.cubes[i] + "</div></div>";
+										// }
+
+										// $("#cubes").css("opacity",0).html(newCubes).animate({
+										//     opacity: 1,
+										// }, 2000);
+
 
 								}
 								else {
@@ -806,10 +847,10 @@
 
 									//sections
 										$("#pauseDetails").hide();
-										$("#players").hide();
-										$("#cubes").hide();
+										$("#players_outer").hide();
+										$("#cubes_outer").hide();
 										$("#victors").show();
-										$("#workshop").hide();
+										$("#workshop_outer").hide();
 										$("#postgame").show();
 
 										$("#round").text("null").hide();
@@ -856,10 +897,10 @@
 											if ($("#pauseDetails").css("display") === "none") {
 												console.log("paused...");
 												$("#pauseDetails").show();
-												$("#players").hide();
-												$("#cubes").hide();
+												$("#players_outer").hide();
+												$("#cubes_outer").show();
 												$("#victors").hide();
-												$("#workshop").show();
+												$("#workshop_outer").show();
 
 												resizeTop();
 												$("#message_top").animateText({text: "//this arena is paused"}, 1000);
@@ -873,10 +914,10 @@
 										else if ($("#pauseDetails").css("display") !== "none") {
 											console.log("unpaused...");
 											$("#pauseDetails").hide();
-											$("#players").hide();
-											$("#cubes").show();
+											$("#players_outer").hide();
+											$("#cubes_outer").show();
 											$("#victors").hide();
-											$("#workshop").hide();
+											$("#workshop_outer").hide();
 
 											$("#pause").text("null");
 

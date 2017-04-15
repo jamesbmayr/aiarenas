@@ -20,7 +20,8 @@
 					$("#instructions").animateText({text: "this tutorial has been completed;"},1000);
 					
 					$("#step").closest(".section").hide();
-					$("#next_step").hide();
+					$("#next_step").closest("form").hide();
+					$("#exit").show();
 
 					$("#inputs").closest(".section").hide();
 					$("#code").closest(".section").hide();

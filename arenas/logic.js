@@ -773,7 +773,7 @@
 
 					//sort that list descending
 						takers.sort(function(a, b) { //sort in descending order
-							return a.power < b.power;
+							return b.power - a.power;
 						});
 
 					//resolve ties
@@ -815,7 +815,7 @@
 										a.cubeCount = a.cubes.red + a.cubes.orange + a.cubes.yellow + a.cubes.green + a.cubes.blue + a.cubes.purple;
 										b.cubeCount = b.cubes.red + b.cubes.orange + b.cubes.yellow + b.cubes.green + b.cubes.blue + b.cubes.purple;
 
-										return a.cubeCount > b.cubeCount;
+										return a.cubeCount - b.cubeCount;
 									});
 
 									var winner = winners[0]; //pick the robot with the fewest cubes
@@ -1107,7 +1107,7 @@
 										var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
 										var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
 
-										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) > (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
+										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) - (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
 									});
 
 									victors = [victors[0]]; //whoever has the *most* cubes is the victor
@@ -1118,7 +1118,7 @@
 										var robot_a = newRound.robots.find(function(robot) {return robot.name === a});
 										var robot_b = newRound.robots.find(function(robot) {return robot.name === b});
 
-										return ((robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple) < (robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple));
+										return ((robot_b.cubes.red + robot_b.cubes.orange + robot_b.cubes.yellow + robot_b.cubes.green + robot_b.cubes.blue + robot_b.cubes.purple) - (robot_a.cubes.red + robot_a.cubes.orange + robot_a.cubes.yellow + robot_a.cubes.green + robot_a.cubes.blue + robot_a.cubes.purple));
 									});
 
 									victors = [victors[0]]; //whoever has the *least* cubes is the victor

@@ -19,47 +19,89 @@
 			<div class="top_outer">
 				<div class="top_inner">
 					<div class="section">
-						<span class="whitetext header"><% data.name || "tutorials" %></span> <span class="graytext" id="message_top"></span>
+						<span class="whitetext header">tutorials<% ("." + data.name) || "" %></span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
-						<div class='section'>
-							<span class="whitetext">.step</span><span class="redtext"> = </span><span class="purpletext" id="step" value="0">0</span><span class="whitetext">;</span>
+						<div class="section">
+							<span class="whitetext">.step_<span id="step" value="0">0</span><span class="redtext"> = </span><span class="yellowtext">"<span id="instructions"><% (data.overview || '') + '; select <span class="whitetext">.<span class="greentext">next</span>();</span> to continue...'; %></span>"</span><span class="whitetext">;</span>
 						</div>
 						<div class="section">
+							<form method="post" action="javascript:;" onsubmit="window.eval_code();">
+								<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext">code</span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output">___</span>"</span><span class="whitetext">;</span>
+							</form>
+						</div>
+						<div class="section">
+							<a id='exit' style="display: none" href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
 							<form method="post" action="javascript:;" onsubmit="window.next_step();">
 								<button class="whitetext" id="next_step" name="action" value="next_step">.<span class="greentext">next</span>();</button>
 							</form>
-						</div>
-						<div class='section'>
-							<a id='exit' href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
 						</div>
 					</div>
 					<hr>
 				</div>
 			</div>
-			<div class="indented content">
+			<div class="indented content">			
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
+				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value=''></span></span><span class="whitetext">) {</span> <span class='message graytext'></span></div>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.instructions</span><span class="redtext"> = </span><span class="yellowtext">"</span><span class="yellowtext" id="instructions"><% (data.overview || '') + '; select <span class="whitetext">.<span class="greentext">next</span>();</span> to continue...'; %></span><span class="yellowtext">"</span><span class="whitetext">;</span>
-					</div>
-					<div class="section">
-						<form method="post" action="javascript:;" onsubmit="window.eval_code();">
-							<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext">code</span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span>
-						</form>
-					</div>
-					<br>
-					<div class="section">
-						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value=''></span></span><span class="whitetext">) {</span> <span class='message graytext'></span>
-						<div class="indented">
-							<div class="field_frame">
-								<span class="whitetext field" id="code" value=''> /* initiate tutorial */ </span>
-							</div>
+					<div class="indented">
+						<div class="field_frame">
+							<span class="whitetext field" id="code" value=''> /* ??? */ </span>
 						</div>
-						<span class="whitetext">};</span>
 					</div>
 				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext">.arena<span class="redtext"> = </span><span class="whitetext">{</span></div>
+				<div class="megasection" style="display: none;">
+					<div class="section indented" id="robots">
+						<%  
+							var robot = {
+								power: 0,
+								cubes: {
+									red: 0,
+									orange: 0,
+									yellow: 0,
+									green: 0,
+									blue: 0,
+									purple: 0
+								}
+							}
+
+							string = ('<div class="section opponent">\
+								<div class="stats">\
+									<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+									<span class="whitetext">cubes: {\
+										<div class="indented">\
+											<span class="redtext">r: <span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,<br>\
+											<span class="orangetext">o: <span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,<br>\
+											<span class="yellowtext">y: <span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,<br>\
+											<span class="greentext">g: <span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,<br>\
+											<span class="bluetext">b: <span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,<br>\
+											<span class="purpletext">p: <span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
+										</div>\
+									},</span><br>\
+									<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span>\
+								</div>\
+								<pre class="avatar_pre" monospace style="color: var(--green);">\
+<span class="transparenttext">••••••</span><span class="avatar avatar_antennae" value=" _!_ "> _!_ </span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•</span><span class="avatar avatar_left_hand" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="(^ ^)">(^ ^)</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•</span><span class="avatar avatar_left_wrist" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="| u |">| u |</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext">•••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_arm" value="==">==</span><span class="avatar avatar_torso_1" value="/ + \\">/ + \\</span><span class="avatar avatar_right_arm" value="==">==</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext">••••••</span><span class="avatar avatar_torso_2" value="LEARN">LEARN</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value=" () "> () </span>\n\
+<span class="transparenttext">••••••</span><span class="avatar avatar_torso_3" value="\\___/">\\___/</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="(--)">(--)</span>\n\
+<span class="transparenttext">•••••</span><span class="avatar avatar_legs" value=" || || "> || || </span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="/_]">/_]</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="[_\\">[_\\</span><span class="transparenttext">••••</span>\n\
+ <span class="whitetext">learnBot</span></pre>\
+							</div>');
+
+							string.replace("section opponent", "section self"); //replaces only the first one
+						%>
+					</div>
+					<div class="section indented whitetext" id="cubes">
+					</div>
+				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 			</div>
 		</div>
 	</body>

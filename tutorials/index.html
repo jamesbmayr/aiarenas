@@ -28,31 +28,28 @@
 			</div>
 			<div class="indented content">
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
+				<div class="bracketer_top"><span class="whitetext">.list</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.list</span><span class="redtext"> = </span><span class="whitetext">[</span>
-						<div class="indented whitetext">
-							<% 
-								var tutorials = ["functions","conditionals","loops"];
-								var string = "";
-								for (var i = 0; i < tutorials.length; i++) {
-									if ((session.human !== null) && (typeof session.human.tutorials !== "undefined") && (session.human.tutorials.indexOf(tutorials[i]) > -1)) {
-										var status = "true";
-									}
-									else {
-										var status = "false";
-									}
-
-									string += "{<a class='bluetext' href='../../../../tutorials/" + tutorials[i] + "'>" + tutorials[i] + "</a><span class='whitetext'>: </span><span class='purpletext'>" + status + "</span>},<br>";
+					<div class="section indented whitetext">
+						<% 
+							var tutorials = ["functions","conditionals","loops"];
+							var string = "";
+							for (var i = 0; i < tutorials.length; i++) {
+								if ((session.human !== null) && (typeof session.human.tutorials !== "undefined") && (session.human.tutorials.indexOf(tutorials[i]) > -1)) {
+									var status = "true";
+								}
+								else {
+									var status = "false";
 								}
 
-								string.substring(string, string.length - 5) || "";
-							%>
-						</div>
-						<span class="whitetext">];</span>
+								string += "{<a class='bluetext' href='../../../../tutorials/" + tutorials[i] + "'>" + tutorials[i] + "</a><span class='whitetext'>: </span><span class='purpletext'>" + status + "</span>},<br>";
+							}
+
+							string.substring(string, string.length - 5) || "";
+						%>
 					</div>
 				</div>
+				<div class="bracketer_bottom"><span class="whitetext">]</span></div>
 			</div>
 		</div>
 	</body>

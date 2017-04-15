@@ -248,7 +248,7 @@
 
 		.section-toggle {
 			left: -50px;
-			top: 20px;
+			top: 36px;
 			font-size: 20px;
 			cursor: pointer;
 		}
@@ -258,7 +258,7 @@
 		}
 
 		.indented {
-			padding-left: 32px;
+			padding-left: 38px;
 		}
 
 		.code {

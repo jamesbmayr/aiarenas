@@ -54,30 +54,58 @@
 			</div>
 			<div class="content indented">
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
+				<div class="bracketer_top"><span class="whitetext">.information</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.human</span><span class="redtext"> = </span><a class="bluetext" id="human" href="../../../../humans/<% data.human.name %>"><% data.human.name %></a>
-						<span class="whitetext">;</span>
+					<div class="section indented">
+						<span class="whitetext">human: </span><a class="bluetext" id="human" href="../../../../humans/<% data.human.name %>"><% data.human.name %></a>
+						<span class="whitetext">,</span>
 					</div>
-					<div class="section">
-						<span class="whitetext">.created</span><span class="redtext"> = </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
-						<span class="whitetext">;</span>
+					<div class="section indented">
+						<span class="whitetext">created: </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
+						<span class="whitetext">,</span>
 					</div>
-					<div class="section">
-						<span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span>
+					<div class="section indented">
+						<span class="whitetext">statistics: </span><span class="whitetext">{</span>
 							<span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>,</span>
 							<span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span>
-						<span class="whitetext">};</span>
+						<span class="whitetext">},</span>
+					</div>
+					<%
+						if ((session.human !== null) && (session.human.id === data.human.id)) {
+							if (data.information.show_code === "true") {
+								console.log("true");
+								var show_code_true = " selected";
+								var show_code_false = "";
+							}
+							else if (data.information.show_code === "false") {
+								console.log("false");
+								var show_code_true = "";
+								var show_code_false = " selected";
+							}
+
+							'<div class="section indented" id="robot_settings" style="display: none">\
+								<span class="whitetext">showCode: </span>\
+								<select id="show_code" class="purpletext">\
+									<option value="true"' + show_code_true + '>true</option>\
+									<option value="false"' + show_code_false + '>false</option>\
+								</select>\
+								<span class="whitetext">,</span> <span class="message graytext"></span>\
+							</div>';
+						}
+					%>
+					<div class="section indented">
+						<span class="whitetext">bio: </span><span class="yellowtext">"</span> <span class='message graytext'></span>
+						<div class="indented">
+							<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
+							</div>
+						<span class="yellowtext">"</span><span class="whitetext"></span>
 					</div>
 				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
+				<div class="brackter_top"><span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span> <span class='message graytext'></span></div>
 				<div class="megasection">
-					<div class="section" id="avatar">
-						<span class="whitetext">.avatar</span><span class="redtext"> = </span><span class="whitetext">{</span> <span class='message graytext'></span>
-						<div class="indented">
-
+					<div class="section indented" id="avatar">
 <pre id="avatar_pre" monospace style="color: <% data.avatar.color || 'var(--white)' %>">
 <span class="transparenttext">••••••</span><span class="avatar" id="avatar_antennae" value="<% data.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••' %>"><% data.avatar.antennae || "•••••" %></span><span class="transparenttext">•••••</span>
 <span class="transparenttext">•</span><span class="avatar" id="avatar_left_hand" value="<% data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '••••' %>"><% data.avatar.left_hand || "••••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_eyes" value="<% data.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••' %>"><% data.avatar.eyes || "•••••" %></span><span class="transparenttext">•••••</span>
@@ -88,141 +116,139 @@
 <span class="transparenttext">•••••</span><span class="avatar" id="avatar_legs" value="<% data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••••' %>"><% data.avatar.legs || "•••••••" %></span><span class="transparenttext">••••</span>
 <span class="transparenttext">•••••</span><span class="avatar" id="avatar_left_foot" value="<% data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••' %>"><% data.avatar.left_foot || "•••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_right_foot" value="<% data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••' %>"><% data.avatar.right_foot || "•••" %></span><span class="transparenttext">••••</span>
 </pre>
-							<% 
-								if ((session.human !== null) && (session.human.id === data.human.id)) {
-									var display = '\<div id="avatar_selection" style="color:' + (data.avatar.color || 'var(--white)') + '">\
-										<span class="transparenttext">••••••</span><select id="select_antennae" class="avatar_select">';
-											
-												var options = ascii_robot("antennae");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-											
-										display += '</select><span class="transparenttext">•••••</span>\
-										<br>\
-										<span class="transparenttext">•</span><select id="select_left_hand" class="avatar_select">';
-											
-												var options = ascii_robot("hand");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select><span class="transparenttext">•</span><select id="select_eyes" class="avatar_select">';
-												
-												var options = ascii_robot("eyes");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-											
-										display += '</select><span class="transparenttext">•••••</span>\
-										<br>\
-										<span class="transparenttext">•</span><select id="select_left_wrist" class="avatar_select">';
-
-												var options = ascii_robot("wrist");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-												
-										display += '</select><span class="transparenttext">•</span><select id="select_mouth" class="avatar_select">';
-
-												var options = ascii_robot("mouth");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select><span class="transparenttext">•••••</span>\
-										<br>\
-										<span class="transparenttext">•••</span><span>\\</span><select id="select_left_arm" class="avatar_select">';
-
-												var options = ascii_robot("arm");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
+						<% 
+							if ((session.human !== null) && (session.human.id === data.human.id)) {
+								var display = '<div id="avatar_selection" style="color:' + (data.avatar.color || 'var(--white)') + '">\
+									<span class="transparenttext">••••••</span><select id="select_antennae" class="avatar_select">';
 										
-										display += '</select><select id="select_torso_1" class="avatar_select">';
-
-												var options = ascii_robot("torso");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select><select id="select_right_arm" class="avatar_select">';
-
-												var options = ascii_robot("arm");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select><span>\\</span><span class="transparenttext">••</span>\
-										<br>\
-										<span class="transparenttext">••••••</span><select id="select_torso_2" class="avatar_select">';
-
-												var options = ascii_robot("torso");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select><span class="transparenttext">•</span><select id="select_right_wrist" class="avatar_select">';
-
-												var options = ascii_robot("wrist");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select>\
-										<br>\
-										<span class="transparenttext">••••••</span><select id="select_torso_3" class="avatar_select">';
-
-												var options = ascii_robot("torso");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
-
-										display += '</select><span class="transparenttext">•</span><select id="select_right_hand" class="avatar_select">';
-
-												var options = ascii_robot("hand");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
+											var options = ascii_robot("antennae");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
 										
-										display += '</select>\
-										<br>\
-										<span class="transparenttext">•••••</span><select id="select_legs" class="avatar_select">';
-
-												var options = ascii_robot("legs");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
+									display += '</select><span class="transparenttext">•••••</span>\
+									<br>\
+									<span class="transparenttext">•</span><select id="select_left_hand" class="avatar_select">';
 										
-										display += '</select><span class="transparenttext">••••</span>\
-										<br>\
-										<span class="transparenttext">•••••</span><select id="select_left_foot" class="avatar_select">';
+											var options = ascii_robot("hand");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
 
-												var options = ascii_robot("foot");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
+									display += '</select><span class="transparenttext">•</span><select id="select_eyes" class="avatar_select">';
+											
+											var options = ascii_robot("eyes");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+										
+									display += '</select><span class="transparenttext">•••••</span>\
+									<br>\
+									<span class="transparenttext">•</span><select id="select_left_wrist" class="avatar_select">';
 
-										display += '</select><span class="transparenttext">•</span><select id="select_right_foot" class="avatar_select">';
+											var options = ascii_robot("wrist");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+											
+									display += '</select><span class="transparenttext">•</span><select id="select_mouth" class="avatar_select">';
 
-												var options = ascii_robot("foot");
-												for (var i = 0; i < options.length; i++) {
-													display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
-												}
+											var options = ascii_robot("mouth");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
 
-										display += '</select><span class="transparenttext">••••</span>\
-									</div>';
+									display += '</select><span class="transparenttext">•••••</span>\
+									<br>\
+									<span class="transparenttext">•••</span><span>\\</span><select id="select_left_arm" class="avatar_select">';
 
-									display || "";
-								}
-							%>
-						</div>
-						<span class="whitetext">}</span>
+											var options = ascii_robot("arm");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+									
+									display += '</select><select id="select_torso_1" class="avatar_select">';
+
+											var options = ascii_robot("torso");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select><select id="select_right_arm" class="avatar_select">';
+
+											var options = ascii_robot("arm");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select><span>\\</span><span class="transparenttext">••</span>\
+									<br>\
+									<span class="transparenttext">••••••</span><select id="select_torso_2" class="avatar_select">';
+
+											var options = ascii_robot("torso");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select><span class="transparenttext">•</span><select id="select_right_wrist" class="avatar_select">';
+
+											var options = ascii_robot("wrist");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select>\
+									<br>\
+									<span class="transparenttext">••••••</span><select id="select_torso_3" class="avatar_select">';
+
+											var options = ascii_robot("torso");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select><span class="transparenttext">•</span><select id="select_right_hand" class="avatar_select">';
+
+											var options = ascii_robot("hand");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+									
+									display += '</select>\
+									<br>\
+									<span class="transparenttext">•••••</span><select id="select_legs" class="avatar_select">';
+
+											var options = ascii_robot("legs");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+									
+									display += '</select><span class="transparenttext">••••</span>\
+									<br>\
+									<span class="transparenttext">•••••</span><select id="select_left_foot" class="avatar_select">';
+
+											var options = ascii_robot("foot");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select><span class="transparenttext">•</span><select id="select_right_foot" class="avatar_select">';
+
+											var options = ascii_robot("foot");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+
+									display += '</select><span class="transparenttext">••••</span>\
+								</div>';
+
+								display || "";
+							}
+						%>
 					</div>
 					<% 
 						if ((session.human !== null) && (session.human.id === data.human.id)) {
-							var display = '<div class="section" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
-								<span class="whitetext">.color</span><span class="redtext"> = </span><select>\
+							var display = '<div class="section indented" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
+								<span class="whitetext">color: </span><select>\
 									<option value="var(--white)">white</option>\
 									<option value="var(--red)">red</option>\
 									<option value="var(--orange)">orange</option>\
@@ -231,7 +257,7 @@
 									<option value="var(--blue)">blue</option>\
 									<option value="var(--purple)">purple</option>\
 									<option value="var(--gray)">gray</option>\
-								</select><span class="whitetext">;</span>\
+								</select>\
 							</div>';
 
 							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");
@@ -240,62 +266,27 @@
 						}
 					%>
 				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+				<% 
+					if (((typeof data.information.show_code !== "undefined") && (data.information.show_code === "true")) || (session.human !== null) && (data.human.id === session.human.id)) {
+						var code = data.code || " /* no code */ ";
+						var inputs = data.inputs || "";
+					} 
+					else {
+						var code = " /* hidden */ ";
+						var inputs = "";
+					}
+				%>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
+				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span></div>
 				<div class="megasection">
-					<div class="section">
-						<span class="whitetext">.bio</span><span class="redtext"> = </span><span class="yellowtext">"</span> <span class='message graytext'></span>
-							<div class="indented">
-								<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
-							</div>
-							<span class="yellowtext">"</span><span class="whitetext">;</span>
-					</div>
-				</div>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<hr>
-				<div class="megasection">
-					<%
-						if ((session.human !== null) && (session.human.id === data.human.id)) {
-							if (data.show_code === "true") {
-								var show_code_true = " selected";
-								var show_code_false = "";
-							}
-							else if (data.show_code === "false") {
-								var show_code_true = "";
-								var show_code_false = " selected";
-							}
-
-							'<div class="section" id="robot_settings" style="display: none">\
-								<span class="whitetext">.showCode</span><span class="redtext"> = </span>\
-								<select id="show_code" class="purpletext">\
-									<option value="true"' + show_code_true + '>true</option>\
-									<option value="false"' + show_code_true + '>false</option>\
-								</select>\
-								<span class="whitetext">;</span> <span class="message graytext"></span>\
-							<br><br>\
-							</div>';
-						}
-					%>
-					<div class="section">
-						<% 
-							if (((typeof data.show_code !== "undefined") && (data.show_code === "true")) || (session.human !== null) && (data.human.id === session.human.id)) {
-								var code = data.code || " /* no code */ ";
-								var inputs = data.inputs || "";
-							} 
-							else {
-								var code = " /* hidden */ ";
-								var inputs = "";
-							}
-						%>
-						<span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span>
-						<div class="indented">
-							<div class="field_frame">
-								<span class="whitetext field" id="code" value='<% code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% code %></span>
-							</div>
+					<div class="section indented">						
+						<div class="field_frame">
+							<span class="whitetext field" id="code" value='<% code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% code %></span>
 						</div>
-						<span class="whitetext">};</span>
 					</div>
 				</div>
+				<div class="bracketer_bottom"><span class="whitetext">};</span></div>
 			</div>
 		</div>
 	</body>

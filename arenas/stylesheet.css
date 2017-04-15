@@ -18,35 +18,49 @@
 
 	/* robots */
 		.self {
-			width: 200px;
+			width: 340px;
+			height: 186px;
 			border: 2px solid var(--white);
 			border-radius: 5px;
-			padding: 10px;
+			padding: 10px 10px 0px 10px;
 			display: inline-block;
 			margin: 5px;
 			line-height: 1;
 		}
 
 		.self pre {
-			width: 180px;
+			width: 155px;
+			height: 172px;
 			text-align: center;
 			overflow: hidden;
+			float: left;
+			padding: 0px;
 		}
 
 		.opponent {
-			width: 200px;
+			width: 340px;
+			height: 186px;
 			border: 2px solid var(--gray);
 			border-radius: 5px;
-			padding: 10px;
+			padding: 10px 10px 0px 10px;
 			display: inline-block;
 			margin: 5px;
 			line-height: 1;
 		}
 
 		.opponent pre {
-			width: 180px;
+			width: 155px;
+			height: 172px;
 			text-align: center;
 			overflow: hidden;
+			float: left;
+			padding: 0px;
+		}
+
+		.stats {
+			float: left;
+			width: 161px;
+			height: 172px;
 		}
 
 	/* cubes */

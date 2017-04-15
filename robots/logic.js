@@ -92,15 +92,15 @@
 						break;
 
 						case "show_code":
-							if (data.show_code === robot.show_code) {
+							if (data.show_code === robot.information.show_code) {
 								//no change
 							}
 							else if ((data.show_code !== "true") && (data.show_code !== "false")) {
-								data.show_code = robot.show_code
+								data.show_code = robot.information.show_code
 								messages.show_code = "//not a valid option";
 							}
 							else {
-								robot.show_code = data.show_code;
+								robot.information.show_code = data.show_code;
 								messages.show_code = "//code visibility updated";
 							}
 						break;

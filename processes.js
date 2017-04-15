@@ -184,49 +184,49 @@
 
 			switch (font) {
 				case "Ubuntu Mono":
-					font = ":root {--font_scheme: 'Ubuntu Mono', monospace;}";
+					font = ":root { --font_scheme: 'Ubuntu Mono', monospace; }";
 				break;
 
 				case "Share Tech Mono":
-					font = ":root {--font_scheme: 'Share Tech Mono', monospace;}";
+					font = ":root { --font_scheme: 'Share Tech Mono', monospace; }";
 				break;
 
 				case "Roboto Mono":
-					font = ":root {--font_scheme: 'Roboto Mono', monospace;}";
+					font = ":root { --font_scheme: 'Roboto Mono', monospace; }";
 				break;
 
 				case "Nova Mono":
-					font = ":root {--font_scheme: 'Nova Mono', monospace;}";
+					font = ":root { --font_scheme: 'Nova Mono', monospace; }";
 				break;
 
 				case "Droid Sans Mono":
-					font = ":root {--font_scheme: 'Droid Sans Mono', monospace;}";
+					font = ":root { --font_scheme: 'Droid Sans Mono', monospace; }";
 				break;
 
 				case "VT323":
-					font = ":root {--font_scheme: 'VT323', monospace;}";
+					font = ":root { --font_scheme: 'VT323', monospace; }";
 				break;
 
 				case "Menlo":
-					font = ":root {--font_scheme: Menlo, monospace;}";
+					font = ":root { --font_scheme: Menlo, monospace; }";
 				break;
 
 				case "Monaco":
-					font = ":root {--font_scheme: Monaco, monospace;}";
+					font = ":root { --font_scheme: Monaco, monospace; }";
 				break;
 
 				case "Courier New":
-					font = ":root {--font_scheme: 'Courier New', monospace;}";
+					font = ":root { --font_scheme: 'Courier New', monospace; }";
 				break;
 
 				case "monospace":
-					font = ":root {--font_scheme: monospace;}";
+					font = ":root { --font_scheme: monospace; }";
 				break;
 
 				case "Courier":
 				case "default":
 				default: 
-					font = ":root {--font_scheme: Courier, monospace;}";
+					font = ":root { --font_scheme: Courier, monospace; }";
 				break;
 			}
 
