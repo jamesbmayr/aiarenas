@@ -19,12 +19,12 @@
 						<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
-						<div class="section" <% if (data.state.end !== null) { "style='display: none;'";} %>>
-							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if (data.state.end !== null) { 'concluded' } else { 'active'} %>"><%
+						<div class="section" <% var timeNow = new Date().getTime(); if ((data.state.end !== null) && (data.state.end < timeNow)) { "style='display: none;'";} %>>
+							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if ((data.state.end !== null) && (data.state.end < timeNow)) { 'concluded' } else { 'active'} %>"><%
 								if (data.state.start === null) {
 									"null";
 								}
-								else if (data.state.end !== null) {
+								else if ((data.state.end !== null) && (data.state.end < timeNow)) {
 									"null";
 								}
 								else {
@@ -39,7 +39,7 @@
 								}
 							%></span><span class="whitetext">;</span>
 						</div>
-						<div class="section" id="pauseDetails" <% if ((data.state.pauseFrom === null) || (data.state.pauseTo === null)) { "style='display: none;'";} %>>
+						<div class="section" id="pauseDetails" <% if ((data.state.pauseFrom === null) || (data.state.pauseTo === null) || (data.state.pauseFrom > timeNow) || (data.state.pauseTo < timeNow)) { "style='display: none;'";} %>>
 							<span class="whitetext">.pauseRemaining</span><span class="redtext"> = </span><span id="pause" class="purpletext"><% 
 								if ((data.state.pauseFrom !== null) && (data.state.pauseTo !== null)) {
 									Math.floor((data.state.pauseTo - (new Date().getTime())) / 1000);
@@ -93,11 +93,11 @@
 								</form>';
 							}
 						%>
-						<div class="section" id="victors" <% if (data.state.end === null) {"style='display: none';"} %>>
+						<div class="section" id="victors" <% if ((data.state.end === null) || (data.state.end > timeNow)) {"style='display: none';"} %>>
 							<span class="whitetext">.victors</span><span class="redtext"> = </span><span class="whitetext">[</span>
 							<span class="victorList whitetext">
 								<% 
-									if (data.state.end !== null) {
+									if ((data.state.end !== null) && (data.state.end < timeNow)) {
 										var victors = data.state.victors;
 										var string = "";
 
@@ -116,11 +116,10 @@
 				</div>
 			</div>
 			<div class="indented content">
-				<div class="megasection" id="postgame_outer">
-					<br>
-					<div class="section" id="postgame" <% if (data.state.end === null) {"style='display: none';"} %>>
+				<div class="megasection" id="postgame_outer" <% if ((data.state.end === null) || (data.state.end > timeNow)) {"style='display: none';"} %>>
+					<div class="section" id="postgame">
 						<%
-							if (data.state.end !== null) {
+							if ((data.state.end !== null) && (data.state.end < timeNow)) {
 								if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
 									var victory = false;
 									for (var i = 0; i < data.state.victors.length; i++) {
@@ -238,19 +237,17 @@
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">]</span></div>
 				</div>
-				<div class="megasection" id="cubes_outer" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom !== null) || (data.state.pauseTo !== null)) {"style='display: none';"} %>>
+				<div class="megasection" id="cubes_outer" <% if ((data.state.start === null) || ((data.state.end !== null) && (data.state.end < timeNow)) || (data.state.pauseFrom !== null) || (data.state.pauseTo !== null)) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.cubes</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 					<div class="section indented whitetext" id="cubes">
 						<% 
-							if ((data.state.start !== null) && (data.state.end === null) && (data.rounds.length > 0)) {
+							if ((data.state.start !== null) && ((data.state.end === null) || (data.state.end > timeNow)) && (data.rounds.length > 0)) {
 								var currentRound = data.rounds[data.rounds.length - 1];
 								var string = "";
 
 								for (var i = 0; i < currentRound.cubes.length; i++) {
-									string += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner'>" + currentRound.cubes[i] + "</div></div>";
-									string += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner'>" + currentRound.cubes[i] + "</div></div>";
-									string += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner'>" + currentRound.cubes[i] + "</div></div>";
+									string += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner whitetext'>" + currentRound.cubes[i] + "</div></div>";
 								}
 
 								string;
@@ -259,20 +256,20 @@
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">]</span></div>
 				</div>
-				<div class="megasection" id="workshop_outer" <% if ((data.state.start === null) || (data.state.end !== null) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
+				<div class="megasection" id="workshop_outer" <% if ((data.state.start === null) || ((data.state.end !== null) && (data.state.end < timeNow)) || (data.state.pauseFrom === null) || (data.state.pauseTo === null)) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.workshop</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
 					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}) || null) } %>">
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && (data.state.end === null)) {
+							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && ((data.state.end === null) || (data.state.end > timeNow))) {
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
 								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-									'<div class="section">\
+									'<div class="section indented">\
 										<form id="save_form" method="post" action="javascript:;" onsubmit="window.robot_save();">\
 											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">();</span></button>\
 										</form>\
 									</div> <span class="message graytext"></span>\
-									<div class="section">\
+									<div class="section indented">\
 										<span class="greentext">code</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>\
 										<div class="indented">\
 											<div class="field_frame active">\
@@ -373,12 +370,9 @@
 					</div>
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
-				<br>
 				<% 
 					if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start !== null) && (data.state.end === null)) {
-							var string = '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
-							<hr>\
-							<div class="megasection">';
+							var string = '<div class="megasection">';
 
 						if ((data.humans[0] === session.human.id) && (data.state.end === null)) {
 							string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\

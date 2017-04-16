@@ -80,3 +80,7 @@
 			transform: translateY(-50%);
 			color: var(--white);
 		}
+
+		#cubes {
+			min-height: 90px;
+		}
