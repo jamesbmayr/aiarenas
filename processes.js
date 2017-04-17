@@ -350,7 +350,7 @@
 							--blue: #6d9eeb;\
 							--purple: #8e7cc3;\
 							--white: #f3f3f3;\
-							--gray: #b7b7b7;\
+							--gray: #666666;\
 							--black: #222222;\
 							--transparent: rgba(000,000,000,0);\
 						}";

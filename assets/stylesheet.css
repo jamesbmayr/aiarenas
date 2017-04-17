@@ -207,6 +207,34 @@
 			outline: none;
 		}
 
+		details {
+			display: inline-block;
+		}
+
+		summary:focus {
+			outline: none;
+		}
+		
+		summary:active {
+			outline: none;
+		}
+		
+		summary {
+			cursor: pointer;
+			display: inline-block;
+		}
+
+		details[open] summary {
+			position: relative;
+			top: 32px;
+			height: 0px;
+			z-index: 2;
+		}
+
+		details[open] {
+			margin-top: -32px;
+		}
+
 	/* noscript */
 		noscript div {
 			width: 100vw;

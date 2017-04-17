@@ -83,7 +83,7 @@
 							}
 
 							options.replace("value='2'", "value='2' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many humans must this arena contain at least?</span></details></span><br>
 						<span class="whitetext">maximum: </span><select class="purpletext" id="players_maximum"><% 
 							var options = "";
 							var values = [2,3,4,5,6];
@@ -92,7 +92,7 @@
 							}
 
 							options.replace("value='6'", "value='6' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many humans can this arena contain at most?</span></details></span><br>
 						<span class="whitetext">pauseDuration: </span><select class="purpletext" id="players_pauseDuration"><% 
 							var options = "";
 							var values = ["1:00","2:00","5:00","10:00","20:00"];
@@ -101,7 +101,7 @@
 							}
 
 							options.replace("value='5:00'", "value='5:00' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>when the arena pauses, how long does the code workshop last?</span></details></span><br>
 						<span class="whitetext">pausePeriod: </span><select class="purpletext" id="players_pausePeriod"><% 
 							var options = "";
 							var values = [1,5,10,20,50,255];
@@ -110,7 +110,7 @@
 							}
 
 							options.replace("value='10'", "value='10' selected");
-						%></select>
+						%></select><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many rounds occur between each code workshop pause?</span></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -124,7 +124,7 @@
 							}
 
 							options.substring(0,options.length - 1);
-						%></span><span class="whitetext">],</span><br>
+						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>which cube colors does this arena include?</span></details></span><br>
 						<span class="whitetext">startCount: </span><select class="purpletext" id="cubes_startCount"><% 
 							var options = "";
 							var values = [0,1,2,3,4,5];
@@ -133,7 +133,7 @@
 							}
 
 							options.replace("value='1'", "value='1' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many cubes does each robot start with?</span></details></span><br>
 						<span class="whitetext">maximum: </span><select class="purpletext" id="cubes_maximum"><% 
 							var options = "";
 							var values = [6,12,24,48,255];
@@ -142,7 +142,7 @@
 							}
 
 							options.replace("value='255'", "value='255' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many cubes can a robot hold?</span></details></span><br>
 						<span class="whitetext">spawnRate: </span><select class="purpletext" id="cubes_spawnRate"><% 
 							var options = "";
 							var values = [1,2,3,4,5];
@@ -151,7 +151,7 @@
 							}
 
 							options.replace("value='1'", "value='1' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many cubes are generated each round?</span></details></span><br>
 						<span class="whitetext">spawnMemory: </span><select class="purpletext" id="cubes_spawnMemory"><% 
 							var options = "";
 							var values = [0,1,2,3,4,5];
@@ -160,7 +160,7 @@
 							}
 
 							options.replace("value='3'", "value='3' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>when a cube spawns, how many rounds must pass until a cube of the same color can spawn?</span></details></span><br>
 						<span class="whitetext">dissolveRate: </span><select class="purpletext" id="cubes_dissolveRate"><% 
 							var options = "";
 							var values = [0,1,2,3,4,5,255];
@@ -169,7 +169,7 @@
 							}
 
 							options.replace("value='1'", "value='1' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how many untaken cubes are destroyed each round?</span></details></span><br>
 						<span class="whitetext">dissolveIndex: </span><select class="yellowtext" id="cubes_dissolveIndex"><% 
 							var options = "";
 							var values = ["newest","oldest","random","none"];
@@ -178,7 +178,7 @@
 							}
 
 							options.replace("value='oldest'", "value='oldest' selected");
-						%></select>
+						%></select><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>which cubes are destroyed each round?</span></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -192,7 +192,7 @@
 							}
 
 							options.replace("value='1'", "value='1' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how much power does each robot enter the arena with?</span></details></span><br>
 						<span class="whitetext">maxPower: </span><select class="purpletext" id="robots_maxPower"><% 
 							var options = "";
 							var values = [1,2,5,10,20,50,255];
@@ -201,7 +201,7 @@
 							}
 
 							options.replace("value='255'", "value='255' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>how much power can a robot hold?</span></details></span><br>
 						<span class="whitetext">powerRate: </span><select class="purpletext" id="robots_powerRate"><% 
 							var options = "";
 							var values = [1,2,3,4,5,10,20,255];
@@ -210,7 +210,7 @@
 							}
 
 							options.replace("value='1'", "value='1' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>when a robot powers, how much does its power increase?</span></details></span><br>
 						<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
 							var options = "";
 							if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
@@ -227,7 +227,7 @@
 							}
 
 							options.substring(0,options.length - 1).replace("id='robots_actions_take'", "id='robots_actions_take' checked").replace("id='robots_actions_power'", "id='robots_actions_power' checked").replace("id='robots_actions_sleep'", "id='robots_actions_sleep' checked");
-						%></span><span class="whitetext">],</span><br>
+						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>which actions are available to robots in this arena?</span></details></span><br>
 						<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="robots_tieBreaker"><% 
 							var options = "";
 							var values = ["leave","dissolve","cascade","random","catchup"];
@@ -236,7 +236,7 @@
 							}
 
 							options.replace("value='cascade'", "value='cascade' selected");
-						%></select>
+						%></select><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>when multiple robots at the same power take cubes, where do the cubes go?</span></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -250,7 +250,7 @@
 							}
 
 							options.substring(0,options.length - 1).replace("id='victory_conditions_1of6'", "id='victory_conditions_1of6' checked").replace("id='victory_conditions_2of3'", "id='victory_conditions_2of3' checked").replace("id='victory_conditions_6of1'", "id='victory_conditions_6of1' checked");
-						%></span><span class="whitetext">],</span><br>
+						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>which cube combinations result in victory?</span></details></span><br>
 						<span class="whitetext">multiplier: </span><select class="purpletext" id="victory_multiplier"><% 
 							var options = "";
 							var values = [1,2,3,4,5,10];
@@ -259,7 +259,7 @@
 							}
 
 							options.replace("value='1'", "value='1' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>by how much are the cube counts necessary for victory multiplied?</span></details></span><br>
 						<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="victory_tieBreaker"><% 
 							var options = "";
 							var values = ["tie","random","greedy","efficient"];
@@ -268,7 +268,7 @@
 							}
 
 							options.replace("value='efficient'", "value='efficient' selected");
-						%></select><span class="whitetext">,</span><br>
+						%></select><span class="whitetext"></span><span class="graytext"> // <details class="graytext"><summary></summary><span class="transparenttext">__</span><span>if multiple robots meet the victory conditions, which robot is the winner?</span></details></span><br>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				</div>
