@@ -209,6 +209,9 @@
 
 		details {
 			display: inline-block;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
 		}
 
 		summary:focus {
@@ -224,15 +227,12 @@
 			display: inline-block;
 		}
 
-		details[open] summary {
-			position: relative;
-			top: 32px;
-			height: 0px;
-			z-index: 2;
+		details summary span {
+			display: none;
 		}
 
-		details[open] {
-			margin-top: -32px;
+		details[open] summary span {
+			display: inline-block;
 		}
 
 	/* noscript */

@@ -81,6 +81,6 @@
 			color: var(--white);
 		}
 
-		#cubes {
+		.container[value] #cubes {
 			min-height: 90px;
 		}
