@@ -655,14 +655,14 @@
 																<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span>\
 															</div>\
 															<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
-<span class="transparenttext">••••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
-<span class="transparenttext">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
-<span class="transparenttext">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
-<span class="transparenttext">•••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_arm" value="' + (entrant.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (entrant.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (entrant.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
-<span class="transparenttext">••••••</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
-<span class="transparenttext">••••••</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
-<span class="transparenttext">•••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
-<span class="transparenttext">•••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (entrant.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (entrant.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (entrant.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
  <a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a></pre>\
 														</div>');
 													}
@@ -746,30 +746,33 @@
 									//robots
 										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
 											for (var i = 0; i < currentRound.robots.length; i++) {
-												var id = currentRound.robots[i].name;
-												$("#" + id).find(".action").animateText({text: (String(currentRound.robots[i].action) || "?"), indicator: "|", color: "var(--white)"}, 2000);
+												var robot = currentRound.robots[i];
+												var id = robot.name;
 												
-												if ($("#" + id).find(".power").text() !== String(Number(currentRound.robots[i].power))) {
-													$("#" + id).find(".power").delay(2000).animateText({text: (String(Number(currentRound.robots[i].power)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												$("#" + id).find(".action").animateText({text: (String(robot.action) || "?"), indicator: "|", color: "var(--white)"}, 1000);
+												animate_action(id, robot.action);
+												
+												if ($("#" + id).find(".power").text() !== String(Number(robot.power))) {
+													$("#" + id).find(".power").animate({},2000).animateText({text: (String(Number(robot.power)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 												
-												if ($("#" + id).find(".cubes_red").text() !== String(Number(currentRound.robots[i].cubes.red))) {
-													$("#" + id).find(".cubes_red").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												if ($("#" + id).find(".cubes_red").text() !== String(Number(robot.cubes.red))) {
+													$("#" + id).find(".cubes_red").animate({},2000).animateText({text: (String(Number(robot.cubes.red)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
-												if ($("#" + id).find(".cubes_orange").text() !== String(Number(currentRound.robots[i].cubes.orange))) {
-													$("#" + id).find(".cubes_orange").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												if ($("#" + id).find(".cubes_orange").text() !== String(Number(robot.cubes.orange))) {
+													$("#" + id).find(".cubes_orange").animate({},2000).animateText({text: (String(Number(robot.cubes.orange)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
-												if ($("#" + id).find(".cubes_yellow").text() !== String(Number(currentRound.robots[i].cubes.yellow))) {
-													$("#" + id).find(".cubes_yellow").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												if ($("#" + id).find(".cubes_yellow").text() !== String(Number(robot.cubes.yellow))) {
+													$("#" + id).find(".cubes_yellow").animate({},2000).animateText({text: (String(Number(robot.cubes.yellow)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
-												if ($("#" + id).find(".cubes_green").text() !== String(Number(currentRound.robots[i].cubes.green))) {
-													$("#" + id).find(".cubes_green").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												if ($("#" + id).find(".cubes_green").text() !== String(Number(robot.cubes.green))) {
+													$("#" + id).find(".cubes_green").animate({},2000).animateText({text: (String(Number(robot.cubes.green)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
-												if ($("#" + id).find(".cubes_blue").text() !== String(Number(currentRound.robots[i].cubes.blue))) {
-													$("#" + id).find(".cubes_blue").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												if ($("#" + id).find(".cubes_blue").text() !== String(Number(robot.cubes.blue))) {
+													$("#" + id).find(".cubes_blue").animate({},2000).animateText({text: (String(Number(robot.cubes.blue)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
-												if ($("#" + id).find(".cubes_purple").text() !== String(Number(currentRound.robots[i].cubes.purple))) {
-													$("#" + id).find(".cubes_purple").delay(4000).animateText({text: (String(Number(currentRound.robots[i].cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
+												if ($("#" + id).find(".cubes_purple").text() !== String(Number(robot.cubes.purple))) {
+													$("#" + id).find(".cubes_purple").animate({},2000).animateText({text: (String(Number(robot.cubes.purple)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
 												}
 
 											}
@@ -796,22 +799,6 @@
 												
 												i++;
 											});
-											
-											// window.cubes = $(".cube_outer").toArray();
-											// console.log("cube divs: " + window.cubes);
-											// window.cubeLoop = setInterval(function() {
-											// 	if (window.cubes.length > 0) {
-											// 		var cube = window.cubes[window.cubes.length - 1];
-											// 		$(window.cubes[window.cubes.length - 1]).css("position","absolute").animate({
-											// 			top: (((winnerTop + winnerBottom) / 2) - 40 + "px"),
-											// 			left: (((winnerLeft + winnerRight) / 2) - 40 + "px")
-											// 		}, 1000);
-											// 		window.cubes.pop();
-											// 	}
-											// 	else {
-											// 		clearInterval(window.cubeLoop);
-											// 	}
-											// }, 250);
 										}
 
 									//cubes
@@ -947,6 +934,708 @@
 								}
 						}
 					}, 1000);
+				}
+			}
+
+		/* robot animations */
+			window.animateRobot = function(robot, action) {
+				if ((robot !== null) && (robot.length > 0)) {
+					switch(action) {
+						case "power":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+							},0);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							},100);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+							},300);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+							},500);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+							},700);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+							},900);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+							},1100);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+							},1300);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+							},1500);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+							},1600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+							},1700);
+						break;
+
+						case "sap":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+							},0);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+
+
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+							},1600);
+						break;
+
+						case "burn":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+							},0);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+
+
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+							},1600);
+						break;
+
+						case "shock":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+							},0);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+							},100);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").hide();
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+							},300);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").show();
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+							},500);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").hide();
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							},700);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+
+								$("#" + robot).find(".leftDot").show();
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+							},900);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").hide();
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+							},1100);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").show();
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+							},1300);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").hide();
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							},1500);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+
+								$("#" + robot).find(".leftDot").show();
+							},1600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+							},1700);
+						break;
+
+						case "take":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+							},0);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").hide();
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").hide();
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").hide();
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").hide();
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+							},1600);
+						break;
+
+						case "halftake":
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").hide();
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").hide();
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},800);
+						break;
+
+						case "swaptake":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},1600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+							},1800);
+						break;
+
+						case "fliptake":
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},600);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},800);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").hide();
+								$("#" + robot).find(".avatar_right_shoulder_up").show();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},1000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},1200);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_right_shoulder_down").show();
+								$("#" + robot).find(".avatar_right_shoulder_up").hide();
+								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".leftDot").hide();
+							},1400);
+
+							setTimeout(function() {
+								$("#" + robot).find(".leftDot").show();
+							},1600);
+						break;
+
+						case "sleep":
+						default:
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").show();
+								$("#" + robot).find(".avatar_left_shoulder_up").hide();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+								$("#" + robot).find(".avatar").animate({
+									opacity: 0.1
+								},2000);
+							},0);
+							
+							setTimeout(function() {
+								$("#" + robot).find(".avatar").animate({
+									opacity: 1
+								},2000);
+							},2000);
+
+							setTimeout(function() {
+								$("#" + robot).find(".avatar_left_shoulder_down").hide();
+								$("#" + robot).find(".avatar_left_shoulder_up").show();
+								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+							},3000)
+						break;
+					}
 				}
 			}
 	});
