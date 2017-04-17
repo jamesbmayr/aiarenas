@@ -104,6 +104,9 @@
 
 							/* sites */
 								if (typeof data.sites !== "undefined") {
+									if (typeof data.sites !== "object") {
+										data.sites = data.sites.split(",");
+									}
 									var string = "";
 									for (var i = 0; i < data.sites.length; i++) {
 										string += "<a class='bluetext' href='" + data.sites[i] + "' target='_blank'>" + data.sites[i] + "</a>, ";

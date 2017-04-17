@@ -295,10 +295,10 @@
 					<div class="section" id="rules_players">
 						<span class="whitetext">players: {</span>
 						<div class="indented">
-							<span class="whitetext">minimum: </span><span class="purpletext"><% String(data.rules.players.minimum) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">maximum: </span><span class="purpletext"><% String(data.rules.players.maximum) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">pauseDuration: </span><span class="purpletext"><% ((data.rules.players.pauseDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">pausePeriod: </span><span class="purpletext"><% String(data.rules.players.pausePeriod) || "null" %></span>
+							<span class="whitetext">minimum: </span><span class="purpletext"><% String(data.rules.players.minimum) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans must this arena contain at least?</span></summary></details></span><br>
+							<span class="whitetext">maximum: </span><span class="purpletext"><% String(data.rules.players.maximum) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans can this arena contain at most?</span></summary></details></span><br>
+							<span class="whitetext">pauseDuration: </span><span class="purpletext"><% ((data.rules.players.pauseDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when the arena pauses, how long does the code workshop last?</span></summary></details></span><br>
+							<span class="whitetext">pausePeriod: </span><span class="purpletext"><% String(data.rules.players.pausePeriod) || "null" %></span><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop pause?</span></summary></details></span>
 						</div>
 						<span class="whitetext">},</span>
 					</div>
@@ -316,22 +316,22 @@
 								catch (error) {
 									"null";
 								}
-							%></span><span class="whitetext">],</span><br>
-							<span class="whitetext">startCount: </span><span class="purpletext"><% String(data.rules.cubes.startCount) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">maximum: </span><span class="purpletext"><% String(data.rules.cubes.maximum) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">spawnRate: </span><span class="purpletext"><% String(data.rules.cubes.spawnRate) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">spawnMemory: </span><span class="purpletext"><% String(data.rules.cubes.spawnMemory) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">dissolveRate: </span><span class="purpletext"><% String(data.rules.cubes.dissolveRate) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">dissolveIndex: </span><span class="yellowtext">"<% data.rules.cubes.dissolveIndex || "null" %>"</span>
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube colors does this arena include?</span></summary></details></span><br>
+							<span class="whitetext">startCount: </span><span class="purpletext"><% String(data.rules.cubes.startCount) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many cubes does each robot start with?</span></summary></details></span><br>
+							<span class="whitetext">maximum: </span><span class="purpletext"><% String(data.rules.cubes.maximum) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many cubes can a robot hold?</span></summary></details></span><br>
+							<span class="whitetext">spawnRate: </span><span class="purpletext"><% String(data.rules.cubes.spawnRate) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many cubes are generated each round?</span></summary></details></span><br>
+							<span class="whitetext">spawnMemory: </span><span class="purpletext"><% String(data.rules.cubes.spawnMemory) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a cube spawns, how many rounds must pass until a cube of the same color can spawn?</span></summary></details></span><br>
+							<span class="whitetext">dissolveRate: </span><span class="purpletext"><% String(data.rules.cubes.dissolveRate) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many untaken cubes are destroyed each round?</span></summary></details></span><br>
+							<span class="whitetext">dissolveIndex: </span><span class="yellowtext">"<% data.rules.cubes.dissolveIndex || "null" %>"</span><span class="graytext"> // <details class="graytext"><summary><span>which cubes are destroyed each round?</span></summary></details></span>
 						</div>
 						<span class="whitetext">},</span>
 					</div>
 					<div class="section" id="rules_robots">
 						<span class="whitetext">robots: {</span>
 						<div class="indented">
-							<span class="whitetext">startPower: </span><span class="purpletext"><% String(data.rules.robots.startPower) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">maxPower: </span><span class="purpletext"><% String(data.rules.robots.maxPower) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">powerRate: </span><span class="purpletext"><% String(data.rules.robots.powerRate) || "null" %></span><span class="whitetext">,</span><br>
+							<span class="whitetext">startPower: </span><span class="purpletext"><% String(data.rules.robots.startPower) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how much power does each robot enter the arena with?</span></summary></details></span><br>
+							<span class="whitetext">maxPower: </span><span class="purpletext"><% String(data.rules.robots.maxPower) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how much power can a robot hold?</span></summary></details></span><br>
+							<span class="whitetext">powerRate: </span><span class="purpletext"><% String(data.rules.robots.powerRate) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a robot powers, how much does its power increase?</span></summary></details></span><br>
 							<span class="whitetext">actions: [</span><span class="whitetext"><% 
 								try {
 									var string = "";
@@ -343,8 +343,8 @@
 								catch (error) {
 									"null";
 								}
-							%></span><span class="whitetext">],</span><br>
-							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.robots.tieBreaker || "null" %>"</span>
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary><li>power: increment its power number</li><li>take: the taker with the most power wins the round's cubes</li><li>sleep: do nothing; this is the default for code errors or taking without power</li><li>sap: steal power from charging opponents with greater power</li><li>burn: convert a random cube into power</li><li>shock: put opponents with more total cubes to sleep</li><li>halftake: use half power, rounding up, to take cubes</li><li>swaptake: use half power to take cubes and return the same number of cubes, randomly</li><li>fliptake: take the cubes but invert the colors</li></details></span><br>
+							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.robots.tieBreaker || "null" %>"</span><span class="graytext"> // <details class="graytext"><summary><span>when multiple takers have the same power, where do the cubes go?</span></summary><li>leave: the cubes stay in the arena</li><li>dissolve: the cubes are destroyed</li><li>cascade: the cubes go to the next-most-powered robot</li><li>catchup: the cubes go to the robot with the least cubes</li><li>random: the cubes go to a random robot</li></details></span>
 						</div>
 						<span class="whitetext">},</span>
 					</div>
@@ -362,9 +362,9 @@
 								catch (error) {
 									"null";
 								}
-							%></span><span class="whitetext">],</span><br>
-							<span class="whitetext">multiplier: </span><span class="purpletext"><% String(data.rules.victory.multiplier) || "null" %></span><span class="whitetext">,</span><br>
-							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.victory.tieBreaker || "null" %>"</span><br>
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube combinations result in victory?</span></summary><li>1of6: 1 cube of each of the 6 colors</li><li>2of3: 2 cubes of each primary (red, yellow, blue) or secondary (orange, green, purple) color</li><li>3of2: 3 of each of two complimentary colors (red/green, orange/blue, yellow/purple)</li><li>6of1: 6 cubes of 1 color</li></details></span><br>
+							<span class="whitetext">multiplier: </span><span class="purpletext"><% String(data.rules.victory.multiplier) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>by how much are the cube counts necessary for victory multiplied?</span></summary></details></span><br>
+							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.victory.tieBreaker || "null" %>"</span><span class="graytext"> // <details class="graytext"><summary><span>if multiple robots meet the victory conditions, which robot is the winner?</span></summary><li>tie: each of these robots wins</li><li>greedy: the robot with the most cubes wins</li><li>efficient: the robot with the least cubes wins</li><li>random: a random one of these robots wins</li></details></span>
 						</div>
 						<span class="whitetext">}</span>
 					</div>

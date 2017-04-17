@@ -94,7 +94,7 @@
 				<div class="megasection">
 					<div class="section indented" id="name">
 						<div id="name_current">
-							<span class="whitetext"> current: </span><span class="yellowtext" id="current_name"><% data.name %></span><span class="whitetext">,</span>
+							<span class="whitetext"> current: </span><span class="yellowtext" id="current_name"><% data.name %></span><span class="whitetext">,</span> <span class='message graytext'></span>
 						</div>
 						<div id="name_new">
 							<form method='post' action='javascript:;' onsubmit='window.change_name();'>
@@ -109,7 +109,7 @@
 				<div class="megasection">
 					<div class="section indented" id="email">
 						<div id="email_current">
-							<span class="whitetext"> current: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email || "<span class='purpletext'>null</span>" %></a><span class="whitetext">,</span>
+							<span class="whitetext"> current: </span><a class="bluetext" id="email" href="mailto:<% data.email %>"><% data.email || "<span class='purpletext'>null</span>" %></a><span class="whitetext">,</span> <span class='message graytext'></span>
 						</div>
 						<div id="email_new">
 							<form method='post' action='javascript:;' onsubmit='window.send_verification();'>
@@ -124,7 +124,7 @@
 				<div class="megasection">
 					<div class="section indented" id="password">
 						<div id="password_current">
-							<span class="whitetext"> current: </span><span class="purpletext">••••••••</span><span class="whitetext">,</span>
+							<span class="whitetext"> current: </span><span class="purpletext">••••••••</span><span class="whitetext">,</span> <span class='message graytext'></span>
 						</div>
 						<div id="password_new">
 							<form method='post' action='javascript:;' onsubmit='window.change_password();'>

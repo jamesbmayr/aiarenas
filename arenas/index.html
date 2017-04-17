@@ -214,7 +214,7 @@
 						<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
 							var options = "";
 							if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
-								var values = ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"];
+								var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
 							}
 							else if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
 								var values = ["power","take","sleep","sap","halftake","fliptake"];
@@ -227,16 +227,16 @@
 							}
 
 							options.substring(0,options.length - 1).replace("id='robots_actions_take'", "id='robots_actions_take' checked").replace("id='robots_actions_power'", "id='robots_actions_power' checked").replace("id='robots_actions_sleep'", "id='robots_actions_sleep' checked");
-						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary></details></span><br>
+						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary><li>power: increment its power number</li><li>take: the taker with the most power wins the round's cubes</li><li>sleep: do nothing; this is the default for code errors or taking without power</li><li>sap: steal power from charging opponents with greater power</li><li>burn: convert a random cube into power</li><li>shock: put opponents with more total cubes to sleep</li><li>halftake: use half power, rounding up, to take cubes</li><li>swaptake: use half power to take cubes and return the same number of cubes, randomly</li><li>fliptake: take the cubes but invert the colors</li></details></span><br>
 						<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="robots_tieBreaker"><% 
 							var options = "";
-							var values = ["leave","dissolve","cascade","random","catchup"];
+							var values = ["leave","dissolve","cascade","catchup","random"];
 							for (var i = 0; i < values.length; i++) {
 								options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 							}
 
 							options.replace("value='cascade'", "value='cascade' selected");
-						%></select><span class="graytext"> // <details class="graytext"><summary><span>when multiple robots at the same power take cubes, where do the cubes go?</span></summary></details></span>
+						%></select><span class="graytext"> // <details class="graytext"><summary><span>when multiple takers have the same power, where do the cubes go?</span></summary><li>leave: the cubes stay in the arena</li><li>dissolve: the cubes are destroyed</li><li>cascade: the cubes go to the next-most-powered robot</li><li>catchup: the cubes go to the robot with the least cubes</li><li>random: the cubes go to a random robot</li></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -250,7 +250,7 @@
 							}
 
 							options.substring(0,options.length - 1).replace("id='victory_conditions_1of6'", "id='victory_conditions_1of6' checked").replace("id='victory_conditions_2of3'", "id='victory_conditions_2of3' checked").replace("id='victory_conditions_6of1'", "id='victory_conditions_6of1' checked");
-						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube combinations result in victory?</span></summary></details></span><br>
+						%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube combinations result in victory?</span></summary><li>1of6: 1 cube of each of the 6 colors</li><li>2of3: 2 cubes of each primary (red, yellow, blue) or secondary (orange, green, purple) color</li><li>3of2: 3 of each of two complimentary colors (red/green, orange/blue, yellow/purple)</li><li>6of1: 6 cubes of 1 color</li></details></span><br>
 						<span class="whitetext">multiplier: </span><select class="purpletext" id="victory_multiplier"><% 
 							var options = "";
 							var values = [1,2,3,4,5,10];
@@ -262,13 +262,13 @@
 						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>by how much are the cube counts necessary for victory multiplied?</span></summary></details></span><br>
 						<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="victory_tieBreaker"><% 
 							var options = "";
-							var values = ["tie","random","greedy","efficient"];
+							var values = ["tie","greedy","efficient","random"];
 							for (var i = 0; i < values.length; i++) {
 								options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 							}
 
 							options.replace("value='efficient'", "value='efficient' selected");
-						%></select><span class="whitetext"></span><span class="graytext"> // <details class="graytext"><summary><span>if multiple robots meet the victory conditions, which robot is the winner?</span></summary></details></span><br>
+						%></select><span class="whitetext"></span><span class="graytext"> // <details class="graytext"><summary><span>if multiple robots meet the victory conditions, which robot is the winner?</span></summary><li>tie: each of these robots wins</li><li>greedy: the robot with the most cubes wins</li><li>efficient: the robot with the least cubes wins</li><li>random: a random one of these robots wins</li></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				</div>
