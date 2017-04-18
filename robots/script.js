@@ -45,7 +45,7 @@
 					});
 
 				$(".message").text("");
-				$("#message_top").animateText({text: "//now editing"}, 1000);
+				$("#message_top").animateText({text: "//editing robot"}, 1000);
 				resizeTop();
 			}
 
@@ -175,7 +175,7 @@
 					var value = $(this).attr("value");
 					$(this).text(value);
 				});
-				$("#message_top").animateText({text: "//are you sure you want to delete this robot?"}, 1000);
+				$("#message_top").animateText({text: "//confirm robot deletion?"}, 1000);
 
 				resizeTop();
 			}

@@ -7,10 +7,10 @@
 		var parameters = JSON.parse(post.data) || null;
 
 		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
-			callback({success: false, messages: {navbar: "//unable to create; arena contains advanced actions", top: "//unable to create; arena contains advanced actions"}});
+			callback({success: false, messages: {navbar: "//unable to create arena; actions too advanced", top: "//unable to create arena; actions too advanced"}});
 		}
 		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
-			callback({success: false, messages: {navbar: "//unable to create; arena contains expert actions", top: "//unable to create; arena contains expert actions"}});
+			callback({success: false, messages: {navbar: "//unable to create arena; actions too expert", top: "//unable to create arena; actions too expert"}});
 		}
 		else {
 
@@ -30,7 +30,7 @@
 				rules: {
 					players: {
 						minimum: Number(parameters.players.minimum) || 2,
-						maximum: Number(parameters.players.maximum) || 8,
+						maximum: Number(parameters.players.maximum) || 6,
 						pauseDuration: Number(parameters.players.pauseDuration.replace(":00","") * 60 * 1000) || (5 * 60 * 1000),
 						pausePeriod: Number(parameters.players.pausePeriod) || 10,
 					},
@@ -40,18 +40,18 @@
 						maximum: Number(parameters.cubes.maximum) || 255,
 						spawnRate: Number(parameters.cubes.spawnRate) || 1,
 						spawnMemory: Number(parameters.cubes.spawnMemory) || 3,
-						dissolveRate: Number(parameters.cubes.dissolveRate) || 0,
-						dissolveIndex: parameters.cubes.dissolveIndex || "Math.floor(Math.random() * cubes.length)",
+						dissolveRate: Number(parameters.cubes.dissolveRate) || 1,
+						dissolveIndex: parameters.cubes.dissolveIndex || "oldest",
 					},
 					robots: {
-						startPower: Number(parameters.robots.startPower) || 0,
+						startPower: Number(parameters.robots.startPower) || 1,
 						maxPower: Number(parameters.robots.maxPower) || 255,
 						powerRate: Number(parameters.robots.powerRate) || 1,
 						tieBreaker: parameters.robots.tieBreaker || "cascade",
 						actions: parameters.robots.actions || ["power", "take", "sleep"],
 					},
 					victory: {
-						conditions: parameters.victory.conditions || ["6_of_1", "2_of_3", "1_of_6"],
+						conditions: parameters.victory.conditions || ["6of1", "2of3", "1of6"],
 						tieBreaker: parameters.victory.tieBreaker || "efficient",
 						multiplier: Number(parameters.victory.multiplier) || 1,
 					}
@@ -81,7 +81,7 @@
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else if (arena.state.end !== null) {
-				callback({success: false, messages: {top: "//arena has already concluded"}});
+				callback({success: false, messages: {top: "//arena already concluded"}});
 			}
 			else {
 				processes.store("humans", {id: {$in: arena.humans}}, {$pull: {arenas: arena.id}}, function(human) {
@@ -106,23 +106,23 @@
 
 				if (typeof arena !== "undefined") {
 					if (arena.humans.length >= arena.rules.robots.maxCount) {
-						callback({success: false, messages: {navbar: "//unable to join; maxCount exceeded", top: "//unable to join; maxCount exceeded"}});
+						callback({success: false, messages: {navbar: "//unable to join arena; human maximum exceeded", top: "//unable to join arena; human maximum exceeded"}});
 					}
 					else if (arena.humans.indexOf(session.human.id) > -1) {
-						callback({success: false, messages: {navbar: "//already joined", top: "//already joined"}});
+						callback({success: false, messages: {navbar: "//arena already contains this human", top: "//arena already contains this human"}});
 					}
 					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((arena.rules.robots.actions.indexOf("sap") > -1) || (arena.rules.robots.actions.indexOf("halftake") > -1) || (arena.rules.robots.actions.indexOf("fliptake") > -1))) {
-						callback({success: false, messages: {navbar: "//unable to join; arena contains advanced actions", top: "//unable to join; arena contains advanced actions"}});
+						callback({success: false, messages: {navbar: "//unable to join arena; actions too advanced", top: "//unable to join arena; actions too advanced"}});
 					}
 					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((arena.rules.robots.actions.indexOf("shock") > -1) || (arena.rules.robots.actions.indexOf("burn") > -1) || (arena.rules.robots.actions.indexOf("swaptake") > -1))) {
-						callback({success: false, messages: {navbar: "//unable to join; arena contains expert actions", top: "//unable to join; arena contains expert actions"}});
+						callback({success: false, messages: {navbar: "//unable to join arena; actions too expert", top: "//unable to join arena; actions too expert"}});
 					}
 					else {
 						arena.humans.push(session.human.id);
 						
 						processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}}, function(human) {
 							processes.store("arenas", {id: arena.id}, {$push: {humans: session.human.id}}, function(data) {
-								callback({success: true, messages: {navbar: "//successfully joined", top: "//successfully joined"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+								callback({success: true, messages: {navbar: "//arena joined successfully", top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
 							});
 						});
 					}
@@ -164,7 +164,7 @@
 								processes.store("arenas", {id: arena.id}, arena, function(arena) {
 									if (typeof arena.id === "undefined") { arena = arena[0]; }
 
-									callback({success: true, messages: {top: "//successfully joined arena"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+									callback({success: true, messages: {top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
 								});
 							}
 							else {
@@ -173,7 +173,7 @@
 						});
 					}
 					else {
-						callback({success: false, messages: {top: "//join arena first"}});
+						callback({success: false, messages: {top: "//arena must be joined first"}});
 					}
 				}
 				else {
@@ -195,13 +195,13 @@
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if ((typeof arena === "undefined") || (typeof arena.id === "undefined") || (arena.id == null)) {
-					callback({success: false, messages: {top: "//not a valid arena id"}});
+					callback({success: false, messages: {top: "//invalid arena id"}});
 				}
 				else if (!(arena.humans.indexOf(session.human.id) > -1)) {
-					callback({success: false, messages: {top: "//already left this arena"}});
+					callback({success: false, messages: {top: "//arena does not contain this human"}});
 				}
 				else if (arena.state.end !== null) {
-					callback({success: false, messages: {top: "//arena has already concluded"}});
+					callback({success: false, messages: {top: "//arena already concluded"}});
 				}
 				else {
 					var robot_id = Object.keys(arena.entrants).find(function(i) { return arena.entrants[i].human.id === session.human.id });
@@ -212,7 +212,7 @@
 						processes.store("humans", {id: session.human.id}, {$pull: {arenas: data.arena_id}}, function(human) {
 							processes.store("arenas", {id: data.arena_id}, {$pull: {humans: session.human.id}}, function(arena) {
 								processes.store("arenas", {id: data.arena_id}, {$unset: unset}, function(arena) {
-									callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
+									callback({success: true, messages: {top: "//arena left successfully"}, redirect: "../../../../arenas/"});
 								});
 							});
 						});
@@ -220,7 +220,7 @@
 					else {
 						processes.store("humans", {id: session.human.id}, {$pull: {arenas: data.arena_id}}, function(human) {
 							processes.store("arenas", {id: data.arena_id}, {$pull: {humans: session.human.id}}, function(arena) {
-								callback({success: true, messages: {top: "//successfully left arena"}, redirect: "../../../../arenas/"});
+								callback({success: true, messages: {top: "//arena left successfully"}, redirect: "../../../../arenas/"});
 							});
 						});
 					}
@@ -243,20 +243,20 @@
 				if ((typeof arena.id !== "undefined") && (arena.id !== null)) {
 
 					if (Object.keys(arena.entrants).length !== arena.humans.length) {
-						callback({success: false, messages: {top: "//some humans have not selected robots yet"}});
+						callback({success: false, messages: {top: "//some humans have not selected robots"}});
 					}
 					else if (Object.keys(arena.entrants).length > arena.rules.players.maximum) {
-						callback({success: false, messages: {top: "//robot count exceeds maximum set"}});
+						callback({success: false, messages: {top: "//robot count exceeds maximum"}});
 					}
 					else if (Object.keys(arena.entrants).length < arena.rules.players.minimum) {
-						callback({success: false, messages: {top: "//robot count does not meet minimum set"}});
+						callback({success: false, messages: {top: "//robot count does not meet minimum"}});
 					}
 					else {
 						arena.state.start = (new Date().getTime()) + (1000 * 5); //start the game (in 5 seconds)!
 						arena.state.locked = false; //unlock it for the future
 									
 						processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
-							callback({success: true, arena: arena, messages: {top: "//this arena is about to start..."}}); //send back the updated arena
+							callback({success: true, arena: arena, messages: {top: "//arena starting soon..."}}); //send back the updated arena
 						});
 					}
 				}
@@ -278,7 +278,7 @@
 				callback({success: false, messages: {top: "//unable to retrieve arena"}});
 			}
 			else if (!(Object.keys(arena.entrants).indexOf(data.robot_id) > -1)) {
-				callback({success: false, messages: {top: "//unable to find robot in arena"}});
+				callback({success: false, messages: {top: "//arena does not contain robot"}});
 			}
 			else {
 				var robot = arena.entrants[data.robot_id];
@@ -348,18 +348,18 @@
 
 
 					if (arena.state.start === null) { //if the game has not started...
-						callback({success: true, arena: arena, messages: {top: "//this arena has not started"}});
+						callback({success: true, arena: arena, messages: {top: "//arena not started"}});
 					}
 					else if ((timeNow > arena.state.pauseFrom) && (timeNow < arena.state.pauseTo)) { //if the game is paused...
-						callback({success: true, arena: arena, messages: {top: "//this arena is paused"}});
+						callback({success: true, arena: arena, messages: {top: "//arena paused"}});
 					}
 					else if (arena.state.end !== null) { //if the game is over...
-						callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
+						callback({success: true, arena: arena, messages: {top: "//arena concluded"}});
 					}
 					else { //if the game is in play...
 						console.log(3);
 						if ((arena.rounds.length > 0) && (timeNow <= arena.rounds[arena.rounds.length - 1].start)) { //asking for a round that * does * exist already
-							callback({success: true, arena: arena, messages: {top: "//this arena is in play"}});
+							callback({success: true, arena: arena, messages: {top: "//arena in play"}});
 						}
 						else { //asking for a round that hasn't been evaluated yet
 							console.log(4);
@@ -387,7 +387,7 @@
 												processes.store("arenas", {id: arena.id}, updated_arena, function(data) { //store it
 													if (updated_arena.state.end === null) { //if the arena has not concluded...
 														console.log(8);
-														callback({success: true, arena: updated_arena, messages: {top: "//this arena is in play"}}); //send back the updated arena
+														callback({success: true, arena: updated_arena, messages: {top: "//arena in play"}}); //send back the updated arena
 													}
 													else { //if it has concluded...
 														console.log(9);
@@ -412,7 +412,7 @@
 																processes.store("humans", {id: {$in: human_losers}}, {$inc: {"statistics.losses": 1}, $pull: {arenas: arena.id}}, function(data) { //humans +1 loss
 																	processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}}, function(data) { //robots +1 win
 																		processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}}, function(data) { //robots +1 loss
-																			callback({success: true, arena: arena, messages: {top: "//this arena has concluded"}});
+																			callback({success: true, arena: arena, messages: {top: "//arena concluded"}});
 																		});
 																	});
 																});

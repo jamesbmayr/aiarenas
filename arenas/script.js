@@ -674,7 +674,7 @@
 									}
 								}
 								else {
-									$("#message_top").animateText({text: (data.messages.top || "//having trouble reading arena")}, 1000);
+									$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
 								}
 							}
 						});
@@ -683,7 +683,7 @@
 				else if (state === "concluded") { //concluded game --> do nothing
 					clearInterval(window.checkLoop);
 					clearInterval(window.gameLoop);
-					$("#message_top").animateText({text: "//the arena has concluded..."}, 1000);
+					$("#message_top").animateText({text: "//arena concluded"}, 1000);
 					resizeTop();
 				}
 				else { //active game --> gameLoop
@@ -709,7 +709,7 @@
 									success: function(data) {
 										if (data.success) {
 											window.arena = data.arena;
-											$("#message_top").animateText({text: (data.messages.top || "//got the arena")}, 1000);
+											$("#message_top").animateText({text: (data.messages.top || "//arena retrieved")}, 1000);
 										}
 										else {
 											$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
@@ -726,7 +726,7 @@
 							
 							//starting soon
 								if (timeNow < window.arena.state.start) {
-									$("#message_top").animateText({text: "//starting the arena..."}, 500);
+									$("#message_top").animateText({text: "//starting arena"}, 500);
 								}
 
 							//display up-to-date info
@@ -828,7 +828,7 @@
 
 							//concluded
 								if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
-									$("#message_top").animateText({text: "//the arena has concluded"}, 1000);
+									$("#message_top").animateText({text: "//arena concluded"}, 1000);
 									clearInterval(gameLoop);
 
 									//sections
@@ -869,7 +869,7 @@
 											</div>';
 										}
 
-										$("#postgame").html(message || "//this arena has concluded");
+										$("#postgame").html(message || "//arena concluded");
 										
 										resizeTop();
 								}
@@ -889,7 +889,7 @@
 												$("#workshop_outer").show();
 
 												resizeTop();
-												$("#message_top").animateText({text: "//this arena is paused"}, 1000);
+												$("#message_top").animateText({text: "//arena paused"}, 1000);
 											}
 
 											lastTime = window.arena.state.pauseTo;

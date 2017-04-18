@@ -5,10 +5,10 @@
 /* signin(session, post, callback) */
 	function signin(session, post, callback) {
 		if ((typeof post.signin_name == "undefined") || (post.signin_name.length < 8) || (!processes.isNumLet(post.signin_name))) {
-			callback({success: false, messages: {top: "//enter your name of 8 or more letters and numbers"}});
+			callback({success: false, messages: {top: "//enter human name of 8 or more letters and numbers"}});
 		}
 		else if ((typeof post.signin_password == "undefined") || (post.signin_password.length < 8)) {
-			callback({success: false, messages: {top: "//enter your password of 8 or more characters"}});
+			callback({success: false, messages: {top: "//enter password of 8 or more characters"}});
 		}
 		else {
 			processes.retrieve("humans", {name: post.signin_name}, function(data) {
@@ -44,29 +44,29 @@
 /* signup(session, post, callback) */
 	function signup(session, post, callback) {
 		if ((typeof post.signup_name == "undefined") || (post.signup_name.length < 8) || (!processes.isNumLet(post.signup_name))) {
-			callback({success: false, messages: {top: "//enter a name of 8 or more letters and numbers"}});
+			callback({success: false, messages: {top: "//enter human name of 8 or more letters and numbers"}});
 		}
 		else if ((typeof post.signup_email == "undefined") || (post.signup_email.length == 0) || (!processes.isEmail(post.signup_email))) {
-			callback({success: false, messages: {top: "//enter a valid email address"}});
+			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else if ((typeof post.signup_password == "undefined") || (post.signup_password.length < 8)) {
-			callback({success: false, messages: {top: "//enter a password of 8 or more characters"}});
+			callback({success: false, messages: {top: "//enter password of 8 or more characters"}});
 		}
 		else if ((typeof post.signup_confirm == "undefined") || (post.signup_confirm.length < 8) || (post.signup_confirm !== post.signup_password)) {
 			callback({success: false, messages: {top: "//passwords do not match"}});
 		}
 		else if (processes.isReserved(post.signup_name)) {
-			callback({success: false, messages: {top: "//name is not available"}});
+			callback({success: false, messages: {top: "//name unavailable"}});
 		}
 		else {
 			processes.retrieve("humans", {name: post.signup_name}, function(data) {
 				if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-					callback({success: false, messages: {top: "//name is not available"}});
+					callback({success: false, messages: {top: "//name unavailable"}});
 				}
 				else {
 					processes.retrieve("humans", {email: post.signup_email}, function(data) {
 						if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-							callback({success: false, messages: {top: "//email is not available"}});
+							callback({success: false, messages: {top: "//email unavailable"}});
 						}
 						else {
 							var random = processes.random();
@@ -93,17 +93,17 @@
 /* verify(session, post, callback) */
 	function verify(session, post, callback) {
 		if ((typeof post.verification === "undefined") || (post.verification.length !== 32)) {
-			callback({success: false, messages: {top: "//enter a 32-character verification key"}});
+			callback({success: false, messages: {top: "//enter 32-character verification key"}});
 		}
 		else if ((typeof post.email === "undefined") || (!isEmail(post.email))) {
-			callback({success: false, messages: {top: "//enter a valid email address"}});
+			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else {
 			processes.retrieve("humans", {email: post.email}, function(human) {
 				if (typeof human.id === "undefined") {human = human[0];}
 
 				if ((typeof human !== "undefined") && (human.id !== null)) {
-					callback({success: false, messages: {top: "//email is not available"}});
+					callback({success: false, messages: {top: "//email unavailable"}});
 				}
 				else {
 					processes.retrieve("humans", {$and: [{verification: post.verification}, {new_email: post.email}]}, function(human) {
@@ -126,21 +126,21 @@
 /* sendReset(session, post, callback) */
 	function sendReset(session, post, callback) {
 		if ((typeof post.reset_email === "undefined") || (!(post.reset_email.length > 0)) || (!processes.isEmail(post.reset_email))) {
-			callback({success: false, messages: {top: "//enter a valid email address"}});
+			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else {
 			processes.retrieve("humans", {$or: [{email: post.reset_email}, {new_email: post.reset_email}]}, function(human) {
 				if (typeof human.id === "undefined") { human = human[0]; }
 
 				if (typeof human === "undefined") {
-					callback({success: false, messages: {top: "//email not in database"}});
+					callback({success: false, messages: {top: "//unable to retrieve email address"}});
 				}
 				else {
 					var random = processes.random();
 
 					processes.store("humans", {id: human.id}, {$set: {verification: random}}, function (results) {
 						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='http://aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>();</div>", function(data) {
-							callback({success: true, messages: {top: "//reset email has been sent"}});
+							callback({success: true, messages: {top: "//reset email sent"}});
 						});
 					});
 				}
@@ -151,13 +151,13 @@
 /* verifyReset(session, post, callback) */
 	function verifyReset(session, post, callback) {
 		if ((typeof post.reset_verification === "undefined") || (post.reset_verification.length !== 32)) {
-			callback({success: false, messages: {top: "//enter a 32-character verification key"}});
+			callback({success: false, messages: {top: "//enter 32-character verification key"}});
 		}
 		else if ((typeof post.reset_email === "undefined") || (!processes.isEmail(post.reset_email))) {
-			callback({success: false, messages: {top: "//enter a valid email address"}});
+			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else if ((typeof post.reset_password == "undefined") || (post.reset_password.length < 8)) {
-			callback({success: false, messages: {top: "//enter a password of 8 or more characters"}});
+			callback({success: false, messages: {top: "//enter password of 8 or more characters"}});
 		}
 		else if ((typeof post.reset_confirm == "undefined") || (post.reset_confirm.length < 8) || (post.reset_confirm !== post.reset_password)) {
 			callback({success: false, messages: {top: "//passwords do not match"}});

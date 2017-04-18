@@ -75,11 +75,11 @@
 							}
 							else if (processes.isReserved(data.name)) {
 								data.name = robot.name;
-								messages.name = "//that name is taken";
+								messages.name = "//name unavailable";
 							}
 							else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
 								data.name = robot.name;
-								messages.name = "//name must be 8 or more numbers and letters";
+								messages.name = "//enter robot name of 8 or more numbers and letters";
 							}
 							else {
 								// var code = robot[robot.name];
@@ -97,7 +97,7 @@
 							}
 							else if ((data.show_code !== "true") && (data.show_code !== "false")) {
 								data.show_code = robot.information.show_code
-								messages.show_code = "//not a valid option";
+								messages.show_code = "//invalid option";
 							}
 							else {
 								robot.information.show_code = data.show_code;

@@ -15,7 +15,7 @@
 				$("#human_cancel").show();
 				$("#human_delete").hide();
 				$("#human_confirm_delete").show();
-				$("#delete").find(".message").animateText({text: "//are you sure you want to delete your account?"}, 1000);
+				$("#delete").find(".message").animateText({text: "//confirm human deletion?"}, 1000);
 			}
 
 			window.human_confirm_delete = function() {
@@ -39,7 +39,7 @@
 							$("#human_delete").show();
 							$("#human_confirm_delete").hide();
 
-							$("#delete").find(".message").animateText({text: (results.messages.top || "//unable to delete account")}, 1000);
+							$("#delete").find(".message").animateText({text: (results.messages.top || "//unable to delete human")}, 1000);
 						}
 					}
 				});
@@ -78,11 +78,11 @@
 						if (data.success) {
 							$("#current_name").text($("#new_name").val());
 							$("#new_name").val("");
-							$("#name").find(".message").animateText({text: (data.messages.name || "//name has been changed")}, 1000);
+							$("#name").find(".message").animateText({text: (data.messages.name || "//name updated")}, 1000);
 						}
 						else {
 							$("#new_name").val("");
-							$("#name").find(".message").animateText({text: (data.messages.name || "//unable to change name")}, 1000);
+							$("#name").find(".message").animateText({text: (data.messages.name || "//unable to update name")}, 1000);
 						}
 					}
 				});
@@ -102,12 +102,12 @@
 						if (data.success) {
 							$("#new_password").val("");
 							$("#confirm_password").val("");
-							$("#password").find(".message").animateText({text: (data.messages.password || "//password has been changed")}, 1000);
+							$("#password").find(".message").animateText({text: (data.messages.password || "//password updated")}, 1000);
 						}
 						else {
 							$("#new_password").val("");
 							$("#confirm_password").val("");
-							$("#password").find(".message").animateText({text: (data.messages.password || "//unable to change password")}, 1000);
+							$("#password").find(".message").animateText({text: (data.messages.password || "//unable to update password")}, 1000);
 						}
 					}
 				});

@@ -206,10 +206,10 @@
 					},
 					success: function(data) {
 						if (data.success) {
-							$("#message_top").animateText({text: (data.messages.top || "//email has been verified")}, 1000);
+							$("#message_top").animateText({text: (data.messages.top || "//email verified")}, 1000);
 						}
 						else {
-							$("#message_top").animateText({text: (data.messages.top || "//unable to verify")}, 1000);
+							$("#message_top").animateText({text: (data.messages.top || "//unable to verify email")}, 1000);
 						}
 					}
 				});
@@ -248,13 +248,13 @@
 								feedback: feedback
 							},
 							success: function(data) {
-								$("#feedback").find(".message").animateText({text: "//feedback has been submitted"});
+								$("#feedback").find(".message").animateText({text: "//feedback submitted"});
 
 								$("#feedback_name").val("");
 								$("#feedback_text").val("");
 							},
 							error: function(data) {
-								$("#feedback").find(".message").animateText({text: "//feedback has been submitted"});
+								$("#feedback").find(".message").animateText({text: "//feedback submitted"});
 
 								$("#feedback_name").val("");
 								$("#feedback_text").val("");

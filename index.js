@@ -502,7 +502,7 @@
 								try {
 									if (session.human !== null) {
 										settings.updateName(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {name: "//unable to change name"}}));
+											response.end(JSON.stringify(data || {success: false, messages: {name: "//unable to update name"}}));
 										});
 									}
 									else {
@@ -516,7 +516,7 @@
 								try {
 									if (session.human !== null) {
 										settings.updatePassword(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {password: "//unable to change password"}}));
+											response.end(JSON.stringify(data || {success: false, messages: {password: "//unable to update password"}}));
 										});
 									}
 									else {
@@ -746,7 +746,7 @@
 										console.log("first here");
 										tutorials.complete(session, post, function(data) {
 											console.log("later here");
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to store tutorial completion"}}));
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update tutorial completion"}}));
 										});
 									}
 									else {
@@ -780,7 +780,7 @@
 
 				function _404(data) { //invalid get request
 					response.writeHead(404, {"Content-Type": "text/html"});
-					response.end(data || processes.render("./assets/errors/404.shtml"));
+					response.end(data || processes.render("./assets/asciiBots/errorBot.shtml"));
 				}
 			}
 	}

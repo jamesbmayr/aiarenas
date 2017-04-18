@@ -94,11 +94,14 @@ $(document).ready(function() {
 
 	/* colorText */		
 		window.colorText = function(text) {
-			if (text.length) {				
+			if (text.length) {			
 				
 				function grayizer(text) {
+					text = " " + text;
+
 					var position = 0;
-					var startPosition = text.indexOf("/*",position) || false; // find next comment start
+					var startPosition = Number(text.indexOf("/*",position)); // find next comment start
+					if (startPosition < 0) { startPosition = false; }
 					var loop = 0;
 
 					while ((startPosition > position) && (loop < 100)) { //loop through up to 100 times
@@ -113,15 +116,19 @@ $(document).ready(function() {
 						loop++;
 					}
 
-					text = text.replace(/\/\/(.*?)\n/g,"<span graytext>//$1</span graytext>\n"); //regex for regular double-slash comments
+					text = text.replace(/\/\/(.*?)(\n|$)/g,"<span graytext>//$1</span graytext>\n"); //regex for regular double-slash comments
 
-					return text;
+					return text.substring(1);
 				}
 
 				function yellowizer (text) {
+					text = " " + text;
+
 					var position = 0;
-					var dqPosition = text.indexOf("\"",position) || false; // find next double quote
-					var sqPosition = text.indexOf("\'",position) || false; // find next single quote
+					var dqPosition = Number(text.indexOf("\"",position)); // find next double quote
+					if (dqPosition < 0) { dqPosition = false; }
+					var sqPosition = Number(text.indexOf("\'",position)); // find next single quote
+					if (sqPosition < 0) { sqPosition = false; }
 					var loop = 0;
 
 					while (((dqPosition > position) || (sqPosition > position)) && (loop < 100)) { //loop through up to 100 times
@@ -225,7 +232,7 @@ $(document).ready(function() {
 						loop++;
 					}
 
-					return text;
+					return text.substring(1);
 				}
 
 				function rgbopizer(text) {

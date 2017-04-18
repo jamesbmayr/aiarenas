@@ -7,7 +7,7 @@
 		border-color: var(--yellow);
 	}
 
-/* robots */
+	/* robots */
 		.self {
 			width: 340px;
 			height: 186px;
@@ -70,4 +70,12 @@
 			top: 50%;
 			transform: translateY(-50%);
 			color: var(--white);
+		}
+
+	/* code */
+		.live_line {
+			background-color: #111111;
+			border-radius: 5px;
+			padding: 0px 4px 0px 4px;
+			margin: 0px -4px 0px -4px;
 		}

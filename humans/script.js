@@ -20,7 +20,7 @@
 
 				$(".field").prop("contenteditable",true).closest(".field_frame").addClass("active");
 				$(".message").text("");
-				$("#message_top").animateText({text: "//now editing"}, 1000);
+				$("#message_top").animateText({text: "//editing human"}, 1000);
 
 				/* sites */
 					$("#sites").text($("#sites").attr("value"));

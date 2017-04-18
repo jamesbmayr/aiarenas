@@ -17,7 +17,7 @@
 					}
 					else if (!(processes.assets("fonts").indexOf(data.font_scheme) > -1)) {
 						//not a valid color scheme
-						messages.font_scheme = "//not a valid font choice";
+						messages.font_scheme = "//invalid font";
 					}
 					else {
 						session.human.settings.font_scheme = data.font_scheme;
@@ -31,7 +31,7 @@
 					}
 					else if (!(processes.assets("color_schemes").indexOf(data.color_scheme) > -1)) {
 						//not a valid color scheme
-						messages.color_scheme = "//not a valid color scheme";
+						messages.color_scheme = "//invalid color scheme";
 					}
 					else {
 						session.human.settings.color_scheme = data.color_scheme;
@@ -44,11 +44,11 @@
 						//no change
 					}
 					else if ((data.show_email !== "true") && (data.show_email !== "false")) {
-						messages.show_email = "//not a valid setting";
+						messages.show_email = "//invalid option";
 					}
 					else {
 						session.human.settings.show_email = data.show_email;
-						messages.show_email = "//email visibility setting updated";
+						messages.show_email = "//email visibility updated";
 					}
 				break;
 
@@ -57,11 +57,11 @@
 						//no change
 					}
 					else if ((data.email_notifications !== "true") && (data.email_notifications !== "false")) {
-						messages.email_notifications = "//not a valid setting";
+						messages.email_notifications = "//invalid option";
 					}
 					else {
 						session.human.settings.email_notifications = data.email_notifications;
-						messages.email_notifications = "//email notifications setting updated";
+						messages.email_notifications = "//email notifications updated";
 					}
 				break;
 
@@ -82,17 +82,17 @@
 /* updateName(session, post, callback) */
 	function updateName(session, post, callback) {
 		if ((typeof post.name === "undefined") || (post.name.length < 8) || (!processes.isNumLet(post.name))) {
-			callback({success: false, messages: {name: "//enter a name of 8 or more letters and numbers"}});
+			callback({success: false, messages: {name: "//enter human name of 8 or more letters and numbers"}});
 		}
 		else if (processes.isReserved(post.name)) {
-			callback({success: false, messages: {name: "//name is not available"}});
+			callback({success: false, messages: {name: "//name unavailable"}});
 		}
 		else {
 			processes.retrieve("humans", {name: post.name}, function(human) {
 				if (typeof human.id === "undefined") { human = human[0]; }
 
 				if ((typeof human !== "undefined") && (human.id !== null)) {
-					callback({success: false, messages: {name: "//name is taken"}});
+					callback({success: false, messages: {name: "//name unavailable"}});
 				}
 				else {
 					var robots = [];
@@ -103,7 +103,7 @@
 					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, function(robot) {
 						if (typeof robot.id === "undefined") { robot = robot[0]; }
 						processes.store("humans", {id: session.human.id}, {$set: {name: post.name, "avatar.ascii": (processes.ascii_character(post.name[0]) || "")}}, function(human) {
-							callback({success: true, messages: {name: "//name changed"}});
+							callback({success: true, messages: {name: "//name updated"}});
 						});
 					});
 				}
@@ -114,7 +114,7 @@
 /* updatePassword(session, post, callback) */
 	function updatePassword(session, post, callback) {
 		if ((typeof post.password === "undefined") || (post.password.length < 8)) {
-			callback({success: false, messages: {password: "//enter a password of 8 or more characters"}});
+			callback({success: false, messages: {password: "//enter password of 8 or more characters"}});
 		}
 		else if ((typeof post.confirm == "undefined") || (post.confirm.length < 8) || (post.confirm !== post.password)) {
 			callback({success: false, messages: {password: "//passwords do not match"}});
@@ -123,7 +123,7 @@
 			var salt = processes.random();
 			var password = processes.hash(post.password, salt);
 			processes.store("humans", {id: session.human.id}, {$set: {password: password, salt: salt}}, function(human) {
-				callback({success: true, messages: {password: "//password changed"}});
+				callback({success: true, messages: {password: "//password updated"}});
 			});
 		}
 	}
@@ -131,14 +131,14 @@
 /* sendVerification(session, post, callback) */
 	function sendVerification(session, post, callback) {
 		if ((typeof post.email === "undefined") || (!processes.isEmail(post.email))) {
-			callback({success: false, messages: {top: "//enter a valid email address"}});
+			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else {
 			processes.retrieve("humans", {email: post.email}, function(human) {
 				if (typeof human.id === "undefined") {human = human[0];}
 
 				if ((typeof human !== "undefined") && (human.id !== null)) {
-					callback({success: false, messages: {top: "//email is not available"}});
+					callback({success: false, messages: {top: "//email unavailable"}});
 				}
 				else {
 					var random = processes.random();

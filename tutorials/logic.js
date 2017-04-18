@@ -14,7 +14,7 @@
 
 				console.log("aaaand here");
 				if ((typeof human === "undefined") || (human === null)) {
-					callback({success: false, messages: {top: "//not a valid human"}});
+					callback({success: false, messages: {top: "//invalid human"}});
 				}
 				else {
 					callback({success: true, messages: {top: "//tutorial completion saved"}});
@@ -22,7 +22,7 @@
 			});
 		}
 		else {
-			callback({success: false, messages: {top: "//not a valid tutorial"}});
+			callback({success: false, messages: {top: "//invalid tutorial"}});
 		}
 	}
 
