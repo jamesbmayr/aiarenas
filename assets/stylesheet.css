@@ -155,6 +155,23 @@
 			color: var(--purple);
 		}
 
+		input[type=number] {
+			border-radius: 5px;
+			background-color: var(--black);
+			color: var(--purple);
+			width: 40px;
+			border: 0px;
+			text-align: right;
+			outline: none;
+			height: 16px;
+			margin: 0px;
+			padding: 0px;
+		}
+
+		input[type=number]:focus {
+			outline: none;
+		}
+
 		textarea {
 			border: 2px solid var(--white);
 			border-radius: 5px;

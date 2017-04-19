@@ -304,7 +304,7 @@
 							case (/^\/robots\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										_302("../../../../humans/" + session.human.name);
+										response.end(processes.render("./robots/main.html", session, null));
 									}
 									else {
 										_302();
@@ -603,6 +603,20 @@
 									if (session.human !== null) {
 										robots.destroy(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete robot"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "load_robot":
+								try {
+									if (session.human !== null) {
+										robots.load(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to retrieve robot"}}));
 										});
 									}
 									else {

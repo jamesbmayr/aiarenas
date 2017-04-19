@@ -136,18 +136,18 @@
 						break;
 
 						case "avatar":
-							var avatar_keys = Object.keys(data.avatar);
+							var avatar_keys = Object.keys(data.avatar) || [];
 							var avatar = {};
 
-							for (var i = 0; i < avatar_keys.length; i++) {
-								if (data.avatar[avatar_keys[i]] === robot.avatar[avatar_keys[i]]) {
+							for (var j = 0; j < avatar_keys.length; j++) {
+								if (data.avatar[avatar_keys[j]] === robot.avatar[avatar_keys[j]]) {
 									//no change
 								}
-								else if (!(processes.ascii_robot(avatar_keys[i]).indexOf(data.avatar[avatar_keys[i]]) > -1)) {
+								else if (!(processes.ascii_robot(avatar_keys[j]).indexOf(data.avatar[avatar_keys[j]]) > -1)) {
 									//no change
 								}
 								else {
-									robot.avatar[avatar_keys[i]] = data.avatar[avatar_keys[i]].replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+									robot.avatar[avatar_keys[j]] = data.avatar[avatar_keys[j]].replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
 									messages.avatar = "//avatar updated";
 								}
 							}
@@ -197,9 +197,25 @@
 		});
 	}
 
+/* load(session, post, callback) */
+	function load(session, post, callback) {
+		var data = JSON.parse(post.data);
+		processes.retrieve("robots", {id: data.robot_id}, function(robot) {
+			if (typeof robot.id === "undefined") { robot = robot[0]; }
+
+			if ((typeof robot === "undefined") || (typeof robot.human === "undefined") || (robot.human.id !== session.human.id)) {
+				callback({success: false, messages: {top: "//not authorized"}});
+			}
+			else {
+				callback({success: true, messages: {top: "//robot retrieved successfully"}, data: robot});
+			}
+		})
+	}
+
 /* exports */
 	module.exports = {
 		create: create,
 		update: update,
 		destroy: destroy,
+		load: load
 	};

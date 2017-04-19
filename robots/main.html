@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ai_arenas.robots</title>
+		<link rel="shortcut icon" type="image/png" href="logo.png"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
+		<link rel="stylesheet" type="text/css" href="<% assets('google_fonts') %>"/>
+		<link rel="stylesheet" type="text/css" href="../../robots/stylesheet.css"/>
+		<% colors(session) + fonts(session); %>
+		<script type="text/javascript" src="<% assets('jquery') %>"></script>
+		<script type="text/javascript" src="../../robots/script.js"></script>
+	</head>
+	<body>
+		<% navbar(session); %>
+		<div class="container" value="">
+			<div class="top_outer">
+				<div class="top_inner">
+					<div class="section">
+						<span class="whitetext header">robots</span> <span class="graytext" id="message_top"></span>
+					</div>
+					<div class="indented">
+						<div class="section">
+							<form id="load_form" method="post" action="javascript:;" onsubmit="window.load_robot();">
+								<span class="whitetext">.</span><button id="load_robot" name="action" value="load_robot"><span class="greentext">load</span></button><span class="whitetext">(</span><select id="robot_select" class="greentext">
+									<% 
+										var robots = session.human.robots;
+										var options = "";
+										//.concat({"id": "new_robot", "name": "new_robot"});
+										for (var i = 0; i < robots.length; i++) {
+											options += "<option value='" + robots[i].id + "'>" + robots[i].name + "</option>";
+										}
+
+										options;
+									%>
+								</select><span class="whitetext">);</span>
+							</form>
+						</div>
+						<div class="section">
+							<form method='post' action='javascript:;' onsubmit='window.robot_save();'>
+								<button id='workshop_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
+							</form>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+			<div class="indented content" style="display: none">			
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext robot_name"></span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value='' contenteditable=true></span></span><span class="whitetext">) {</span> <span class='message graytext'></span></div>
+				<div class="megasection">
+					<div class="indented">
+						<div class="field_frame active">
+							<span class="whitetext field" id="code" value='' contenteditable=true></span>
+						</div>
+					</div>
+				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+				<div class="section">
+					<form method="post" action="javascript:;" onsubmit="window.eval_code();">
+						<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext robot_name"></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span>
+					</form>
+				</div>
+				<details class="graytext"><summary>//console logs</summary><div id="console"></div></details><br>
+				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext">.arena<span class="redtext"> = </span><span class="whitetext">{</span></div>
+				<div class="megasection">
+					<div class="section indented" id="robots">
+						<div class="section self">
+							<div class="stats">
+								<span class="whitetext">power: </span><input type="number" min="0" max="255" class="purpletext power" value="0"><span class="whitetext">,</span><br>
+								<span class="whitetext">cubes: {
+									<div class="indented">
+										<span class="redtext">r: <input type="number" min="0" max="255" class="cubes_red" value="0"></span>,<br>
+										<span class="orangetext">o: <input type="number" min="0" max="255" class="cubes_orange" value="0"></span>,<br>
+										<span class="yellowtext">y: <input type="number" min="0" max="255" class="cubes_yellow" value="0"></span>,<br>
+										<span class="greentext">g: <input type="number" min="0" max="255" class="cubes_green" value="0"></span>,<br>
+										<span class="bluetext">b: <input type="number" min="0" max="255" class="cubes_blue" value="0"></span>,<br>
+										<span class="purpletext">p: <input type="number" min="0" max="255" class="cubes_purple" value="0"></span>
+									</div>
+								},</span><br>
+								<span class="whitetext">action: </span><span class="greentext action"></span>
+							</div>
+							<pre class="avatar_pre" monospace></pre>
+						</div>
+						<span id="opponents"></span>
+					</div>
+					<div class="section indented">
+						<form method="post" action="javascript:;" onsubmit="window.add_opponent();">
+							<button class="whitetext" id="add_opponent" name="action" value="add_opponent"><span class="greentext">addOpponent</span>()</button>
+						</form>
+					<div class="section indented whitetext" id="cubes">
+					</div>
+				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+			</div>
+		</div>
+	</body>
+</html>
