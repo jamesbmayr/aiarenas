@@ -23,9 +23,9 @@
 							<span class="whitetext">.<a class="bluetext" href="../../../../about">about</a>;</span>
 						</div>
 						<% 
-							if (session.human !== null) { 
+							/*if (session.human !== null) { 
 								"<div class='section'><span class='whitetext'>.human</span><span class='redtext'> = </span><a class='bluetext' href='../../../../humans/" + session.human.name + "'>" + session.human.name + "</a><span class='whitetext'>;</span></div>";
-							}
+							}*/
 						%>
 						<div id="signinup" class="section">
 							<div id="action_select" <% if (session.human !== null) { "style='display: none;'"} %> >
@@ -52,20 +52,96 @@
 							<form id="reset_form" method="post" action="javascript:;" onsubmit="window.verifyReset();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action === "reset")) {} else {"style='display: none;'"} %> >
 								<span class="whitetext">.</span><button id="verifyReset" name="action" value="verifyReset"><span class="greentext">verify</span></button><span class="whitetext">(</span><input type="text" id="reset_email" class="orangetext" name="reset_email" placeholder="email" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'reset')) { data.email || null } %>"/><span class="whitetext">,</span><input type="text" id="reset_key" class="orangetext" name="reset_key" placeholder="key" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'reset')) { data.verification || null } %>"/><span class="whitetext">,</span><input type="password" id="reset_password" class="orangetext" name="reset_password" placeholder="new password"/><span class="whitetext">,</span><input type="password" id="reset_confirm" class="orangetext" name="reset_confirm" placeholder="confirm password"/><span class="whitetext">);</span>
 							</form>
-							<br>
 						</div>
+						<hr>
 					</div>
 				</div>
 			</div>
 			<br>
 			<div class="indented content">
-				<div class="megasection">
-					<div class="section">
-						<span class="graytext">
-							//<span id="status">...</span>
-						</span>
-					</div>
-				</div>
+				<% 
+					if (session.human === null) {
+						'<div class="megasection">\
+							<div class="section">\
+								<span class="graytext">\
+									//<span id="status">...</span>\
+								</span>\
+							</div>\
+						</div>';
+					}
+				%>
+				<%
+					if (session.human !== null) {
+
+						var suggestions = "\
+<pre class='" + ["red","orange","yellow","green","blue","purple","gray","white"][Math.floor(Math.random() * 8)] + "text'>\
+       _H_      \n\
+ (--) /. .\\     \n\
+  ()  \\ : /     \n\
+   \\--HELLO--\\  \n\
+      HELLO  () \n\
+      HELLO (--)\n\
+      [] []     \n\
+     /_] [_\\    \n\
+</pre>";
+
+						suggestions += '<div class="bracketer_top"><span class="whitetext">.suggestions</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class="graytext message">//HELLO FELLOW HUMAN WHAT SHALL WE DO THIS DAY?</span></div>\
+								<div class="megasection" id="suggestions">';
+
+						if (session.human.email === null) {
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.send_verification();"><li class="section indented"><span class="whitetext">verify your email: </span><button id="send_verification" name="action" value="send_verification"><span class="greentext">verify</span></button><span class="whitetext">(</span><input disabled type="text" id="new_email" class="orangetext" name="new_email" value="' + (session.human.new_email || "") + '"><span class="whitetext">)+;</span></li></form>';
+						}
+						else if ((session.human.robots.length > 0) && (session.human.tutorials.length > 0)) {
+							suggestions += '<li class="section indented"><span class="whitetext">coerce additional <span class="code bluetext">humans</span> into joining ai_arenas: <a class="whitetext" href="mailto:?Subject=I BELIEVE ai_arenas IS AN EXCELLENT WEBSITE AND/OR ACTIVITY I RECOMMEND IT TO FELLOW HUMANS&Body=FELLOW HUMANS LET US SPEND OUR LIMITED TIME AND CALORIES EXPERIENCING ENJOYMENT AT http://aiarenas.com END OF MESSAGE" target="_blank"><span class="greentext">send_email</span><span class="whitetext">();</span></a></span></li>';
+						}
+
+						if (session.human.tutorials.length < 1) {
+							suggestions += '<li class="section indented"><span class="whitetext">see what ai_arenas are all <a class="bluetext" href="../../../../about">about</a>;</span></li>';
+
+							suggestions += '<li class="section indented"><span class="whitetext">learn about <span class="code greentext">robots</span> in a <a class="bluetext" href="../../../../tutorials">tutorial</a>;</span></li>';
+						}
+
+						if (session.human.robots.length < 1) {
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_create_robot();"><li class="section indented"><span class="whitetext">compete in <span class="code redtext">arenas</span>; <button id="create_robot"><span class="greentext">create_robot</span>()</button>s;</span></li></form>';
+						}
+						else {
+							suggestions += '<li class="section indented"><span class="whitetext">edit your <span class="code greentext">robots</span> in the <a class="bluetext" href="../../../../robots">workshop</a>;</span></li>';
+						}
+
+						if ((session.human.information.bio.length < 1) && (session.human.information.sites.length < 1)) {
+							suggestions += '<li class="section indented"><span class="whitetext">become a more complete <span class="code bluetext">human</span>; add to your <a class="bluetext" href="../../../../humans">profile</a>;</span></li>';
+						}
+						else if ((session.human.settings.color_scheme === "default") && (session.human.settings.font_scheme === "default")) {
+							suggestions += '<li class="section indented"><span class="whitetext">satisfy <span class="code bluetext">human</span> aesthetic requirements; tinker with your font and colors in <a class="bluetext" href="../../../../settings">settings</a>;</span></li>';
+						}
+
+						var points = Number(session.human.statistics.wins * 5) + Number(session.human.statistics.losses);
+
+						if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > 44)) {
+							suggestions += '<li class="section indented"><span class="whitetext">send your <span class="code greentext">robots</span> into battle in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
+						}
+						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > 29)) {
+							suggestions += '<li class="section indented"><span class="whitetext">explore expert <span class="code greentext">robot</span> actions like [<span class="greentext">shock</span>, <span class="greentext">burn</span>, <span class="greentext">swaptake</span>] in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
+
+							suggestions += '<li class="section indented"><span class="whitetext">try expert <span class="code redtext">arena</span> presets like [<span class="yellowtext">intense</span>, <span class="yellowtext">scarcity</span>, <span class="yellowtext">random</span>] in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
+						}
+						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > 14)) {
+							suggestions += '<li class="section indented"><span class="whitetext">explore advanced <span class="code greentext">robot</span> actions like [<span class="greentext">halftake</span>, <span class="greentext">sap</span>, <span class="greentext">fliptake</span>] in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
+
+							suggestions += '<li class="section indented"><span class="whitetext">try advanced <span class="code redtext">arena</span> presets like [<span class="yellowtext">deathmatch</span>, <span class="yellowtext">advanced</span>, <span class="yellowtext">simple</span>] in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
+						}
+						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > -1)) {
+							suggestions += '<li class="section indented"><span class="whitetext">explore beginner <span class="code greentext">robot</span> actions like [<span class="greentext">take</span>, <span class="greentext">power</span>, <span class="greentext">sleep</span>] in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
+
+							suggestions += '<li class="section indented"><span class="whitetext">send your <span class="code greentext">robots</span> into battle in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
+						}
+
+						suggestions += '</div>\
+							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
+
+						suggestions || "";
+					}
+				%>
 			</div>
 		</div>
 	</body>

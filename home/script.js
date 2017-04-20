@@ -215,6 +215,25 @@
 				});
 			}
 
+			window.send_verification = function () {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "send_verification",
+						email: $("#new_email").val() || null,
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#message_top").animateText({text: (data.messages.top || "//verification email sent")}, 1000);
+						}
+						else {
+							$("#message_top").animateText({text: (data.messages.top || "//unable to send verification email")}, 1000);
+						}
+					}
+				});
+			}
+
 		/* about */
 			/* github commit fetch */
 				$.ajax({

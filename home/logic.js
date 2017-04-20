@@ -15,10 +15,9 @@
 				if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
 					processes.retrieve("humans", {name: post.signin_name, password: processes.hash(post.signin_password, data[0].salt)}, function(data) {
 						if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
-							var redirect = "../../../../humans/" + data[0].name;
 							session.human = data[0].id;
 							processes.store("sessions", {id: session.id}, session, function(data) {
-								callback({success: true, redirect: redirect, messages: {top: "//signed in"}});
+								callback({success: true, redirect: "../../../../", messages: {top: "//signed in"}});
 							});
 						}
 						else {
@@ -74,12 +73,10 @@
 								var human = humans.create(post.signup_name, post.signup_email, post.signup_password);
 								human.verification = random;
 
-								processes.store("humans", null, human, function(data) {
-									var redirect = "../../../../humans/" + data.name;
-									
+								processes.store("humans", null, human, function(data) {									
 									session.human = data.id;
 									processes.store("sessions", {id: session.id}, session, function(data) {
-										callback({success: true, redirect: redirect, messages: {top: "//signed up"}});
+										callback({success: true, redirect: "../../../../", messages: {top: "//signed up"}});
 									});
 								});
 							});

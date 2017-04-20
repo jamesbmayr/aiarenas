@@ -91,6 +91,7 @@ $(document).ready(function() {
 		});
 
 		$("#message_top").animateText({},1000);
+		$(".message").animateText({},1000);
 
 	/* colorText */		
 		window.colorText = function(text) {

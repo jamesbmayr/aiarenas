@@ -2,11 +2,3 @@
 	#signinup select {
 		color: var(--green);
 	}
-
-	.top_inner {
-		line-height: 3;
-	}
-
-	.section-toggle {
-		top: 43px;
-	}
