@@ -193,7 +193,7 @@
 										data = {};
 									}
 
-									response.end(processes.render("./home/index.html", session, data));
+									response.end(processes.render("./home/main.html", session, data));
 								}
 								catch (error) {_404();}
 							break;
@@ -201,7 +201,7 @@
 							case (/^\/signin\/?$/).test(request.url):
 								try {
 									if (session.human === null) {
-										response.end(processes.render("./home/index.html", session, {action: "signin", messages: {top: "//authenticate human"}}));
+										response.end(processes.render("./home/main.html", session, {action: "signin", messages: {top: "//authenticate human"}}));
 									}
 									else {
 										_302();
@@ -213,7 +213,7 @@
 							case (/^\/signout\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										response.end(processes.render("./home/index.html", session, {action: "signout", messages: {top: "//leave ai_arenas?"}}));
+										response.end(processes.render("./home/main.html", session, {action: "signout", messages: {top: "//leave ai_arenas?"}}));
 									}
 									else {
 										_302();
@@ -225,7 +225,7 @@
 							case (/^\/signup\/?$/).test(request.url):
 								try {
 									if (session.human === null) {
-										response.end(processes.render("./home/index.html", session, {action: "signup", messages: {top: "//join ai_arenas"}}));
+										response.end(processes.render("./home/main.html", session, {action: "signup", messages: {top: "//join ai_arenas"}}));
 									}
 									else {
 										_302();
@@ -236,21 +236,21 @@
 
 							case (/^\/verify/).test(request.url):
 								try {
-									response.end(processes.render("./home/index.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
+									response.end(processes.render("./home/main.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
 								}
 								catch (error) {_404();}
 							break;
 
 							case (/^\/reset/).test(request.url):
 								try {
-									response.end(processes.render("./home/index.html", session, {action: "reset", messages: {top: "//reset password"}, email: (get.email || null), verification: (get.verification || null) }));
+									response.end(processes.render("./home/main.html", session, {action: "reset", messages: {top: "//reset password"}, email: (get.email || null), verification: (get.verification || null) }));
 								}
 								catch (error) {_404();}
 							break;
 
 							case (/^\/about\/?$/).test(request.url):
 								try {
-									response.end(processes.render("./home/about.html", session));
+									response.end(processes.render("./home/individual.html", session));
 								}
 								catch (error) {_404();}
 							break;
@@ -261,7 +261,7 @@
 									if (session.human !== null) {
 										processes.retrieve("sessions", {human: session.human.id}, function(data) {
 											session.human.sessions = data;
-											response.end(processes.render("./settings/index.html", session, session.human));
+											response.end(processes.render("./settings/main.html", session, session.human));
 										});
 									}
 									else {
@@ -290,7 +290,7 @@
 										if (typeof human.id === "undefined") { human = human[0]; }
 
 										if (human) {
-											response.end(processes.render("./humans/index.html", session, human));
+											response.end(processes.render("./humans/individual.html", session, human));
 										}
 										else {
 											_302();
@@ -319,7 +319,7 @@
 										if (typeof robot.id === "undefined") { robot = robot[0]; }
 
 										if (robot) {
-											response.end(processes.render("./robots/index.html", session, robot));
+											response.end(processes.render("./robots/individual.html", session, robot));
 										}
 										else {
 											_302();
@@ -333,7 +333,7 @@
 							case (/^\/arenas\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										response.end(processes.render("./arenas/index.html", session, null));
+										response.end(processes.render("./arenas/main.html", session, null));
 									}
 									else {
 										_302();
@@ -348,7 +348,7 @@
 										if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 										if (arena) {
-											response.end(processes.render("./arenas/game.html", session, arena));
+											response.end(processes.render("./arenas/individual.html", session, arena));
 										}
 										else {
 											_302();
@@ -362,7 +362,7 @@
 							case (/^\/tutorials\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										response.end(processes.render("./tutorials/index.html", session, null));
+										response.end(processes.render("./tutorials/main.html", session, null));
 									}
 									else {
 										_302();
@@ -376,7 +376,7 @@
 									if (session.human !== null) {
 										var tutorial = fs.readFileSync("./assets/tutorials/functions.json","utf8") || null;
 										if (tutorial !== null) {
-											response.end(processes.render("./tutorials/tutorial.html", session, JSON.parse(tutorial)));
+											response.end(processes.render("./tutorials/individual.html", session, JSON.parse(tutorial)));
 										}
 										else {
 											_302("../../../../tutorials");
