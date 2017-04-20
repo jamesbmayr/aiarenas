@@ -1,4 +1,5 @@
 /* * home * */
-	#signinup select {
-		color: var(--green);
+	li {
+		color: var(--white);
 	}
+	

@@ -29,7 +29,7 @@
 						%>
 						<div id="signinup" class="section">
 							<div id="action_select" <% if (session.human !== null) { "style='display: none;'"} %> >
-								<span class="whitetext">.action</span><span class="redtext"> = </span><select id="actions">
+								<span class="whitetext">.action</span><span class="redtext"> = </span><select id="actions" class="greentext">
 									<option value="signin">signin</option>
 									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >signup</option>
 								</select><span class="whitetext">;</span>
