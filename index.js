@@ -573,7 +573,7 @@
 							case "create_robot":
 								try {
 									if (session.human !== null) {												
-										robots.create(session, function(data) {
+										robots.create(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create robot"}}));
 										});
 									}

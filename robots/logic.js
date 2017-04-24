@@ -1,54 +1,59 @@
 /* my modules */
 	const processes = require("../processes");
 
-/* create(session, callback) */
-	function create(session, callback) {
-		var id = processes.random();
-
-		var robot = {
-			id: id,
-			name: id.substring(0,4) + "_bot",
-			human: {
-				id: session.human.id,
-				name: session.human.name
-			},
-			created: new Date().getTime(),
-			information: {
-				show_code: true,
-				bio: null,
-				music: {}
-			},
-			avatar: {
-				color: "var(--white)",
-				antennae: " _I_ ",
-				eyes: "|o o|",
-				mouth: "| = |",
-				left_arm: "--",
-				right_arm: "--",
-				left_wrist: " II ",
-				right_wrist: " II ",
-				left_hand: "{••}",
-				right_hand: "{••}",
-				torso_1: "/HHH\\",
-				torso_2: "IHHHI",
-				torso_3: "IHHHI",
-				legs: ".Y. .Y.",
-				left_foot: "{_}",
-				right_foot: "{_}"
-			},
-			statistics: {
-				wins: 0,
-				losses: 0,
-			},
-			inputs: "",
-			code: "action = \"sleep\";\nreturn action;"
+/* create(session, post, callback) */
+	function create(session, post, callback) {
+		if ((session.human.robots.length > 0) && ((typeof session.human.email === "undefined") || (session.human.email === null))) {
+			callback({success: false, messages: {top: "//verify email to create additional robots"}});
 		}
+		else {
+			var id = processes.random();
 
-		processes.store("robots", null, robot, function(robot) {
-			processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
-				callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}});
+			var robot = {
+				id: id,
+				name: id.substring(0,4) + "_bot",
+				human: {
+					id: session.human.id,
+					name: session.human.name
+				},
+				created: new Date().getTime(),
+				information: {
+					show_code: true,
+					bio: null,
+					music: {}
+				},
+				avatar: {
+					color: "var(--white)",
+					antennae: " _I_ ",
+					eyes: "|o o|",
+					mouth: "| = |",
+					left_arm: "--",
+					right_arm: "--",
+					left_wrist: " II ",
+					right_wrist: " II ",
+					left_hand: "{••}",
+					right_hand: "{••}",
+					torso_1: "/HHH\\",
+					torso_2: "IHHHI",
+					torso_3: "IHHHI",
+					legs: ".Y. .Y.",
+					left_foot: "{_}",
+					right_foot: "{_}"
+				},
+				statistics: {
+					wins: 0,
+					losses: 0,
+				},
+				inputs: "",
+				code: "action = \"sleep\";\nreturn action;"
+			}
+
+			processes.store("robots", null, robot, function(robot) {
+				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
+					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}});
+				});
 			});
-		});
+		}
 	}
 
 /* update(session, post, callback) */
@@ -81,11 +86,7 @@
 								data.name = robot.name;
 								messages.name = "//enter robot name of 8 or more numbers and letters";
 							}
-							else {
-								// var code = robot[robot.name];
-								// delete robot[robot.name];
-								// robot[data.name] = code;
-								
+							else {								
 								robot.name = data.name;
 								messages.name = "//name updated";
 							}

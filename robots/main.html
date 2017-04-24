@@ -23,9 +23,11 @@
 							<form id="load_form" method="post" action="javascript:;" onsubmit="window.load_robot();">
 								<span class="whitetext">.</span><button id="load_robot" name="action" value="load_robot"><span class="greentext">load</span></button><span class="whitetext">(</span><select id="robot_select" class="greentext">
 									<% 
-										var robots = session.human.robots;
+										var robots = session.human.robots || [];
 										var options = "";
-										//.concat({"id": "new_robot", "name": "new_robot"});
+										if (session.human.email !== null) {
+											robots.push({"id": "new_robot", "name": "new_robot"});
+										}
 										for (var i = 0; i < robots.length; i++) {
 											options += "<option value='" + robots[i].id + "'>" + robots[i].name + "</option>";
 										}

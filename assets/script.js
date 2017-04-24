@@ -328,6 +328,7 @@ $(document).ready(function() {
 					}
 					else {
 						$("#navbar_message").text( data.messages.navbar || "//unable to create robot");
+						$("#message_top").animateText({text: (data.messages.top || "//unable to create robot")},1000);
 					}
 				}
 			});

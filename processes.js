@@ -455,6 +455,7 @@
 					<div id='navbar_robots'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>robots</span></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_robot();'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span><span class='whitetext'>();</span></button></form></div>\
+						<div class='navbar_item'><a class='navbar_button' href='../../../../robots'><span class='whitetext'>.</span><span class='bluetext'>workshop</span></a></div>\
 						" + robots + "\
 					</div>\
 					<br>\

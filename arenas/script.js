@@ -750,7 +750,7 @@
 												var id = robot.name;
 												
 												$("#" + id).find(".action").animateText({text: (String(robot.action) || "?"), indicator: "|", color: "var(--white)"}, 1000);
-												window.animateAction(id, robot.action);
+												window.animateRobot(id, robot.action);
 												
 												if ($("#" + id).find(".power").text() !== String(Number(robot.power))) {
 													$("#" + id).find(".power").animate({},2000).animateText({text: (String(Number(robot.power)) || "?"), indicator: "_", color: "var(--white)"}, 1000);
