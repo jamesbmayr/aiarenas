@@ -2,6 +2,9 @@
 	$(document).ready(function() {
 		resizeTop();
 		$(".field#code").html(colorText(String($(".field#code").html())));
+		$(".code").each(function(index) {
+			$(this).html(window.colorText($(this).text()));
+		});
 
 		/* avatar */
 			$(document).on("change", "#avatar_color select", function() {
@@ -260,7 +263,7 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (data.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
  <a class="bluetext" href="../../../../robots/' + data.id + '" target="_blank">' + data.name + '</a></pre>');
-
+								
 								resizeTop();
 							}
 							else {
@@ -483,8 +486,8 @@
 									var robotCount = sandbox.rounds[sandbox.rounds.length - 1].robots.length;
 								break;
 
-								case "newCube":
-									var newCube = sandbox.rounds[data.rounds.length - 1].cubes[sandbox.rounds[sandbox.rounds.length - 1].cubes.length - 1];
+								case "allCubes":
+									var allCubes = sandbox.rounds[sandbox.rounds.length - 1].cubes;
 								break;
 
 								case "newCubes":

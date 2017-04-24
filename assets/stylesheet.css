@@ -307,6 +307,7 @@
 		}
 
 		.code {
+			color: var(--white);
 			background-color: #111111;
 			border-radius: 5px;
 			padding: 5px;

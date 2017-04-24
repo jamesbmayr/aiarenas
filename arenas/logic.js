@@ -569,8 +569,8 @@
 										sandbox.robotCount = arena.rounds[arena.rounds.length - 1].robots.length;
 									break;
 
-									case "newCube":
-										sandbox.newCube = arena.rounds[arena.rounds.length - 1].cubes[arena.rounds[arena.rounds.length - 1].cubes.length - 1];
+									case "allCubes":
+										sandbox.allCubes = arena.rounds[arena.rounds.length - 1].cubes;
 									break;
 
 									case "newCubes":

@@ -48,7 +48,27 @@
 			</div>
 			<div class="indented content" style="display: none">			
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext robot_name"></span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value='' contenteditable=true></span></span><span class="whitetext">) {</span> <span class='message graytext'></span></div>
+				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext robot_name"></span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value='' contenteditable=true></span></span><span class="whitetext">) {</span> <span class='message graytext'></span><span class="graytext"> // <details class="graytext"><summary></summary><span><ul>
+					<li><span class="code orangetext">arena</span>: all information</li>
+					<li><span class="code orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>
+					<li><span class="code orangetext">rules</span>: arena parameters <details><summary></summary><span class="code">arena.rules</span></details></li>
+					<li><span class="code orangetext">rounds</span>: all previous rounds <details><summary></summary><span class="code">arena.rounds</span></details></li>
+					<li><span class="code orangetext">roundCount</span>: number of rounds <details><summary></summary><span class="code">arena.rounds.length - 1</span></details></li>
+					<li><span class="code orangetext">currentRound</span>: all data of the round that just executed <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1]</span></details></li>
+					<li><span class="code orangetext">lastRound</span>: all data of the previous round <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 2]</span></details></li>
+					<li><span class="code orangetext">robots</span>: currentRound data of all robots <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots</span></details></li>
+					<li><span class="code orangetext">robotCount</span>: number of robots in the arena <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.length</span></details></li>
+					<li><span class="code orangetext">allCubes</span>: all cubes in the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].cubes</span></details></li>
+					<li><span class="code orangetext">newCubes</span>: all cubes spawned for the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].cubes.slice(-arena.rules.cubes.spawnRate)</span></details></li>
+					<li><span class="code orangetext">self</span>: currentRound data of the robot executing this code <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === arguments.callee.name})</span></details></li>
+					<li><span class="code orangetext">slot</span>: index of self in the robots array <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.indexOf(arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === arguments.callee.name}))</span></details></li>
+					<li><span class="code orangetext">power</span>: power of self in the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === arguments.callee.name}).power</span></details></li>
+					<li><span class="code orangetext">cubes</span>: cubes owned by self in the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === arguments.callee.name}).cubes</span></details></li>
+					<li><span class="code orangetext">action</span>: action performed by self in the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === arguments.callee.name}).action</span></details></li>
+					<li><span class="code orangetext">winner</span>: name of robot that won the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].winner</span></details></li>
+					<li><span class="code orangetext">opponents</span>: currentRound data of all robots except self <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== arguments.callee.name})</span></details></li>
+					<li><span class="code orangetext">colors</span>: list of cube colors <details><summary></summary><span class="code">arena.rules.cubes.colors</span></details></li>
+				</ul></span></details></span></div>
 				<div class="megasection">
 					<div class="indented">
 						<div class="field_frame active">
@@ -56,7 +76,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span><span class="graytext"> // <details class="graytext"><summary><span>function must return one of the following actions:</span></summary><li>power</li><li>take</li><li>sleep</li><li>sap</li><li>burn</li><li>shock</li><li>halftake</li><li>swaptake</li><li>fliptake</li><span>all other return values will convert to "sleep";</span></details></span></div>
 				<div class="section">
 					<form method="post" action="javascript:;" onsubmit="window.eval_code();">
 						<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext robot_name"></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span>
