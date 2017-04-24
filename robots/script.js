@@ -157,7 +157,7 @@
 
 						$("#message_top").animateText({text: (messages.top || "//changes submitted")}, 1000);
 
-						if (window.location.pathname !== "/robots/") {
+						if ((window.location.pathname !== "/robots") && (window.location.pathname !== "/robots/")) {
 							$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 							$(".field#code").html(colorText(String($(".field#code").html())));
 						}
