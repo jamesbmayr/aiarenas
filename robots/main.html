@@ -62,10 +62,12 @@
 						<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext robot_name"></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span>
 					</form>
 				</div>
-				<details class="graytext"><summary>//console logs</summary><div id="console"></div></details><br>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<div class="bracketer_top"><span class="whitetext">.arena<span class="redtext"> = </span><span class="whitetext">{</span></div>
-				<div class="megasection">
+				<details class="graytext"><summary>//console logs</summary><div id="console"></div></details>
+				<br><br><br><hr>
+				<span class="graytext">//simulate an arena to learn how this robot would act</span><br>
+				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext">.robots<span class="redtext"> = </span><span class="whitetext">{</span> <span class="graytext">//add opponents and adjust power and cubes</span></div>
+				<div class="megasection" style="display: none">
 					<div class="section indented" id="robots">
 						<div class="section self">
 							<div class="stats">
@@ -80,7 +82,24 @@
 										<span class="purpletext">p: <input type="number" min="0" max="255" class="cubes_purple" value="0"></span>
 									</div>
 								},</span><br>
-								<span class="whitetext">action: </span><span class="greentext action"></span>
+								<span class="whitetext">action:</span><select class="greentext action"><%
+									var options = "";
+									if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
+										var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
+									}
+									else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
+										var values = ["power","take","sleep","sap","halftake","fliptake"];
+									}
+									else {
+										var values = ["power", "take", "sleep"];
+									}
+
+									for (var i = 0; i < values.length; i++) {
+										options += "<option value='" + values[i] + "'>" + values[i] + "</option>";										
+									}
+
+									options || "";
+								%></select>
 							</div>
 							<pre class="avatar_pre" monospace></pre>
 						</div>
@@ -90,7 +109,227 @@
 						<form method="post" action="javascript:;" onsubmit="window.add_opponent();">
 							<button class="whitetext" id="add_opponent" name="action" value="add_opponent"><span class="greentext">addOpponent</span>()</button>
 						</form>
+					</div>
+				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext">.cubes<span class="redtext"> = </span><span class="whitetext">[</span> <span class="graytext">//add cubes to the arena</span></div>
+				<div class="megasection" style="display: none">
 					<div class="section indented whitetext" id="cubes">
+					</div>
+					<div class="section indented">
+						<form method="post" action="javascript:;" onsubmit="window.add_cube();" class="whitetext">
+							<button class="whitetext" id="add_cube" name="action" value="add_cube"><span class="greentext">addCube</span></button>(<select id="cube_color">
+								<option value="red">red</option>
+								<option value="orange">orange</option>
+								<option value="yellow">yellow</option>
+								<option value="green">green</option>
+								<option value="blue">blue</option>
+								<option value="purple">purple</option>
+							</select>)
+						</form>
+					</div>
+				</div>
+				<div class="bracketer_bottom"><span class="whitetext">]</span></div>
+				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext">.rules<span class="redtext"> = </span><span class="whitetext">{</span> <span class="graytext">//adjust the arena's rules</span></div>
+				<div class="megasection" style="display: none">
+					<div class="section indented whitetext" id="rules">
+						<div><span class="whitetext">players: {</span></div>
+						<div class="section indented" id="players">
+							<span class="whitetext">minimum: </span><select class="purpletext" id="players_minimum"><% 
+								var options = "";
+								var values = [2,3,4,5,6];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='2'", "value='2' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans must this arena contain at least?</span></summary></details></span><br>
+							<span class="whitetext">maximum: </span><select class="purpletext" id="players_maximum"><% 
+								var options = "";
+								var values = [2,3,4,5,6];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='6'", "value='6' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans can this arena contain at most?</span></summary></details></span><br>
+							<span class="whitetext">pauseDuration: </span><select class="purpletext" id="players_pauseDuration"><% 
+								var options = "";
+								var values = ["1:00","2:00","5:00","10:00","20:00"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='5:00'", "value='5:00' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when the arena pauses, how long does the code workshop last?</span></summary></details></span><br>
+							<span class="whitetext">pausePeriod: </span><select class="purpletext" id="players_pausePeriod"><% 
+								var options = "";
+								var values = [1,5,10,20,50,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='10'", "value='10' selected");
+							%></select><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop pause?</span></summary></details></span>
+						</div>
+						<div><span class="whitetext">},</span></div>
+						<div><span class="whitetext">cubes: {</span></div>
+						<div class="section indented" id="cubes">
+							<span class="whitetext">colors: [</span><span id="cubes_colors" class="whitetext"><% 
+								var options = "";
+								var values = ["red","orange","yellow","green","blue","purple"];
+								for (var i = 0; i < values.length; i++) {
+									options += " <input type='checkbox' value='" + values[i] + "' id='cubes_colors_" + values[i] + "' checked/> <label for='cubes_colors_" + values[i] + "' class='" + values[i] + "text'>" + values[i] + "</label>,";
+								}
+
+								options.substring(0,options.length - 1);
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube colors does this arena include?</span></summary></details></span><br>
+							<span class="whitetext">startCount: </span><select class="purpletext" id="cubes_startCount"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many cubes does each robot start with?</span></summary></details></span><br>
+							<span class="whitetext">maximum: </span><select class="purpletext" id="cubes_maximum"><% 
+								var options = "";
+								var values = [6,12,24,48,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='255'", "value='255' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many cubes can a robot hold?</span></summary></details></span><br>
+							<span class="whitetext">spawnRate: </span><select class="purpletext" id="cubes_spawnRate"><% 
+								var options = "";
+								var values = [1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many cubes are generated each round?</span></summary></details></span><br>
+							<span class="whitetext">spawnMemory: </span><select class="purpletext" id="cubes_spawnMemory"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='3'", "value='3' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a cube spawns, how many rounds must pass until a cube of the same color can spawn?</span></summary></details></span><br>
+							<span class="whitetext">dissolveRate: </span><select class="purpletext" id="cubes_dissolveRate"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many untaken cubes are destroyed each round?</span></summary></details></span><br>
+							<span class="whitetext">dissolveIndex: </span><select class="yellowtext" id="cubes_dissolveIndex"><% 
+								var options = "";
+								var values = ["newest","oldest","random","none"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='oldest'", "value='oldest' selected");
+							%></select><span class="graytext"> // <details class="graytext"><summary><span>which cubes are destroyed each round?</span></summary></details></span>
+						</div>
+						<div><span class="whitetext">},</span></div>
+						<div><span class="whitetext">robots: {</span></div>
+						<div class="section indented" id="robots">
+							<span class="whitetext">startPower: </span><select class="purpletext" id="robots_startPower"><% 
+								var options = "";
+								var values = [0,1,2,3,4,5,10,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how much power does each robot enter the arena with?</span></summary></details></span><br>
+							<span class="whitetext">maxPower: </span><select class="purpletext" id="robots_maxPower"><% 
+								var options = "";
+								var values = [1,2,5,10,20,50,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='255'", "value='255' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how much power can a robot hold?</span></summary></details></span><br>
+							<span class="whitetext">powerRate: </span><select class="purpletext" id="robots_powerRate"><% 
+								var options = "";
+								var values = [1,2,3,4,5,10,20,255];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a robot powers, how much does its power increase?</span></summary></details></span><br>
+							<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
+								var options = "";
+								if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
+									var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
+								}
+								else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
+									var values = ["power","take","sleep","sap","halftake","fliptake"];
+								}
+								else {
+									var values = ["power", "take", "sleep"];
+								}
+								for (var i = 0; i < values.length; i++) {
+									options += " <input type='checkbox' value='" + values[i] + "' id='robots_actions_" + values[i] + "'/> <label for='robots_actions_" + values[i] + "' class='greentext'>" + values[i] + "<span class='whitetext'>()</span></label>,";
+								}
+
+								options.substring(0,options.length - 1).replace("id='robots_actions_take'", "id='robots_actions_take' checked").replace("id='robots_actions_power'", "id='robots_actions_power' checked").replace("id='robots_actions_sleep'", "id='robots_actions_sleep' checked");
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary><li>power: increment its power number</li><li>take: the taker with the most power wins the round's cubes</li><li>sleep: do nothing; this is the default for code errors or taking without power</li><li>sap: steal power from charging opponents with greater power</li><li>burn: convert a random cube into power</li><li>shock: put opponents with more total cubes to sleep</li><li>halftake: use half power, rounding up, to take cubes</li><li>swaptake: use half power to take cubes and return the same number of cubes, randomly</li><li>fliptake: take the cubes but invert the colors</li></details></span><br>
+							<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="robots_tieBreaker"><% 
+								var options = "";
+								var values = ["leave","dissolve","cascade","catchup","random"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='cascade'", "value='cascade' selected");
+							%></select><span class="graytext"> // <details class="graytext"><summary><span>when multiple takers have the same power, where do the cubes go?</span></summary><li>leave: the cubes stay in the arena</li><li>dissolve: the cubes are destroyed</li><li>cascade: the cubes go to the next-most-powered robot</li><li>catchup: the cubes go to the robot with the least cubes</li><li>random: the cubes go to a random robot</li></details></span>
+						</div>
+						<div><span class="whitetext">},</span></div>
+						<div><span class="whitetext">victory: {</span></div>
+						<div class="section indented" id="victory">
+							<span class="whitetext">conditions: [</span><span id="robots_actions" class="whitetext"><% 
+								var options = "";
+								var values = ["1of6","2of3","3of2","6of1"];
+								for (var i = 0; i < values.length; i++) {
+									options += " <input type='checkbox' value='" + values[i] + "' id='victory_conditions_" + values[i] + "'/> <label for='victory_conditions_" + values[i] + "' class='yellowtext'>" + values[i] + "</label>,";
+								}
+
+								options.substring(0,options.length - 1).replace("id='victory_conditions_1of6'", "id='victory_conditions_1of6' checked").replace("id='victory_conditions_2of3'", "id='victory_conditions_2of3' checked").replace("id='victory_conditions_6of1'", "id='victory_conditions_6of1' checked");
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube combinations result in victory?</span></summary><li>1of6: 1 cube of each of the 6 colors</li><li>2of3: 2 cubes of each primary (red, yellow, blue) or secondary (orange, green, purple) color</li><li>3of2: 3 of each of two complimentary colors (red/green, orange/blue, yellow/purple)</li><li>6of1: 6 cubes of 1 color</li></details></span><br>
+							<span class="whitetext">multiplier: </span><select class="purpletext" id="victory_multiplier"><% 
+								var options = "";
+								var values = [1,2,3,4,5,10];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='1'", "value='1' selected");
+							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>by how much are the cube counts necessary for victory multiplied?</span></summary></details></span><br>
+							<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="victory_tieBreaker"><% 
+								var options = "";
+								var values = ["tie","greedy","efficient","random"];
+								for (var i = 0; i < values.length; i++) {
+									options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								}
+
+								options.replace("value='efficient'", "value='efficient' selected");
+							%></select><span class="whitetext"></span><span class="graytext"> // <details class="graytext"><summary><span>if multiple robots meet the victory conditions, which robot is the winner?</span></summary><li>tie: each of these robots wins</li><li>greedy: the robot with the most cubes wins</li><li>efficient: the robot with the least cubes wins</li><li>random: a random one of these robots wins</li></details></span>
+						</div>
+						<div><span class="whitetext">}</span></div>
 					</div>
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>

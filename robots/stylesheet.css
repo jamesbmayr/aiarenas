@@ -132,4 +132,11 @@
 			transform: translateY(-50%);
 			color: var(--white);
 		}
+
+		.action {
+			border: 0px;
+			background-color: var(--transparent);
+			margin-left: -8px;
+			margin-top: -6px;
+		}
 		
