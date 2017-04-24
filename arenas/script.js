@@ -837,9 +837,9 @@
 										$("#cubes_outer").hide();
 										$("#victors").show();
 										$("#workshop_outer").hide();
-										$("#postgame").show();
+										$("#postgame_outer").show();
 
-										$("#round").text("null").hide();
+										$("#round").text("null").closest(".section").hide();
 										$("#round").attr("value", "concluded");
 
 									//victors
@@ -880,7 +880,6 @@
 
 									//paused
 										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
-											console.log("HERE");
 											if ($("#pauseDetails").css("display") === "none") {
 												$("#pauseDetails").show();
 												$("#players_outer").hide();
@@ -911,7 +910,6 @@
 
 									//fetch more data if necessary										
 										if (timeNow >= lastTime) {
-											console.log("getting more data");
 											var arena_id = $(".container").attr("value");
 
 											$.ajax({
