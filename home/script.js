@@ -67,6 +67,7 @@
 
 			window.statusLoop = setInterval(function() {
 				$("#status").animateText({text: statuses[Math.floor(Math.random() * statuses.length)], color: "var(--white)", indicator: "|"}, 5000);
+				window.animateRobot("helloBot",["power","take","sleep","halftake","burn","sap","fliptake","shock","swaptake"][Math.floor(Math.random() * 9)])
 			}, 10000);
 
 		/* not signed in */

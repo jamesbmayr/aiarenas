@@ -24,7 +24,7 @@
 								<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">);</span>
 							</form>
 							<form id="random_form" method="post" action="javascript:;" onsubmit="window.random_arena();">
-								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">random</span></button><span class="whitetext">(</span><select id="random_preset" class="whitetext">
+								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><select id="random_preset" class="orangetext">
 									<% 
 										var options = "";
 										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
@@ -45,7 +45,7 @@
 								</select><span class="whitetext">);</span>
 							</form>
 							<form id="create_form" method="post" action="javascript:;" onsubmit="window.create_arena();">
-								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="whitetext">
+								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="orangetext">
 									<% 
 										var options = "";
 										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
@@ -72,9 +72,9 @@
 			</div>
 			<div class="indented content">
 				<div class="megasection" id="parameters">
-					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.players</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section indented" id="players">
+					<div class="section indented" id="players" style="display: none">
 						<span class="whitetext">minimum: </span><select class="purpletext" id="players_minimum"><% 
 							var options = "";
 							var values = [2,3,4,5,6];
@@ -113,9 +113,9 @@
 						%></select><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop pause?</span></summary></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
-					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.cubes</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section indented" id="cubes">
+					<div class="section indented" id="cubes" style="display: none">
 						<span class="whitetext">colors: [</span><span id="cubes_colors" class="whitetext"><% 
 							var options = "";
 							var values = ["red","orange","yellow","green","blue","purple"];
@@ -181,9 +181,9 @@
 						%></select><span class="graytext"> // <details class="graytext"><summary><span>which cubes are destroyed each round?</span></summary></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
-					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section indented" id="robots">
+					<div class="section indented" id="robots" style="display: none">
 						<span class="whitetext">startPower: </span><select class="purpletext" id="robots_startPower"><% 
 							var options = "";
 							var values = [0,1,2,3,4,5,10,255];
@@ -239,9 +239,9 @@
 						%></select><span class="graytext"> // <details class="graytext"><summary><span>when multiple takers have the same power, where do the cubes go?</span></summary><li>leave: the cubes stay in the arena</li><li>dissolve: the cubes are destroyed</li><li>cascade: the cubes go to the next-most-powered robot</li><li>catchup: the cubes go to the robot with the least cubes</li><li>random: the cubes go to a random robot</li></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
-					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.victory</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section indented" id="victory">
+					<div class="section indented" id="victory" style="display: none">
 						<span class="whitetext">conditions: [</span><span id="robots_actions" class="whitetext"><% 
 							var options = "";
 							var values = ["1of6","2of3","3of2","6of1"];

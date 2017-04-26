@@ -71,17 +71,17 @@
 					}
 					else if (session.human !== null) {
 
-						var suggestions = "\
-<pre class='" + ["red","orange","yellow","green","blue","purple","gray","white"][Math.floor(Math.random() * 8)] + "text'>\
-       _H_      \n\
- (--) /. .\\     \n\
-  ()  \\ : /     \n\
-   \\--HELLO--\\  \n\
-      HELLO  () \n\
-      HELLO (--)\n\
-      [] []     \n\
-     /_] [_\\    \n\
-</pre>";
+						var suggestions = '\
+<pre id="helloBot" class="avatar_pre ' + ["red","orange","yellow","green","blue","purple","gray","white"][Math.floor(Math.random() * 8)] + 'text" monospace>\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value=" _H_ "> _H_ </span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="/. .\\">/. .\\</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="(--)">(--)</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="\\ : /">\\ : /</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value=" () "> () </span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="--">--</span><span class="avatar avatar_torso_1" value="HELLO">HELLO</span><span class="avatar avatar_right_arm" value="--">--</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value=" () "> () </span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="(--)">(--)</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" [] [] "> [] [] </span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="/_]">/_]</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="[_\\">[_\\</span><span class="transparenttext">••••</span>\
+</pre>';
 
 						suggestions += '<div class="bracketer_top"><span class="whitetext">.suggestions</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class="graytext message">//HELLO FELLOW HUMAN WHAT SHALL WE DO THIS DAY?</span></div>\
 								<div class="megasection" id="suggestions">';

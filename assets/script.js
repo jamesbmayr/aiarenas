@@ -270,6 +270,708 @@ $(document).ready(function() {
 			}
 		}
 
+	/* robot animations */
+		window.animateRobot = function(robot, action) {
+			if ((robot !== null) && (robot.length > 0)) {
+				switch(action) {
+					case "power":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+						},0);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+						},100);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+						},300);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+						},500);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+						},700);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+						},900);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+						},1100);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+						},1300);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+						},1500);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+						},1600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+						},1700);
+					break;
+
+					case "sap":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+						},0);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+
+
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+						},1600);
+					break;
+
+					case "burn":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+						},0);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+
+
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+						},1600);
+					break;
+
+					case "shock":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+						},0);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+						},100);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").hide();
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+						},300);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").show();
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+						},500);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").hide();
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+						},700);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
+
+							$("#" + robot).find(".leftDot").show();
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+						},900);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
+							$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").hide();
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
+							$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
+						},1100);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").show();
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
+						},1300);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").hide();
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
+							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+						},1500);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
+
+							$("#" + robot).find(".leftDot").show();
+						},1600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
+						},1700);
+					break;
+
+					case "take":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+						},0);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").hide();
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").hide();
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").hide();
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").hide();
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+						},1600);
+					break;
+
+					case "halftake":
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").hide();
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").hide();
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},800);
+					break;
+
+					case "swaptake":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},1600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+						},1800);
+					break;
+
+					case "fliptake":
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},600);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},800);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").hide();
+							$("#" + robot).find(".avatar_right_shoulder_up").show();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},1000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},1200);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_right_shoulder_down").show();
+							$("#" + robot).find(".avatar_right_shoulder_up").hide();
+							$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".leftDot").hide();
+						},1400);
+
+						setTimeout(function() {
+							$("#" + robot).find(".leftDot").show();
+						},1600);
+					break;
+
+					case "sleep":
+					default:
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").show();
+							$("#" + robot).find(".avatar_left_shoulder_up").hide();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+
+							$("#" + robot).find(".avatar").animate({
+								opacity: 0.1
+							},2000);
+						},0);
+						
+						setTimeout(function() {
+							$("#" + robot).find(".avatar").animate({
+								opacity: 1
+							},2000);
+						},2000);
+
+						setTimeout(function() {
+							$("#" + robot).find(".avatar_left_shoulder_down").hide();
+							$("#" + robot).find(".avatar_left_shoulder_up").show();
+							$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+							$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+						},3000)
+					break;
+				}
+			}
+		}
+
 	/* navbar */
 		window.navbar_open = function() {
 			$("#navbar_open").animate({left: "+=256px"}, 500);
@@ -335,21 +1037,51 @@ $(document).ready(function() {
 		}
 
 		window.navbar_create_arena = function() {
+			var preset = $("#navbar_arena_create_presets").val();
+			console.log(preset);
+
+			if (preset === "custom") {
+				window.location = "../../../../arenas";
+			}
+			else {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "create_arena",
+						data: JSON.stringify({preset: preset})
+					},
+					success: function(data) {
+						if (data.success) {
+							window.location = data.redirect;
+						}
+						else {
+							$("#navbar_message").text(data.messages.navbar || "//unable to create arena");
+						}
+					}
+				});
+			}
+		}
+
+		window.navbar_random_arena = function() {
+			var preset = $("#navbar_arena_random_presets").val();
+
 			$.ajax({
 				type: "POST",
 				url: window.location.pathname,
 				data: {
-					action: "create_arena",
+					action: "random_arena",
+					data: JSON.stringify({preset: preset})
 				},
 				success: function(data) {
 					if (data.success) {
 						window.location = data.redirect;
 					}
 					else {
-						$("#navbar_message").text(data.messages.navbar || "//unable to create arena");
+						$("#navbar_message").text(data.messages.navbar || "//unable to join arena");
 					}
-				}
-			});
+				} 
+			})
 		}
 
 		window.navbar_join_arena = function() {

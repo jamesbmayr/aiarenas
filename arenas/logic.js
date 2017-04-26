@@ -6,6 +6,239 @@
 	function create(session, post, callback) {
 		var parameters = JSON.parse(post.data) || null;
 
+		if (parameters.preset !== "custom") {
+			switch (parameters.preset) {
+				case "default":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 6,
+							pauseDuration: "5:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 1,
+							maximum: 255,
+							spawnRate: 1,
+							spawnMemory: 3,
+							dissolveRate: 1,
+							dissolveIndex: "oldest"
+						},
+						robots: {
+							startPower: 1,
+							maxPower: 255,
+							powerRate: 1,
+							tieBreaker: "cascade",
+							actions: ["power","take","sleep"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","6of1"],
+							tieBreaker: "efficient",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "simple":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 4,
+							pauseDuration: "5:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "yellow", "blue"],
+							startCount: 0,
+							maximum: 255,
+							spawnRate: 1,
+							spawnMemory: 0,
+							dissolveRate: 1,
+							dissolveIndex: "newest"
+						},
+						robots: {
+							startPower: 1,
+							maxPower: 255,
+							powerRate: 1,
+							tieBreaker: "dissolve",
+							actions: ["power","take","sleep"]
+						},
+						victory: {
+							conditions: ["2of3","6of1"],
+							tieBreaker: "tie",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "deathmatch":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 2,
+							pauseDuration: "5:00",
+							pausePeriod: 5
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 1,
+							maximum: 24,
+							spawnRate: 2,
+							spawnMemory: 3,
+							dissolveRate: 0,
+							dissolveIndex: "none"
+						},
+						robots: {
+							startPower: 10,
+							maxPower: 20,
+							powerRate: 2,
+							tieBreaker: "leave",
+							actions: ["power","take","sleep","sap","halftake"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","6of1"],
+							tieBreaker: "efficient",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "advanced":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 6,
+							pauseDuration: "5:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 2,
+							maximum: 48,
+							spawnRate: 2,
+							spawnMemory: 4,
+							dissolveRate: 1,
+							dissolveIndex: "oldest"
+						},
+						robots: {
+							startPower: 3,
+							maxPower: 20,
+							powerRate: 3,
+							tieBreaker: "leave",
+							actions: ["power","take","sleep","sap","halftake","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","3of2","6of1"],
+							tieBreaker: "greedy",
+							multiplier: 2
+						}
+					}
+				break;
+
+				case "intense":
+					parameters = {
+						players: {
+							minimum: 6,
+							maximum: 6,
+							pauseDuration: "2:00",
+							pausePeriod: 20
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 0,
+							maximum: 48,
+							spawnRate: 4,
+							spawnMemory: 2,
+							dissolveRate: 2,
+							dissolveIndex: "newest"
+						},
+						robots: {
+							startPower: 10,
+							maxPower: 255,
+							powerRate: 10,
+							tieBreaker: "catchup",
+							actions: ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","3of2","6of1"],
+							tieBreaker: "efficient",
+							multiplier: 4
+						}
+					}
+				break;
+
+				case "scarcity":
+					parameters = {
+						players: {
+							minimum: 4,
+							maximum: 6,
+							pauseDuration: "2:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 2,
+							maximum: 255,
+							spawnRate: 1,
+							spawnMemory: 4,
+							dissolveRate: 0,
+							dissolveIndex: "none"
+						},
+						robots: {
+							startPower: 255,
+							maxPower: 255,
+							powerRate: 10,
+							tieBreaker: "leave",
+							actions: ["sleep","sap","shock","burn","halftake","swaptake","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","6of1"],
+							tieBreaker: "greedy",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "random":
+					parameters = {
+						players: {
+							minimum: 3,
+							maximum: 6,
+							pauseDuration: "1:00",
+							pausePeriod: 20
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 1,
+							maximum: 255,
+							spawnRate: 2,
+							spawnMemory: 0,
+							dissolveRate: 1,
+							dissolveIndex: "random"
+						},
+						robots: {
+							startPower: 2,
+							maxPower: 255,
+							powerRate: 2,
+							tieBreaker: "random",
+							actions: ["power","take","sleep","sap","shock","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","3of2","6of1"],
+							tieBreaker: "random",
+							multiplier: 3
+						}
+					}
+				break;
+
+				case "custom":
+				default:
+					//
+				break;
+			}
+		}
+
 		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
 			callback({success: false, messages: {navbar: "//unable to create arena; actions too advanced", top: "//unable to create arena; actions too advanced"}});
 		}

@@ -661,3 +661,8 @@
 			outline: none;
 		}
 
+		#navbar select {
+			border: 0px;
+			height: 24px;
+		}
+

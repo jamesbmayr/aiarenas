@@ -8,310 +8,276 @@
 
 				switch (preset) {
 					case "default":
-						$("#players_minimum").val(2);
-						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("5:00");
-						$("#players_pausePeriod").val(10);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",true);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",true);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",true);
-
-						$("#cubes_startCount").val(1);
-						$("#cubes_maximum").val(255);
-						$("#cubes_spawnRate").val(1);
-						$("#cubes_spawnMemory").val(3);
-						$("#cubes_dissolveRate").val(1);
-						$("#cubes_dissolveIndex").val("oldest");
-
-						$("#robots_startPower").val(1);
-						$("#robots_maxPower").val(255);
-						$("#robots_powerRate").val(1);
-						$("#robots_tieBreaker").val("cascade");
-
-						$("#robots_actions_power").prop("checked",true);
-						$("#robots_actions_take").prop("checked",true);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",false);
-						$("#robots_actions_shock").prop("checked",false);
-						$("#robots_actions_burn").prop("checked",false);
-						$("#robots_actions_halftake").prop("checked",false);
-						$("#robots_actions_swaptake").prop("checked",false);
-						$("#robots_actions_fliptake").prop("checked",false);
-
-						$("#victory_multiplier").val(1);
-						$("#victory_tieBreaker").val("efficient");
-						$("#victory_conditions_1of6").prop("checked",true);
-						$("#victory_conditions_2of3").prop("checked",true);
-						$("#victory_conditions_3of2").prop("checked",false);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 2,
+								maximum: 6,
+								pauseDuration: "5:00",
+								pausePeriod: 10
+							},
+							cubes: {
+								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+								startCount: 1,
+								maximum: 255,
+								spawnRate: 1,
+								spawnMemory: 3,
+								dissolveRate: 1,
+								dissolveIndex: "oldest"
+							},
+							robots: {
+								startPower: 1,
+								maxPower: 255,
+								powerRate: 1,
+								tieBreaker: "cascade",
+								actions: ["power","take","sleep"]
+							},
+							victory: {
+								conditions: ["1of6","2of3","6of1"],
+								tieBreaker: "efficient",
+								multiplier: 1
+							}
+						}
 					break;
 
 					case "simple":
-						$("#players_minimum").val(2);
-						$("#players_maximum").val(4);
-						$("#players_pauseDuration").val("5:00");
-						$("#players_pausePeriod").val(10);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",false);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",false);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",false);
-
-						$("#cubes_startCount").val(0);
-						$("#cubes_maximum").val(255);
-						$("#cubes_spawnRate").val(1);
-						$("#cubes_spawnMemory").val(0);
-						$("#cubes_dissolveRate").val(1);
-						$("#cubes_dissolveIndex").val("newest");
-
-						$("#robots_startPower").val(1);
-						$("#robots_maxPower").val(255);
-						$("#robots_powerRate").val(1);
-						$("#robots_tieBreaker").val("dissolve");
-
-						$("#robots_actions_power").prop("checked",true);
-						$("#robots_actions_take").prop("checked",true);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",false);
-						$("#robots_actions_shock").prop("checked",false);
-						$("#robots_actions_burn").prop("checked",false);
-						$("#robots_actions_halftake").prop("checked",false);
-						$("#robots_actions_swaptake").prop("checked",false);
-						$("#robots_actions_fliptake").prop("checked",false);
-
-						$("#victory_multiplier").val(1);
-						$("#victory_tieBreaker").val("tie");
-						$("#victory_conditions_1of6").prop("checked",false);
-						$("#victory_conditions_2of3").prop("checked",true);
-						$("#victory_conditions_3of2").prop("checked",false);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 2,
+								maximum: 4,
+								pauseDuration: "5:00",
+								pausePeriod: 10
+							},
+							cubes: {
+								colors: ["red", "yellow", "blue"],
+								startCount: 0,
+								maximum: 255,
+								spawnRate: 1,
+								spawnMemory: 0,
+								dissolveRate: 1,
+								dissolveIndex: "newest"
+							},
+							robots: {
+								startPower: 1,
+								maxPower: 255,
+								powerRate: 1,
+								tieBreaker: "dissolve",
+								actions: ["power","take","sleep"]
+							},
+							victory: {
+								conditions: ["2of3","6of1"],
+								tieBreaker: "tie",
+								multiplier: 1
+							}
+						}
 					break;
 
 					case "deathmatch":
-						$("#players_minimum").val(2);
-						$("#players_maximum").val(2);
-						$("#players_pauseDuration").val("5:00");
-						$("#players_pausePeriod").val(5);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",true);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",true);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",true);
-
-						$("#cubes_startCount").val(1);
-						$("#cubes_maximum").val(24);
-						$("#cubes_spawnRate").val(2);
-						$("#cubes_spawnMemory").val(3);
-						$("#cubes_dissolveRate").val(0);
-						$("#cubes_dissolveIndex").val("none");
-
-						$("#robots_startPower").val(10);
-						$("#robots_maxPower").val(20);
-						$("#robots_powerRate").val(2);
-						$("#robots_tieBreaker").val("leave");
-
-						$("#robots_actions_power").prop("checked",true);
-						$("#robots_actions_take").prop("checked",true);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",true);
-						$("#robots_actions_shock").prop("checked",false);
-						$("#robots_actions_burn").prop("checked",false);
-						$("#robots_actions_halftake").prop("checked",true);
-						$("#robots_actions_swaptake").prop("checked",false);
-						$("#robots_actions_fliptake").prop("checked",false);
-
-						$("#victory_multiplier").val(1);
-						$("#victory_tieBreaker").val("efficient");
-						$("#victory_conditions_1of6").prop("checked",true);
-						$("#victory_conditions_2of3").prop("checked",true);
-						$("#victory_conditions_3of2").prop("checked",false);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 2,
+								maximum: 2,
+								pauseDuration: "5:00",
+								pausePeriod: 5
+							},
+							cubes: {
+								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+								startCount: 1,
+								maximum: 24,
+								spawnRate: 2,
+								spawnMemory: 3,
+								dissolveRate: 0,
+								dissolveIndex: "none"
+							},
+							robots: {
+								startPower: 10,
+								maxPower: 20,
+								powerRate: 2,
+								tieBreaker: "leave",
+								actions: ["power","take","sleep","sap","halftake"]
+							},
+							victory: {
+								conditions: ["1of6","2of3","6of1"],
+								tieBreaker: "efficient",
+								multiplier: 1
+							}
+						}
 					break;
 
 					case "advanced":
-						$("#players_minimum").val(2);
-						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("5:00");
-						$("#players_pausePeriod").val(10);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",true);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",true);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",true);
-
-						$("#cubes_startCount").val(2);
-						$("#cubes_maximum").val(48);
-						$("#cubes_spawnRate").val(2);
-						$("#cubes_spawnMemory").val(4);
-						$("#cubes_dissolveRate").val(1);
-						$("#cubes_dissolveIndex").val("oldest");
-
-						$("#robots_startPower").val(3);
-						$("#robots_maxPower").val(20);
-						$("#robots_powerRate").val(3);
-						$("#robots_tieBreaker").val("leave");
-
-						$("#robots_actions_power").prop("checked",true);
-						$("#robots_actions_take").prop("checked",true);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",true);
-						$("#robots_actions_shock").prop("checked",false);
-						$("#robots_actions_burn").prop("checked",false);
-						$("#robots_actions_halftake").prop("checked",true);
-						$("#robots_actions_swaptake").prop("checked",false);
-						$("#robots_actions_fliptake").prop("checked",true);
-
-						$("#victory_multiplier").val(2);
-						$("#victory_tieBreaker").val("greedy");
-						$("#victory_conditions_1of6").prop("checked",true);
-						$("#victory_conditions_2of3").prop("checked",true);
-						$("#victory_conditions_3of2").prop("checked",true);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 2,
+								maximum: 6,
+								pauseDuration: "5:00",
+								pausePeriod: 10
+							},
+							cubes: {
+								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+								startCount: 2,
+								maximum: 48,
+								spawnRate: 2,
+								spawnMemory: 4,
+								dissolveRate: 1,
+								dissolveIndex: "oldest"
+							},
+							robots: {
+								startPower: 3,
+								maxPower: 20,
+								powerRate: 3,
+								tieBreaker: "leave",
+								actions: ["power","take","sleep","sap","halftake","fliptake"]
+							},
+							victory: {
+								conditions: ["1of6","2of3","3of2","6of1"],
+								tieBreaker: "greedy",
+								multiplier: 2
+							}
+						}
 					break;
 
 					case "intense":
-						$("#players_minimum").val(6);
-						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("2:00");
-						$("#players_pausePeriod").val(20);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",true);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",true);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",true);
-
-						$("#cubes_startCount").val(0);
-						$("#cubes_maximum").val(48);
-						$("#cubes_spawnRate").val(4);
-						$("#cubes_spawnMemory").val(2);
-						$("#cubes_dissolveRate").val(2);
-						$("#cubes_dissolveIndex").val("newest");
-
-						$("#robots_startPower").val(10);
-						$("#robots_maxPower").val(255);
-						$("#robots_powerRate").val(10);
-						$("#robots_tieBreaker").val("catchup");
-
-						$("#robots_actions_power").prop("checked",true);
-						$("#robots_actions_take").prop("checked",true);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",true);
-						$("#robots_actions_shock").prop("checked",true);
-						$("#robots_actions_burn").prop("checked",true);
-						$("#robots_actions_halftake").prop("checked",true);
-						$("#robots_actions_swaptake").prop("checked",true);
-						$("#robots_actions_fliptake").prop("checked",true);
-
-						$("#victory_multiplier").val(4);
-						$("#victory_tieBreaker").val("efficient");
-						$("#victory_conditions_1of6").prop("checked",true);
-						$("#victory_conditions_2of3").prop("checked",true);
-						$("#victory_conditions_3of2").prop("checked",true);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 6,
+								maximum: 6,
+								pauseDuration: "2:00",
+								pausePeriod: 20
+							},
+							cubes: {
+								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+								startCount: 0,
+								maximum: 48,
+								spawnRate: 4,
+								spawnMemory: 2,
+								dissolveRate: 2,
+								dissolveIndex: "newest"
+							},
+							robots: {
+								startPower: 10,
+								maxPower: 255,
+								powerRate: 10,
+								tieBreaker: "catchup",
+								actions: ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"]
+							},
+							victory: {
+								conditions: ["1of6","2of3","3of2","6of1"],
+								tieBreaker: "efficient",
+								multiplier: 4
+							}
+						}
 					break;
 
 					case "scarcity":
-						$("#players_minimum").val(4);
-						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("2:00");
-						$("#players_pausePeriod").val(10);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",true);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",true);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",true);
-
-						$("#cubes_startCount").val(2);
-						$("#cubes_maximum").val(255);
-						$("#cubes_spawnRate").val(1);
-						$("#cubes_spawnMemory").val(4);
-						$("#cubes_dissolveRate").val(0);
-						$("#cubes_dissolveIndex").val("none");
-
-						$("#robots_startPower").val(255);
-						$("#robots_maxPower").val(255);
-						$("#robots_powerRate").val(10);
-						$("#robots_tieBreaker").val("leave");
-
-						$("#robots_actions_power").prop("checked",false);
-						$("#robots_actions_take").prop("checked",false);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",true);
-						$("#robots_actions_shock").prop("checked",true);
-						$("#robots_actions_burn").prop("checked",true);
-						$("#robots_actions_halftake").prop("checked",true);
-						$("#robots_actions_swaptake").prop("checked",true);
-						$("#robots_actions_fliptake").prop("checked",true);
-
-						$("#victory_multiplier").val(1);
-						$("#victory_tieBreaker").val("greedy");
-						$("#victory_conditions_1of6").prop("checked",true);
-						$("#victory_conditions_2of3").prop("checked",false);
-						$("#victory_conditions_3of2").prop("checked",false);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 4,
+								maximum: 6,
+								pauseDuration: "2:00",
+								pausePeriod: 10
+							},
+							cubes: {
+								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+								startCount: 2,
+								maximum: 255,
+								spawnRate: 1,
+								spawnMemory: 4,
+								dissolveRate: 0,
+								dissolveIndex: "none"
+							},
+							robots: {
+								startPower: 255,
+								maxPower: 255,
+								powerRate: 10,
+								tieBreaker: "leave",
+								actions: ["sleep","sap","shock","burn","halftake","swaptake","fliptake"]
+							},
+							victory: {
+								conditions: ["1of6","6of1"],
+								tieBreaker: "greedy",
+								multiplier: 1
+							}
+						}
 					break;
 
 					case "random":
-						$("#players_minimum").val(3);
-						$("#players_maximum").val(6);
-						$("#players_pauseDuration").val("1:00");
-						$("#players_pausePeriod").val(255);
-
-						$("#cubes_colors_red").prop("checked",true);
-						$("#cubes_colors_orange").prop("checked",true);
-						$("#cubes_colors_yellow").prop("checked",true);
-						$("#cubes_colors_green").prop("checked",true);
-						$("#cubes_colors_blue").prop("checked",true);
-						$("#cubes_colors_purple").prop("checked",true);
-
-						$("#cubes_startCount").val(1);
-						$("#cubes_maximum").val(255);
-						$("#cubes_spawnRate").val(2);
-						$("#cubes_spawnMemory").val(0);
-						$("#cubes_dissolveRate").val(1);
-						$("#cubes_dissolveIndex").val("random");
-
-						$("#robots_startPower").val(2);
-						$("#robots_maxPower").val(255);
-						$("#robots_powerRate").val(2);
-						$("#robots_tieBreaker").val("random");
-
-						$("#robots_actions_power").prop("checked",true);
-						$("#robots_actions_take").prop("checked",true);
-						$("#robots_actions_sleep").prop("checked",true);
-						$("#robots_actions_sap").prop("checked",true);
-						$("#robots_actions_shock").prop("checked",true);
-						$("#robots_actions_burn").prop("checked",false);
-						$("#robots_actions_halftake").prop("checked",false);
-						$("#robots_actions_swaptake").prop("checked",false);
-						$("#robots_actions_fliptake").prop("checked",true);
-
-						$("#victory_multiplier").val(3);
-						$("#victory_tieBreaker").val("random");
-						$("#victory_conditions_1of6").prop("checked",true);
-						$("#victory_conditions_2of3").prop("checked",false);
-						$("#victory_conditions_3of2").prop("checked",true);
-						$("#victory_conditions_6of1").prop("checked",true);
+						var parameters = {
+							players: {
+								minimum: 3,
+								maximum: 6,
+								pauseDuration: "1:00",
+								pausePeriod: 20
+							},
+							cubes: {
+								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+								startCount: 1,
+								maximum: 255,
+								spawnRate: 2,
+								spawnMemory: 0,
+								dissolveRate: 1,
+								dissolveIndex: "random"
+							},
+							robots: {
+								startPower: 2,
+								maxPower: 255,
+								powerRate: 2,
+								tieBreaker: "random",
+								actions: ["power","take","sleep","sap","shock","fliptake"]
+							},
+							victory: {
+								conditions: ["1of6","3of2","6of1"],
+								tieBreaker: "random",
+								multiplier: 3
+							}
+						}
 					break;
 
 					case "custom":
 					default:
-						//do nothing
+						//
 					break;
+				}
+
+				if ((typeof parameters !== "undefined") && (parameters !== null)) {
+					$("#players_minimum").val(parameters.players.minimum);
+					$("#players_maximum").val(parameters.players.maximum);
+					$("#players_pauseDuration").val(parameters.players.pauseDuration);
+					$("#players_pausePeriod").val(parameters.players.pausePeriod);
+
+					$("#cubes_colors_red").prop("checked",(parameters.cubes.colors.indexOf("red") > -1));
+					$("#cubes_colors_orange").prop("checked",(parameters.cubes.colors.indexOf("orange") > -1));
+					$("#cubes_colors_yellow").prop("checked",(parameters.cubes.colors.indexOf("yellow") > -1));
+					$("#cubes_colors_green").prop("checked",(parameters.cubes.colors.indexOf("green") > -1));
+					$("#cubes_colors_blue").prop("checked",(parameters.cubes.colors.indexOf("blue") > -1));
+					$("#cubes_colors_purple").prop("checked",(parameters.cubes.colors.indexOf("purple") > -1));
+
+					$("#cubes_startCount").val(parameters.cubes.startCount);
+					$("#cubes_maximum").val(parameters.cubes.maximum);
+					$("#cubes_spawnRate").val(parameters.cubes.spawnRate);
+					$("#cubes_spawnMemory").val(parameters.cubes.spawnMemory);
+					$("#cubes_dissolveRate").val(parameters.cubes.dissolveRate);
+					$("#cubes_dissolveIndex").val(parameters.cubes.dissolveIndex);
+
+					$("#robots_startPower").val(parameters.robots.startPower);
+					$("#robots_maxPower").val(parameters.robots.maxPower);
+					$("#robots_powerRate").val(parameters.robots.powerRate);
+					$("#robots_tieBreaker").val(parameters.robots.tieBreaker);
+
+					$("#robots_actions_power").prop("checked",(parameters.robots.actions.indexOf("power") > -1));
+					$("#robots_actions_take").prop("checked",(parameters.robots.actions.indexOf("take") > -1));
+					$("#robots_actions_sleep").prop("checked",(parameters.robots.actions.indexOf("sleep") > -1));
+					$("#robots_actions_sap").prop("checked",(parameters.robots.actions.indexOf("sap") > -1));
+					$("#robots_actions_shock").prop("checked",(parameters.robots.actions.indexOf("shock") > -1));
+					$("#robots_actions_burn").prop("checked",(parameters.robots.actions.indexOf("burn") > -1));
+					$("#robots_actions_halftake").prop("checked",(parameters.robots.actions.indexOf("halftake") > -1));
+					$("#robots_actions_swaptake").prop("checked",(parameters.robots.actions.indexOf("swaptake") > -1));
+					$("#robots_actions_fliptake").prop("checked",(parameters.robots.actions.indexOf("fliptake") > -1));
+
+					$("#victory_multiplier").val(parameters.victory.multiplier);
+					$("#victory_tieBreaker").val(parameters.victory.tieBreaker);
+					$("#victory_conditions_1of6").prop("checked",(parameters.victory.conditions.indexOf("1of6") > -1));
+					$("#victory_conditions_2of3").prop("checked",(parameters.victory.conditions.indexOf("2of3") > -1));
+					$("#victory_conditions_3of2").prop("checked",(parameters.victory.conditions.indexOf("3of2") > -1));
+					$("#victory_conditions_6of1").prop("checked",(parameters.victory.conditions.indexOf("6of1") > -1));
 				}
 			});
 
@@ -356,6 +322,7 @@
 
 			window.create_arena = function() {
 				var parameters = {
+					preset: $("#presets").val(),
 					players: {},
 					cubes: {},
 					robots: {},
@@ -882,9 +849,6 @@
 										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
 											if ($("#pauseDetails").css("display") === "none") {
 												$("#pauseDetails").show();
-												$("#players_outer").hide();
-												$("#cubes_outer").show();
-												$("#victors").hide();
 												$("#workshop_outer").show();
 
 												resizeTop();
@@ -898,9 +862,6 @@
 									//unpaused
 										else if ($("#pauseDetails").css("display") !== "none") {
 											$("#pauseDetails").hide();
-											$("#players_outer").hide();
-											$("#cubes_outer").show();
-											$("#victors").hide();
 											$("#workshop_outer").hide();
 
 											$("#pause").text("null");
@@ -932,708 +893,6 @@
 								}
 						}
 					}, 1000);
-				}
-			}
-
-		/* robot animations */
-			window.animateRobot = function(robot, action) {
-				if ((robot !== null) && (robot.length > 0)) {
-					switch(action) {
-						case "power":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-							},0);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
-							},100);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
-							},300);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
-							},500);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
-							},700);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-							},900);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
-							},1100);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
-							},1300);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
-							},1500);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
-							},1600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-							},1700);
-						break;
-
-						case "sap":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-							},0);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
-
-
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-							},1600);
-						break;
-
-						case "burn":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-							},0);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
-
-
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-							},1600);
-						break;
-
-						case "shock":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
-							},0);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-							},100);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").hide();
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
-							},300);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").show();
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
-							},500);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").hide();
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
-							},700);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","bold");
-
-								$("#" + robot).find(".leftDot").show();
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","bold");
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-							},900);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_hand").css("font-weight","normal");
-								$("#" + robot).find(".avatar_eyes").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").hide();
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_wrist").css("font-weight","normal");
-								$("#" + robot).find(".avatar_mouth").css("font-weight","normal");
-							},1100);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","bold");
-								$("#" + robot).find(".avatar_left_shoulder_down").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_left_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_torso_1").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_arm").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_up").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_shoulder_down").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").show();
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_2").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_wrist").css("font-weight","normal");
-							},1300);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_legs").css("font-weight","bold");
-								$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").hide();
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-								$("#" + robot).find(".avatar_legs").css("font-weight","normal");
-							},1500);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
-								$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-
-								$("#" + robot).find(".leftDot").show();
-							},1600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_antennae").css("font-weight","normal");
-							},1700);
-						break;
-
-						case "take":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-							},0);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").hide();
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").hide();
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").hide();
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").hide();
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-							},1600);
-						break;
-
-						case "halftake":
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").hide();
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").hide();
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},800);
-						break;
-
-						case "swaptake":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},1600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-							},1800);
-						break;
-
-						case "fliptake":
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},600);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},800);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").hide();
-								$("#" + robot).find(".avatar_right_shoulder_up").show();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},1000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},1200);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_right_shoulder_down").show();
-								$("#" + robot).find(".avatar_right_shoulder_up").hide();
-								$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".leftDot").hide();
-							},1400);
-
-							setTimeout(function() {
-								$("#" + robot).find(".leftDot").show();
-							},1600);
-						break;
-
-						case "sleep":
-						default:
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").show();
-								$("#" + robot).find(".avatar_left_shoulder_up").hide();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-
-								$("#" + robot).find(".avatar").animate({
-									opacity: 0.1
-								},2000);
-							},0);
-							
-							setTimeout(function() {
-								$("#" + robot).find(".avatar").animate({
-									opacity: 1
-								},2000);
-							},2000);
-
-							setTimeout(function() {
-								$("#" + robot).find(".avatar_left_shoulder_down").hide();
-								$("#" + robot).find(".avatar_left_shoulder_up").show();
-								$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
-								$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
-							},3000)
-						break;
-					}
 				}
 			}
 	});
