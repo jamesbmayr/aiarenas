@@ -246,7 +246,6 @@
 			callback({success: false, messages: {navbar: "//unable to create arena; actions too expert", top: "//unable to create arena; actions too expert"}});
 		}
 		else {
-
 			var arena = {
 				id: processes.random(),
 				created: new Date().getTime(),
@@ -292,6 +291,10 @@
 				rounds: [],
 			}
 
+			if (post.action === "random_arena") { //if this arena is created as a random arena, the creator should be 0, not the human
+				arena.humans = ["0"];
+			}
+
 			processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}}, function(human) {
 				processes.store("arenas", null, arena, function(data) {
 					callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
@@ -326,8 +329,8 @@
 		});
 	}
 
-/* join(session, post, callback) */
-	function join(session, post, callback) {
+/* joinin(session, post, callback) */
+	function joinin(session, post, callback) {
 		var data = JSON.parse(post.data);
 
 		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 4)) {
@@ -369,7 +372,258 @@
 
 /* random(session, post, callback) */
 	function random(session, post, callback) {
-		//???
+		var parameters = JSON.parse(post.data);
+
+		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((parameters.preset === "simple") || (parameters.preset === "deathmatch") || (parameters.preset === "advanced"))) {
+			callback({success: false, messages: {navbar: "//unable to join arena; preset too advanced", top: "//unable to join arena; preset too advanced"}});
+		}
+		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((parameters.preset === "intense") || (parameters.preset === "scarcity") || (parameters.preset === "random"))) {
+			callback({success: false, messages: {navbar: "//unable to join arena; preset too expert", top: "//unable to join arena; preset too expert"}});
+		}
+		else {
+			switch (parameters.preset) {
+				case "default":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 6,
+							pauseDuration: "5:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 1,
+							maximum: 255,
+							spawnRate: 1,
+							spawnMemory: 3,
+							dissolveRate: 1,
+							dissolveIndex: "oldest"
+						},
+						robots: {
+							startPower: 1,
+							maxPower: 255,
+							powerRate: 1,
+							tieBreaker: "cascade",
+							actions: ["power","take","sleep"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","6of1"],
+							tieBreaker: "efficient",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "simple":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 4,
+							pauseDuration: "5:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "yellow", "blue"],
+							startCount: 0,
+							maximum: 255,
+							spawnRate: 1,
+							spawnMemory: 0,
+							dissolveRate: 1,
+							dissolveIndex: "newest"
+						},
+						robots: {
+							startPower: 1,
+							maxPower: 255,
+							powerRate: 1,
+							tieBreaker: "dissolve",
+							actions: ["power","take","sleep"]
+						},
+						victory: {
+							conditions: ["2of3","6of1"],
+							tieBreaker: "tie",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "deathmatch":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 2,
+							pauseDuration: "5:00",
+							pausePeriod: 5
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 1,
+							maximum: 24,
+							spawnRate: 2,
+							spawnMemory: 3,
+							dissolveRate: 0,
+							dissolveIndex: "none"
+						},
+						robots: {
+							startPower: 10,
+							maxPower: 20,
+							powerRate: 2,
+							tieBreaker: "leave",
+							actions: ["power","take","sleep","sap","halftake"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","6of1"],
+							tieBreaker: "efficient",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "advanced":
+					parameters = {
+						players: {
+							minimum: 2,
+							maximum: 6,
+							pauseDuration: "5:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 2,
+							maximum: 48,
+							spawnRate: 2,
+							spawnMemory: 4,
+							dissolveRate: 1,
+							dissolveIndex: "oldest"
+						},
+						robots: {
+							startPower: 3,
+							maxPower: 20,
+							powerRate: 3,
+							tieBreaker: "leave",
+							actions: ["power","take","sleep","sap","halftake","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","3of2","6of1"],
+							tieBreaker: "greedy",
+							multiplier: 2
+						}
+					}
+				break;
+
+				case "intense":
+					parameters = {
+						players: {
+							minimum: 6,
+							maximum: 6,
+							pauseDuration: "2:00",
+							pausePeriod: 20
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 0,
+							maximum: 48,
+							spawnRate: 4,
+							spawnMemory: 2,
+							dissolveRate: 2,
+							dissolveIndex: "newest"
+						},
+						robots: {
+							startPower: 10,
+							maxPower: 255,
+							powerRate: 10,
+							tieBreaker: "catchup",
+							actions: ["power","take","sleep","sap","shock","burn","halftake","swaptake","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","2of3","3of2","6of1"],
+							tieBreaker: "efficient",
+							multiplier: 4
+						}
+					}
+				break;
+
+				case "scarcity":
+					parameters = {
+						players: {
+							minimum: 4,
+							maximum: 6,
+							pauseDuration: "2:00",
+							pausePeriod: 10
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 2,
+							maximum: 255,
+							spawnRate: 1,
+							spawnMemory: 4,
+							dissolveRate: 0,
+							dissolveIndex: "none"
+						},
+						robots: {
+							startPower: 255,
+							maxPower: 255,
+							powerRate: 10,
+							tieBreaker: "leave",
+							actions: ["sleep","sap","shock","burn","halftake","swaptake","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","6of1"],
+							tieBreaker: "greedy",
+							multiplier: 1
+						}
+					}
+				break;
+
+				case "random":
+					parameters = {
+						players: {
+							minimum: 3,
+							maximum: 6,
+							pauseDuration: "1:00",
+							pausePeriod: 20
+						},
+						cubes: {
+							colors: ["red", "orange", "yellow", "green", "blue", "purple"],
+							startCount: 1,
+							maximum: 255,
+							spawnRate: 2,
+							spawnMemory: 0,
+							dissolveRate: 1,
+							dissolveIndex: "random"
+						},
+						robots: {
+							startPower: 2,
+							maxPower: 255,
+							powerRate: 2,
+							tieBreaker: "random",
+							actions: ["power","take","sleep","sap","shock","fliptake"]
+						},
+						victory: {
+							conditions: ["1of6","3of2","6of1"],
+							tieBreaker: "random",
+							multiplier: 3
+						}
+					}
+				break;
+
+				case "custom":
+				default:
+					parameters = {};
+				break;
+			}
+
+			processes.retrieve("arenas",{$and: {"state.start": null, humans: "0", rules: parameters, $where: "this.humans.length - 1 < this.rules.players.maximum"}}, function(arenas) { //get all unstarted arenas, created automatically, with the same rules, and open slots
+				if (arenas.length > 0) {
+					arenas.reverse();
+
+					joinin(session, {data: {arena_id: arenas[0].id.substring(0,4)}}, callback); //join the oldest of these arenas
+				}
+				else {
+					create(session,post,callback); //create a new arena, with "random_arena" as post.action (so the creator becomes "0" instead of the session.human)
+				}
+			});
+
+		}
 	}
 
 /* selectRobot(session, post, callback) */
@@ -1387,7 +1641,7 @@
 /* exports */
 	module.exports = {
 		create: create,
-		join: join,
+		joinin: joinin,
 		random: random,
 		selectRobot: selectRobot,
 		leave: leave,

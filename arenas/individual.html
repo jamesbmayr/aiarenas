@@ -149,12 +149,14 @@
 						<% 
 							var string = "";
 							for (var i = 0; i < data.humans.length; i++) {
-								var entrant = data.entrants[Object.keys(data.entrants).find(function(j) { return (data.entrants[j].human.id === data.humans[i])})];
-								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-									string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
-								}
-								else {
-									string += "<span class='yellowtext'>???</span>, ";
+								if (data.humans[i] !== "0") {
+									var entrant = data.entrants[Object.keys(data.entrants).find(function(j) { return (data.entrants[j].human.id === data.humans[i])})];
+									if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
+										string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
+									}
+									else {
+										string += "<span class='yellowtext'>???</span>, ";
+									}
 								}
 							}
 

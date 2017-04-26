@@ -658,7 +658,7 @@
 							case "join_arena":
 								try {
 									if (session.human !== null) {
-										arenas.join(session, post, function(data) {
+										arenas.joinin(session, post, function(data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join arena", navbar: "//unable to join arena"}}));
 										});
 									}
