@@ -12,7 +12,7 @@
 							players: {
 								minimum: 2,
 								maximum: 6,
-								pauseDuration: "5:00",
+								pauseDuration: 300000,
 								pausePeriod: 10
 							},
 							cubes: {
@@ -44,7 +44,7 @@
 							players: {
 								minimum: 2,
 								maximum: 4,
-								pauseDuration: "5:00",
+								pauseDuration: 300000,
 								pausePeriod: 10
 							},
 							cubes: {
@@ -76,7 +76,7 @@
 							players: {
 								minimum: 2,
 								maximum: 2,
-								pauseDuration: "5:00",
+								pauseDuration: 300000,
 								pausePeriod: 5
 							},
 							cubes: {
@@ -108,7 +108,7 @@
 							players: {
 								minimum: 2,
 								maximum: 6,
-								pauseDuration: "5:00",
+								pauseDuration: 300000,
 								pausePeriod: 10
 							},
 							cubes: {
@@ -140,7 +140,7 @@
 							players: {
 								minimum: 6,
 								maximum: 6,
-								pauseDuration: "2:00",
+								pauseDuration: 120000,
 								pausePeriod: 20
 							},
 							cubes: {
@@ -172,7 +172,7 @@
 							players: {
 								minimum: 4,
 								maximum: 6,
-								pauseDuration: "2:00",
+								pauseDuration: 120000,
 								pausePeriod: 10
 							},
 							cubes: {
@@ -204,7 +204,7 @@
 							players: {
 								minimum: 3,
 								maximum: 6,
-								pauseDuration: "1:00",
+								pauseDuration: 60000,
 								pausePeriod: 20
 							},
 							cubes: {
@@ -693,7 +693,7 @@
 							
 							//starting soon
 								if (timeNow < window.arena.state.start) {
-									$("#message_top").animateText({text: "//starting arena"}, 500);
+									$("#message_top").animateText({text: "//" + Math.max(0, Math.ceil((window.arena.state.start - timeNow) / 1000)) + "..."}, 500); //show a countdown
 								}
 
 							//display up-to-date info
@@ -707,7 +707,7 @@
 											console.log("data: " + JSON.stringify(currentRound));
 										}
 										else {
-											$("#round").text("null");
+											$("#round").hide().text("null");
 										}
 
 									//robots
@@ -783,7 +783,7 @@
 											}, 2000);
 
 											setTimeout(function() {
-												$("#cubes").css("opacity",0).empty().html(window.cubes).animate({
+												$("#cubes").css("opacity",0).empty().html('<div id="cube_spacer"></div>' + window.cubes).animate({
 													opacity: 1,
 												}, 2000);
 											}, 4000);
@@ -805,6 +805,9 @@
 										$("#victors").show();
 										$("#workshop_outer").hide();
 										$("#postgame_outer").show();
+
+										$("#leave_form").remove();
+										$("#delete_form").remove();
 
 										$("#round").text("null").closest(".section").hide();
 										$("#round").attr("value", "concluded");
@@ -843,53 +846,71 @@
 								
 							//active
 								else if (timeNow > window.arena.state.start) {
-									var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start;
+									if (window.arena.rounds.length > 0) {
+										var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start || 0;
 
-									//paused
-										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
-											if ($("#pauseDetails").css("display") === "none") {
-												$("#pauseDetails").show();
-												$("#workshop_outer").show();
+										//paused
+											if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
+												if ($("#pauseDetails").css("display") === "none") {
+													$("#pauseDetails").show();
+													$("#workshop_outer").show();
 
-												resizeTop();
-												$("#message_top").animateText({text: "//arena paused"}, 1000);
+													resizeTop();
+													$("#message_top").animateText({text: "//arena paused"}, 1000);
+												}
+
+												lastTime = window.arena.state.pauseTo;
+												$("#pause").text(Math.floor((lastTime - timeNow) / 1000));
 											}
 
-											lastTime = window.arena.state.pauseTo;
-											$("#pause").text(Math.floor((lastTime - timeNow) / 1000));
-										}
+										//unpaused
+											else if ($("#pauseDetails").css("display") !== "none") {
+												$("#pauseDetails").hide();
+												$("#workshop_outer").hide();
 
-									//unpaused
-										else if ($("#pauseDetails").css("display") !== "none") {
-											$("#pauseDetails").hide();
-											$("#workshop_outer").hide();
+												$("#pause").text("null");
 
-											$("#pause").text("null");
+												resizeTop();
+											}
 
-											resizeTop();
-										}
+										//fetch more data if necessary										
+											if (timeNow >= lastTime) {
+												var arena_id = $(".container").attr("value");
 
-									//fetch more data if necessary										
-										if (timeNow >= lastTime) {
-											var arena_id = $(".container").attr("value");
-
-											$.ajax({
-												type: "POST",
-												url: window.location.pathname,
-												data: {
-													action: "read_arena",
-													data: JSON.stringify({arena_id: arena_id || null})
-												},
-												success: function(data) {
-													if (data.success) {
-														window.arena = data.arena;
+												$.ajax({
+													type: "POST",
+													url: window.location.pathname,
+													data: {
+														action: "read_arena",
+														data: JSON.stringify({arena_id: arena_id || null})
+													},
+													success: function(data) {
+														if (data.success) {
+															window.arena = data.arena;
+														}
+														else {
+															$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
+														}
 													}
-													else {
-														$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
-													}
-												}
-											});
-										}
+												});
+											}
+									}
+									else { //for random arenas, read and refresh
+										var arena_id = $(".container").attr("value");
+
+										$.ajax({
+											type: "POST",
+											url: window.location.pathname,
+											data: {
+												action: "read_arena",
+												data: JSON.stringify({arena_id: arena_id || null})
+											},
+											success: function(data) {
+												console.log("read it and hopefully it did something");
+												window.location = window.location; //refresh to start gameLoop (for random arenas)
+											}
+										});
+									}
 								}
 						}
 					}, 1000);

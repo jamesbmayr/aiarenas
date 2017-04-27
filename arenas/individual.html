@@ -19,9 +19,14 @@
 						<span class="whitetext header"><% try {data.id.substring(0,4)} catch(error) {"arenas"} %></span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
-						<div class="section" <% var timeNow = new Date().getTime(); if ((data.state.end !== null) && (data.state.end < timeNow)) { "style='display: none;'";} %>>
-							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if ((data.state.end !== null) && (data.state.end < timeNow)) { 'concluded' } else { 'active'} %>"><%
-								if (data.state.start === null) {
+						<div class="section" <% 
+							var timeNow = new Date().getTime();
+							console.log("timeNow: " + timeNow);
+							if ((data.state.end !== null) && (data.state.end < timeNow)) { "style='display: none;'";}
+							else if ((data.state.start === null) || (data.state.start > timeNow)) { "style='display: none;'";}
+						%>>
+							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if ((data.state.end !== null) && (data.state.end < timeNow)) { 'concluded' } else { 'active' } %>"><%
+								if ((data.state.start === null) || (data.state.start > timeNow)) {
 									"null";
 								}
 								else if ((data.state.end !== null) && (data.state.end < timeNow)) {
@@ -50,7 +55,7 @@
 							%></span><span class="whitetext">;</span>
 						</div>
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start === null)) {
+							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && ((data.state.start === null) || (data.state.start > timeNow))) {
 								var string = "";
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return data.entrants[i].human.id === session.human.id })] || null;
 								
@@ -142,14 +147,14 @@
 						%>
 					</div>
 				</div>
-				<div class="megasection" id="players_outer" <% if (data.state.start !== null) {"style='display: none';"} %>>
+				<div class="megasection" id="players_outer" <% if ((data.state.start !== null) && (data.state.start < timeNow)) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.players</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 					<div class="section indented whitetext" id="players" value="<% data.humans %>">
 						<% 
 							var string = "";
 							for (var i = 0; i < data.humans.length; i++) {
-								if (data.humans[i] !== "0") {
+								if (data.humans[i] !== 0) {
 									var entrant = data.entrants[Object.keys(data.entrants).find(function(j) { return (data.entrants[j].human.id === data.humans[i])})];
 									if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 										string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
@@ -178,7 +183,8 @@
 											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">();</span></button>\
 										</form>\
 									</div> <span class="message graytext"></span>\
-									<span class="graytext"> // <details class="graytext"><summary></summary><span><ul>\
+									<div class="section indented">\
+										<span class="greentext">code</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span> <span class="graytext"> // <details class="graytext"><summary></summary><span><ul>\
 										<li><span class="code orangetext">arena</span>: all information</li>\
 										<li><span class="code orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>\
 										<li><span class="code orangetext">rules</span>: arena parameters <details><summary></summary><span class="code">arena.rules</span></details></li>\
@@ -199,15 +205,13 @@
 										<li><span class="code orangetext">opponents</span>: currentRound data of all robots except self <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== arguments.callee.name})</span></details></li>\
 										<li><span class="code orangetext">colors</span>: list of cube colors <details><summary></summary><span class="code">arena.rules.cubes.colors</span></details></li>\
 									</ul></span></details></span>\
-									<div class="section indented">\
-										<span class="greentext">code</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>\
 										<div class="indented">\
 											<div class="field_frame active">\
 												<span class="whitetext field" contenteditable="true" id="code" value=' + (String(entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(entrant.code) + '</span>\
 											</div>\
 										</div>\
 										<span class="whitetext">}</span>\
-										<span class="graytext"> // <details class="graytext"><summary><span>function must return one of the following actions:</span></summary><li>power</li><li>take</li><li>sleep</li><li>sap</li><li>burn</li><li>shock</li><li>halftake</li><li>swaptake</li><li>fliptake</li><span>all other return values will convert to "sleep";</span></details></span>\
+										<span class="graytext"> // <details class="graytext"><summary><span>function must return one of the following actions:</span></summary><li><span class="code greentext">power</span>: increment the robot\'s power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round\'s cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span>\
 									</div>';
 								}
 							}
@@ -294,10 +298,11 @@
 					</div>
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">]</span></div>
-				<div class="megasection" id="cubes_outer" <% if ((data.state.start === null) || ((data.state.end !== null) && (data.state.end < timeNow)) || ((data.state.pauseFrom !== null) && (data.state.pauseTo !== null) && (data.state.pauseFrom < timeNow) && (data.state.pauseTo > timeNow))) {"style='display: none';"} %>>
+				<div class="megasection" id="cubes_outer" <% if (((data.state.start === null) || (data.state.start > timeNow)) || ((data.state.end !== null) && (data.state.end < timeNow))) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.cubes</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 					<div class="section indented whitetext" id="cubes">
+						<div id="cube_spacer"></div>
 						<% 
 							if ((data.state.start !== null) && ((data.state.end === null) || (data.state.end > timeNow)) && (data.rounds.length > 0)) {
 								var currentRound = data.rounds[data.rounds.length - 1];

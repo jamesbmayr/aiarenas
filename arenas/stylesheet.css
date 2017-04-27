@@ -81,6 +81,9 @@
 			color: var(--white);
 		}
 
-		.container[value] #cubes {
-			min-height: 90px;
+		#cube_spacer {
+			display: inline-block;
+			vertical-align: bottom;
+			height: 90px;
+			width: 0px;
 		}

@@ -97,10 +97,10 @@
 							var options = "";
 							var values = ["1:00","2:00","5:00","10:00","20:00"];
 							for (var i = 0; i < values.length; i++) {
-								options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
+								options += "<option value='" + (values[i].replace(":00","") * 60 * 1000) + "'>" + values[i] + "</option>";
 							}
 
-							options.replace("value='5:00'", "value='5:00' selected");
+							options.replace("value='300000'", "value='5:00' selected");
 						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when the arena pauses, how long does the code workshop last?</span></summary></details></span><br>
 						<span class="whitetext">pausePeriod: </span><select class="purpletext" id="players_pausePeriod"><% 
 							var options = "";

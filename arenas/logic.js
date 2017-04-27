@@ -13,7 +13,7 @@
 						players: {
 							minimum: 2,
 							maximum: 6,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -45,7 +45,7 @@
 						players: {
 							minimum: 2,
 							maximum: 4,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -77,7 +77,7 @@
 						players: {
 							minimum: 2,
 							maximum: 2,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 5
 						},
 						cubes: {
@@ -109,7 +109,7 @@
 						players: {
 							minimum: 2,
 							maximum: 6,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -141,7 +141,7 @@
 						players: {
 							minimum: 6,
 							maximum: 6,
-							pauseDuration: "2:00",
+							pauseDuration: 120000,
 							pausePeriod: 20
 						},
 						cubes: {
@@ -173,7 +173,7 @@
 						players: {
 							minimum: 4,
 							maximum: 6,
-							pauseDuration: "2:00",
+							pauseDuration: 120000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -205,7 +205,7 @@
 						players: {
 							minimum: 3,
 							maximum: 6,
-							pauseDuration: "1:00",
+							pauseDuration: 60000,
 							pausePeriod: 20
 						},
 						cubes: {
@@ -263,7 +263,7 @@
 					players: {
 						minimum: Number(parameters.players.minimum) || 2,
 						maximum: Number(parameters.players.maximum) || 6,
-						pauseDuration: Number(parameters.players.pauseDuration.replace(":00","") * 60 * 1000) || (5 * 60 * 1000),
+						pauseDuration: Number(parameters.players.pauseDuration) || (5 * 60 * 1000),
 						pausePeriod: Number(parameters.players.pausePeriod) || 10,
 					},
 					cubes: {
@@ -291,8 +291,9 @@
 				rounds: [],
 			}
 
-			if (post.action === "random_arena") { //if this arena is created as a random arena, the creator should be 0, not the human
-				arena.humans = ["0"];
+			if (post.action === "random_arena") { //if this arena is created as a random arena
+				arena.humans = [0, session.human.id]; //the creator should be 0, not the human
+				arena.state.start = new Date().getTime() + (2 * 60 * 1000); //set it to automatically start in 2 minutes
 			}
 
 			processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}}, function(human) {
@@ -387,7 +388,7 @@
 						players: {
 							minimum: 2,
 							maximum: 6,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -419,7 +420,7 @@
 						players: {
 							minimum: 2,
 							maximum: 4,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -451,7 +452,7 @@
 						players: {
 							minimum: 2,
 							maximum: 2,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 5
 						},
 						cubes: {
@@ -483,7 +484,7 @@
 						players: {
 							minimum: 2,
 							maximum: 6,
-							pauseDuration: "5:00",
+							pauseDuration: 300000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -515,7 +516,7 @@
 						players: {
 							minimum: 6,
 							maximum: 6,
-							pauseDuration: "2:00",
+							pauseDuration: 120000,
 							pausePeriod: 20
 						},
 						cubes: {
@@ -547,7 +548,7 @@
 						players: {
 							minimum: 4,
 							maximum: 6,
-							pauseDuration: "2:00",
+							pauseDuration: 120000,
 							pausePeriod: 10
 						},
 						cubes: {
@@ -579,7 +580,7 @@
 						players: {
 							minimum: 3,
 							maximum: 6,
-							pauseDuration: "1:00",
+							pauseDuration: 60000,
 							pausePeriod: 20
 						},
 						cubes: {
@@ -612,14 +613,15 @@
 				break;
 			}
 
-			processes.retrieve("arenas",{$and: {"state.start": null, humans: "0", rules: parameters, $where: "this.humans.length - 1 < this.rules.players.maximum"}}, function(arenas) { //get all unstarted arenas, created automatically, with the same rules, and open slots
+			processes.retrieve("arenas",{$and: [{"state.start": {$gt: new Date().getTime()}}, {humans: 0}, {rules: parameters}, {$where: "this.humans.length - 1 < this.rules.players.maximum"}]}, function(arenas) { //get all unstarted arenas, created automatically, with the same rules, and open slots
+				console.log(JSON.stringify(arenas));
+
 				if (arenas.length > 0) {
 					arenas.reverse();
-
-					joinin(session, {data: {arena_id: arenas[0].id.substring(0,4)}}, callback); //join the oldest of these arenas
+					joinin(session, {data: JSON.stringify({arena_id: arenas[0].id.substring(0,4)})}, callback); //join the oldest of these arenas
 				}
 				else {
-					create(session,post,callback); //create a new arena, with "random_arena" as post.action (so the creator becomes "0" instead of the session.human)
+					create(session,post,callback); //create a new arena, with "random_arena" as post.action
 				}
 			});
 
@@ -641,7 +643,7 @@
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if ((typeof arena !== "undefined") && (typeof arena.id !== "undefined") && (arena.id !== null)) {
-					if ((arena.humans.indexOf(session.human.id) > -1) && (arena.state.start === null)) {
+					if ((arena.humans.indexOf(session.human.id) > -1) && ((arena.state.start === null) || ((arena.humans[0] === 0) && (arena.state.start > new Date().getTime())))) {
 						processes.retrieve("robots", {$and: [{id: data.robot_id}, {"human.id": session.human.id}]}, function(robot) {
 							if (typeof robot.id === "undefined") { robot = robot[0]; }
 
@@ -743,7 +745,7 @@
 						arena.state.locked = false; //unlock it for the future
 									
 						processes.store("arenas", {id: arena.id}, arena, function(data) { //store it
-							callback({success: true, arena: arena, messages: {top: "//arena starting soon..."}}); //send back the updated arena
+							callback({success: true, arena: arena, messages: {top: "//starting..."}}); //send back the updated arena
 						});
 					}
 				}
@@ -833,14 +835,18 @@
 					console.log("pauseTo__: " + arena.state.pauseTo);
 					console.log("timeNow__: " + timeNow);
 
-
-					if (arena.state.start === null) { //if the game has not started...
+					if ((arena.state.start === null) || (arena.state.start > timeNow)) { //if the game has not started...
 						callback({success: true, arena: arena, messages: {top: "//arena not started"}});
 					}
-					else if (timeNow < arena.state.pauseTo) { //if the game is paused...
-						callback({success: true, arena: arena, messages: {top: "//arena paused"}});
+					else if ((arena.state.pauseFrom !== null) && (arena.state.pauseTo !== null) && (timeNow < arena.state.pauseTo)) { //if the game is or will be paused...
+						if (timeNow > arena.state.pauseFrom) { //actively inactive
+							callback({success: true, arena: arena, messages: {top: "//arena paused"}});
+						}
+						else { //inactively inactive
+							callback({success: true, arena: arena, messages: {top: "//arena in play"}});
+						}
 					}
-					else if (arena.state.end !== null) { //if the game is over...
+					else if ((arena.state.end !== null) && (arena.state.end < timeNow)) { //if the game is over...
 						callback({success: true, arena: arena, messages: {top: "//arena concluded"}});
 					}
 					else { //if the game is in play...
@@ -849,18 +855,47 @@
 							callback({success: true, arena: arena, messages: {top: "//arena in play"}});
 						}
 						else { //asking for a round that hasn't been evaluated yet
-							console.log(4);
-							processes.retrieve("arenas",{$and: [{id: arena_id}, {"state.locked":false}]}, function(locked_arena) {
-								if (typeof locked_arena.id === "undefined") { locked_arena = locked_arena[0]; }
-								
-								if ((typeof locked_arena === "undefined") || (locked_arena.id === null)) { //unable to update because somebody beat us to it... gonna have to wait
-									console.log(5);
-									callback({success: false, arena: arena, messages: {top: "//unable to retrieve or update arena"}});
+							processes.retrieve("arenas",{id: arena_id}, function(unlocked_arena) {
+								if (typeof unlocked_arena.id === "undefined") { unlocked_arena = unlocked_arena[0]; }
+								console.log(4);
+
+								if (unlocked_arena.state.locked === true) { //unable to update because it's locked
+									if ((unlocked_arena.rounds.length === 0) && (unlocked_arena.humans[0] === 0)) { //if this is launching a random arena
+										console.log(5);
+
+										unlocked_arena.state.locked = false; //unlock it so it can be updated in another go-around of this function
+
+										var currentRobotCount = Object.keys(arena.entrants).length;
+										var targetRobotCount = Math.ceil((arena.rules.players.minimum + arena.rules.players.maximum) / 2); //average of min and max, rounding up
+
+										if (currentRobotCount < targetRobotCount) {
+											console.log("adding " + (targetRobotCount - currentRobotCount) + " robots");
+											console.log(5.5);
+											processes.retrieve("robots",[{$match: {"human.id": {$nin: unlocked_arena.humans}}}, {$sample: {size: (targetRobotCount - currentRobotCount)}}], function(robots) {
+												for (var i = 0; i < robots.length; i++) { //add more random robots
+													unlocked_arena.entrants[robots[i].id] = robots[i];
+												}
+
+												processes.store("arenas", {id: arena.id}, unlocked_arena, function(data) { //store it
+													read(session, post, callback); //run this function again (which should skip this whole block now)
+												});
+											});
+										}
+										else {
+											processes.store("arenas", {id: arena.id}, unlocked_arena, function(data) { //store it
+												read(session, post, callback); //run this function again (which should skip this whole block now)
+											});
+										}
+									}
+									else { //regular update, but somebody beat us to it...
+										console.log(6);
+										callback({success: false, arena: arena, messages: {top: "//unable to retrieve or update arena"}});
+									}
 								}
 								else { //evaluate it yourself
-									processes.store("arenas", {id: locked_arena.id}, {$set:{"state.locked": true}}, function(data) { //lock it so we can update it without someone else also updating it
-										console.log(6);
-										var updated_arena = update(locked_arena); //update the arena
+									processes.store("arenas", {id: unlocked_arena.id}, {$set:{"state.locked": true}}, function(data) { //lock it so we can update it without someone else also updating it
+										console.log(7);
+										var updated_arena = update(unlocked_arena); //update the arena
 										updated_arena.state.locked = false; //unlock it
 
 										processes.retrieve("arenas",{$and: [{id: arena_id}, {"state.locked":true}]}, function(locked_arena) { //it should still be locked in the database
@@ -870,14 +905,14 @@
 												callback({success: false, arena: arena, messages: {top: "//unable to retrieve or update arena"}});
 											}
 											else {
-												console.log(7);
+												console.log(8);
 												processes.store("arenas", {id: arena.id}, updated_arena, function(data) { //store it
 													if (updated_arena.state.end === null) { //if the arena has not concluded...
-														console.log(8);
+														console.log(9);
 														callback({success: true, arena: updated_arena, messages: {top: "//arena in play"}}); //send back the updated arena
 													}
 													else { //if it has concluded...
-														console.log(9);
+														console.log(10);
 														if (updated_arena.state.victors.length > 0) { //update stats for those robots
 															var robot_ids = Object.keys(updated_arena.entrants);
 															var robot_victors = updated_arena.state.victors;
@@ -887,11 +922,14 @@
 															var human_losers = [];
 															
 															for (var i = 0; i < robot_ids.length; i++) {
-																if (robot_victors.indexOf(robot_ids[i]) > -1) {
-																	human_victors.push(updated_arena.entrants[robot_ids[i]].human.id);
-																}
-																else {
-																	human_losers.push(updated_arena.entrants[robot_ids[i]].human.id);	
+																var human_id = updated_arena.entrants[robot_ids[i]].human.id;
+																if (updated_arena.humans.indexOf(human_id) > -1) {
+																	if (robot_victors.indexOf(robot_ids[i]) > -1) {
+																		human_victors.push(human_id);
+																	}
+																	else {
+																		human_losers.push(human_id);	
+																	}
 																}
 															}
 

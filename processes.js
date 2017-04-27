@@ -795,16 +795,29 @@
 				if (error) {
 					console.log(error);
 				}
-				else {	
+				else {
 					console.log("read in " + table + " at " + JSON.stringify(search));
-					db.collection(table).find(search).sort({created: -1}).toArray(function (error, result) {
-						if (error) {
-							console.log(error);
-						}
-						else {
-							callback(result);
-						}
-					});
+					
+					if (JSON.stringify(search).indexOf("$sample") > -1) {
+						db.collection(table).aggregate(search).sort({created: -1}).toArray(function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								callback(result);
+							}
+						});
+					}
+					else {
+						db.collection(table).find(search).sort({created: -1}).toArray(function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								callback(result);
+							}
+						});
+					}
 				}
 				db.close();
 			});
