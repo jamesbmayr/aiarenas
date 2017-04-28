@@ -1,0 +1,101 @@
+{
+	"name": "takeBot",
+	"overview": "learn the basics",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#inputs').closest('.field_frame').hide();",
+				"$('#eval_code').closest('form').find('.redtext').hide();",
+				"$('#eval_code').closest('form').find('.yellowtext').hide();",
+				"$('#console').closest('details').hide();"
+			],
+			"messages": {
+				"instructions": "In ai_arenas, each robot is its own function. A function is a standalone block of code. Below, type the text \"hello world!\" (using quotes) inside the code workshop.",
+				"error": "Hm, that does not look right. Just type \"hello world!\" below the //instructions.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//type your code below these comments\n//then run it using eval() below",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "//type your code below these comments\n//then run it using eval() below\n\"hello world!\"",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#eval_code').closest('form').find('.redtext').show();",
+				"$('#eval_code').closest('form').find('.yellowtext').show();"
+			],
+			"messages": {
+				"instructions": "This function takeBot() can produce an output using the keyword return. Type return before \"hello world!\" to see it output.",
+				"error": "Not getting any output... make sure to return the text \"hello world!\"",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//type your code below these comments\n//then run it using eval() below\n\"hello world!\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "//type your code below these comments\n//then run it using eval() below\nreturn \"hello world!\"",
+				"output": "hello world!"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "\"hello world!\" is a String. There are many other types of data, like Number and function(). In ai_arenas, all return values must be a String: the name of an action. \nChange the string to \"take\" to perform this action.",
+				"error": "Make sure the function takeBot() will return the String \"take\".",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//change the String to \"take\"\n//then run it using eval() below\nreturn \"hello world!\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "//change the String to \"take\"\n//then run it using eval() below\nreturn \"take\"",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#cubes_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#add_opponent').closest('.section').hide();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.secion-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "When the function takeBot() performs an action, the robot avatar will animate. Use eval() to run the code and see the animation.",
+				"error": "Make sure the function takeBot() will return the String \"take\".",
+				"success": "Success. Select the function next(); to continue or return \"power\" or \"sleep\" to see more animations."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//make the String \"take\" and takeBot() will perform this action\n//then run it using eval() below\nreturn \"take\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "//make the String \"take\" and takeBot() will perform this action\n//then run it using eval() below\nreturn \"take\"",
+				"output": "take"
+			}
+		}
+	]
+}
