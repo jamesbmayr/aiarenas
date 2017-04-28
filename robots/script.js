@@ -225,7 +225,7 @@
 				});
 			}
 
-		/* load */
+		/* arena */
 			window.load_robot = function() {
 				var robot_id = $("#robot_select").val() || null;
 
@@ -597,6 +597,7 @@
 							else {
 								$("#code").html(window.colorText(window.code.join("\n")));
 								$("#output").text(window.output || "null");
+								window.animateRobot($(".self").attr("id"), window.output);
 
 								window.logs = [];
 								window.lines = [];

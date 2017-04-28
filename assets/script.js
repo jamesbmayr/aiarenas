@@ -50,7 +50,16 @@ $(document).ready(function() {
 					var loop = setInterval(function() {
 						if (index < 0) {
 							clearInterval(loop);
-							$(element).html(text);
+							if ((typeof options.colorText !== "undefined") && (options.colorText === true)) {
+								$(element).html(window.colorText(text));
+							}
+							else {
+								$(element).html(text);
+							}
+
+							if ((typeof options.resizeTop !== "undefined") && (options.resizeTop === true)) {
+								resizeTop();
+							}
 						}
 						else {
 							//color char
@@ -71,7 +80,16 @@ $(document).ready(function() {
 					var loop = setInterval(function() {
 						if (index > text.length) {
 							clearInterval(loop);
-							$(element).html(text);
+							if ((typeof options.colorText !== "undefined") && (options.colorText === true)) {
+								$(element).html(window.colorText(text));
+							}
+							else {
+								$(element).html(text);
+							}
+
+							if ((typeof options.resizeTop !== "undefined") && (options.resizeTop === true)) {
+								resizeTop();
+							}
 						}
 						else {
 							//color char

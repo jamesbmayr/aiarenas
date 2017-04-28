@@ -121,7 +121,7 @@
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<div class="bracketer_top"><span class="whitetext">.robots</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 				<div class="megasection">
-					<div class="section indented">
+					<div class="section indented whitetext">
 						<% 
 							if ((session.human !== null) && (session.human.id === data.id)) {
 								var robots = "<div class='section'>\
@@ -137,11 +137,10 @@
 							for (var i = 0; i < data.robots.length; i++) {
 								robots += "<a class='robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'>\
 									<span class='bluetext'>" + data.robots[i].name + "</span>\
-								</a>\
-								<span class='whitetext'>,</span><br>";
+								</a>, <br>";
 							}
 
-							robots;
+							robots.substring(0, robots.length - 6);
 					%>
 					</div>
 				</div>

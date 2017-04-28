@@ -7,14 +7,13 @@
 		console.log(data.tutorial);
 
 		if ((typeof data.tutorial !== "undefined") && (data.tutorial !== null)) {
-			if (session.human.tutorials.indexOf("data.tutorial") > -1) {
+			if (session.human.tutorials.indexOf(data.tutorial) > -1) {
 				callback({success: true, messages: {top: "//tutorial already completed"}});
 			}
 			else {
 				processes.store("humans", {id: session.human.id}, {$push: {tutorials: data.tutorial}}, function(human) {
 					if (typeof human.id === "undefined") { human = human[0]; }
 
-					console.log("aaaand here");
 					if ((typeof human === "undefined") || (human === null)) {
 						callback({success: false, messages: {top: "//invalid human"}});
 					}

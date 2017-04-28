@@ -278,7 +278,7 @@
 					}
 				%>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span><span class="graytext"> // <details class="graytext"><summary></summary><span><ul>
+				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span><span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul>
 					<li><span class="code orangetext">arena</span>: all information</li>
 					<li><span class="code orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>
 					<li><span class="code orangetext">rules</span>: arena parameters <details><summary></summary><span class="code">arena.rules</span></details></li>
@@ -306,7 +306,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="bracketer_bottom"><span class="whitetext">};</span><span class="graytext"> // <details class="graytext"><summary><span>function must return one of the following actions:</span></summary><li>power</li><li>take</li><li>sleep</li><li>sap</li><li>burn</li><li>shock</li><li>halftake</li><li>swaptake</li><li>fliptake</li><span>all other return values will convert to "sleep";</span></details></span></div>
+				<div class="bracketer_bottom"><span class="whitetext">};</span><span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><li><span class="code greentext">power</span>: increment the robot's power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round's cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span></div>
 			</div>
 		</div>
 	</body>

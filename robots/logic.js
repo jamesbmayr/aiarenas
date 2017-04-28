@@ -191,7 +191,7 @@
 			else {
 				processes.store("humans", {id: robot.human.id || null}, {$pull: {robots: {id: robot.id}}}, function(human) {
 					processes.store("robots", {id: robot.id}, null, function(results) {
-						callback({success: true, redirect: "../../../../humans/" + session.human.name, messages: {top: "//robot deleted"}});
+						callback({success: true, redirect: "../../../../robots", messages: {top: "//robot deleted"}});
 					});
 				});
 			}

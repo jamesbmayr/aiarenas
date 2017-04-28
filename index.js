@@ -374,7 +374,7 @@
 							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										var tutorial = fs.readFileSync("./assets/tutorials/functions.json","utf8") || null;
+										var tutorial = fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8") || null;
 										if (tutorial !== null) {
 											response.end(processes.render("./tutorials/individual.html", session, JSON.parse(tutorial)));
 										}
