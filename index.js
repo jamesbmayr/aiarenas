@@ -344,7 +344,7 @@
 
 							case (/^\/arenas\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + routes[2] + "'"}, function (arena) {
+									processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + routes[2].toLowerCase() + "'"}, function (arena) {
 										if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 										if (arena) {

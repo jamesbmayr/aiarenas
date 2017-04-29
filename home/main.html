@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="../../home/script.js"></script>
 	</head>
 	<body>
-		<% navbar(session); %>
+		<% if (session.human !== null) { navbar(session); } %>
 		<div class="container">
 			<div class="top_outer">
 				<div class="top_inner">

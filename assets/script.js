@@ -3,6 +3,8 @@ $(document).ready(function() {
 	/* animateText */
 		jQuery.fn.extend({
 			animateText: function(options, timespan) {
+				$(element).stop();
+
 				var element = this;
 				if ((typeof options === "undefined") || (options === null)) {
 					options = {};

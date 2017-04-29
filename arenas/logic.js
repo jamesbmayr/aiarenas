@@ -338,7 +338,7 @@
 			callback({success: false, messages: {top: "//invalid arena id", navbar: "//invalid arena id"}});
 		}
 		else {
-			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + data.arena_id + "'"}, function(arena) {
+			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + data.arena_id.toLowerCase() + "'"}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
 
 				if (typeof arena !== "undefined") {
@@ -871,7 +871,7 @@
 										if (currentRobotCount < targetRobotCount) {
 											console.log("adding " + (targetRobotCount - currentRobotCount) + " robots");
 											console.log(5.5);
-											processes.retrieve("robots",[{$match: {"human.id": {$nin: unlocked_arena.humans}}}, {$sample: {size: (targetRobotCount - currentRobotCount)}}], function(robots) {
+											processes.retrieve("robots",[{$match: {"human.id": {$nin: unlocked_arena.humans}}}, {$sample: {size: (targetRobotCount - currentRobotCount)}}], function(robots) { //find random robots that aren't in this arena or owned by humans in this arena
 												for (var i = 0; i < robots.length; i++) { //add more random robots
 													unlocked_arena.entrants[robots[i].id] = robots[i];
 												}

@@ -10,6 +10,8 @@
 
 		/* next_step */
 			window.next_step = function() {
+				$("#eval_code").prop("disabled",true);
+
 				var step = Number($("#step").attr("value")) || 0;
 
 				if ((step + 1) < window.tutorial.steps.length) {
@@ -28,8 +30,10 @@
 					$("#code").prop("contenteditable",true).closest(".field_frame").addClass("active");
 					
 					$("#output").animateText({text: window.tutorial.steps[step].start.output || ""},1000);
-					
-					resizeTop();
+
+					setTimeout(function() {
+						$("#eval_code").prop("disabled",false);
+					},3000);
 				}
 				else {
 					$("#instructions").animateText({text: "Success. Tutorial completed."},1000);

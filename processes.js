@@ -396,10 +396,10 @@
      [x] [x]    \n\
 					</pre></div></noscript>";
 
-			navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
+			if (session.human === null) {
+				navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
 				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 			
-			if (session.human === null) {
 				navbar += "<div id='navbar'>\
 					<div class='navbar_item'>\
 						<a id='logo_block' href='../../../../'>\
@@ -425,6 +425,9 @@
 				</div>";
 			}
 			else {
+				navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
+				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
+			
 				//robot list
 					var robots = "";
 					for (var i = 0; i < session.human.robots.length; i++) {
