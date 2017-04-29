@@ -533,6 +533,9 @@
 							if (window.code[line].replace(/[\n\s\t\}\;\)\,\]]/g,"").length === 0) {
 								//no executable code - just space / close brackets
 							}
+							else if (window.code[line].replace(/\/\/.*?$/g,"").length === 0) {
+								//no executable code - just //comments
+							}
 							else if ((/^[\s]*[a-zA-Z0-9_\"\']*\:[\s]*[a-zA-Z0-9_\"\']\,?[\s]*$/g).test(window.code[line])) {
 								//object
 							}

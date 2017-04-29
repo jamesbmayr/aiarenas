@@ -28,7 +28,7 @@
 			},
 			"end": {
 				"inputs": "",
-				"code": "//type your code below these comments\n//then run it using eval() below\n\"hello world!\"",
+				"code": "\"hello world!\"",
 				"output": ""
 			}
 		},
@@ -49,7 +49,7 @@
 			},
 			"end": {
 				"inputs": "",
-				"code": "//type your code below these comments\n//then run it using eval() below\nreturn \"hello world!\"",
+				"code": "return \"hello world!\"",
 				"output": "hello world!"
 			}
 		},
@@ -68,7 +68,7 @@
 			},
 			"end": {
 				"inputs": "",
-				"code": "//change the String to \"take\"\n//then run it using eval() below\nreturn \"take\"",
+				"code": "return \"take\"",
 				"output": "take"
 			}
 		},
@@ -79,12 +79,12 @@
 				"$('#rules_outer').hide();",
 				"$('#add_opponent').closest('.section').hide();",
 				"$('#robots').closest('.megasection').show();",
-				"$('#robots_outer').find('.secion-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
 			],
 			"messages": {
 				"instructions": "When the function takeBot() performs an action, the robot avatar will animate. Use eval() to run the code and see the animation.",
 				"error": "Make sure the function takeBot() will return the String \"take\".",
-				"success": "Success. Select the function next(); to continue or return \"power\" or \"sleep\" to see more animations."
+				"success": "Success. Select the function next(); to complete the tutorial, or return \"power\" or \"sleep\" to see more animations."
 			},
 			"start": {
 				"inputs": "",
@@ -93,7 +93,7 @@
 			},
 			"end": {
 				"inputs": "",
-				"code": "//make the String \"take\" and takeBot() will perform this action\n//then run it using eval() below\nreturn \"take\"",
+				"code": "return \"take\"",
 				"output": "take"
 			}
 		}

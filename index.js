@@ -374,9 +374,16 @@
 							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										var tutorial = fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8") || null;
+										try {
+											var tutorial = JSON.parse(fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8"));
+										}
+										catch (error) {
+											console.log(error);
+											var tutorial = null;
+										}
+
 										if (tutorial !== null) {
-											response.end(processes.render("./tutorials/individual.html", session, JSON.parse(tutorial)));
+											response.end(processes.render("./tutorials/individual.html", session, tutorial));
 										}
 										else {
 											_302("../../../../tutorials");
@@ -757,9 +764,7 @@
 							case "complete_tutorial":
 								try {
 									if (session.human !== null) {
-										console.log("first here");
 										tutorials.complete(session, post, function(data) {
-											console.log("later here");
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update tutorial completion"}}));
 										});
 									}

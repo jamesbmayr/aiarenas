@@ -326,6 +326,9 @@
 							if (window.code[line].replace(/[\n\s\t\}\;\)\,\]]/g,"").length === 0) {
 								//no executable code - just space / close brackets
 							}
+							else if (window.code[line].replace(/\/\/.*?$/g,"").length === 0) {
+								//no executable code - just //comments
+							}
 							else if ((/^[\s]*[a-zA-Z0-9_\"\']*\:[\s]*[a-zA-Z0-9_\"\']\,?[\s]*$/g).test(window.code[line])) {
 								//object
 							}
@@ -394,7 +397,7 @@
 							else {
 								var step = Number($("#step").attr("value")) || 0;
 
-								if ((window.code.join("\n").replace(/\/\/[^\n]*?\n/g,"").replace(/\/\*[^\*\/]*?\*\//g,"").replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.code.replace(/\/\/[^\n]*?\n/g,"").replace(/\/\*[^\*\/]*?\*\//g,"").replace(/[\n\s\t\;]/g,"")) && (window.output == window.tutorial.steps[step].end.output)) {
+								if ((window.code.join("\n").replace(/\/\/[^\n]*?(\n|$)/g,"").replace(/\/\*[^\*\/]*?(\*\/|$)/g,"").replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.code.replace(/\/\/[^\n]*?(\n|$)/g,"").replace(/\/\*[^\*\/]*?(\*\/|$)/g,"").replace(/[\n\s\t\;]/g,"")) && (window.output == window.tutorial.steps[step].end.output.replace(/[\n\s\t\;]/g,"")) && ($("#inputs").text().replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.inputs.replace(/[\n\s\t\;]/g,""))) {
 									$("#instructions").animateText({text: window.tutorial.steps[step].messages.success || "", interval: 50, colorText: true, resizeTop: true});
 								}
 								else {
@@ -402,7 +405,7 @@
 								}
 
 								$("#code").html(window.colorText(window.code.join("\n")));
-								$("#output").text(window.output || "null");
+								$("#output").text(window.output);
 								window.animateRobot($(".self").attr("id"), window.output);
 
 								window.logs = [];

@@ -3,12 +3,18 @@ $(document).ready(function() {
 	/* animateText */
 		jQuery.fn.extend({
 			animateText: function(options, timespan) {
-				$(element).stop();
-
 				var element = this;
-				if ((typeof options === "undefined") || (options === null)) {
-					options = {};
-				}
+
+				//stop other loops
+					var existingLoop = $(element).attr("textloop") || "";
+					if (existingLoop.length > 0) {
+						clearInterval(window[existingLoop]);
+					}
+
+				//set empty options object
+					if ((typeof options === "undefined") || (options === null)) {
+						options = {};
+					}
 				
 				//text
 					if (typeof options.text !== "undefined") {
@@ -47,11 +53,19 @@ $(document).ready(function() {
 						indicator = "_";
 					}
 
+				//get random loop id
+					var loop = "";
+					var set = "0123456789abcdefghijklmnopqrstuvwxyz";
+					for (var i = 0; i < 32; i++) {
+						loop += set[Math.floor(Math.random() * set.length)];
+					}
+					$(element).attr("textloop",loop);
+
 				if ((typeof options.direction !== "undefined") && (options.direction === "left")) {
 					var index = text.length - chunk;
-					var loop = setInterval(function() {
+					window[loop] = setInterval(function() {
 						if (index < 0) {
-							clearInterval(loop);
+							clearInterval(window[loop]);
 							if ((typeof options.colorText !== "undefined") && (options.colorText === true)) {
 								$(element).html(window.colorText(text));
 							}
@@ -79,9 +93,9 @@ $(document).ready(function() {
 				}
 				else {
 					var index = 0;
-					var loop = setInterval(function() {
+					window[loop] = setInterval(function() {
 						if (index > text.length) {
-							clearInterval(loop);
+							clearInterval(window[loop]);
 							if ((typeof options.colorText !== "undefined") && (options.colorText === true)) {
 								$(element).html(window.colorText(text));
 							}
@@ -115,7 +129,8 @@ $(document).ready(function() {
 
 	/* colorText */		
 		window.colorText = function(text) {
-			if (text.length) {			
+			if (text.length) {
+				text = text.replace(/(\<br\>|\<\/br\>)/g,"\n");
 				
 				function grayizer(text) {
 					text = " " + text;
@@ -145,7 +160,7 @@ $(document).ready(function() {
 						}
 					}
 
-					text = text.replace(/\/\/(.*?)(\n|$)/g,"<span graytext>//$1</span graytext>\n"); //regex for regular double-slash comments
+					text = text.replace(/\/\/(.*?)(\n|\<br\>|$)/g,"<span graytext>//$1</span graytext>$2"); //regex for regular double-slash comments
 
 					return text.substring(1);
 				}
@@ -180,15 +195,13 @@ $(document).ready(function() {
 						}
 
 						if (type === "double") {
-							if (text.indexOf("</span graytext>", dqPosition) < text.indexOf("<span graytext>", dqPosition)) {
-								console.log("cancelling on double");
+							if ((text.indexOf("</span graytext>", dqPosition) < text.indexOf("<span graytext>", dqPosition)) || ((text.indexOf("<span graytext>", dqPosition) === -1) && (text.indexOf("</span graytext>", dqPosition) > 0))) { //if quote is within a graytext section
 								type = "none";
 								position = dqPosition + 1;
 							}
 						}
 						else if (type === "single") {
-							if (text.indexOf("</span graytext>", sqPosition) < text.indexOf("<span graytext>", sqPosition)) {
-								console.log("cancelling on single");
+							if ((text.indexOf("</span graytext>", sqPosition) < text.indexOf("<span graytext>", sqPosition)) || ((text.indexOf("<span graytext>", sqPosition) === -1) && (text.indexOf("</span graytext>", sqPosition) > 0))) { //if quote is within a graytext section
 								type = "none";
 								position = sqPosition + 1;
 							}
@@ -197,7 +210,6 @@ $(document).ready(function() {
 						if (type === "double") {
 							var attempt = dqPosition;
 							do {
-								console.log("double");
 								eqPosition = text.indexOf("\"", attempt + 1); //get the next end quote
 								if (eqPosition < 0) {
 									eqPosition = text.length; //default to the end of the text
@@ -226,7 +238,6 @@ $(document).ready(function() {
 						else if (type === "single") {
 							var attempt = sqPosition;
 							do {
-								console.log("single");
 								eqPosition = text.indexOf("\'", attempt + 1); //get the next end quote
 								if (eqPosition < 0) {
 									eqPosition = text.length; //default to the end of the text
@@ -253,8 +264,6 @@ $(document).ready(function() {
 							position = eqPosition + 25; //move up 25 characters (length of <span yellowtext></span>, plus 1)
 						}
 
-						console.log("position::: " + position);
-						console.log("string::: " + text);
 
 						dqPosition = text.indexOf("\"",position) || false; //find next double quote
 						sqPosition = text.indexOf("\'",position) || false; //find next single quote
@@ -265,11 +274,11 @@ $(document).ready(function() {
 				}
 
 				function rgbopizer(text) {
-					/* math */ 		text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&\&|\|\||\\+|\!+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
-					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s)(\<+|\>+|&amp;|&amp;&amp;|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&lt;&lt;&lt;|&gt;&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|&lt;\=\=|\=\=&gt;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
-					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s)(else\ if|if|else|return|typeof|switch|case|break|default|new|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
-					/* booleans */	text = text.replace(/(^|\{|\[|\(|\s)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
-					/* types */		text = text.replace(/(^|\{|\[|\(|\s)(Math|Number|String|Object|function|var|eval|Date|Error)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
+					/* math */ 		text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w|\n)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&\&|\|\||\\+|\!+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(\<+|\>+|&amp;|&amp;&amp;|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&lt;&lt;&lt;|&gt;&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|&lt;\=\=|\=\=&gt;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(else\ if|if|else|return|typeof|switch|case|break|default|new|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* booleans */	text = text.replace(/(^|\{|\[|\(|\s|\n)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
+					/* types */		text = text.replace(/(^|\{|\[|\(|\s|\n)(Math|Number|String|Object|function|var|eval|Date|Error|Array)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
 
 					/* misc */		text = text.replace(/(\.)(caller|callee|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|exec|length|log|parse|parseFloat|parseInt|pull|test|toArray)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
 					/* arrays */	text = text.replace(/(\.)(concat|copyWithin|every|fill|filter|find|findIndex|forEach|indexOf|isArray|join|lastIndexOf|map|pop|push|reduce|reduceRight|reverse|shift|slice|some|sort|splice|toString|unshift|valueOf)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
@@ -278,8 +287,8 @@ $(document).ready(function() {
 					/* strings */	text = text.replace(/(\.)(charAt|charCodeAt|concat|endsWith|fromCharCode|includes|indexOf|lastIndexOf|localeCompare|match|repeat|replace|search|slice|split|startsWith|substr|substring|toLocaleLowerCase|toLocaleUpperCase|toLowerCase|toString|toUpperCase|trim|valueOf)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
 					/* dates */		text = text.replace(/(\.)(getDate|getDay|getFullYear|getHours|getMilliseconds|getMinutes|getMonth|getSeconds|getTime|setDate|setFullYear|setHours|setMilliseconds|setMinutes|setMonth|setSeconds|setTime|getUTCDate|getUTCDay|getUTCFullYear|getUTCHours|getUTCMilliseconds|getUTCMinutes|getUTCMonth|getUTCSeconds)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
 				
-					/* numbers */	text = text.replace(/(^|-|\-|\{|\[|\(|\s|\,|[\-|\+|\!|\/|\*|\=]\<\/span\>)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
-					/* again */		text = text.replace(/(^|-|\-|\{|\[|\(|\s|\,|[\-|\+|\!|\/|\*|\=]\<\/span\>)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
+					/* numbers */	text = text.replace(/(^|-|\-|\{|\[|\(|\s|\,|[\-|\+|\!|\/|\*|\=]\<\/span\>|\n)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
+					/* again */		text = text.replace(/(^|-|\-|\{|\[|\(|\s|\,|[\-|\+|\!|\/|\*|\=]\<\/span\>|\n)(\d*\.)?(\d+)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2$3</span>$4");
 					
 					/* functions */	text = text.replace(/([a-zA-Z0-9_]+)(\s?\<span\ redtext\>\=\<\/span\>\s?)(\<span\ bluetext\>function\<\/span\>\s?)\((\s?[a-zA-Z0-9_,\s]*?\s?)\)/g,"<span greentext>$1</span>$2$3(<span orangetext>$4</span>)");
 					/* functions */	text = text.replace(/(\s?\<span\ bluetext\>function\<\/span\>\s?)([a-zA-Z0-9_]*\s?)\((\s?[a-zA-Z0-9_,\s]*?\s?)\)/g,"$1<span greentext>$2</span>(<span orangetext>$3</span>)");
@@ -289,7 +298,6 @@ $(document).ready(function() {
 				}
 				
 				text = rgbopizer(yellowizer(grayizer(text)));
-
 				return text;
 
 			}
@@ -1066,7 +1074,6 @@ $(document).ready(function() {
 
 		window.navbar_create_arena = function() {
 			var preset = $("#navbar_arena_create_presets").val();
-			console.log(preset);
 
 			if (preset === "custom") {
 				window.location = "../../../../arenas";

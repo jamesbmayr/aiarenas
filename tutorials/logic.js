@@ -4,7 +4,6 @@
 /* complete(session, post, callback) */
 	function complete(session, post, callback) {
 		var data = JSON.parse(post.data);
-		console.log(data.tutorial);
 
 		if ((typeof data.tutorial !== "undefined") && (data.tutorial !== null)) {
 			if (session.human.tutorials.indexOf(data.tutorial) > -1) {
