@@ -96,7 +96,13 @@
 						if (session.human.tutorials.length < 1) {
 							suggestions += '<li class="section indented"><span class="whitetext">see what ai_arenas are all <a class="bluetext" href="../../../../about">about</a>;</span></li>';
 
-							suggestions += '<li class="section indented"><span class="whitetext">learn about <span class="code greentext">robots</span> in a <a class="bluetext" href="../../../../tutorials">tutorial</a>;</span></li>';
+							suggestions += '<li class="section indented"><span class="whitetext">get started with a <a class="bluetext" href="../../../../tutorials">tutorial</a>;</span></li>';
+						}
+						else if (session.human.tutorials.length < 5) {
+							suggestions += '<li class="section indented"><span class="whitetext">learn about basic <span class="code greentext">robots</span> in beginner <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
+						}
+						else if (session.human.tutorials.length < 15) {
+							suggestions += '<li class="section indented"><span class="whitetext">learn about more complex <span class="code greentext">robots</span> in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
 						}
 
 						if (session.human.robots.length < 1) {

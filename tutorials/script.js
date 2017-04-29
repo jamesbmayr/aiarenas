@@ -381,7 +381,7 @@
 						window.loop = setInterval(function() {
 							if (window.lines.length > 0) {
 								console.log(window.code[window.lines[0]]);
-								$("#code").html(window.colorText(window.code.slice(0,window.lines[0]).join("\n")) + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
+								$("#code").html(window.colorText(window.code.slice(0,window.lines[0]).join("\n").replace(/\n/g,"<br>")) + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
 								
 								var log = window.logs.find(function(l) { return Number(l.substring(0,l.indexOf("::"))) === window.lines[0];});
 								if ((typeof log !== "undefined") && (log !== null)) {
@@ -394,7 +394,7 @@
 							else {
 								var step = Number($("#step").attr("value")) || 0;
 
-								if ((window.code.join("").replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.code.replace(/[\n\s\t\;]/g,"")) && (window.output == window.tutorial.steps[step].end.output)) {
+								if ((window.code.join("\n").replace(/\/\/[^\n]*?\n/g,"").replace(/\/\*[^\*\/]*?\*\//g,"").replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.code.replace(/\/\/[^\n]*?\n/g,"").replace(/\/\*[^\*\/]*?\*\//g,"").replace(/[\n\s\t\;]/g,"")) && (window.output == window.tutorial.steps[step].end.output)) {
 									$("#instructions").animateText({text: window.tutorial.steps[step].messages.success || "", interval: 50, colorText: true, resizeTop: true});
 								}
 								else {

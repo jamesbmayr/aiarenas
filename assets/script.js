@@ -126,15 +126,23 @@ $(document).ready(function() {
 					var loop = 0;
 
 					while ((startPosition > position) && (loop < 100)) { //loop through up to 100 times
-						endPosition = text.indexOf("*/", startPosition + 2) || text.length; //find the comment end
-						var before = text.slice(0, startPosition); //split into before...
-						var between = text.slice(startPosition, endPosition + 2); //...between...
-						var after = text.slice(endPosition + 2, text.length); //and after sections
+						endPosition = text.indexOf("*/", startPosition + 2); //find the comment end
+						if (endPosition < 0) {
+							endPosition = text.length;
+						}
+						var before = text.slice(0, startPosition) || ""; //split into before...
+						var between = text.slice(startPosition, Math.min(endPosition + 2, text.length)) || ""; //...between...
+						var after = text.slice(endPosition + 2, text.length) || ""; //and after sections
 						text = before + "<span graytext>" + between + "</span graytext>" + after; //recombine them with <span>
 						position = endPosition + 32;
 
-						startPosition = text.indexOf("/*",position) || false; //find next comment start
-						loop++;
+						if (position >= text.length) {
+							break;
+						}
+						else {
+							startPosition = text.indexOf("/*",position) || false; //find next comment start
+							loop++;
+						}
 					}
 
 					text = text.replace(/\/\/(.*?)(\n|$)/g,"<span graytext>//$1</span graytext>\n"); //regex for regular double-slash comments
@@ -191,17 +199,17 @@ $(document).ready(function() {
 							do {
 								console.log("double");
 								eqPosition = text.indexOf("\"", attempt + 1); //get the next end quote
-								if (eqPosition === -1) {
+								if (eqPosition < 0) {
 									eqPosition = text.length; //default to the end of the text
 								}
 
 								var close = text.indexOf("</span graytext>", eqPosition);
-								if (close === -1) {
+								if (close < 0) {
 									close = text.length;
 								}
 
 								var open = text.indexOf("<span graytext>", eqPosition);
-								if (open === -1) {
+								if (open < 0) {
 									open = text.length;
 								}
 
@@ -220,17 +228,17 @@ $(document).ready(function() {
 							do {
 								console.log("single");
 								eqPosition = text.indexOf("\'", attempt + 1); //get the next end quote
-								if (eqPosition === -1) {
+								if (eqPosition < 0) {
 									eqPosition = text.length; //default to the end of the text
 								}
 
 								var close = text.indexOf("</span graytext>", eqPosition);
-								if (close === -1) {
+								if (close < 0) {
 									close = text.length;
 								}
 
 								var open = text.indexOf("<span graytext>", eqPosition);
-								if (open === -1) {
+								if (open < 0) {
 									open = text.length;
 								}
 
@@ -259,7 +267,7 @@ $(document).ready(function() {
 				function rgbopizer(text) {
 					/* math */ 		text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&\&|\|\||\\+|\!+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s)(\<+|\>+|&amp;|&amp;&amp;|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&lt;&lt;&lt;|&gt;&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|&lt;\=\=|\=\=&gt;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
-					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s)(else\ if|if|else|return|typeof|switch|case|break|new|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s)(else\ if|if|else|return|typeof|switch|case|break|default|new|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* booleans */	text = text.replace(/(^|\{|\[|\(|\s)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
 					/* types */		text = text.replace(/(^|\{|\[|\(|\s)(Math|Number|String|Object|function|var|eval|Date|Error)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
 
