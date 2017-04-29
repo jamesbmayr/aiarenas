@@ -1,0 +1,216 @@
+{
+	"name": "primaryBot",
+	"overview": "use multiple inputs to develop a strategy",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#console').closest('details').hide();",
+				"$('#eval_code').closest('form').find('.redtext').hide();",
+				"$('#eval_code').closest('form').find('.yellowtext').hide();"
+			],
+			"messages": {
+				"instructions": "A function can use multiple inputs to get a smarter output. Change the below to checkBot = function(power, allCubes) to use both the power and allCubes inputs.",
+				"error": "Make sure power and allCubes are both being input (without quotes).",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//no code here yet\n//just select eval()",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#eval_code').closest('form').find('.redtext').show();",
+				"$('#eval_code').closest('form').find('.yellowtext').show();",
+				"$('#arena').show();",
+				"$('#robots_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#cubes').closest('.megasection').show();",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "Now use the keyword return to output the list (or Array) of allCubes within the arena.",
+				"error": "Use the function addCube() below to add 1 red cube to the arena; make sure to return allCubes.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "//type your code below these comments\n//then run it using eval() below",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "return allCubes",
+				"output": "red"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#workshop').hide();"
+			],
+			"messages": {
+				"instructions": "An Array, like allCubes, is a list of items. Each item has a position within that Array that can be determined using .indexOf(\"example\").",
+				"error": "Select the function next(); to continue.",
+				"success": "Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#arena').show();",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br><form action=\"javascript:;\" onsubmit=\"window.remove_cube(this);\"><span class=\"whitetext\">.</span><button class=\"whitetext\" name=\"action\" value=\"remove_cube\">x();</button></form></div></div>');"
+			],
+			"messages": {
+				"instructions": "Add additional cubes using the function addCube() below; add a green cube and a blue cube to the arena.",
+				"error": "Try to return the allCubes.indexOf(\"red\") instead.",
+				"success": "Surprising? An Array starts at position 0, not 1. The first item of an Array has .indexOf 0, the second is at 1, the third at 2, etc. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "//type the String \"green\" to see the .indexOf() that cube\nreturn allCubes.indexOf()",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "return allCubes.indexOf(\"red\")",
+				"output": "0"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#workshop').hide();"
+			],
+			"messages": {
+				"instructions": "What about the .indexOf() an item not contained inside the Array? Trying to find the position of an item not within the Array will always return -1.",
+				"error": "Select the function next(); to continue.",
+				"success": "Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#arena').show();",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br></div></div>');",				
+				"$('#add_cube').closest('form').hide();"
+			],
+			"messages": {
+				"instructions": "Use the keyword if to determine if there is a yellow cube within allCubes. See if the allCubes.indexOf(\"yellow\") is > -1; otherwise, \"yellow\" has no position within the allCubes Array.",
+				"error": "Try to return \"yes\" if the allCubes.indexOf(\"yellow\") > -1, or else it should return \"no\".",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "//change the condition:\nif (condition) {\n  return \"yes\"\n}\nelse {\n  return \"no\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (allCubes.indexOf(\"yellow\") > -1) {return \"yes\"} else {return \"no\"}",
+				"output": "no"
+			}
+		},
+		{
+			"commands": [
+				"$('.cube_outer').remove();",
+				"$('#add_cube').closest('form').show();"
+			],
+			"messages": {
+				"instructions": "The function primaryBot() only wants to take red, yellow, and blue cubes. Add additional if blocks to return \"take\" for red and blue cubes.",
+				"error": "Use the function addCube() to give the function primaryBot() something to take.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if (allCubes.indexOf(\"yellow\") > -1) {\n  return \"take\"\n}\n//add an if block for red:\n\n//add an if block for blue:\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (allCubes.indexOf(\"yellow\") > -1) { return \"take\" } if (allCubes.indexOf(\"red\") > -1) { return \"take\" } if (allCubes.indexOf(\"blue\") > -1) { return \"take\" }",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('.cube_outer').remove();",
+				"$('#add_cube').closest('form').hide();"
+			],
+			"messages": {
+				"instructions": "A smarter way to select options is using the else if keyword. This is used below to ensure the robot tests each condition until it finds the first that is true.",
+				"error": "Add an else block to return the String \"power\" when there are no primary color cubes.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if (allCubes.indexOf(\"yellow\") > -1) {\n  return \"take\"\n}\nelse if (allCubes.indexOf(\"red\") > -1) {\n  return \"take\"\n}\nelse if (allCubes.indexOf(\"blue\") > -1) {\n  return \"take\"\n}\n//add an else block to return \"power\" when these cubes are not present:\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (allCubes.indexOf(\"yellow\") > -1) { return \"take\" } else if (allCubes.indexOf(\"red\") > -1) { return \"take\" } else if (allCubes.indexOf(\"blue\") > -1) { return \"take\" } else { return \"power\" }",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('#robots_outer').show();",
+				"$('#add_opponent').closest('.section').hide();",
+				"$('#add_cube').closest('form').show();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "Remember that a robot with 0 power cannot take; it will sleep instead. Wrap the entire function inside an if block to determine if power > 0.",
+				"error": "Add cubes and adjust the robot power such that the function primaryBot() eval()uates to \"take\"",
+				"success": "Success. Select the function next(); to complete the tutorial, or change the robot power and arena cubes to see how the code is eval()uated."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if (condition) { //does the robot have power?\n  //note that this section is indented for clarity\n  if (allCubes.indexOf(\"yellow\") > -1) {\n    return \"take\"\n  }\n  else if (allCubes.indexOf(\"red\") > -1) {\n    return \"take\"\n  }\n  else if (allCubes.indexOf(\"blue\") > -1) {\n    return \"take\"\n  }\n  else {\n    return \"power\"\n  }\n}\nelse {\n  //what should a robot with 0 power do?\n\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) { if (allCubes.indexOf(\"yellow\") > -1) { return \"take\" } else if (allCubes.indexOf(\"red\") > -1) { return \"take\" } else if (allCubes.indexOf(\"blue\") > -1) { return \"take\" } else { return \"power\" } } else { return \"power\" }",
+				"output": "take"
+			}
+		}
+	]
+}

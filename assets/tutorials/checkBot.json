@@ -1,0 +1,164 @@
+{
+	"name": "checkBot",
+	"overview": "use inputs to determine outputs",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#eval_code').closest('form').find('.redtext').hide();",
+				"$('#eval_code').closest('form').find('.yellowtext').hide();",
+				"$('#console').closest('details').hide();"
+			],
+			"messages": {
+				"instructions": "A function can use an input to affect its output. Change the below to checkBot = function(power) to use the power input.",
+				"error": "Make sure power is being input (without quotes).",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//no code here yet\n//just select eval()",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#eval_code').closest('form').find('.redtext').show();",
+				"$('#eval_code').closest('form').find('.yellowtext').show();",
+				"$('.self').find('.power').val(0);"
+			],
+			"messages": {
+				"instructions": "Now use the keyword return to output the current power level of function checkBot().",
+				"error": "Make sure to return power.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "//type your code below these comments\n//then run it using eval() below",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "return power",
+				"output": "0"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#cubes_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#add_opponent').closest('.section').hide();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "Use the robot status card below to change the power from 0 to 1. Then return power to see the robot identify your change.",
+				"error": "The function checkBot() will return the power; set the power to 1.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "//no code changes; just change the robot below\n//then eval()\nreturn power",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "return power",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			],
+			"messages": {
+				"instructions": "A robot needs power to take cubes. When a robot eval()uates its code, if it has 0 power, it will sleep instead of take. A smart robot checks its power first to determine if it needs to power up first.",
+				"error": "Select the function next(); to continue.",
+				"success": "Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#arena').show();",
+				"$('.self').find('.power').val(1);"
+			],
+			"messages": {
+				"instructions": "Use the keyword if to determine if the robot meets the condition (power > 0); if it does, return \"take\".",
+				"error": "The function checkBot() should return \"take\"; make sure the if block is structured correctly and the condition is (power > 0).",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "//an if statement should be structured like this:\nif (condition) {\n//do something here:\n\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "if (power > 0) { return \"take\" }",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(0);"
+			],
+			"messages": {
+				"instructions": "Use the keyword else to provide an alternative if the robot does not meet the condition (power > 0); return \"power\" instead.",
+				"error": "The function checkBot() should have both an if condition and an else alternative. The current power should be 0, so it should return \"power\".",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "//an if statement should be structured like this:\nif (power > 0) {\nreturn \"take\"\n}\nelse {\n//write the alternative code here:\n\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "if (power > 0) { return \"take\" } else { return \"power\" }",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "It is a good practice to use spaces to indent lines within if blocks and else blocks, like below, to provide clarity.",
+				"error": "Success. Select the function next(); to complete the tutorial, or change the robot power level below to see how the code is eval()uated.",
+				"success": "Success. Select the function next(); to complete the tutorial, or change the robot power level below to see how the code is eval()uated."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "//note the space indentations:\nif (power > 0) {\n  return \"take\"\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "if (power > 0) { return \"take\" } else { return \"power\" }",
+				"output": "power"
+			}
+		}
+	]
+}
