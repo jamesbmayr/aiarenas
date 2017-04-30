@@ -1,0 +1,285 @@
+{
+	"name": "responsiveBot",
+	"overview": "use variables and Objects to beat opponents",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#console').closest('details').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "A previous tutorial mentioned that single equals = is used to assign values. This is used on variables, which are like containers holding a value. Set the value of var x equal to 5.",
+				"error": "Use single equals = to assign the value 5 to the variable x.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var x //this creates a variable\nx = ? //this gives that variable a value\nreturn x //this returns the value of that variable\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var x x = 5 return x",
+				"output": "5"
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#arena').show();",
+				"$('#cubes_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_opponent').closest('.section').hide();",
+				"$('.self').find('.power').val(0);",
+				"$('#inputs').closest('.field_frame').show();"
+			],
+			"messages": {
+				"instructions": "In previous tutorialBots, determining the action was the final step of the code. Another approach is to set one action and change it if necessary. This can be done with a variable.",
+				"error": "Make sure to differentiate between a String (inside quotes) and a variable (without quotes).",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "var action\n//creates an empty variable called action\n\naction = \"???\"\n//use the = operator to set the value to \"take\"\n\nif (power == 0) {\n  //if the power is 0, change the value of action to \"power\"\n  action = \"???\"\n}\n\nreturn action\n//this returns a variable whose value is a String, either \"power\" or \"take\"\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power",
+				"code": "var action action = \"take\" if (power == 0) { action = \"power\" } return action",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#workshop').hide();"
+			],
+			"messages": {
+				"instructions": "The power input always has a Number value. The allCubes input is always an Array comprised of String values. There is another data type: Object.",
+				"error": "Select the function next(); to continue.",
+				"success": "Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#arena').show();",
+				"$('.self').find('.power').val(7);"
+			],
+			"messages": {
+				"instructions": "The Object self is a powerful input containing information about the robot function using it. Replace the power input with self.",
+				"error": "Make no changes to the code. Instead, change the input to self. (The power should be 7.)",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power",
+				"code": "//power is actually a property of self\nreturn self.power\n\n//this should still output the power of the robot\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "return self.power",
+				"output": "7"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(5);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(4);",
+				"$('.self').find('.cubes_green').val(2);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(1);"
+			],
+			"messages": {
+				"instructions": "Dot notation can be used to find values assigned to various Object properties. Below, return the number of red cubes the robot has.",
+				"error": "Now return the blue cubes; the blue property of the cubes property of the self Object. (It should be 3.)",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "//change the color to red to find the number of red cubes\nreturn self.cubes.orange",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "return self.cubes.blue",
+				"output": "3"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(2);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(5);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(4);"
+			],
+			"messages": {
+				"instructions": "Another way to access properties of an Object is with bracket notation. Use bracket notation to return the number of purple cubes.",
+				"error": "Now return the yellow cubes; the yellow property of the cubes property of the self Object. (It should be 1.)",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "//change the color to purple to find the number of purple cubes\nreturn self[\"cubes\"][\"blue\"]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "return self[\"cubes\"][\"yellow\"]",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(2);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(5);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(4);"
+			],
+			"messages": {
+				"instructions": "Now it is time to combine these two ideas. Make the function responsiveBot() return \"take\" unless it has 0 power, or already has 3 red, yellow, or blue cubes",
+				"error": "Change to bracket notation to return the same output.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "var action\naction = \"???\"\n if (??? == 0) {\n  action = \"power\"\n}\n\n//check if the robot already has 3 or more red, yellow, or blue cubes\nif (self.cubes.red > 2) {\n  action = \"power\"\n}\nelse if (self.cubes.yellow > 2) {\n  action = \"power\"\n}\nelse if (??? > 2) {\n  action = \"power\"\n}\n\nreturn action",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "var action action = \"take\" if (self[\"power\"] == 0) { action = \"power\" } if (self[\"cubes\"][\"red\"] > 2) { action = \"power\" } else if (self[\"cubes\"][\"yellow\"] > 2) { action = \"power\" } else if (self[\"cubes\"][\"blue\"] > 2) { action = \"power\" } return action",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "Like with an Object, the values stored within an Array can also be accessed using bracket notation (but not dot notation). For an Array, use a Number to access the value at that .indexOf().",
+				"error": "Change the Number inside alphabet[1] to return the letter \"a\" instead.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var alphabet\nalphabet = [\"a\",\"b\",\"c\"]\n//above, the = operator sets the value of the variable alphabet equal to a list of values contained within brackets\n\nreturn alphabet[1]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var alphabet alphabet = [\"a\",\"b\",\"c\"] return alphabet[0]",
+				"output": "a"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();",
+				"$('#add_opponent').closest('.section').show();",
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(2);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(5);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(4);"
+			],
+			"messages": {
+				"instructions": "This game is not played alone. Add an opponent using the function add_opponent(), then add the Object opponents as another input.",
+				"error": "Make sure to add the opponents input. Keep the bot_0 power at 0.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "var bot_0\nbot_0 = opponents[0]\n//opponents is an Array of all opponent Objects\n//bot_0 will be set to the first Object in the opponents Array\n//then it can be used much like the self Object\n\nreturn bot_0.power",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, opponents",
+				"code": "var bot_0 bot_0 = opponents[0] return bot_0.power",
+				"output": "0"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(2);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(5);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(4);"
+			],
+			"messages": {
+				"instructions": "The function responsiveBot() is cautious; fix the if block so it will not return \"take\" if the opponent has a higher power Number.",
+				"error": "Use dot notation to compare bot_0.power and self.power. The expected return value is \"take\".",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self, opponents",
+				"code": "var bot_0\nbot_0 = opponents[0]\n\nvar action\naction = \"take\"\n\nif (self.power == 0) {\n  action = \"power\"\n}\n\n//what should this condition be?\nif (??? > ???) {\n  action = \"power\"\n}\n\nreturn action",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, opponents",
+				"code": "var bot_0 bot_0 = opponents[0] var action action = \"take\" if (self.power == 0) { action = \"power\" } if (bot_0.power > self.power) { action = \"power\" } return action",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(2);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(5);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(4);"
+			],
+			"messages": {
+				"instructions": "The exception to this strategy for function responsiveBot() is if the opponent has 5 cubes of a color, since it can win with 6. Add additional else if blocks to check how many cubes the opponent has.",
+				"error": "Change the opponent power and cubes until the function will return \"power\"",
+				"success": "Select the function next(); to complete the tutorial when ready or adjust the robot power and cubes some more."
+			},
+			"start": {
+				"inputs": "self, opponents",
+				"code": "var bot_0\nbot_0 = opponents[0]\n\nvar action\naction = \"take\"\n\nif (bot_0.power > self.power) {\n  action = \"power\"\n}\n\nif (bot_0.cubes.red > 4) {\n  action = \"take\"\n}\nelse if (bot_0.cubes.orange > 4) {\n  action = \"take\"\n}\n//add additional else if blocks for other colors:\nelse if ...\n\n//also check for self.power\nif (self.power == 0) {\n  //do this check last so it cannot be overwritten\n  action = \"power\"\n}\n\nreturn action",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, opponents",
+				"code": "var bot_0 bot_0 = opponents[0] var action action = \"take\" if (bot_0.power > self.power) { action = \"power\" } if (bot_0.cubes.red > 4) { action = \"take\" } else if (bot_0.cubes.orange > 4) { action = \"take\" } else if (bot_0.cubes.yellow > 4) { action = \"take\" } else if (bot_0.cubes.green > 4) { action = \"take\" } else if (bot_0.cubes.blue > 4) { action = \"take\" } else if (bot_0.cubes.purple > 4) { action = \"take\" } if (self.power == 0) { action = \"power\" } return action",
+				"output": "power"
+			}
+		}
+	]
+}

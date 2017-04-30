@@ -104,6 +104,9 @@
 						else if (session.human.tutorials.length < 15) {
 							suggestions += '<li class="section indented"><span class="whitetext">learn about more complex <span class="code greentext">robots</span> in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
 						}
+						else if (session.human.tutorials.length < 20) {
+							suggestions += '<li class="section indented"><span class="whitetext">learn about advanced and expert <span class="code greentext">robot</span> actions in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
+						}
 
 						if (session.human.robots.length < 1) {
 							suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_create_robot();"><li class="section indented"><span class="whitetext">compete in <span class="code redtext">arenas</span>; <button id="create_robot"><span class="greentext">create_robot</span>()</button>s;</span></li></form>';
