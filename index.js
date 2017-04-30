@@ -386,7 +386,7 @@
 											response.end(processes.render("./tutorials/individual.html", session, tutorial));
 										}
 										else {
-											_302("../../../../tutorials");
+											_404(processes.render("./assets/asciiBots/buildBot.shtml"));
 										}
 									}
 									else {

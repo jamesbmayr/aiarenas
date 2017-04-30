@@ -4,8 +4,10 @@
 		$(".field#code").html(colorText(String($(".field#code").html())));			
 
 		/* load */
-			for (var command = 0; command < window.tutorial.steps[0].commands.length; command++) {
-				eval(window.tutorial.steps[0].commands[command]);
+			if ((typeof window.tutorial !== "undefined") && (window.tutorial !== null)) {
+				for (var command = 0; command < window.tutorial.steps[0].commands.length; command++) {
+					eval(window.tutorial.steps[0].commands[command]);
+				}
 			}
 
 		/* next_step */
