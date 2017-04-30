@@ -1,0 +1,233 @@
+{
+	"name": "secondaryBot",
+	"overview": "use logical operators to write differently",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#console').closest('details').hide();",
+				"$('#arena').show();",
+				"$('#robots_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#cubes').closest('.megasection').show();",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer yellowback\"><div class=\"cube_inner whitetext\">yellow<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue<br></div></div>');",
+				"$('#add_cube').closest('form').hide();",
+				"$('.self').find('.power').val(1);"
+			],
+			"messages": {
+				"instructions": "Unlike the function primaryBot(), function secondaryBot() is only concerned with orange, green, and purple cubes. Change the if and else if conditions to reflect these preferences.",
+				"error": "Make sure the function secondaryBot() will only return \"take\" on secondary colors: orange, green, and purple.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) {\n  if (allCubes.indexOf(\"red\") > -1) {\n    return \"take\"\n  }\n  else if (allCubes.indexOf(\"yellow\") > -1) {\n    return \"take\"\n  }\n  else if (allCubes.indexOf(\"blue\") > -1) {\n    return \"take\"\n  }\n  else {\n    return \"power\"\n  }\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) { if (allCubes.indexOf(\"orange\") > -1) { return \"take\" } else if (allCubes.indexOf(\"green\") > -1) { return \"take\" } else if (allCubes.indexOf(\"purple\") > -1) { return \"take\" } else { return \"power\" } } else { return \"power\" }",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#workshop').hide();"
+			],
+			"messages": {
+				"instructions": "Previous tutorialBots have used logical operators like if and else as well as > (greater than) or < (less than) comparisons. This function secondaryBot() will use alternate operators to achieve similar results.",
+				"error": "Select the function next(); to continue.",
+				"success": "Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#arena').show();",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue<br></div></div>');",
+				"$('#add_cube').closest('form').hide();",
+				"$('.self').find('.power').val(1);"
+			],
+			"messages": {
+				"instructions": "Instead of three separate if or else if blocks, use the or operator || to combine all three colors into one if block.",
+				"error": "The function secondaryBot() should return \"take\" now; use or || to ensure it goes for that green cube.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) {\n  if ( (allCubes.indexOf(\"orange\") > -1) || (condition) || (condition) ) {\n    //above, add the other conditions for green and purple\n    return \"take\"\n  }\n  else {\n    return \"power\"\n  }\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) { if ( (allCubes.indexOf(\"orange\") > -1) || (allCubes.indexOf(\"green\") > -1) || (allCubes.indexOf(\"purple\") > -1) ) { return \"take\" } else { return \"power\" } } else { return \"power\" }",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "In Javascript, the single equals = is used to assign values; more on that later. But the double equals == can be used to check values. Below, fix the equation so it will return \"yes\".",
+				"error": "Remember, single equals = will attempt to assign values; in this case, it will attempt to assign a value to 2 + 2. Use double equals == instead to check if 2 + 2 is 4.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "if (2 + 2 == 5) {\n  return \"yes\"\n}\nelse {\n  return \"no\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "if (2 + 2 == 4) { return \"yes\" } else { return \"no\" }",
+				"output": "yes"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "The not operator ! (exclamation) can negate a value. Combine it with the double equals to make !== which means \"does not have the same value as\". Below, change == to !== to make the function return \"yes\".",
+				"error": "Remember, single equals = will attempt to assign values; in this case, it will attempt to assign a value to 2 + 2. Use not combined with double equals !== instead to check values.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "if (2 + 2 == 5) {\n  return \"yes\"\n}\nelse {\n  return \"no\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "if (2 + 2 !== 5) { return \"yes\" } else { return \"no\" }",
+				"output": "yes"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue<br></div></div>');",
+				"$('#add_cube').closest('form').hide();",
+				"$('.self').find('.power').val(1);"
+			],
+			"messages": {
+				"instructions": "Earlier, the function primaryBot() checked if the .indexOf() a color was > -1. Change the code of function secondaryBot() to instead check if the value is !== -1. This is another way to determine if the Array contains that color.",
+				"error": "Make sure to use the not operator ! and the double equals == to check if the .indexOf() each color is !== -1.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) {\n  if ( (allCubes.indexOf(\"orange\") > -1) || (allCubes.indexOf(\"green\") > -1) || (allCubes.indexOf(\"purple\") > -1) ) {\n    //above, change the > to !==\n    return \"take\"\n  }\n  else {\n    return \"power\"\n  }\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if (power > 0) { if ( (allCubes.indexOf(\"orange\") !== -1) || (allCubes.indexOf(\"green\") !== -1) || (allCubes.indexOf(\"purple\") !== -1) ) { return \"take\" } else { return \"power\" } } else { return \"power\" }",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "Finally, the and operator && can be used like the or operator || but it checks if all the conditions are met instead of just one. Change or || to and && below so the else block activates.",
+				"error": "Keep the conditions the same but change || to && so the overall if block will be false.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "if ( (2 + 2 == 4) || (2 + 2 == 5) ) {\n  return \"yes\"\n}\nelse {\n  return \"no\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "if ( (2 + 2 == 4) && (2 + 2 == 5) ) { return \"yes\" } else { return \"no\" }",
+				"output": "no"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green<br></div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue<br></div></div>');",
+				"$('#add_cube').closest('form').hide();",
+				"$('.self').find('.power').val(1);"
+			],
+			"messages": {
+				"instructions": "The function secondaryBot() can be condensed even further using and && instead of nested if blocks. ",
+				"error": "Be careful of parentheses. The robot has a power of 1, and there is a green cube, so make sure the function secondaryBot() will return \"take\", not \"power\".",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if ( (power > 0) && ( (orange condition here) || (green condition here) || (purple condition here) ) ) {\n  //above, set the color conditions using !==\n  return \"take\"\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if ( (power > 0) && ( (allCubes.indexOf(\"orange\") !== -1) || (allCubes.indexOf(\"green\") !== -1) || (allCubes.indexOf(\"purple\") !== -1) ) ) { return \"take\" } else { return \"power\" }",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('#robots_outer').show();",
+				"$('#add_opponent').closest('.section').hide();",
+				"$('.cube_outer').remove();",
+				"$('#add_cube').closest('form').show();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "Adjust the arena cubes and the robot power level to return different outputs.",
+				"error": "Select the function next(); to complete the tutorial when ready.",
+				"success": "Select the function next(); to complete the tutorial when ready."
+			},
+			"start": {
+				"inputs": "power, allCubes",
+				"code": "if ( (power > 0) && ( (allCubes.indexOf(\"orange\") !== -1) || (allCubes.indexOf(\"green\") !== -1) || (allCubes.indexOf(\"purple\") !== -1) ) ) {\n  return \"take\"\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "power, allCubes",
+				"code": "if ( (power > 0) && ( (allCubes.indexOf(\"orange\") !== -1) || (allCubes.indexOf(\"green\") !== -1) || (allCubes.indexOf(\"purple\") !== -1) ) ) { return \"take\" } else { return \"power\" }",
+				"output": "power"
+			}
+		}
+	]
+}

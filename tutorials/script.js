@@ -177,7 +177,9 @@
 						var array = $(".cube_outer").toArray();
 						for (var i = 0; i < array.length; i++) {
 							var cube_color = $(array[i]).text();
-							cube_color = cube_color.substring(0, cube_color.indexOf("."));
+							if (cube_color.indexOf(".") > -1) {
+								cube_color = cube_color.substring(0, cube_color.indexOf("."));
+							}
 							sandbox_cubes.push(cube_color);
 						}
 

@@ -96,6 +96,7 @@ $(document).ready(function() {
 					window[loop] = setInterval(function() {
 						if (index > text.length) {
 							clearInterval(window[loop]);
+							$(element).attr("textloop","");
 							if ((typeof options.colorText !== "undefined") && (options.colorText === true)) {
 								$(element).html(window.colorText(text));
 							}
@@ -274,7 +275,8 @@ $(document).ready(function() {
 				}
 
 				function rgbopizer(text) {
-					/* math */ 		text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w|\n)(\%+|\-+|\-\-|\++|\+\+|\-\=|\+\=|\*+|\=+|\&\&|\|\||\\+|\!+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* math(old) */	//text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w|\n)(\%|\-|\-\-|\+|\+\+|\*|\*\*|\-\=|\+\=|\*\=|\/\=|\%\=|\!|\!\=|\!\=\=|\=|\=\=|\=\=\=|\&\&|\|\||\\+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* math */		text = text.replace(/(\%|\-|\-\-|\+|\+\+|\*|\*\*|\-\=|\+\=|\*\=|\/\=|\%\=|\!|\!\=|\!\=\=|\=|\=\=|\=\=\=|\&\&|\|\||\\+)/g,"<span redtext>$1</span>");
 					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(\<+|\>+|&amp;|&amp;&amp;|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&lt;&lt;&lt;|&gt;&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|&lt;\=\=|\=\=&gt;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(else\ if|if|else|return|typeof|switch|case|break|default|new|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* booleans */	text = text.replace(/(^|\{|\[|\(|\s|\n)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
