@@ -1,0 +1,252 @@
+{
+	"name": "collectorBot",
+	"overview": "get 1 of each with for  in / while loops",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#console').closest('details').hide();",
+				"$('#arena').show();",
+				"$('#cubes_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_opponent').closest('.section').hide();",
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(3);",
+				"$('.self').find('.cubes_orange').val(2);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(1);",
+				"$('.self').find('.cubes_blue').val(2);",
+				"$('.self').find('.cubes_purple').val(0);"
+			],
+			"messages": {
+				"instructions": "The function collectorBot() uses a simple strategy: it tries to obtain 1 cube of each color. Complete the pattern to return false if the robot has 0 cubes of any color.",
+				"error": "Make sure to type an else if block for yellow, green, blue, and purple. The return value should be false.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "if (self.cubes.red == 0) {\n  return false\n}\nelse if (self.cubes.orange == 0) {\n  return false\n}\nelse if ...\n\n\nelse {\n  return true\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "if (self.cubes.red == 0) { return false } else if (self.cubes.orange == 0) { return false } else if (self.cubes.yellow == 0) { return false } else if (self.cubes.green == 0) { return false } else if (self.cubes.blue == 0) { return false } else if (self.cubes.purple == 0) { return false } else { return true }",
+				"output": "false"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(3);",
+				"$('.self').find('.cubes_orange').val(2);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(1);",
+				"$('.self').find('.cubes_blue').val(2);",
+				"$('.self').find('.cubes_purple').val(0);"
+			],
+			"messages": {
+				"instructions": "Repetitive code is bad code. Also, repetitive code is bad code. But the function collectorBot() can loop through these colors using a for  in loop. Add green, blue, and purple to the colors Array.",
+				"error": "Just add \"green\",\"blue\",\"purple\" to the colors Array.",
+				"success": "Success. How does for  in work? Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "var colors\ncolors = [\"red\",\"orange\",\"yellow\"]\n\nfor (x in colors) {\n  if (self.cubes[ colors[x] ] == 0) {\n    return false\n  }\n  else {\n    //nothing for now\n  }\n}\n\nreturn true",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "var colors colors = [\"red\",\"orange\",\"yellow\",\"green\",\"blue\",\"purple\"] for (x in colors) { if (self.cubes[ colors[x] ] == 0) { return false } else { } } return true",
+				"output": "false"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "Code inside a for  in loop will run for every index in the Array, looping through until it has done every index, or until the outside function has hit a return statement.",
+				"error": "Note that within for (x in numbers), numbers is the Array defined externally, but x is a placeholder. Many coders use i (meaning \"index\") but it can be anything. Select the function next(); to continue.",
+				"success": "Note that within for (x in numbers), numbers is the Array defined externally, but x is a placeholder. Many coders use i (meaning \"index\") but it can be anything. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var numbers\nvar sum\n\nnumbers = [1,2,3,4,5]\nsum = 0\n\nfor (x in numbers) {\n  var y\n  y = numbers[x]\n  sum = sum + y\n  //the first time through, sum is 0, plus 1\n  //the second time? sum is 1, plus 2\n  //then sum is 3, plus 3...\n}\n\nreturn sum",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var numbers var sum numbers = [1,2,3,4,5] sum = 0 for (x in numbers) { var y y = numbers[x] sum = sum + numbers[x] } return sum",
+				"output": "15"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "An alternative to the for  in loop is the while loop. With a while loop, the index is defined externally, and a condition is used, much like an if block. (But unless the condition eventually changes from true to false, the loop will continue forever, and the website may freeze.)",
+				"error": "With the for  in loop, x increases automatically. With a while loop, the counter or index must be defined externally and incremented within the loop. Plus, a condition must be set to eventually turn false; otherwise, the loop will run forever and crash. Select the function next(); to continue.",
+				"success": "With the for  in loop, x increases automatically. With a while loop, the counter or index must be defined externally and incremented within the loop. Plus, a condition must be set to eventually turn false; otherwise, the loop will run forever and crash. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var numbers\nvar sum\n\nnumbers = [1,3,5,7,9]\nsum = 0\n\nvar x\nx = 0\n\nwhile (x < numbers.length) {\n  sum = sum + numbers[x]\n    //remember: x represents the position in the Array, not a value itself\n    //here, numbers[0] is 1, numbers[1] is 3, etc.\n  x = x + 1\n    //the placeholder x still needs to increase each time through\n    //this continues until x is beyond the list of Array values\n}\n\nreturn sum",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var numbers var sum numbers = [1,3,5,7,9] sum = 0 var x x = 0 while (x < numbers.length) { sum = sum + numbers[x] x = x + 1 } return sum",
+				"output": "25"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();",
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(3);",
+				"$('.self').find('.cubes_orange').val(2);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(1);",
+				"$('.self').find('.cubes_blue').val(2);",
+				"$('.self').find('.cubes_purple').val(0);"
+			],
+			"messages": {
+				"instructions": "Complete the while loop to achieve the same result as the earlier for  in loop. Set the condition carefully or the loop may freeze up the website.",
+				"error": "Start x at 0 and continue while x < colors.length.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self",
+				"code": "var colors\ncolors = [\"red\",\"orange\",\"yellow\",\"green\",\"blue\",\"purple\"]\n\nvar x\nx = ???\nwhile (x < ???) {\n  if (self.cubes[ colors[x] ] == 0) {\n    return false\n  }\n  x = x + 1\n}\n\nreturn true",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self",
+				"code": "var colors colors = [\"red\",\"orange\",\"yellow\",\"green\",\"blue\",\"purple\"] var x x = 0 while (x < colors.length) { if (self.cubes[ colors[x] ] == 0) { return false } x = x + 1 } return true",
+				"output": "false"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(3);",
+				"$('.self').find('.cubes_orange').val(2);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(1);",
+				"$('.self').find('.cubes_blue').val(2);",
+				"$('.self').find('.cubes_purple').val(0);",
+				"$('#cubes_outer').show();",
+				"$('#cubes').closest('.megasection').show();",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_cube').closest('.section').hide();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');"
+			],
+			"messages": {
+				"instructions": "The function collectorBot() should return \"take\" only if it has 0 cubes of the color present inside the arena. Below, finish the if and else block to return \"take\" and \"power\" under the correct circumstances.",
+				"error": "Remember, return \"take\" if self.cubes[color] == 0 and \"power\" otherwise.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nif (self.cubes[color] == 0) {\n  return ???\n}\nelse {\n  return ???\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, allCubes",
+				"code": "var color color = allCubes[0] if (self.cubes[color] == 0) { return \"take\" } else { return \"power\" }",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(3);",
+				"$('.self').find('.cubes_orange').val(2);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(1);",
+				"$('.self').find('.cubes_blue').val(2);",
+				"$('.self').find('.cubes_purple').val(0);",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer purpleback\"><div class=\"cube_inner whitetext\">purple</div></div>');"
+			],
+			"messages": {
+				"instructions": "That works fine when there is 1 cube, but what about multiple cubes? This is where loops are useful. Enclose the if block within a for  in loop to check every cube.",
+				"error": "Make sure to check for every color in the allCubes Array.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self, allCubes",
+				"code": "for (??? in ???) {\n  if (self.cubes[ allCubes[color] ] == 0) {\n    return \"take\"\n  }\n  else {\n    //this is just to show the code at work\n  }\n}\n\nreturn \"power\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, allCubes",
+				"code": "for (color in allCubes) { if (self.cubes[ allCubes[color] ] == 0) { return \"take\" } else { } } return \"power\"",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);",
+				"$('.self').find('.cubes_red').val(3);",
+				"$('.self').find('.cubes_orange').val(2);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(1);",
+				"$('.self').find('.cubes_blue').val(2);",
+				"$('.self').find('.cubes_purple').val(0);",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer purpleback\"><div class=\"cube_inner whitetext\">purple</div></div>');"
+			],
+			"messages": {
+				"instructions": "Now redo it using a while loop. Complete the while loop by fixing each ??? below.",
+				"error": "Make sure to check for every color in the allCubes Array.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "self, allCubes",
+				"code": "var x\nx = 0\n\nwhile (??? < ???) {\n  if (self.cubes[ allCubes[x] ] == 0) {\n    return \"take\"\n  }\n  ??? = ??? + 1\n}\n\nreturn \"power\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, allCubes",
+				"code": "var x x = 0 while (x < allCubes.length) { if (self.cubes[ allCubes[x] ] == 0) { return \"take\" } x = x + 1 } return \"power\"",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#workshop').hide();"
+			],
+			"messages": {
+				"instructions": "Ultimately, for  in loops and while loops can accomplish the same things. There are other types of loops as well, such as for, for of, and .forEach; use whichever loop is personally preferable. Select the function next(); to complete the tutorial.",
+				"error": "Select the function next(); to complete the tutorial.",
+				"success": "Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		}
+	]
+}
