@@ -1,0 +1,293 @@
+{
+	"name": "deriveBot",
+	"overview": "unlock all the information available",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#console').closest('details').hide();",
+				"$('#arena').show();",
+				"$('#robots_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#cubes').closest('.megasection').show();",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>');",
+				"$('#add_cube').closest('form').hide();"
+			],
+			"messages": {
+				"instructions": "A previous tutorial showed that the power Number of a robot was a property of the self Object. In ai_arenas, all data within an arena is contained inside the arena Object. Switch the input below to only use the arena Object.",
+				"error": "The only input should be the Object arena.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "return arena.rounds[0].cubes",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arena.rounds[0].cubes",
+				"output": "red,green,blue"
+			}
+		},
+		{
+			"commands": [
+				"$('#cubes_outer').hide();",
+				"$('#rules_outer').show();",
+				"$('#rules').closest('.megasection').show();",
+				"$('#rules_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "The arena Object contains 2 sections: a rounds Array and a rules Object. (Other sections are hidden from the robot function, like whether the arena is paused.) Change the code to return the .conditions property of the .victory property of .rules.)",
+				"error": "Change the rules below so that all 4 victory conditions are true. Remember, this information is accessed from arena.rules.victory.conditions.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "return arena.rules.cubes.colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arena.rules.victory.conditions",
+				"output": "1of6,2of3,3of2,6of1"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "The rules Object is structured just as it is displayed below, divided into 4 sections: players, cubes, robots, and victory. For example, to learn the cube colors of the arena, return arena.rules.cubes.colors.",
+				"error": "Change the rules so only red, yellow, and blue cubes are present in this arena.",
+				"success": "Success; this is how the rules and colors inputs are derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "return ???",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arena.rules.cubes.colors",
+				"output": "red,yellow,blue"
+			}
+		},
+		{
+			"commands": [
+				"$('#rules_outer').hide();",
+				"$('#arena').hide();"
+			],
+			"messages": {
+				"instructions": "The most important data is stored within the arena property .rounds, which is itself an Array. After each round is evaluated, it is added to the end of the rounds Array. Use .length to see how many rounds have passed.",
+				"error": "Make sure to return arena.rounds.length only.",
+				"success": "Success; this is how the roundCount input is derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "return arena.rounds",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arena.rounds.length",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#cubes_outer').show();",
+				"$('#cubes').closest('.megasection').show();",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer yellowback\"><div class=\"cube_inner whitetext\">yellow</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>');",
+				"$('#add_cube').closest('form').hide();"
+			],
+			"messages": {
+				"instructions": "In tutorials and workshops, the rounds Array will always have a .length of 1, since it is only eval()uating the current simulation. But active arenas will have more. This can be used to find the latest round, or below, its cubes.",
+				"error": "Make sure roundCount is being set = to the .length of the rounds Array.",
+				"success": "Why the - 1 though? Recall that an Array starts at position 0, so an Array with .length of 1 has no item at position 1, only at position 0. The .indexOf the latest round will always be 1 less than the .length of the Array. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "var roundCount\nroundCount = ???\n\n//the code below uses bracket notation to access the data at this position in the rounds Array\nreturn arena[\"rounds\"][roundCount - 1][\"cubes\"]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "var roundCount roundCount = arena.rounds.length return arena[\"rounds\"][roundCount - 1][\"cubes\"]",
+				"output": "red,yellow,blue"
+			}
+		},
+		{
+			"commands": [
+				"$('.cube_outer').remove();",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer yellowback\"><div class=\"cube_inner whitetext\">yellow</div></div>');",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>');",
+				"$('#add_cube').closest('form').hide();"
+			],
+			"messages": {
+				"instructions": "Dot notation and bracket notation can be used together to create clean code. Below, simplify the code to return the same cubes using only 1 line.",
+				"error": "The code should have arena.rounds[].cubes enclosing arena.rounds.length - 1 within the brackets.",
+				"success": "Success; this is how the allCubes input is derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "return arena[\"rounds\"][ arena[\"rounds\"].length - 1 ][\"cubes\"]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arena.rounds[arena.rounds.length - 1].cubes",
+				"output": "red,yellow,blue"
+			}
+		},
+		{
+			"commands": [
+				"$('#cubes_outer').hide();",
+				"$('#robots_outer').show();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('.self').find('.power').val(4);",
+				"$('.self').find('.cubes_red').val(2);",
+				"$('.self').find('.cubes_orange').val(0);",
+				"$('.self').find('.cubes_yellow').val(1);",
+				"$('.self').find('.cubes_green').val(5);",
+				"$('.self').find('.cubes_blue').val(3);",
+				"$('.self').find('.cubes_purple').val(4);",
+				"$('#add_opponent').closest('form').hide();"
+			],
+			"messages": {
+				"instructions": "Besides cubes, each item within the rounds Array also contains a robots Array, with the power Number and cubes of each robot, as well as the last action it performed.",
+				"error": "Remember, the currentRound can be derived as arena.rounds[arena.rounds.length - 1]. Make sure the function deriveBot() has a power Number of 4.",
+				"success": "Success; this is how the currentRound and robots inputs are derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "var currentRound\ncurrentRound = ???\n//above, use the construction from the last step to get the last round of this arena\n\nreturn currentRound.robots[0].power",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "var currentRound currentRound = arena.rounds[arena.rounds.length - 1] return currentRound.robots[0].power",
+				"output": "4"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();"
+			],
+			"messages": {
+				"instructions": "In tutorials and workshops, the self robot will always be at position 0 within the robots Array. But what about active arenas? Instead, the robot must identify itself.",
+				"error": "No code changes; make sure the function gives its own name with return arguments.callee.name.",
+				"success": "Success; this is how the name input is derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "return arguments.callee.name\n\n//in javascript, a function can identify itself using arguments.callee.name.\n  //the arguments Object represents all information passed to that function\n  //the callee Object is the function being called\n  //the name is the name of the function, which is the robot\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arguments.callee.name",
+				"output": "deriveBot"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();"
+			],
+			"messages": {
+				"instructions": "Each robot within the robots Array also has a name. Complete the var definition below to return the name of the robot at position 0 if it matches arguments.callee.name.",
+				"error": "Remember, the name of a function can be found using arguments.callee.name.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "var currentRound\ncurrentRound = arena.rounds[arena.rounds.length - 1]\n\nvar name\nname = ???\n\nif (currentRound.robots[0].name == name) {\n  return currentRound.robots[0].name\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "var currentRound currentRound = arena.rounds[arena.rounds.length - 1] var name name = arguments.callee.name if (currentRound.robots[0].name == name) { return currentRound.robots[0].name }",
+				"output": "deriveBot"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.power').val(7);"
+			],
+			"messages": {
+				"instructions": "There are many ways to find which robot is the self robot. For example, the function could check the .name of the robot at every position until it finds its own name. But there is an Array .find function to perform the task.",
+				"error": "Since .find introduces a function, arguments.callee.name will not give deriveBot() inside. Instead, arguments.callee.name must be set to a var outside of .find. (The power Number should return as 7.)",
+				"success": "Success; this is how the self, power, and cubes inputs are derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "var currentRound\ncurrentRound = arena.rounds[arena.rounds.length - 1]\n\nvar name\nname = ???\n//define name outside of the .find function\n\nvar self\nself = currentRound.robots.find(function(x) {\n  return x.name == name\n})\n\nreturn self.power",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "var currentRound currentRound = arena.rounds[arena.rounds.length - 1] var name name = arguments.callee.name var self self = currentRound.robots.find(function(x) { return x.name == name }) return self.power",
+				"output": "7"
+			}
+		},
+		{
+			"commands": [
+				"$('#add_opponent').closest('form').show();"
+			],
+			"messages": {
+				"instructions": "Similarly, a .filter function can access all the robots that are not the self. Below, change find to filter and == to !== to get all of opponents instead.",
+				"error": "Add some opponents below; make it so there are 3 opponents found using the .filter (not .find) function where x.name !== name.",
+				"success": "Success; this is how the opponents input is derived. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "var currentRound\ncurrentRound = arena.rounds[arena.rounds.length - 1]\n\nvar name\nname = arguments.callee.name\n\nvar opponents\nopponents = currentRound.robots.find(function(x) {\n  return x.name == name\n  //make sure to change == to !== to get robots with a different name\n})\n\nreturn opponents.length",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "var currentRound currentRound = arena.rounds[arena.rounds.length - 1] var name name = arguments.callee.name var opponents opponents = currentRound.robots.filter(function(x) { return x.name !== name }) return opponents.length",
+				"output": "3"
+			}
+		},
+		{
+			"commands": [
+				"$('#cubes_outer').show();",
+				"$('#rules_outer').show();",
+				"$('#robots_outer').show();",
+				"$('.cube_outer').remove();",
+				"$('#add_cube').closest('form').show();",
+				"$('#add_opponent').closest('form').show();"
+			],
+			"messages": {
+				"instructions": "Finally, each round Object also has a .winner property containing the .name of the robot that won the previous round. Of course, within a tutorial or workshop, it will always be empty. Below, adjust the code to return other aspects of the arena Object.",
+				"error": "Select the function next(); to complete the tutorial when ready.",
+				"success": "Select the function next(); to complete the tutorial when ready."
+			},
+			"start": {
+				"inputs": "arena",
+				"code": "return arena...",
+				"output": ""
+			},
+			"end": {
+				"inputs": "arena",
+				"code": "return arena...",
+				"output": ""
+			}
+		}
+	]
+}

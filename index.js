@@ -374,18 +374,15 @@
 							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										try {
-											var tutorial = JSON.parse(fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8"));
-										}
-										catch (error) {
-											console.log(error);
-											var tutorial = null;
-										}
+										var tutorial = fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8") || "{}";
 
-										if (tutorial !== null) {
+										try {
+											tutorial = JSON.parse(tutorial);
 											response.end(processes.render("./tutorials/individual.html", session, tutorial));
 										}
-										else {
+										catch (error) {
+											var breakpoint = Number(error.message.substring((Number(error.message.indexOf("at position")) + 12), error.message.length).trim());
+											console.log("breakpoint: " + tutorial.substring(breakpoint - 20, breakpoint + 20));
 											_404(processes.render("./assets/asciiBots/buildBot.shtml"));
 										}
 									}

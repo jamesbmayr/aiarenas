@@ -221,14 +221,6 @@
 
 					//build arena sandbox
 						var sandbox = {
-							state: {
-								start: new Date().getTime(),
-								locked: false,
-								pauseFrom: null,
-								pauseTo: null,
-								end: null,
-								victors: []
-							},
 							rules: rules,
 							rounds: [
 								{
@@ -244,8 +236,7 @@
 						for (var j = 0; j < window.inputs.length; j++) {
 							switch(inputs[j]) {
 								case "arena": //all other inputs can be derived from this one
-									var arena = { //for arena, only include state, rules, and rounds data (no id, created, humans, or entrants)
-										state: sandbox.state,
+									var arena = { //for arena, only include rules and rounds data (no id, created, humans, state, or entrants)
 										rules: sandbox.rules,
 										rounds: sandbox.rounds
 									};
@@ -330,8 +321,11 @@
 							if (window.code[line].replace(/[\n\s\t\}\;\)\,\]]/g,"").length === 0) {
 								//no executable code - just space / close brackets
 							}
-							else if (window.code[line].replace(/\/\/.*?$/g,"").length === 0) {
+							else if (window.code[line].replace(/[\s]*?\/\/.*?$/g,"").length === 0) {
 								//no executable code - just //comments
+							}
+							else if (window.code[line].replace(/[\s]*?\/\*[^\*\/]*?\*\/[\s]*?$/g,"").length === 0) {
+								//no executable code - just /* comments */
 							}
 							else if ((/^[\s]*[a-zA-Z0-9_\"\']*\:[\s]*[a-zA-Z0-9_\"\']\,?[\s]*$/g).test(window.code[line])) {
 								//object
@@ -401,7 +395,7 @@
 							else {
 								var step = Number($("#step").attr("value")) || 0;
 
-								if ((window.code.join("\n").replace(/\/\/[^\n]*?(\n|$)/g,"").replace(/\/\*[^\*\/]*?(\*\/|$)/g,"").replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.code.replace(/\/\/[^\n]*?(\n|$)/g,"").replace(/\/\*[^\*\/]*?(\*\/|$)/g,"").replace(/[\n\s\t\;]/g,"")) && (window.output == window.tutorial.steps[step].end.output.replace(/[\n\s\t\;]/g,"")) && ($("#inputs").text().replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.inputs.replace(/[\n\s\t\;]/g,""))) {
+								if ((window.code.join("\n").replace(/\/\/[^\n]*?(\n|$)/g,"").replace(/\/\*[^\*\/]*?(\*\/|$)/g,"").replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.code.replace(/\/\/[^\n]*?(\n|$)/g,"").replace(/\/\*[^\*\/]*?(\*\/|$)/g,"").replace(/[\n\s\t\;]/g,"")) && (String(window.output).replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.output.replace(/[\n\s\t\;]/g,"")) && ($("#inputs").text().replace(/[\n\s\t\;]/g,"") == window.tutorial.steps[step].end.inputs.replace(/[\n\s\t\;]/g,""))) {
 									$("#instructions").animateText({text: window.tutorial.steps[step].messages.success || "", interval: 50, colorText: true, resizeTop: true});
 								}
 								else {

@@ -1055,8 +1055,7 @@
 								console.log("input: " + inputs[j]);
 								switch(inputs[j]) {
 									case "arena": //all other inputs can be derived from this one
-										sandbox.arena = { //for arena, only include state, rules, and rounds data (no id, created, humans, or entrants)
-											state: arena.state,
+										sandbox.arena = { //for arena, only include rules and rounds data (no id, created, humans, state, or entrants)
 											rules: arena.rules,
 											rounds: arena.rounds
 										};

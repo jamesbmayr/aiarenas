@@ -164,7 +164,7 @@
 				"$('.self').find('.cubes_purple').val(4);"
 			],
 			"messages": {
-				"instructions": "Now it is time to combine these two ideas. Make the function responsiveBot() return \"take\" unless it has 0 power, or already has 3 red, yellow, or blue cubes",
+				"instructions": "Now it is time to combine these two ideas. Make the function responsiveBot() return \"take\" unless it has 0 power, or already has 3 red, yellow, or blue cubes.",
 				"error": "Change to bracket notation to return the same output.",
 				"success": "Success. Select the function next(); to continue."
 			},

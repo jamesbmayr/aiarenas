@@ -426,14 +426,6 @@
 
 					//build arena sandbox
 						var sandbox = {
-							state: {
-								start: new Date().getTime(),
-								locked: false,
-								pauseFrom: null,
-								pauseTo: null,
-								end: null,
-								victors: []
-							},
 							rules: rules,
 							rounds: [
 								{
@@ -449,8 +441,7 @@
 						for (var j = 0; j < window.inputs.length; j++) {
 							switch(inputs[j]) {
 								case "arena": //all other inputs can be derived from this one
-									var arena = { //for arena, only include state, rules, and rounds data (no id, created, humans, or entrants)
-										state: sandbox.state,
+									var arena = { //for arena, only include rules, and rounds data (no id, created, humans, state, entrants)
 										rules: sandbox.rules,
 										rounds: sandbox.rounds
 									};
@@ -535,8 +526,11 @@
 							if (window.code[line].replace(/[\n\s\t\}\;\)\,\]]/g,"").length === 0) {
 								//no executable code - just space / close brackets
 							}
-							else if (window.code[line].replace(/\/\/.*?$/g,"").length === 0) {
+							else if (window.code[line].replace(/[\s]*?\/\/.*?$/g,"").length === 0) {
 								//no executable code - just //comments
+							}
+							else if (window.code[line].replace(/[\s]*?\/\*[^\*\/]*?\*\/[\s]*?$/g,"").length === 0) {
+								//no executable code - just /* comments */
 							}
 							else if ((/^[\s]*[a-zA-Z0-9_\"\']*\:[\s]*[a-zA-Z0-9_\"\']\,?[\s]*$/g).test(window.code[line])) {
 								//object

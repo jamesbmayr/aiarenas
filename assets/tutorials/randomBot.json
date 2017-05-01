@@ -1,0 +1,159 @@
+{
+	"name": "randomBot",
+	"overview": "introduce a little chaos",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#inputs').closest('.field_frame').hide();",
+				"$('#console').closest('details').hide();"
+			],
+			"messages": {
+				"instructions": "The function randomBot() will pick a random action each round. First, generate a random number using the special Math Object and the .random() function.",
+				"error": "Notice anything interesting? Select the function next(); to continue.",
+				"success": "Notice anything interesting? Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "return Math.random()",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "return Math.random()",
+				"output": "0.5"
+			}
+		},
+		{
+			"commands": [				
+			],
+			"messages": {
+				"instructions": "Math.random() will always return a Number between 0 and 1, not including 1. To get a larger Number, just multiply the result. Below, multiply by 10 to get a random Number between 0 and 10.",
+				"error": "But how to eliminate decimals? Select the function next(); to continue.",
+				"success": "But how to eliminate decimals? Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "return Math.random() * ???",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "return Math.random() * 10",
+				"output": "5"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "To get an integer, round down using Math.floor().",
+				"error": "Why not round up or round normally? That would introduce both 0 and 10 as possibilities, but with unequal probabilities. Select the function next(); to continue.",
+				"success": "Why not round up or round normally? That would introduce both 0 and 10 as possibilities, but with unequal probabilities. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "return Math.???( Math.random() * 10 )\n//above, change ??? to floor\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "return Math.floor( Math.random() * 10 )",
+				"output": "5"
+			}
+		},
+		{
+			"commands": [
+				"$('#inputs').closest('.field_frame').show();",
+				"$('#arena').show();",
+				"$('#robots_outer').hide();",
+				"$('#cubes_outer').hide();",
+				"$('#rules').closest('.megasection').show();",
+				"$('#rules_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "Different arenas might have different rules. Use the rules input to determine how many legal actions the robot can take.",
+				"error": "Toggle the rules.robots.actions below such that there are 5 legal actions.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "return rules.robots.actions.length",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules",
+				"code": "return rules.robots.actions.length",
+				"output": "5"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Remember that bracket notation can be used to access the values of an Array. Change the rules and code so it returns \"power\"",
+				"error": "The action power needs to be set to true; it should be at position 0.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "rules",
+				"code": "var actions\nactions = ???\n\nreturn actions[???]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules",
+				"code": "var actions actions = rules.robots.actions return actions[0]",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Instead of finding a random Number between 0 and 10, use Math.random() to return a result between 0 and the .length of the actions Array.",
+				"error": "Multiply Math.random() by actions.length to get a random Number from 0 to the Number of actions, then wrap it inside Math.floor() to return an integer. Select the function next(); to continue.",
+				"success": "Multiply Math.random() by actions.length to get a random Number from 0 to the Number of actions, then wrap it inside Math.floor() to return an integer. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "rules",
+				"code": "var actions\nactions = rules.robots.actions\n\nreturn Math.???( Math.???() * ???.length )\n//fix each ??? above\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules",
+				"code": "var actions actions = rules.robots.actions return Math.floor( Math.random() * actions.length )",
+				"output": "red,yellow,blue"
+			}
+		},
+		{
+			"commands": [
+				"$('#robots_outer').show();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_opponent').closest('form').hide();",
+				"$('#robots_actions').find('input').prop('checked',true)"
+			],
+			"messages": {
+				"instructions": "Finally, use that Number to access a random value within the actions Array.",
+				"error": "Select the function next(); to complete the tutorial or continue eval()uating to see different animations.",
+				"success": "Select the function next(); to complete the tutorial or continue eval()uating to see different animations."
+			},
+			"start": {
+				"inputs": "rules",
+				"code": "var actions\nactions = rules.robots.actions\n\nvar x\nx = Math.???( Math.???() * ???.length )\n\nreturn actions[x]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules",
+				"code": "var actions actions = rules.robots.actions var x x = Math.floor( Math.random() * actions.length ) return actions[x]",
+				"output": "power"
+			}
+		}
+	]
+}

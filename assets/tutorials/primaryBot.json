@@ -83,7 +83,7 @@
 				"$('#workshop').show();",
 				"$('#arena').show();",
 				"$('.cube_outer').remove();",
-				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red<br><form action=\"javascript:;\" onsubmit=\"window.remove_cube(this);\"><span class=\"whitetext\">.</span><button class=\"whitetext\" name=\"action\" value=\"remove_cube\">x();</button></form></div></div>');"
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');"
 			],
 			"messages": {
 				"instructions": "Add additional cubes using the function addCube() below; add a green cube and a blue cube to the arena.",
