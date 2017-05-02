@@ -1,0 +1,31 @@
+{
+	"name": "switchBot",
+	"overview": "use the switch case to select the best strategy",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "",
+				"error": "",
+				"success": "Success. Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "self, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nswitch (self.cubes[color]) {\n  case 0:\n  case 5:\n    return \"take\"\n    break\n\n  default:\n    return \"power\"\n    break\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "self, allCubes",
+				"code": "var color color = allCubes[0] switch (self.cubes[color]) { case 0: case 5: return \"take\" break default: return \"power\" break }",
+				"output": "take"
+			}
+		}
+	]
+}

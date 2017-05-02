@@ -1,0 +1,31 @@
+{
+	"name": "predictorBot",
+	"overview": "use spawnMemory to guess what cube is coming next",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "",
+				"error": "",
+				"success": "Success. Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "colors, rules, rounds",
+				"code": "for (x = 1; (x < rules.cubes.spawnMemory) && (x < rounds.length); x++) {\n  colors.filter(function(y) {\n    y !==  rounds[ rounds.length - x ].cubes[0]\n  })\n}\n\nreturn colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "colors, rules, rounds",
+				"code": "for (x = 1; (x < rules.cubes.spawnMemory) && (x < rounds.length); x++) { colors.filter(function(y) { y !== rounds[ rounds.length - x ].cubes[0] }) } return colors",
+				"output": "yellow,purple"
+			}
+		}
+	]
+}

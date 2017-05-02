@@ -1,0 +1,31 @@
+{
+	"name": "focusBot",
+	"overview": "use for of loop to focus on the firstRound",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "",
+				"error": "",
+				"success": "Success. Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "name, firstRound, allCubes",
+				"code": "var self\nself = firstRound.robots.find(function(x) {\n  return x.name == name\n})\n\nfor (color of allCubes) {\n  if (self.cubes[color] > 0) {\n    return \"take\"\n  }\n}\n\nreturn \"power\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "name, firstRound, allCubes",
+				"code": "var self self = firstRound.robots.find(function(x) { return x.name == name }) for (color of allCubes) { if (self.cubes[color] > 0) { return \"take\" } } return \"power\"",
+				"output": "take"
+			}
+		}
+	]
+}

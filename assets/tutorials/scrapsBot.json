@@ -1,0 +1,31 @@
+{
+	"name": "scrapsBot",
+	"overview": "go after what opponents leave behind using Array and .push()",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "",
+				"error": "",
+				"success": "Success. Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var actions\nactions = []\n\nfor (opponent of opponents) {\n  opponent.takeProb = 0\n    for (color of allCubes) {\n      opponent.takeProb =  opponent.takeProb + (opponent.cubes[color] > 2) ? 1 : - 1\n  }\n  actions.push( (opponents.takeProb > 0) ? \"power\" : \"take\" )\n}\n\nreturn actions[ Math.floor(Math.random() * actions.length) ]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var actions actions = [] for (opponent of opponents) { opponent.takeProb = 0 for (color of allCubes) { opponent.takeProb = opponent.takeProb + (opponent.cubes[color] > 2) ? 1 : - 1 } actions.push( (opponents.takeProb > 0) ? \"power\" : \"take\" ) } return actions[ Math.floor(Math.random() * actions.length) ]",
+				"output": "take"
+			}
+		}
+	]
+}

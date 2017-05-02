@@ -1,0 +1,31 @@
+{
+	"name": "victoryBot",
+	"overview": "use the ternary operator ? : to meet the right conditions",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "",
+				"error": "",
+				"success": "Success. Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nif (conditions.indexOf(\"1of6\") > -1) {\n  return (cubes[ color ] == 0) ? \"take\" : \"power\"\n}\nelse if (conditions.indexOf(\"2of3\") > -1) {\n  return ( (cubes[ color ] < 2) && ((color == \"red\") || (color == \"yellow\") || (color == \"blue\")) ) ? \"take\" : \"power\"\n}\nelse if (conditions.indexOf(\"3of2\") > -1) {\n  return ( (cubes[ color ] < 3) && ((color == \"blue\") || (color == \"orange\")) ) ? \"take\" : \"power\"\n}\nelse if (conditions.indexOf(\"6of1\") > -1) {\n  return (cubes[ color ] < 6) ? \"take\" : \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] if (conditions.indexOf(\"1of6\") > -1) { return (cubes[ color ] == 0) ? \"take\" : \"power\" } else if (conditions.indexOf(\"2of3\") > -1) { return ( (cubes[ color ] < 2) && ((color == \"red\") || (color == \"yellow\") || (color == \"blue\")) ) ? \"take\" : \"power\" } else if (conditions.indexOf(\"3of2\") > -1) { return ( (cubes[ color ] < 3) && ((color == \"blue\") || (color == \"orange\")) ) ? \"take\" : \"power\" } else if (conditions.indexOf(\"6of1\") > -1) { return (cubes[ color ] < 6) ? \"take\" : \"power\" }",
+				"output": "take"
+			}
+		}
+	]
+}
