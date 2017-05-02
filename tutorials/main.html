@@ -93,14 +93,38 @@
 					content += '</div></div>\
 						<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 
-					if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 0) {
+					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 0) && (session.human.tutorials.length > 4)) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.beginner</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\
 							<div class="section indented whitetext">';
 
 						var string = "";
-						var tutorials = ["consoleBot","deriveBot","randomBot","collectorBot","focusBot","predictorBot","copyBot","lazyBot","scrapsBot","rulesBot"];
+						var tutorials = ["consoleBot","deriveBot","randomBot","collectorBot","copyBot"];
+						for (var i = 0; i < tutorials.length; i++) {
+							if (session.human.tutorials.indexOf(tutorials[i]) > -1) {
+								var status = "true";
+							}
+							else {
+								var status = "false";
+							}
+
+							string += "{<a class='bluetext' href='../../../../tutorials/" + tutorials[i] + "'>" + tutorials[i] + "</a><span class='whitetext'>: </span><span class='purpletext'>" + status + "</span>},<br>";
+						}
+
+						content += (string.substring(string, string.length - 5) || "");
+						content += '</div></div>\
+							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
+					}
+
+					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 0) && (session.human.tutorials.length > 9)) {
+						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
+						<div class="bracketer_top"><span class="whitetext">.intermediate</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
+						<div class="megasection">\
+							<div class="section indented whitetext">';
+
+						var string = "";
+						var tutorials = ["switchBot","focusBot","predictorBot","scrapsBot","rulesBot"];
 						for (var i = 0; i < tutorials.length; i++) {
 							if (session.human.tutorials.indexOf(tutorials[i]) > -1) {
 								var status = "true";
@@ -117,14 +141,14 @@
 							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 					}
 					
-					if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) {
+					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) && (session.human.tutorials.length > 14)) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.advanced</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\
 							<div class="section indented whitetext">';
 
 						var string = "";
-						var tutorials = ["sapBot","halftakeBot","fliptakeBot"];
+						var tutorials = ["sapBot","halftakeBot","fliptakeBot","???","???"];
 						for (var i = 0; i < tutorials.length; i++) {
 							if (session.human.tutorials.indexOf(tutorials[i]) > -1) {
 								var status = "true";
@@ -141,14 +165,14 @@
 							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 					}
 
-					if (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) {
+					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) && (session.human.tutorials.length > 19)) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.expert</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\
 							<div class="section indented whitetext">';
 
 						var string = "";
-						var tutorials = ["shockBot","burnBot","swaptakeBot"];
+						var tutorials = ["shockBot","burnBot","swaptakeBot","???","???"];
 						for (var i = 0; i < tutorials.length; i++) {
 							if (session.human.tutorials.indexOf(tutorials[i]) > -1) {
 								var status = "true";

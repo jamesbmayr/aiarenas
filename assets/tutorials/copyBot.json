@@ -1,0 +1,373 @@
+{
+	"name": "copyBot",
+	"overview": "use Objects and .sort() to mimic opponents",
+	"steps": [
+		{
+			"commands": [
+				"$('#workshop').hide();",
+				"$('#arena').hide();"
+			]
+		},
+		{
+			"commands": [
+				"$('#workshop').show();",
+				"$('#console').closest('details').hide();",
+				"$('#arena').show();",
+				"$('#cubes_outer').hide();",
+				"$('#rules_outer').hide();",
+				"$('#robots').closest('.megasection').show();",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "As mentioned earlier, data can be stored within an Object; each opponent within the opponents Array is an Object. Below, use the function add_opponent() to add 5 additional robots.",
+				"error": "No code changes; just use the function add_opponent() to create 5 new robots.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "return opponents.length",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "return opponents.length",
+				"output": "5"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Within each opponent Object is a .action property, which shows which action a robot has performed last. Below, use the dropdown to set the .action of bot_4 to \"sleep\" and return it.",
+				"error": "Make sure to return opponents[4].action, which should be \"sleep\".",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "return opponents[4]\n//instead of returning the whole opponent, return only its .action\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "return opponents[4].action",
+				"output": "sleep"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "It is also possible to create an Object, just like creating an Array or String or Number. This can be done in 3 ways. Below, the example Object is defined with 2 properties using pairs of \"key\": \"value\", enclosed by {}.",
+				"error": "Select the function next(); to continue.",
+				"success": "Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var human\nhuman = { \"first\": \"Sam\", \"last\": \"Humanson\" }",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var human human = { \"first\": \"Sam\", \"last\": \"Humanson\" }",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Previous tutorials have used bracket notation and dot notation to read the properties of an Object. These properties can also be set using both bracket notation and dot notation.",
+				"error": "Change the first name to bracket notation and the last name to dot notation.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var human\nhuman.first = \"Sam\"\nhuman[\"last\"] = \"Humanson\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var human human[\"first\"] = \"Sam\" human.last = \"Humanson\"",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "This can also be helpful when updating information within an Object. For example, Sam just had a birthday; set human.age = human.age + 1 below.",
+				"error": "Note that the value 100 is a Number, not a String, so it is not enclosed in quotes. Therefore, human.age = human.age + 1 should cause a return value of 101.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var human\nhuman = { \"first\": \"Sam\", \"last\": \"Humanson\", \"age\": 100 }\n\nhuman.age = ???\nreturn human.age",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var human human = { \"first\": \"Sam\", \"last\": \"Humanson\", \"age\": 100 }\n\nhuman.age = human.age + 1\nreturn human.age",
+				"output": "101"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "The function copyBot() will use an Object to collect data on opponent actions. Below, set the counts of \"power\", \"take\", and \"sleep\" to 0 to start.",
+				"error": "The values should not have quotes, since each is the Number 0, not a String. The expected order is \"power\", \"take\", \"sleep\", though it is actually unimportant.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var counts\ncounts = { ???: 0, ???: 0, ???: 0 }\nreturn counts.power",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } return counts.power",
+				"output": "0"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Using bracket notation, it is possible to access a value from within an Object dynamically. Below, set x = \"power\" to see what the return value is.",
+				"error": "Below, x needs to be set equal to the String \"power\".",
+				"success": "Success. Using a var within the brackets [] of an Object is a powerful way to dynamically get information. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var counts\ncounts = { \"power\": 1, \"take\": 2, \"sleep\": 3 }\n\nvar x\nx = ???\n\nreturn counts[x]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var counts counts = { \"power\": 1, \"take\": 2, \"sleep\": 3 } var x x = \"power\" return counts[x]",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();"
+			],
+			"messages": {
+				"instructions": "Since opponents[4].action is equivalent to the String \"sleep\", change counts[\"sleep\"] to counts[ opponents[4].action ]. (This is like the var x from the previous step.)",
+				"error": "Since bot_4 is performing \"sleep\", the desired response should be 1, not 0. Change the return value to counts[ opponents[4].action ] + 1. (Make sure all 5 opponents still exist within the arena.)",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\nreturn counts[\"sleep\"]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } return counts[ opponents[4].action ] + 1",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "In order to capture the data of each robot, the information within the counts Object must change, not just the return value. Below, set counts[ opponents[4].action ] equal to itself, plus 1.",
+				"error": "The code should include counts[ opponents[4].action ] = counts[ opponents[4].action ] + 1, which updates the value from 0 to 1.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\n\n//set counts[ opponents[4].action ] equal to itself + 1 below\ncounts[ opponents[4].action ] = ???\nreturn counts[ opponents[4].action ]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } counts[ opponents[4].action ] = counts[ opponents[4].action ] + 1 return counts[ opponents[4].action ]",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Now the function copyBot() must do the same for all other opponents. This will collect all the data necessary. Then, in the arena, set the action of bot_0, bot_1, bot_2, and bot_3 all to \"take\".",
+				"error": "If the .action of all 5 opponents are being added to the counts Object, the return value of counts.take should be 4.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\n\ncounts[ opponents[0].action ] = counts[ opponents[0].action ] + 1\ncounts[ opponents[1].action ] = ???\ncounts[ opponents[2].action ] = ???\ncounts[ opponents[3].action ] = ???\ncounts[ opponents[4].action ] = counts[ opponents[4].action ] + 1\n\nreturn counts.take",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } counts[ opponents[0].action ] = counts[ opponents[0].action ] + 1 counts[ opponents[1].action ] = counts[ opponents[1].action ] + 1 counts[ opponents[2].action ] = counts[ opponents[2].action ] + 1 counts[ opponents[3].action ] = counts[ opponents[3].action ] + 1 counts[ opponents[4].action ] = counts[ opponents[4].action ] + 1 return counts.take",
+				"output": "4"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "This is tedious. Luckily, Javascript provides an increment operator as a shortcut: example++ is equivalent to example = example + 1. Below, change each to use the shortcut.",
+				"error": "The return value should be the same, but the code should be shorter using counts[ opponents[0].action ]++, etc.",
+				"success": "Success. (Using a for  in loop or a while loop would be even more efficient.) Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\n\ncounts[ opponents[0].action ]++\ncounts[ opponents[1].action ] = counts[ opponents[1].action ] + 1\ncounts[ opponents[2].action ] = counts[ opponents[2].action ] + 1\ncounts[ opponents[3].action ] = counts[ opponents[3].action ] + 1\ncounts[ opponents[4].action ] = counts[ opponents[4].action ] + 1\n\nreturn counts.take",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } counts[ opponents[0].action ]++ counts[ opponents[1].action ]++ counts[ opponents[2].action ]++ counts[ opponents[3].action ]++ counts[ opponents[4].action ]++ return counts.take",
+				"output": "4"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "Now the function copyBot() knows how many times each action was performed by opponents, stored by the counts Object. But how to get that list of actions? Below, return Object.keys() to get a list of the keys of the human Object.",
+				"error": "Make sure to return Object.keys(human) to get the keys of the human Object.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var human\nhuman = { \"first\": \"Sam\", \"last\": \"Humanson\", \"age\": 100 }\n\nreturn ???",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var human human = { \"first\": \"Sam\", \"last\": \"Humanson\", \"age\": 100 } return Object.keys(human)",
+				"output": "first,last,age"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();"
+			],
+			"messages": {
+				"instructions": "The function copyBot() can use Object.keys() to return the list of actions. Make Object.keys(counts) the return value below.",
+				"error": "Get the list of keys using Object.keys(counts).",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\n\ncounts[ opponents[0].action ]++\ncounts[ opponents[1].action ]++\ncounts[ opponents[2].action ]++\ncounts[ opponents[3].action ]++\ncounts[ opponents[4].action ]++\n\nreturn ???",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } counts[ opponents[0].action ]++ counts[ opponents[1].action ]++ counts[ opponents[2].action ]++ counts[ opponents[3].action ]++ counts[ opponents[4].action ]++ return Object.keys(counts)",
+				"output": "power,take,sleep"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide();",
+				"$('#inputs').closest('.field_frame').hide();"
+			],
+			"messages": {
+				"instructions": "Ultimately, the goal is to return only one of these actions: the action most opponents took. This will require using .sort() to order the list. Below, return list.sort() instead of list.",
+				"error": "Make sure to return list.sort() instead.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var list\nlist = [\"a\",\"d\",\"c\",\"e\",\"b\"]\nreturn list",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var list list = [\"a\",\"d\",\"c\",\"e\",\"b\"] return list.sort()",
+				"output": "a,b,c,d,e"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "The .sort() function will arrange items alphabetically. But a custom function within .sort() opens up more possibilities. Below, change .??? to .length to sort by the .length of each String.",
+				"error": "This .sort() orders the list based on the .length of each String by comparing them 2 at a time (with x and y placeholders). Select the function next(); to continue.",
+				"success": "This .sort() orders the list based on the .length of each String by comparing them 2 at a time (with x and y placeholders). Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var list\nlist = [\"aaa\",\"dd\",\"ccccc\",\"eeee\",\"b\"]\n\nlist.sort(function(x,y) {\n  return x.??? - y.???\n})\n\nreturn list",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var list list = [\"aaa\",\"dd\",\"ccccc\",\"eeee\",\"b\"] list.sort(function(x,y) { return x.length - y.length }) return list",
+				"output": "b,dd,aaa,eeee,ccccc"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Presently, the .sort() below orders ascending (from smallest to biggest). Flip x.length and y.length within the .sort() function to return a descending list.",
+				"error": "Inside the .sort() function should be return y.length - x.length.",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var list\nlist = [\"aaa\",\"dd\",\"ccccc\",\"eeee\",\"b\"]\n\nlist.sort(function(x,y) {\n  return x.length - y.length\n})\n\nreturn list",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var list list = [\"aaa\",\"dd\",\"ccccc\",\"eeee\",\"b\"] list.sort(function(x,y) { return y.length - x.length }) return list",
+				"output": "ccccc,eeee,aaa,dd,b"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show();",
+				"$('#inputs').closest('.field_frame').show();"
+			],
+			"messages": {
+				"instructions": "Finally, the function copyBot() will use .sort() to order the keys obtained from Object.keys(). Below, change the .sort() function to judge based on the value of that key within the counts Object: counts[x] - counts[y].",
+				"error": "Use the .sort() function to order the keys ascending based on counts[x] - counts[y].",
+				"success": "Success. Select the function next(); to continue."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\n\ncounts[ opponents[0].action ]++\ncounts[ opponents[1].action ]++\ncounts[ opponents[2].action ]++\ncounts[ opponents[3].action ]++\ncounts[ opponents[4].action ]++\n\nvar keys\nkeys = Object.keys(counts)\nkeys.sort(function(x,y) {\n  return ???\n})\n\nreturn keys",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } counts[ opponents[0].action ]++ counts[ opponents[1].action ]++ counts[ opponents[2].action ]++ counts[ opponents[3].action ]++ counts[ opponents[4].action ]++ var keys keys = Object.keys(counts) keys.sort(function(x,y) { return counts[x] - counts[y] }) return keys",
+				"output": "power,sleep,take"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Instead of the entire keys Array, return only the key corresponding to the largest Number. Change from an ascending .sort() to a descending .sort() by swapping counts[x] and counts[y].",
+				"error": "After changing the .sort() function to counts[y] - counts[x], change the return value so only the first item in the keys Array (the action performed by the most opponents) is returned.",
+				"success": "Success. Now the function copybot() will return the .action performed by the most opponents each round. Select the function next(); to complete the tutorial."
+			},
+			"start": {
+				"inputs": "opponents",
+				"code": "var counts\ncounts = { \"power\": 0, \"take\": 0, \"sleep\": 0 }\n\ncounts[ opponents[0].action ]++\ncounts[ opponents[1].action ]++\ncounts[ opponents[2].action ]++\ncounts[ opponents[3].action ]++\ncounts[ opponents[4].action ]++\n\nvar keys\nkeys = Object.keys(counts)\nkeys.sort(function(x,y) {\n  return counts[x] - counts[y]\n})\n\nreturn keys",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents",
+				"code": "var counts counts = { \"power\": 0, \"take\": 0, \"sleep\": 0 } counts[ opponents[0].action ]++ counts[ opponents[1].action ]++ counts[ opponents[2].action ]++ counts[ opponents[3].action ]++ counts[ opponents[4].action ]++ var keys keys = Object.keys(counts) keys.sort(function(x,y) { return counts[y] - counts[x] }) return keys[0]",
+				"output": "take"
+			}
+		}
+	]
+}
