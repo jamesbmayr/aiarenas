@@ -78,22 +78,24 @@
 					content;
 				}
 				else {
-					var content = '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
-						<div class="bracketer_top"><span class="whitetext">.overview</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
-						<div class="megasection">\
-							<div class="section indented whitetext">';
+					if (session.human.tutorials.length >= 5) {
+						var content = '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
+							<div class="bracketer_top"><span class="whitetext">.overview</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
+							<div class="megasection">\
+								<div class="section indented whitetext">';
 
-					var string = "";
-					var tutorials = ["takeBot","checkBot","primaryBot","secondaryBot","responsiveBot"];
-					for (var i = 0; i < tutorials.length; i++) {
-						string += "{<a class='bluetext' href='../../../../tutorials/" + tutorials[i] + "'>" + tutorials[i] + "</a><span class='whitetext'>: </span><span class='purpletext'>true</span>},<br>";
+						var string = "";
+						var tutorials = ["takeBot","checkBot","primaryBot","secondaryBot","responsiveBot"];
+						for (var i = 0; i < tutorials.length; i++) {
+							string += "{<a class='bluetext' href='../../../../tutorials/" + tutorials[i] + "'>" + tutorials[i] + "</a><span class='whitetext'>: </span><span class='purpletext'>true</span>},<br>";
+						}
+
+						content += (string.substring(string, string.length - 5) || "");
+						content += '</div></div>\
+							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 					}
 
-					content += (string.substring(string, string.length - 5) || "");
-					content += '</div></div>\
-						<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
-
-					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 0) && (session.human.tutorials.length > 4)) {
+					if (session.human.tutorials.length >= 5) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.beginner</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\
@@ -117,7 +119,7 @@
 							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 					}
 
-					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 0) && (session.human.tutorials.length > 9)) {
+					if (session.human.tutorials.length >= 10) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.intermediate</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\
@@ -141,7 +143,7 @@
 							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 					}
 					
-					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14) && (session.human.tutorials.length > 14)) {
+					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25) && (session.human.tutorials.length >= 15)) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.advanced</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\
@@ -165,7 +167,7 @@
 							<div class="bracketer_bottom"><span class="whitetext">]</span></div>';
 					}
 
-					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29) && (session.human.tutorials.length > 19)) {
+					if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50) && (session.human.tutorials.length >= 20)) {
 						content += '<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 						<div class="bracketer_top"><span class="whitetext">.expert</span><span class="redtext"> = </span><span class="whitetext">[</span></div>\
 						<div class="megasection">\

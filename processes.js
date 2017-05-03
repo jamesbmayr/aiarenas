@@ -442,10 +442,10 @@
 
 				//preset select
 					var options = "";
-					if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
+					if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
 						var presets = ["default", "simple", "deathmatch", "advanced", "intense", "scarcity", "random"];
 					}
-					else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
+					else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
 						var presets = ["default", "simple", "deathmatch", "advanced"]
 					}
 					else {

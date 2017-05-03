@@ -124,20 +124,20 @@
 
 						var points = Number(session.human.statistics.wins * 5) + Number(session.human.statistics.losses);
 
-						if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > 44)) {
+						if ((session.human.tutorials.length >= 25))) {
 							suggestions += '<li class="section indented"><span class="whitetext">send your <span class="code greentext">robots</span> into battle in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
 						}
-						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > 29)) {
+						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points >= 50)) {
 							suggestions += '<li class="section indented"><span class="whitetext">explore expert <span class="code greentext">robot</span> actions like [<span class="greentext">shock</span>, <span class="greentext">burn</span>, <span class="greentext">swaptake</span>] in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
 
 							suggestions += '<li class="section indented"><span class="whitetext">try expert <span class="code redtext">arena</span> presets like [<span class="yellowtext">intense</span>, <span class="yellowtext">scarcity</span>, <span class="yellowtext">random</span>] in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
 						}
-						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > 14)) {
+						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points >= 25)) {
 							suggestions += '<li class="section indented"><span class="whitetext">explore advanced <span class="code greentext">robot</span> actions like [<span class="greentext">halftake</span>, <span class="greentext">sap</span>, <span class="greentext">fliptake</span>] in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
 
 							suggestions += '<li class="section indented"><span class="whitetext">try advanced <span class="code redtext">arena</span> presets like [<span class="yellowtext">deathmatch</span>, <span class="yellowtext">advanced</span>, <span class="yellowtext">simple</span>] in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';
 						}
-						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points > -1)) {
+						else if ((session.human.tutorials.length > 0) && (session.human.robots.length > 0) && (points >= 0)) {
 							suggestions += '<li class="section indented"><span class="whitetext">explore beginner <span class="code greentext">robot</span> actions like [<span class="greentext">take</span>, <span class="greentext">power</span>, <span class="greentext">sleep</span>] in <a class="bluetext" href="../../../../tutorials">tutorials</a>;</span></li>';
 
 							suggestions += '<li class="section indented"><span class="whitetext">send your <span class="code greentext">robots</span> into battle in <a class="bluetext" href="../../../../arenas">arenas</a>;</span></li>';

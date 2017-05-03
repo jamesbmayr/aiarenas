@@ -27,10 +27,10 @@
 								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><select id="random_preset" class="orangetext">
 									<% 
 										var options = "";
-										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
+										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
 											var presets = ["default", "simple", "deathmatch", "advanced", "intense", "scarcity", "random"];
 										}
-										else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
+										else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
 											var presets = ["default", "simple", "deathmatch", "advanced"]
 										}
 										else {
@@ -48,10 +48,10 @@
 								<span class="whitetext">.</span><button id="create_arena" name="action" value="create_arena"><span class="greentext">create</span></button><span class="whitetext">(</span><select id="presets" class="orangetext">
 									<% 
 										var options = "";
-										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
+										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
 											var presets = ["default", "simple", "deathmatch", "advanced", "intense", "scarcity", "random", "custom"];
 										}
-										else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
+										else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
 											var presets = ["default", "simple", "deathmatch", "advanced", "custom"]
 										}
 										else {
@@ -213,10 +213,10 @@
 						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a robot powers, how much does its power increase?</span></summary></details></span><br>
 						<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
 							var options = "";
-							if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
+							if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
 								var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
 							}
-							else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
+							else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 15)) {
 								var values = ["power","take","sleep","sap","halftake","fliptake"];
 							}
 							else {

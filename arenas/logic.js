@@ -239,10 +239,10 @@
 			}
 		}
 
-		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
+		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
 			callback({success: false, messages: {navbar: "//unable to create arena; actions too advanced", top: "//unable to create arena; actions too advanced"}});
 		}
-		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
+		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 50) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
 			callback({success: false, messages: {navbar: "//unable to create arena; actions too expert", top: "//unable to create arena; actions too expert"}});
 		}
 		else {
@@ -348,10 +348,10 @@
 					else if (arena.humans.indexOf(session.human.id) > -1) {
 						callback({success: false, messages: {navbar: "//arena already contains this human", top: "//arena already contains this human"}});
 					}
-					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((arena.rules.robots.actions.indexOf("sap") > -1) || (arena.rules.robots.actions.indexOf("halftake") > -1) || (arena.rules.robots.actions.indexOf("fliptake") > -1))) {
+					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((arena.rules.robots.actions.indexOf("sap") > -1) || (arena.rules.robots.actions.indexOf("halftake") > -1) || (arena.rules.robots.actions.indexOf("fliptake") > -1))) {
 						callback({success: false, messages: {navbar: "//unable to join arena; actions too advanced", top: "//unable to join arena; actions too advanced"}});
 					}
-					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((arena.rules.robots.actions.indexOf("shock") > -1) || (arena.rules.robots.actions.indexOf("burn") > -1) || (arena.rules.robots.actions.indexOf("swaptake") > -1))) {
+					else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 50) && ((arena.rules.robots.actions.indexOf("shock") > -1) || (arena.rules.robots.actions.indexOf("burn") > -1) || (arena.rules.robots.actions.indexOf("swaptake") > -1))) {
 						callback({success: false, messages: {navbar: "//unable to join arena; actions too expert", top: "//unable to join arena; actions too expert"}});
 					}
 					else {
@@ -375,10 +375,10 @@
 	function random(session, post, callback) {
 		var parameters = JSON.parse(post.data);
 
-		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 15) && ((parameters.preset === "simple") || (parameters.preset === "deathmatch") || (parameters.preset === "advanced"))) {
+		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((parameters.preset === "simple") || (parameters.preset === "deathmatch") || (parameters.preset === "advanced"))) {
 			callback({success: false, messages: {navbar: "//unable to join arena; preset too advanced", top: "//unable to join arena; preset too advanced"}});
 		}
-		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 30) && ((parameters.preset === "intense") || (parameters.preset === "scarcity") || (parameters.preset === "random"))) {
+		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 50) && ((parameters.preset === "intense") || (parameters.preset === "scarcity") || (parameters.preset === "random"))) {
 			callback({success: false, messages: {navbar: "//unable to join arena; preset too expert", top: "//unable to join arena; preset too expert"}});
 		}
 		else {

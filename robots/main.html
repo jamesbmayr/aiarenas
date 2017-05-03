@@ -105,16 +105,8 @@
 								},</span><br>
 								<span class="whitetext">action:</span><select class="greentext action"><%
 									var options = "";
-									if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
-										var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
-									}
-									else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
-										var values = ["power","take","sleep","sap","halftake","fliptake"];
-									}
-									else {
-										var values = ["power", "take", "sleep"];
-									}
-
+									var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
+									
 									for (var i = 0; i < values.length; i++) {
 										options += "<option value='" + values[i] + "'>" + values[i] + "</option>";										
 									}
@@ -294,15 +286,8 @@
 							%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a robot powers, how much does its power increase?</span></summary></details></span><br>
 							<span class="whitetext">actions: [</span><span id="robots_actions" class="whitetext"><% 
 								var options = "";
-								if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 29)) {
-									var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
-								}
-								else if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) > 14)) {
-									var values = ["power","take","sleep","sap","halftake","fliptake"];
-								}
-								else {
-									var values = ["power", "take", "sleep"];
-								}
+								var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
+								
 								for (var i = 0; i < values.length; i++) {
 									options += " <input type='checkbox' value='" + values[i] + "' id='robots_actions_" + values[i] + "'/> <label for='robots_actions_" + values[i] + "' class='greentext'>" + values[i] + "<span class='whitetext'>()</span></label>,";
 								}
