@@ -34,12 +34,12 @@
 
 										options;
 									%>
-								</select><span class="whitetext">);</span>
+								</select><span class="whitetext">)</span>
 							</form>
 						</div>
 						<div class="section">
 							<form method='post' action='javascript:;' onsubmit='window.robot_save();'>
-								<button id='workshop_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>
+								<button id='workshop_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>()</span></button>
 							</form>
 						</div>
 					</div>
@@ -81,7 +81,7 @@
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				<div class="section">
 					<form method="post" action="javascript:;" onsubmit="window.eval_code();">
-						<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext robot_name"></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span> <span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><li><span class="code greentext">power</span>: increment the robot's power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round's cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span>
+						<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext robot_name"></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><li><span class="code greentext">power</span>: increment the robot's power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round's cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span>
 					</form>
 				</div>
 				<details class="graytext"><summary>//console</summary><div id="console"></div></details>

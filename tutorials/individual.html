@@ -23,12 +23,12 @@
 					</div>
 					<div class="indented">
 						<div class="section">
-							<span class="whitetext">.steps[<span class="purpletext" id="step" value="0">0</span><span class="whitetext">];</span> <span class="graytext">//<span id="instructions"><% (data.overview || '') + '; select <span class="whitetext">.<span class="greentext">next</span>();</span> to continue...'; %></span>
+							<span class="whitetext">.steps[<span class="purpletext" id="step" value="0">0</span><span class="whitetext">]</span> <span class="graytext">//<span id="instructions"><% (data.overview || '') + '; select <span class="whitetext">.<span class="greentext">next</span>()</span> to continue...'; %></span>
 						</div>
 						<div class="section">
 							<a id='exit' style="display: none" href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>exit</span></a>
 							<form method="post" action="javascript:;" onsubmit="window.next_step();">
-								<button class="whitetext" id="next_step" name="action" value="next_step">.<span class="greentext">next</span>();</button>
+								<button class="whitetext" id="next_step" name="action" value="next_step">.<span class="greentext">next</span>()</button>
 							</form>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<div class="section">
 						<form method="post" action="javascript:;" onsubmit="window.eval_code();">
-							<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext"><% data.name %></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span><span class="whitetext">;</span>
+							<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext"><% data.name %></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span>
 						</form>
 					</div>
 					<details class="graytext"><summary>//console</summary><div id="console"></div></details>

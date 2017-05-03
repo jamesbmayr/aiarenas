@@ -311,7 +311,7 @@
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="{**}">{**}</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HHHHH">HHHHH</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="{**}">{**}</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" /] [\\ "> /] [\\ </span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="MWM">MWM</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="MWM">MWM</span><span class="transparenttext">••••</span>\n\
-<form action="javascript:;" onsubmit="window.remove_opponent(this);"> <span class="bluetext">bot_' + opponentCount + '</span><span class="whitetext">.</span><button class="whitetext" name="action" value="remove_opponent"><span class="greentext">remove</span>();</button></form></pre>\
+<form action="javascript:;" onsubmit="window.remove_opponent(this);"> <span class="bluetext">bot_' + opponentCount + '</span><span class="whitetext">.</span><button class="whitetext" name="action" value="remove_opponent"><span class="greentext">remove</span>()</button></form></pre>\
  				</div>');
 			}
 
@@ -323,7 +323,7 @@
 
 			window.add_cube = function() {
 				var color = $("#cube_color").val();
-				$("#cubes").append("<div class='cube_outer " + color + "back'><div class='cube_inner whitetext'>" + color + "<br><form action='javascript:;' onsubmit='window.remove_cube(this);'><span class='whitetext'>.</span><button class='whitetext' name='action' value='remove_cube'>x();</button></form></div></div>");
+				$("#cubes").append("<div class='cube_outer " + color + "back'><div class='cube_inner whitetext'>" + color + "<br><form action='javascript:;' onsubmit='window.remove_cube(this);'><span class='whitetext'>.</span><button class='whitetext' name='action' value='remove_cube'>x()</button></form></div></div>");
 			}
 
 			window.remove_cube = function(button) {

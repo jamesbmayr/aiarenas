@@ -45,7 +45,7 @@
 					losses: 0,
 				},
 				inputs: "",
-				code: "action = \"sleep\";\nreturn action;"
+				code: "action = \"sleep\"\nreturn action"
 			}
 
 			processes.store("robots", null, robot, function(robot) {

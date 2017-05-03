@@ -4,20 +4,20 @@
 	"steps": [
 		{
 			"commands": [
-				"$('#workshop').hide();",
-				"$('#arena').hide();"
+				"$('#workshop').hide()",
+				"$('#arena').hide()"
 			]
 		},
 		{
 			"commands": [
-				"$('#workshop').show();",
-				"$('#console').closest('details').hide();",
-				"$('#arena').show();",
-				"$('#cubes_outer').hide();",
-				"$('#rules_outer').hide();",
-				"$('#robots').closest('.megasection').show();",
+				"$('#workshop').show()",
+				"$('#console').closest('details').hide()",
+				"$('#arena').show()",
+				"$('#cubes_outer').hide()",
+				"$('#rules_outer').hide()",
+				"$('#robots').closest('.megasection').show()",
 				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
-				"$('#add_opponent').closest('.section').hide();",
+				"$('#add_opponent').closest('.section').hide()",
 				"$('.self').find('.power').val(7);",
 				"$('.self').find('.cubes_red').val(3);",
 				"$('.self').find('.cubes_orange').val(2);",
@@ -29,7 +29,7 @@
 			"messages": {
 				"instructions": "The function collectorBot() uses a simple strategy: it tries to obtain 1 cube of each color. Complete the pattern to return false if the robot has 0 cubes of any color.",
 				"error": "Make sure to type an else if block for yellow, green, blue, and purple. The return value should be false.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -55,7 +55,7 @@
 			"messages": {
 				"instructions": "Repetitive code is bad code. Also, repetitive code is bad code. But the function collectorBot() can loop through these colors using a for  in loop. Add green, blue, and purple to the colors Array.",
 				"error": "Just add \"green\",\"blue\",\"purple\" to the colors Array.",
-				"success": "Success. How does for  in work? Select the function next(); to continue."
+				"success": "Success. How does for  in work? Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -70,13 +70,13 @@
 		},
 		{
 			"commands": [
-				"$('#arena').hide();",
-				"$('#inputs').closest('.field_frame').hide();"
+				"$('#arena').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
 			],
 			"messages": {
 				"instructions": "Code inside a for  in loop will run for every index in the Array, looping through until it has done every index, or until the outside function has hit a return statement.",
-				"error": "Note that within for (x in numbers), numbers is the Array defined externally, but x is a placeholder. Many coders use i (meaning \"index\") but it can be anything. Select the function next(); to continue.",
-				"success": "Note that within for (x in numbers), numbers is the Array defined externally, but x is a placeholder. Many coders use i (meaning \"index\") but it can be anything. Select the function next(); to continue."
+				"error": "Note that within for (x in numbers), numbers is the Array defined externally, but x is a placeholder. Many coders use i (meaning \"index\") but it can be anything. Select the function next() to continue.",
+				"success": "Note that within for (x in numbers), numbers is the Array defined externally, but x is a placeholder. Many coders use i (meaning \"index\") but it can be anything. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -94,8 +94,8 @@
 			],
 			"messages": {
 				"instructions": "An alternative to the for  in loop is the while loop. With a while loop, the index is defined externally, and a condition is used, much like an if block. (But unless the condition eventually changes from true to false, the loop will continue forever, and the website may freeze.)",
-				"error": "With the for  in loop, x increases automatically. With a while loop, the counter or index must be defined externally and incremented within the loop. Plus, a condition must be set to eventually turn false; otherwise, the loop will run forever and crash. Select the function next(); to continue.",
-				"success": "With the for  in loop, x increases automatically. With a while loop, the counter or index must be defined externally and incremented within the loop. Plus, a condition must be set to eventually turn false; otherwise, the loop will run forever and crash. Select the function next(); to continue."
+				"error": "With the for  in loop, x increases automatically. With a while loop, the counter or index must be defined externally and incremented within the loop. Plus, a condition must be set to eventually turn false; otherwise, the loop will run forever and crash. Select the function next() to continue.",
+				"success": "With the for  in loop, x increases automatically. With a while loop, the counter or index must be defined externally and incremented within the loop. Plus, a condition must be set to eventually turn false; otherwise, the loop will run forever and crash. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -110,8 +110,8 @@
 		},
 		{
 			"commands": [
-				"$('#arena').show();",
-				"$('#inputs').closest('.field_frame').show();",
+				"$('#arena').show()",
+				"$('#inputs').closest('.field_frame').show()",
 				"$('.self').find('.power').val(7);",
 				"$('.self').find('.cubes_red').val(3);",
 				"$('.self').find('.cubes_orange').val(2);",
@@ -123,7 +123,7 @@
 			"messages": {
 				"instructions": "Complete the while loop to achieve the same result as the earlier for  in loop. Set the condition carefully or the loop may freeze up the website.",
 				"error": "Start x at 0 and continue while x < colors.length.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -145,16 +145,16 @@
 				"$('.self').find('.cubes_green').val(1);",
 				"$('.self').find('.cubes_blue').val(2);",
 				"$('.self').find('.cubes_purple').val(0);",
-				"$('#cubes_outer').show();",
-				"$('#cubes').closest('.megasection').show();",
+				"$('#cubes_outer').show()",
+				"$('#cubes').closest('.megasection').show()",
 				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
-				"$('#add_cube').closest('.section').hide();",
+				"$('#add_cube').closest('.section').hide()",
 				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');"
 			],
 			"messages": {
 				"instructions": "The function collectorBot() should return \"take\" only if it has 0 cubes of the color present inside the arena. Below, finish the if and else block to return \"take\" and \"power\" under the correct circumstances.",
 				"error": "Remember, return \"take\" if self.cubes[color] == 0 and \"power\" otherwise.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self, allCubes",
@@ -176,7 +176,7 @@
 				"$('.self').find('.cubes_green').val(1);",
 				"$('.self').find('.cubes_blue').val(2);",
 				"$('.self').find('.cubes_purple').val(0);",
-				"$('.cube_outer').remove();",
+				"$('.cube_outer').remove()",
 				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
 				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green</div></div>');",
 				"$('#cubes').append('<div class=\"cube_outer purpleback\"><div class=\"cube_inner whitetext\">purple</div></div>');"
@@ -184,7 +184,7 @@
 			"messages": {
 				"instructions": "That works fine when there is 1 cube, but what about multiple cubes? This is where loops are useful. Enclose the if block within a for  in loop to check every cube.",
 				"error": "Make sure to check for every color in the allCubes Array.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self, allCubes",
@@ -206,7 +206,7 @@
 				"$('.self').find('.cubes_green').val(1);",
 				"$('.self').find('.cubes_blue').val(2);",
 				"$('.self').find('.cubes_purple').val(0);",
-				"$('.cube_outer').remove();",
+				"$('.cube_outer').remove()",
 				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>');",
 				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green</div></div>');",
 				"$('#cubes').append('<div class=\"cube_outer purpleback\"><div class=\"cube_inner whitetext\">purple</div></div>');"
@@ -214,7 +214,7 @@
 			"messages": {
 				"instructions": "Now redo it using a while loop. Complete the while loop by fixing each ??? below.",
 				"error": "Make sure to check for every color in the allCubes Array.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self, allCubes",
@@ -229,13 +229,13 @@
 		},
 		{
 			"commands": [
-				"$('#arena').hide();",
-				"$('#workshop').hide();"
+				"$('#arena').hide()",
+				"$('#workshop').hide()"
 			],
 			"messages": {
-				"instructions": "Ultimately, for  in loops and while loops can accomplish the same things. There are other types of loops as well, such as for, for of, and .forEach; use whichever loop is personally preferable. Select the function next(); to complete the tutorial.",
-				"error": "Select the function next(); to complete the tutorial.",
-				"success": "Select the function next(); to complete the tutorial."
+				"instructions": "Ultimately, for  in loops and while loops can accomplish the same things. There are other types of loops as well, such as for, for of, and .forEach; use whichever loop is personally preferable. Select the function next() to complete the tutorial.",
+				"error": "Select the function next() to complete the tutorial.",
+				"success": "Select the function next() to complete the tutorial."
 			},
 			"start": {
 				"inputs": "",

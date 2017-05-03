@@ -23,27 +23,27 @@
 							if ((session.human !== null) && (session.human.id === data.human.id)) {
 								"<div class='megasection'><div class='section'>\
 									<form method='post' action='javascript:;' onsubmit='window.robot_edit();'>\
-										<button id='robot_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+										<button id='robot_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>()</span></button>\
 									</form>\
 								</div>\
 								<div class='section'>\
 									<form method='post' action='javascript:;' onsubmit='window.robot_save();'>\
-										<button id='robot_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+										<button id='robot_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>()</span></button>\
 									</form>\
 								</div>\
 								<div class='section'>\
 									<form method='post' action='javascript:;' onsubmit='window.robot_confirm_delete();'>\
-										<button id='robot_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>();</span></button>\
+										<button id='robot_confirm_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>confirm_delete</span><span class='whitetext'>()</span></button>\
 									</form>\
 								</div>\
 								<div class='section'>\
 									<form method='post' action='javascript:;' onsubmit='window.robot_cancel();'>\
-										<button id='robot_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+										<button id='robot_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>()</span></button>\
 									</form>\
 								</div>\
 								<div class='section'>\
 									<form method='post' action='javascript:;' onsubmit='window.robot_delete();'>\
-										<button id='robot_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>();</span></button>\
+										<button id='robot_delete' style='display: none'><span class='whitetext'>.</span><span class='greentext'>delete</span><span class='whitetext'>()</span></button>\
 									</form>\
 								</div></div>";
 							}
@@ -308,7 +308,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="bracketer_bottom"><span class="whitetext">};</span><span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><li><span class="code greentext">power</span>: increment the robot's power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round's cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span></div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span><span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><li><span class="code greentext">power</span>: increment the robot's power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round's cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span></div>
 			</div>
 		</div>
 	</body>

@@ -24,17 +24,17 @@
 								"<div class='megasection'>\
 									<div class='section'>\
 										<form method='post' action='javascript:;' onsubmit='window.human_edit();'>\
-											<button id='human_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>();</span></button>\
+											<button id='human_edit'><span class='whitetext'>.</span><span class='greentext'>edit</span><span class='whitetext'>()</span></button>\
 										</form>\
 									</div>\
 									<div class='section'>\
 										<form method='post' action='javascript:;' onsubmit='window.human_save();'>\
-											<button id='human_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>();</span></button>\
+											<button id='human_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>()</span></button>\
 										</form>\
 									</div>\
 									<div class='section'>\
 										<form method='post' action='javascript:;' onsubmit='window.human_cancel();'>\
-											<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>();</span></button>\
+											<button id='human_cancel' style='display: none'><span class='whitetext'>.</span><span class='greentext'>cancel</span><span class='whitetext'>()</span></button>\
 										</form>\
 									</div>\
 									<div class='section'>\
@@ -88,7 +88,7 @@
 									<option value="var(--blue)">blue</option>\
 									<option value="var(--purple)">purple</option>\
 									<option value="var(--gray)">gray</option>\
-								</select><span class="whitetext">;</span>\
+								</select><span class="whitetext"></span>\
 							</div>';
 
 							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");

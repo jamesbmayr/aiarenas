@@ -42,7 +42,7 @@
 										"null";
 									}
 								}
-							%></span><span class="whitetext">;</span>
+							%></span>
 						</div>
 						<div class="section" id="pauseDetails" <% if ((data.state.pauseFrom === null) || (data.state.pauseTo === null) || (data.state.pauseFrom > timeNow) || (data.state.pauseTo < timeNow)) { "style='display: none;'";} %>>
 							<span class="whitetext">.pauseRemaining</span><span class="redtext"> = </span><span id="pause" class="purpletext"><% 
@@ -52,7 +52,7 @@
 							else {
 								"null";
 							}
-							%></span><span class="whitetext">;</span>
+							%></span>
 						</div>
 						<% 
 							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && ((data.state.start === null) || (data.state.start > timeNow))) {
@@ -68,25 +68,25 @@
 
 
 									string += '<form id="selection_form" method="post" action="javascript:;" onsubmit="window.select_robot();">\
-										<span class="whitetext">.</span><button id="select_robot" name="action" value="select_robot"><span class="greentext">select</span></button><span class="whitetext">(</span><select class="whitetext" id="robot_selection">' + options + '</select><span class="whitetext">);</span>\
+										<span class="whitetext">.</span><button id="select_robot" name="action" value="select_robot"><span class="greentext">select</span></button><span class="whitetext">(</span><select class="whitetext" id="robot_selection">' + options + '</select><span class="whitetext">)</span>\
 										</form>';
 								}
 
 								if (data.humans[0] === session.human.id) {
 									string += '<form id="launch_form" method="post" action="javascript:;" onsubmit="window.launch_arena();">\
-										<span class="whitetext">.</span><button id="launch_arena" name="action" value="launch_arena"><span class="greentext">launch</span></button><span class="whitetext">();</span>\
+										<span class="whitetext">.</span><button id="launch_arena" name="action" value="launch_arena"><span class="greentext">launch</span></button><span class="whitetext">()</span>\
 									</form>';
 								}
 
 								if ((data.humans[0] === session.human.id) && (data.state.end === null)) {
 									string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
-										<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">();</span>\
+										<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">()</span>\
 									</form>';
 								}
 
 								if (data.state.end === null) {
 									string += '<form id="leave_form" method="post" action="javascript:;" onsubmit="window.leave_arena();">\
-										<span class="whitetext">.</span><button id="leave_arena" name="action" value="leave_arena"><span class="greentext">leave</span></button><span class="whitetext">();</span>\
+										<span class="whitetext">.</span><button id="leave_arena" name="action" value="leave_arena"><span class="greentext">leave</span></button><span class="whitetext">()</span>\
 									</form>';
 								}
 
@@ -94,7 +94,7 @@
 							}
 							else if ((session.human !== null) && (data.state.start === null)) {
 								'<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();">\
-									<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">();</span>\
+									<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">()</span>\
 								</form>';
 							}
 						%>
@@ -114,7 +114,7 @@
 									}
 								%>
 							</span>
-						<span class="whitetext">];</span>
+						<span class="whitetext">]</span>
 					</div>
 					</div>
 					<hr>
@@ -180,7 +180,7 @@
 								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 									'<div class="section indented">\
 										<form id="save_form" method="post" action="javascript:;" onsubmit="window.robot_save();">\
-											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">();</span></button>\
+											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">()</span></button>\
 										</form>\
 									</div> <span class="message graytext"></span>\
 									<div class="section indented">\
@@ -407,12 +407,12 @@
 
 						if ((data.humans[0] === session.human.id) && (data.state.end === null)) {
 							string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
-								<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">();</span>\
+								<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">()</span>\
 							</form>';
 						}
 
 						string += '<form id="leave_form" method="post" action="javascript:;" onsubmit="window.leave_arena();">\
-							<span class="whitetext">.</span><button id="leave_arena" name="action" value="leave_arena"><span class="greentext">leave</span></button><span class="whitetext">();</span>\
+							<span class="whitetext">.</span><button id="leave_arena" name="action" value="leave_arena"><span class="greentext">leave</span></button><span class="whitetext">()</span>\
 						</form>';
 
 						string += '</div>';

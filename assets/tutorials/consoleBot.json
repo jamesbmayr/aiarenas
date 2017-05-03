@@ -4,20 +4,20 @@
 	"steps": [
 		{
 			"commands": [
-				"$('#workshop').hide();",
-				"$('#arena').hide();"
+				"$('#workshop').hide()",
+				"$('#arena').hide()"
 			]
 		},
 		{
 			"commands": [
-				"$('#workshop').show();",
-				"$('#inputs').closest('.field_frame').hide();",
-				"$('#console').closest('details').hide();"
+				"$('#workshop').show()",
+				"$('#inputs').closest('.field_frame').hide()",
+				"$('#console').closest('details').hide()"
 			],
 			"messages": {
 				"instructions": "No code is perfect the first time (except ai_arenas itself; All Hail The Architect). Comments are a good way to help organize the code.",
 				"error": "Keep the code the same; just change the comments.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -32,12 +32,12 @@
 		},
 		{
 			"commands": [
-				"$('#console').closest('details').show();"
+				"$('#console').closest('details').show()"
 			],
 			"messages": {
 				"instructions": "The console is also helpful when writing code. It can be used to .log messages as the code eval()uates.",
 				"error": "No code changes; just eval()uate what was there.",
-				"success": "Success. Note how the console also gives the line number of each .log message. Select the function next(); to continue."
+				"success": "Success. Note how the console also gives the line number of each .log message. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -55,8 +55,8 @@
 			],
 			"messages": {
 				"instructions": "The console is useful for following how the code is eval()uated, especially how var values change.",
-				"error": "Trying to subtract 2 from the String \"purple\" is not possible, so it returns NaN (Not a Number). With console.log, it is easy to see why. Select the function next(); to continue.",
-				"success": "Trying to subtract 2 from the String \"purple\" is not possible, so it returns NaN (Not a Number). With console.log, it is easy to see why. Select the function next(); to continue."
+				"error": "Trying to subtract 2 from the String \"purple\" is not possible, so it returns NaN (Not a Number). With console.log, it is easy to see why. Select the function next() to continue.",
+				"success": "Trying to subtract 2 from the String \"purple\" is not possible, so it returns NaN (Not a Number). With console.log, it is easy to see why. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -75,7 +75,7 @@
 			"messages": {
 				"instructions": "Sometimes the code will cause an Error and it will not eval()uate properly. The console will explain why.",
 				"error": "Here, the var y is not defined, so there is no value to return. Change it to x.",
-				"success": "Fixed. Select the function next(); to continue."
+				"success": "Fixed. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -94,7 +94,7 @@
 			"messages": {
 				"instructions": "To avoid crashes, Javascript includes a try block and a catch block, similar to if and else blocks. The try block will eval()uate until there is an Error. Then the catch block will activate.",
 				"error": "Within the catch block, return the Error.",
-				"success": "Success... sort of. Select the function next(); to continue."
+				"success": "Success... sort of. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -113,7 +113,7 @@
 			"messages": {
 				"instructions": "If the function uses the Error as a return value, it cannot continue. Instead, use console.log to note that Error but continue eval()uating code.",
 				"error": "Make sure to return x, which is 2, not the Error.",
-				"success": "Success. Using try and catch avoids crashing due to an Error. Select the function next(); to continue."
+				"success": "Success. Using try and catch avoids crashing due to an Error. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -132,7 +132,7 @@
 			"messages": {
 				"instructions": "Here is a little secret. The console exists on every tutorial, just hidden. Use the code below to hide the console.",
 				"error": "Now unhide it. Change \"display: none\" to \"display: block\"",
-				"success": "Just add that line into any tutorial to start using the console. Select the function next(); to complete the tutorial."
+				"success": "Just add that line into any tutorial to start using the console. Select the function next() to complete the tutorial."
 			},
 			"start": {
 				"inputs": "",

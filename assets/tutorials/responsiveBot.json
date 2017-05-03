@@ -4,20 +4,20 @@
 	"steps": [
 		{
 			"commands": [
-				"$('#workshop').hide();",
-				"$('#arena').hide();"
+				"$('#workshop').hide()",
+				"$('#arena').hide()"
 			]
 		},
 		{
 			"commands": [
-				"$('#workshop').show();",
-				"$('#console').closest('details').hide();",
-				"$('#inputs').closest('.field_frame').hide();"
+				"$('#workshop').show()",
+				"$('#console').closest('details').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
 			],
 			"messages": {
 				"instructions": "A previous tutorial mentioned that single equals = is used to assign values. This is used on variables, which are like containers holding a value. Set the value of var x equal to 5.",
 				"error": "Use single equals = to assign the value 5 to the variable x.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -32,20 +32,20 @@
 		},
 		{
 			"commands": [
-				"$('#workshop').show();",
-				"$('#arena').show();",
-				"$('#cubes_outer').hide();",
-				"$('#rules_outer').hide();",
-				"$('#robots').closest('.megasection').show();",
+				"$('#workshop').show()",
+				"$('#arena').show()",
+				"$('#cubes_outer').hide()",
+				"$('#rules_outer').hide()",
+				"$('#robots').closest('.megasection').show()",
 				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
-				"$('#add_opponent').closest('.section').hide();",
+				"$('#add_opponent').closest('.section').hide()",
 				"$('.self').find('.power').val(0);",
-				"$('#inputs').closest('.field_frame').show();"
+				"$('#inputs').closest('.field_frame').show()"
 			],
 			"messages": {
 				"instructions": "In previous tutorialBots, determining the action was the final step of the code. Another approach is to set one action and change it if necessary. This can be done with a variable.",
 				"error": "Make sure to differentiate between a String (inside quotes) and a variable (without quotes).",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "power",
@@ -60,13 +60,13 @@
 		},
 		{
 			"commands": [
-				"$('#arena').hide();",
-				"$('#workshop').hide();"
+				"$('#arena').hide()",
+				"$('#workshop').hide()"
 			],
 			"messages": {
 				"instructions": "The power input always has a Number value. The allCubes input is always an Array comprised of String values. There is another data type: Object.",
-				"error": "Select the function next(); to continue.",
-				"success": "Select the function next(); to continue."
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -81,14 +81,14 @@
 		},
 		{
 			"commands": [
-				"$('#workshop').show();",
-				"$('#arena').show();",
+				"$('#workshop').show()",
+				"$('#arena').show()",
 				"$('.self').find('.power').val(7);"
 			],
 			"messages": {
 				"instructions": "The Object self is a powerful input containing information about the robot function using it. Replace the power input with self.",
 				"error": "Make no changes to the code. Instead, change the input to self. (The power should be 7.)",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "power",
@@ -114,7 +114,7 @@
 			"messages": {
 				"instructions": "Dot notation can be used to find values assigned to various Object properties. Below, return the number of red cubes the robot has.",
 				"error": "Now return the blue cubes; the blue property of the cubes property of the self Object. (It should be 3.)",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -140,7 +140,7 @@
 			"messages": {
 				"instructions": "Another way to access properties of an Object is with bracket notation. Use bracket notation to return the number of purple cubes.",
 				"error": "Now return the yellow cubes; the yellow property of the cubes property of the self Object. (It should be 1.)",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -166,7 +166,7 @@
 			"messages": {
 				"instructions": "Now it is time to combine these two ideas. Make the function responsiveBot() return \"take\" unless it has 0 power, or already has 3 red, yellow, or blue cubes.",
 				"error": "Change to bracket notation to return the same output.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -181,13 +181,13 @@
 		},
 		{
 			"commands": [
-				"$('#arena').hide();",
-				"$('#inputs').closest('.field_frame').hide();"
+				"$('#arena').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
 			],
 			"messages": {
 				"instructions": "Like with an Object, the values stored within an Array can also be accessed using bracket notation (but not dot notation). For an Array, use a Number to access the value at that .indexOf().",
 				"error": "Change the Number inside alphabet[1] to return the letter \"a\" instead.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
@@ -202,9 +202,9 @@
 		},
 		{
 			"commands": [
-				"$('#arena').show();",
-				"$('#inputs').closest('.field_frame').show();",
-				"$('#add_opponent').closest('.section').show();",
+				"$('#arena').show()",
+				"$('#inputs').closest('.field_frame').show()",
+				"$('#add_opponent').closest('.section').show()",
 				"$('.self').find('.power').val(7);",
 				"$('.self').find('.cubes_red').val(2);",
 				"$('.self').find('.cubes_orange').val(0);",
@@ -216,7 +216,7 @@
 			"messages": {
 				"instructions": "This game is not played alone. Add an opponent using the function add_opponent(), then add the Object opponents as another input.",
 				"error": "Make sure to add the opponents input. Keep the bot_0 power at 0.",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self",
@@ -242,7 +242,7 @@
 			"messages": {
 				"instructions": "The function responsiveBot() is cautious; fix the if block so it will not return \"take\" if the opponent has a higher power Number.",
 				"error": "Use dot notation to compare bot_0.power and self.power. The expected return value is \"take\".",
-				"success": "Success. Select the function next(); to continue."
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "self, opponents",
@@ -268,7 +268,7 @@
 			"messages": {
 				"instructions": "The exception to this strategy for function responsiveBot() is if the opponent has 5 cubes of a color, since it can win with 6. Add additional else if blocks to check how many cubes the opponent has.",
 				"error": "Change the opponent power and cubes until the function will return \"power\"",
-				"success": "Select the function next(); to complete the tutorial when ready or adjust the robot power and cubes some more."
+				"success": "Select the function next() to complete the tutorial when ready or adjust the robot power and cubes some more."
 			},
 			"start": {
 				"inputs": "self, opponents",

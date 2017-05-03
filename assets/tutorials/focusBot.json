@@ -4,8 +4,8 @@
 	"steps": [
 		{
 			"commands": [
-				"$('#workshop').hide();",
-				"$('#arena').hide();"
+				"$('#workshop').hide()",
+				"$('#arena').hide()"
 			]
 		},
 		{
@@ -14,7 +14,7 @@
 			"messages": {
 				"instructions": "",
 				"error": "",
-				"success": "Success. Select the function next(); to complete the tutorial."
+				"success": "Success. Select the function next() to complete the tutorial."
 			},
 			"start": {
 				"inputs": "name, firstRound, allCubes",
