@@ -1085,6 +1085,10 @@
 										sandbox.lastRound = arena.rounds[arena.rounds.length - 2];
 									break;
 
+									case "firstRound":
+										var firstRound = sandbox.rounds[0];
+									break;
+
 									case "robots":
 										sandbox.robots = arena.rounds[arena.rounds.length - 1].robots;
 									break;
@@ -1103,10 +1107,6 @@
 
 									case "self":
 										sandbox.self = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name});
-									break;
-
-									case "slot":
-										sandbox.slot = arena.rounds[arena.rounds.length - 1].robots.indexOf(arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}));
 									break;
 
 									case "power":
@@ -1131,6 +1131,14 @@
 
 									case "colors":
 										sandbox.colors = arena.rules.cubes.colors;
+									break;
+
+									case "actions":
+										var actions = sandbox.rules.robots.actions;
+									break;
+
+									case "conditions":
+										var conditions = sandbox.rules.victory.conditions;
 									break;
 								}
 							}

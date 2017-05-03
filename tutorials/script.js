@@ -266,6 +266,10 @@
 									var lastRound = sandbox.rounds[sandbox.rounds.length - 2];
 								break;
 
+								case "firstRound":
+									var firstRound = sandbox.rounds[0];
+								break;
+
 								case "robots":
 									var robots = sandbox.rounds[sandbox.rounds.length - 1].robots;
 								break;
@@ -284,10 +288,6 @@
 
 								case "self":
 									var self = sandbox.rounds[sandbox.rounds.length - 1].robots.find(function(robot) {return robot.name === sandbox.rounds[0].robots[0].name});
-								break;
-
-								case "slot":
-									var slot = sandbox.rounds[sandbox.rounds.length - 1].robots.indexOf(sandbox.rounds[sandbox.rounds.length - 1].robots.find(function(robot) {return robot.name === sandbox.rounds[0].robots[0].name}));
 								break;
 
 								case "power":
@@ -312,6 +312,14 @@
 
 								case "colors":
 									var colors = sandbox.rules.cubes.colors;
+								break;
+
+								case "actions":
+									var actions = sandbox.rules.robots.actions;
+								break;
+
+								case "conditions":
+									var conditions = sandbox.rules.victory.conditions;
 								break;
 							}
 						}
