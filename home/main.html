@@ -86,8 +86,8 @@
 						suggestions += '<div class="bracketer_top"><span class="whitetext">.suggestions</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class="graytext message">//HELLO FELLOW HUMAN WHAT SHALL WE DO THIS DAY?</span></div>\
 								<div class="megasection" id="suggestions">';
 
-						if (session.human.email === null) {
-							suggestions += '<form method="post" action="javascript:;" onsubmit="window.send_verification();"><li class="section indented"><span class="whitetext">verify your email: </span><button id="send_verification" name="action" value="send_verification"><span class="greentext">verify</span></button><span class="whitetext">(</span><input disabled type="text" id="new_email" class="orangetext" name="new_email" value="' + (session.human.new_email || "") + '"><span class="whitetext">)</span></li></form>';
+						if (!session.human.status.verified) {
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.send_verification();"><li class="section indented"><span class="whitetext">verify your email: </span><button id="send_verification" name="action" value="send_verification"><span class="greentext">verify</span></button><span class="whitetext">(</span><input disabled type="text" id="new_email" class="orangetext" name="new_email" value="' + (session.human.status.new_email || "") + '"><span class="whitetext">)</span></li></form>';
 						}
 						else if ((session.human.robots.length > 0) && (session.human.tutorials.length > 0)) {
 							suggestions += '<li class="section indented"><span class="whitetext">coerce additional <span class="code bluetext">humans</span> into joining ai_arenas: <a class="whitetext" href="mailto:?Subject=I BELIEVE ai_arenas IS AN EXCELLENT WEBSITE AND/OR ACTIVITY I RECOMMEND IT TO FELLOW HUMANS&Body=FELLOW HUMANS LET US SPEND OUR LIMITED TIME AND CALORIES EXPERIENCING ENJOYMENT AT http://aiarenas.com END OF MESSAGE" target="_blank"><span class="greentext">send_email</span><span class="whitetext">()</span></a></span></li>';

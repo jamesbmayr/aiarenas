@@ -669,6 +669,7 @@
 		#navbar select {
 			border: 0px;
 			height: 24px;
-			background-color: var(--black);
+			background-color: var(--transparent);
+			margin-left: -5px;
 		}
 

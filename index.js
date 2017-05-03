@@ -361,33 +361,23 @@
 						/* tutorials */
 							case (/^\/tutorials\/?$/).test(request.url):
 								try {
-									if (session.human !== null) {
-										response.end(processes.render("./tutorials/main.html", session, null));
-									}
-									else {
-										_302();
-									}
+									response.end(processes.render("./tutorials/main.html", session, null));
 								}
 								catch (error) {_404();}
 							break;
 
 							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									if (session.human !== null) {
-										var tutorial = fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8") || "{}";
+									var tutorial = fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8") || "{}";
 
-										try {
-											tutorial = JSON.parse(tutorial);
-											response.end(processes.render("./tutorials/individual.html", session, tutorial));
-										}
-										catch (error) {
-											var breakpoint = Number(error.message.substring((Number(error.message.indexOf("at position")) + 12), error.message.length).trim());
-											console.log("breakpoint: " + tutorial.substring(breakpoint - 20, breakpoint + 20));
-											_404(processes.render("./assets/asciiBots/buildBot.shtml"));
-										}
+									try {
+										tutorial = JSON.parse(tutorial);
+										response.end(processes.render("./tutorials/individual.html", session, tutorial));
 									}
-									else {
-										_302();
+									catch (error) {
+										var breakpoint = Number(error.message.substring((Number(error.message.indexOf("at position")) + 12), error.message.length).trim());
+										console.log("breakpoint: " + tutorial.substring(breakpoint - 20, breakpoint + 20));
+										_404(processes.render("./assets/asciiBots/buildBot.shtml"));
 									}
 								}
 								catch (error) {_404();}

@@ -8,9 +8,13 @@
 			id: processes.random(),
 			name: name,
 			email: null,
-			new_email: email,
-			verified: false,
-			verification: null,
+			status: {
+				new_email: email,
+				verified: false,
+				verification: null,
+				lockCount: 0,
+				lockTo: 0
+			},
 			password: processes.hash(password, salt),
 			salt: salt,
 			created: new Date().getTime(),
