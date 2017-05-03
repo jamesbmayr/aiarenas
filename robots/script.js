@@ -345,9 +345,13 @@
 			window.evaluating = false;
 			window.eval_code = function() {
 				if (!window.evaluating) {
-					window.evaluating = true;
-
-					$("#console").empty();
+					//reset
+						window.evaluating = true;
+						$("#console").empty();
+						$("#load_robot").prop("disabled",true);
+						$(".top_inner").find(".indented").hide();
+						$("#message_top").animateText({text: "//evaluating..."}, 1000);
+						resizeTop();
 
 					//get code and inputs
 						window.code = $("#code").html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
@@ -610,12 +614,16 @@
 								window.lines = [];
 								clearInterval(window.loop);
 
+								$(".top_inner").find(".indented").show();
+								$("#message_top").animateText({text: "//eval complete"}, 1000);
+								resizeTop();
 								setTimeout(function() {
 									$("#inputs").animateText({text: window.inputs.join(", ") || ""},1000);
 									$("#inputs").prop("contenteditable",true).closest(".field_frame").addClass("active");
 									$("#code").animateText({text: window.code.join("\n") || ""},1000);
 									$("#code").prop("contenteditable",true).closest(".field_frame").addClass("active");
 									window.evaluating = false;
+									$("#load_robot").prop("disabled",false);
 								},3000);
 							}
 						},1000);
