@@ -257,6 +257,7 @@
 							--gray: #666666;\
 							--black: #000000;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #222222;\
 						}";
 				break;
 
@@ -268,11 +269,12 @@
 							--purple: #ffcb13;\
 							--red: #A6E22E;\
 							--orange: #66D9EF;\
-							--yellow: #AE81FF;\
+							--yellow: #8B67CC;\
 							--black: #F8F8F2;\
 							--gray: #75715E;\
 							--white: #272822;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #888888;\
 						}";
 				break;
 
@@ -289,6 +291,7 @@
 							--gray: #777777;\
 							--black: #000000;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #222222;\
 						}";
 				break;
 
@@ -302,9 +305,10 @@
 							--blue: #0AAFF3;\
 							--purple: #A551FF;\
 							--white: #EAEFFE;\
-							--gray: #90929B;\
+							--gray: #70727B;\
 							--black: #3C414F;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #222233;\
 						}";
 				break;
 
@@ -321,6 +325,7 @@
 							--gray: #00ff00;\
 							--black: #000000;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #112211;\
 						}";
 				break;
 
@@ -337,6 +342,7 @@
 							--gray: #436DB5;\
 							--black: #1C283D;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #112244;\
 						}";
 				break;
 
@@ -353,6 +359,7 @@
 							--gray: #666666;\
 							--black: #222222;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #111111;\
 						}";
 				break;
 
@@ -370,6 +377,7 @@
 							--gray: #75715E;\
 							--black: #272822;\
 							--transparent: rgba(000,000,000,0);\
+							--code: #111111;\
 						}";
 				break;
 			}

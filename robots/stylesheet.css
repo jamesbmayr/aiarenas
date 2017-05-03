@@ -31,7 +31,7 @@
 		}
 
 		.live_line {
-			background-color: #111111;
+			background-color: var(--code);
 			border-radius: 5px;
 			padding: 0px 4px 0px 4px;
 			margin: 0px -4px 0px -4px;
@@ -139,4 +139,9 @@
 			margin-left: -8px;
 			margin-top: -6px;
 		}
+
+		input[type=number] {
+			background-color: var(--transparent);
+		}
+		
 		
