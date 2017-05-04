@@ -1172,27 +1172,29 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click", ".bracketer_top", function() {
-			if ($(this).prev().hasClass("section-toggle-down")) {
-				$(this).next().animate({
-					height: 0
-				},1000);
+		$(document).on("click", ".bracketer_top:not(.field_frame):not(details)", function() {
+			if (!$(this).find(".field_frame.active").toArray().length) {
+				if ($(this).prev().hasClass("section-toggle-down")) {
+					$(this).next().animate({
+						height: 0
+					},1000);
 
-				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
-			}
-			else if ($(this).prev().hasClass("section-toggle-up")) {
-				var section = $(this).next();
-				var height = $(section).hide().css("height","auto").css("height");
+					$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
+				}
+				else if ($(this).prev().hasClass("section-toggle-up")) {
+					var section = $(this).next();
+					var height = $(section).hide().css("height","auto").css("height");
 
-				$(section).css("height",0).show().animate({
-					height: height
-				},1000);
+					$(section).css("height",0).show().animate({
+						height: height
+					},1000);
 
-				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+					$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
 
-				setTimeout(function() {
-					$(section).css("height","auto");
-				},1010);
+					setTimeout(function() {
+						$(section).css("height","auto");
+					},1010);
+				}
 			}
 		});
 
