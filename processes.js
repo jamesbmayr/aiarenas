@@ -773,27 +773,53 @@
 					}
 					else if ((search !== null) && (data !== null)) { //update
 						console.log("update in " + table + " at " + JSON.stringify(search) + ":\n " + JSON.stringify(data));
-						db.collection(table).update(search, data, {multi:true}, function (error, result) {
-							if (error) {
-								console.log(error);
-							}
-							else {
-								//callback(data);
-								retrieve(table, search, callback);
-							}
-						});
+						if (JSON.stringify(search).indexOf("$in") > -1) {
+							db.collection(table).update(search, data, {multi:true}, function (error, result) {
+								if (error) {
+									console.log(error);
+								}
+								else {
+									//callback(data);
+									retrieve(table, search, callback);
+								}
+							});
+						}
+						else {
+							db.collection(table).update(search, data, function (error, result) {
+								if (error) {
+									console.log(error);
+								}
+								else {
+									//callback(data);
+									retrieve(table, search, callback);
+								}
+							});
+						}
 					}
 					else if ((search !== null) && (data === null)) { //delete
 						console.log("delete in " + table + " at " + JSON.stringify(search));
-						db.collection(table).remove(search, {multi:true}, function (error, result) {
-							if (error) {
-								console.log(error);
-							}
-							else {
-								//callback(result);
-								retrieve(table, search, callback);
-							}
-						});
+						if (JSON.stringify(search).indexOf("$in") > -1) {
+							db.collection(table).remove(search, {multi:true}, function (error, result) {
+								if (error) {
+									console.log(error);
+								}
+								else {
+									//callback(result);
+									retrieve(table, search, callback);
+								}
+							});
+						}
+						else {
+							db.collection(table).remove(search, function (error, result) {
+								if (error) {
+									console.log(error);
+								}
+								else {
+									//callback(result);
+									retrieve(table, search, callback);
+								}
+							});
+						}
 					}
 				}
 				db.close();

@@ -25,7 +25,7 @@
 							if ((data.state.end !== null) && (data.state.end < timeNow)) { "style='display: none;'";}
 							else if ((data.state.start === null) || (data.state.start > timeNow)) { "style='display: none;'";}
 						%>>
-							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if (data.state.start === null) { 'unstarted' } else if ((data.state.end !== null) && (data.state.end < timeNow)) { 'concluded' } else { 'active' } %>"><%
+							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if ((data.state.start === null) || (data.state.start - 5000 > timeNow)) { 'unstarted' } else if ((data.state.end !== null) && (data.state.end < timeNow)) { 'concluded' } else { 'active' } %>"><%
 								if ((data.state.start === null) || (data.state.start > timeNow)) {
 									"null";
 								}
@@ -160,7 +160,7 @@
 										string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
 									}
 									else {
-										string += "<span class='yellowtext'>???</span>, ";
+										string += "<span class='yellowtext unknown'>???</span>, ";
 									}
 								}
 							}

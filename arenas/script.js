@@ -547,6 +547,7 @@
 				if (state === "unstarted") { //unstarted game --> checkLoop
 					window.checkLoop = setInterval(function() {
 						var arena_id = $(".container").attr("value");
+						var timeNow = new Date().getTime();
 
 						$.ajax({
 							type: "POST",
@@ -557,23 +558,28 @@
 							},
 							success: function(data) {
 								if (data.success) {
-									if (data.arena.state.start !== null) { //game has started
+									if ((data.arena.state.start !== null) && (data.arena.state.start - 5000 < timeNow)) { //game has started or starts in under 5 seconds
 										clearInterval(window.checkLoop);
 										window.location = window.location; //refresh to start gameLoop
 									}
 									else {
-										$("#message_top").animateText({text: "//not started..."}, 1000);
+										if (data.arena.state.start !== null) {
+											$("#message_top").animateText({text: "//" + Math.max(0, Math.floor(Math.ceil((data.arena.state.start - timeNow) / 1000) / 5) * 5) + "..."}, 1000); //show a countdown
+										}
+										else {
+											$("#message_top").animateText({text: "//not started..."}, 1000);
+										}
 										
-										//update player list								
-											if ($("#players").attr("value") !== data.arena.humans.join()) {
+										//update player list
+											if (($("#players").attr("value") !== data.arena.humans.join()) || ($("#players").find(".unknown").toArray().length > 0)) {
 												var string = "";
 												for (var i = 0; i < data.arena.humans.length; i++) {
 													var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].human.id === data.arena.humans[i])})];
 													if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 														string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
 													}
-													else {
-														string += "<span class='yellowtext'>???</span>, ";
+													else if (data.arena.humans[i] !== 0) { //no ??? for fake human in random arena
+														string += "<span class='yellowtext unknown'>???</span>, ";
 													}
 												}
 
