@@ -101,7 +101,6 @@
 					}
 
 					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, function(robot) {
-						if (typeof robot.id === "undefined") { robot = robot[0]; }
 						processes.store("humans", {id: session.human.id}, {$set: {name: post.name, "avatar.ascii": (processes.ascii_character(post.name[0]) || "")}}, function(human) {
 							callback({success: true, messages: {name: "//name updated"}});
 						});

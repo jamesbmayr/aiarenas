@@ -189,7 +189,7 @@
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
-				processes.store("humans", {id: robot.human.id || null}, {$pull: {robots: {id: robot.id}}}, function(human) {
+				processes.store("humans", {id: robot.human.id}, {$pull: {robots: {id: robot.id}}}, function(human) {
 					processes.store("robots", {id: robot.id}, null, function(results) {
 						callback({success: true, redirect: "../../../../robots", messages: {top: "//robot deleted"}});
 					});

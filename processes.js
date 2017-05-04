@@ -773,7 +773,7 @@
 					}
 					else if ((search !== null) && (data !== null)) { //update
 						console.log("update in " + table + " at " + JSON.stringify(search) + ":\n " + JSON.stringify(data));
-						db.collection(table).update(search, data, function (error, result) {
+						db.collection(table).update(search, data, {multi:true}, function (error, result) {
 							if (error) {
 								console.log(error);
 							}
@@ -785,7 +785,7 @@
 					}
 					else if ((search !== null) && (data === null)) { //delete
 						console.log("delete in " + table + " at " + JSON.stringify(search));
-						db.collection(table).remove(search, function (error, result) {
+						db.collection(table).remove(search, {multi:true}, function (error, result) {
 							if (error) {
 								console.log(error);
 							}
