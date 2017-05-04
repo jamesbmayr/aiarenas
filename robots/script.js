@@ -339,8 +339,8 @@
 
 		/* eval_code */
 			window.logs = [];
-			window.consoleLog = function(log) {
-				window.logs.push(log);
+			window.consoleLog = function(line, log) {
+				window.logs.push(line + ":: " + log);
 			}
 
 			window.lines = [];
@@ -555,23 +555,23 @@
 							}
 							else if ((/^[\s]*catch/g).test(window.code[line])) {
 								//catch block
-								window.code[line] = window.code[line].replace(/catch[\s]*\(([a-zA-Z0-9_\"\'])\)[\s]*\{/g, "catch ($1) { \nwindow.lineLog(" + line + ");\n").replace(/console\.log\(/g,"window.consoleLog(\"" + line + ":: \" + ");
+								window.code[line] = window.code[line].replace(/catch[\s]*\(([a-zA-Z0-9_\"\'])\)[\s]*\{/g, "catch ($1) { \nwindow.lineLog(" + line + ");\n").replace(/console\.log\(/g,"window.consoleLog(" + line + ",");
 							}
 							else if ((/^[\s]*finally/g).test(window.code[line])) {
 								//finally block
-								window.code[line] = window.code[line].replace(/finally[\s]*\{/g, "finally { \nwindow.lineLog(" + line + ");\n").replace(/console\.log\(/g,"window.consoleLog(\"" + line + ":: \" + ");
+								window.code[line] = window.code[line].replace(/finally[\s]*\{/g, "finally { \nwindow.lineLog(" + line + ");\n").replace(/console\.log\(/g,"window.consoleLog(" + line + ",");
 							}
 							else if ((/^[\s]*else/).test(window.code[line])) {
 								//else or else if
-								window.code[line] = ("else if (window.lineLog(" + line + ")) {}\n") + window.code[line].replace(/console\.log\(/g,"window.consoleLog(\"" + line + ":: \" + ");
+								window.code[line] = ("else if (window.lineLog(" + line + ")) {}\n") + window.code[line].replace(/console\.log\(/g,"window.consoleLog(" + line + ",");
 							}
 							else if ((/^[\s]*(case|default)/).test(window.code[line])) {
 								// case or default
-								window.code[line] = ("case (window.lineLog(" + line + ")):\nbreak;\n") + window.code[line].replace(/console\.log\(/g,"window.consoleLog(\"" + line + ":: \" + ");
+								window.code[line] = ("case (window.lineLog(" + line + ")):\nbreak;\n") + window.code[line].replace(/console\.log\(/g,"window.consoleLog(" + line + ",");
 							}
 							else {
 								//normal code
-								window.code[line] = ("window.lineLog(" + line + ");\n") + window.code[line].replace(/console\.log\(/g,"window.consoleLog(\"" + line + ":: \" + ");
+								window.code[line] = ("window.lineLog(" + line + ");\n") + window.code[line].replace(/console\.log\(/g,"window.consoleLog(" + line + ",");
 							}
 						}
 
@@ -589,7 +589,7 @@
 						console.log(window.lines);
 						console.log(window.logs);
 						console.log(window.code);
-						window.code = window.code.join("\n").replace(/else\ if\ \(window\.lineLog\([\d]*\)\)\ \{\}\n/g,"").replace(/case\ \(window\.lineLog\([\d]*\)\):\nbreak\;\n/g,"").replace(/window\.lineLog\([\d]*\);\n/g,"").replace(/window\.consoleLog\(\"[\d]*\:\:\s\"\s\+\s/g,"console.log(");
+						window.code = window.code.join("\n").replace(/else\ if\ \(window\.lineLog\([\d]*\)\)\ \{\}\n/g,"").replace(/case\ \(window\.lineLog\([\d]*\)\):\nbreak\;\n/g,"").replace(/window\.lineLog\([\d]*\);\n/g,"").replace(/window\.consoleLog\([\d]*\,/g,"console.log("); 
 						window.code = window.code.split("\n");
 
 						$("#code").prop("contenteditable",false);
@@ -601,8 +601,8 @@
 						window.loop = setInterval(function() {
 							if (window.lines.length > 0) {
 								console.log(window.code[window.lines[0]]);
-								$("#code").html(window.colorText(window.code.slice(0,window.lines[0]).join("\n").replace(/\n/g,"<br>")) + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
-								
+								$("#code").html(window.colorText(window.code.slice(0,window.lines[0]).join("\n").replace(/\n/g,"<br>")) + (window.lines[0] > 0 ? "<br>" : "") + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
+
 								var log = window.logs.find(function(l) { return Number(l.substring(0,l.indexOf("::"))) === window.lines[0];});
 								if ((typeof log !== "undefined") && (log !== null)) {
 									$("#console").html($("#console").html() + "//" + log + "<br>");
