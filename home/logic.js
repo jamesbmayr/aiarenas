@@ -22,7 +22,7 @@
 						processes.retrieve("humans", {name: post.signin_name, password: processes.hash(post.signin_password, data[0].salt)}, function(data) {
 							if ((data) && (typeof data[0] !== "undefined") && (typeof data[0].id !== "undefined")) {
 								session.human = data[0].id;
-								processes.store("humans", {id: session.human.id}, {$set: {"status.lockCount": 0, "status.lockTo": 0}}, function(data) {
+								processes.store("humans", {id: session.human}, {$set: {"status.lockCount": 0, "status.lockTo": 0}}, function(data) {
 									processes.store("sessions", {id: session.id}, session, function(data) {
 										callback({success: true, redirect: "../../../../", messages: {top: "//signed in"}});
 									});
