@@ -6,3 +6,8 @@
 	.section-toggle {
 		top: 44px;
 	}
+
+	select {
+		vertical-align: bottom;
+		margin-bottom: 1px;
+	}

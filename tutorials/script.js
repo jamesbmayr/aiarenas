@@ -10,6 +10,12 @@
 				}
 			}
 
+		/* cube_color */
+			$(document).on("change", "#cube_color", function() {
+				var value = $("#cube_color").val();
+				$("#cube_color").css("color","var(--" + value + ")");
+			});
+
 		/* next_step */
 			window.next_step = function() {
 				$("#eval_code").prop("disabled",true);

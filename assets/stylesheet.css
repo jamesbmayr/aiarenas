@@ -384,6 +384,7 @@
 			height: 100%;
 			margin-top: 8px;
 			line-height: 1.15;
+			min-height: 38px;
 		}
 
 	/* colortext */

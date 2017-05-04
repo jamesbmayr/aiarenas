@@ -41,7 +41,8 @@
 		#avatar_selection {
 			display: none;
 			line-height: 1.15;
-			border: 2px solid var(--white);
+			border: 0px solid var(--white);
+			background-color: var(--code);
 			padding: 10px;
 			border-radius: 5px;
 			width: 100%;

@@ -71,7 +71,7 @@
 			}, 10000);
 
 		/* not signed in */
-			$("#actions").change(function() {
+			$(".sign_action").change(function() {
 				var action = $(this).val();
 
 				if (action === "signin") {
@@ -79,12 +79,14 @@
 					$("#signup_form").hide();
 					$("#signin").prop("disabled",false);
 					$("#signup").prop("disabled",true);
+					$(".sign_action").val("signin");
 				}
 				else if (action === "signup") {
 					$("#signup_form").show();
 					$("#signin_form").hide();
 					$("#signup").prop("disabled",false);
 					$("#signin").prop("disabled",true);
+					$(".sign_action").val("signup");
 				}
 
 				resizeTop();

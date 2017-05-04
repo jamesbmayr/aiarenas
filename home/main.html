@@ -19,26 +19,31 @@
 						<span class="whitetext header">ai_arenas</span> <span id="message_top" class="graytext"><% try { data.messages.top } catch(error) { "//hello world..." } %></span>
 					</div>
 					<div class="indented">
-						<div class="section">
-							<span class="whitetext">.<a class="bluetext" href="../../../../about">about</a></span>
-						</div>
 						<% 
-							/*if (session.human !== null) { 
-								"<div class='section'><span class='whitetext'>.human</span><span class='redtext'> = </span><a class='bluetext' href='../../../../humans/" + session.human.name + "'>" + session.human.name + "</a></div>";
-							}*/
+							if (session.human !== null) { 
+								"<!--<div class='section'><span class='whitetext'>.human</span><span class='redtext'> = </span><a class='bluetext' href='../../../../humans/" + session.human.name + "'>" + session.human.name + "</a></div>-->";
+							}
+							else {
+								'<div class="section">\
+									<span class="whitetext">.<a class="bluetext" href="../../../../about">about</a></span>\
+								</div>\
+								<div class="section">\
+									<span class="whitetext">.<a class="bluetext" href="../../../../tutorials">tutorials</a></span>\
+								</div>';
+							}
 						%>
 						<div id="signinup" class="section">
-							<div id="action_select" <% if (session.human !== null) { "style='display: none;'"} %> >
-								<span class="whitetext">.action</span><span class="redtext"> = </span><select id="actions" class="greentext">
-									<option value="signin">signin</option>
-									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >signup</option>
-								</select>
-							</div>
 							<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else {} %> >
-								<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">signin</span></button><span class="whitetext">(</span><input type="text" id="signin_name" class="orangetext" name="signin_name" placeholder="name"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">)</span>
+								<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">sign</span></button><select class="sign_action greentext">
+									<option value="signin">in</option>
+									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >up</option>
+								</select><span class="whitetext">(</span><input type="text" id="signin_name" class="orangetext" name="signin_name" placeholder="name"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">)</span>
 							</form>
 							<form id="signup_form" method="post" action="javascript:;" onsubmit="window.signup();" <% if (session.human !== null) {"style='display: none;'";} else if ((typeof data.action !== "undefined") && (data.action === "signup")) {} else {"style='display: none;'";} %> >
-								<span class="whitetext">.</span><button id="signup" name="action" value="signup"><span class="greentext">signup</span></button><span class="whitetext">(</span><input type="text" id="signup_name" class="orangetext" name="signup_name" placeholder="name"/><span class="whitetext">,</span><input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/><span class="whitetext">,</span><input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/><span class="whitetext">,</span><input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/><span class="whitetext">)</span>
+								<span class="whitetext">.</span><button id="signup" name="action" value="signup"><span class="greentext">sign</span></button><select class="sign_action greentext">
+									<option value="signin">in</option>
+									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >up</option>
+								</select><span class="whitetext">(</span><input type="text" id="signup_name" class="orangetext" name="signup_name" placeholder="name"/><span class="whitetext">,</span><input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/><span class="whitetext">,</span><input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/><span class="whitetext">,</span><input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/><span class="whitetext">)</span>
 							</form>
 							<form id="send_form" method="post" action="javascript:;" onsubmit="window.sendReset();" style='display: none;'>
 								<span class="whitetext">.</span><button id="sendReset" name="action" value="sendReset"><span class="greentext">forgotPassword</span></button><span class="whitetext">(</span><input type="text" id="sendReset_email" class="orangetext" name="sendReset_email" placeholder="email"/><span class="whitetext">)</span>

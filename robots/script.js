@@ -13,6 +13,12 @@
 				$("#avatar_selection").css("color",value);
 			});
 
+		/* cube_color */
+			$(document).on("change", "#cube_color", function() {
+				var value = $("#cube_color").val();
+				$("#cube_color").css("color","var(--" + value + ")");
+			});
+
 		/* edit */
 			window.robot_edit = function() {
 				$("#robot_edit").hide();
