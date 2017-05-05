@@ -10,20 +10,135 @@
 		},
 		{
 			"commands": [
+				"$('#workshop').show()",
+				"$('#console').closest('details').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
 			],
 			"messages": {
-				"instructions": "",
-				"error": "",
-				"success": "Success. Select the function next() to complete the tutorial."
+				"instructions": "Loops are an integral part of any efficient code. Below, condense the code into a familiar for in loop using x as the index placeholder.",
+				"error": "Remember, the structure of a for in loop is for (x in array) { //code }.",
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
-				"inputs": "name, firstRound, allCubes",
-				"code": "var self\nself = firstRound.robots.find(function(x) {\n  return x.name == name\n})\n\nfor (color of allCubes) {\n  if (self.cubes[color] > 0) {\n    return \"take\"\n  }\n}\n\nreturn \"power\"",
+				"inputs": "",
+				"code": "var array\narray = [1,3,5,7,9]\nvar sum\nsum = 0\n\nsum = sum + array[0]\nsum = sum + array[1]\nsum = sum + array[2]\nsum = sum + array[3]\nsum = sum + array[4]\n\nreturn sum",
 				"output": ""
 			},
 			"end": {
-				"inputs": "name, firstRound, allCubes",
-				"code": "var self self = firstRound.robots.find(function(x) { return x.name == name }) for (color of allCubes) { if (self.cubes[color] > 0) { return \"take\" } } return \"power\"",
+				"inputs": "",
+				"code": "var array array = [1,3,5,7,9] var sum sum = 0 for (x in array) { sum = sum + array[x] } return sum",
+				"output": "25"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "In addition to for in, there is a for of loop as well. This accesses each value, rather than each index. Below, change in to use a for of loop, and change array[x] to just x.",
+				"error": "The loop should now be structured for (x of array) { //code }.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var array\narray = [1,3,5,7,9]\nvar sum\nsum = 0\n\nfor (x in array) {\n  sum = sum + array[x]\n}\n\nreturn sum",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var array array = [1,3,5,7,9] var sum sum = 0 for (x of array) { sum = sum + x } return sum",
+				"output": "25"
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show()",
+				"$('#arena').show()",
+				"$('#cubes').closest('.megasection').show()",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#rules_outer').hide()",
+				"$('#robots').closest('.megasection').show()",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_opponent').closest('.section').hide()",
+				"$('#inputs').closest('.field_frame').show()"
+			],
+			"messages": {
+				"instructions": "The function focusBot() should concentrate on whichever cubes it already has. Below, add the cubes and allCubes inputs. Then add 1 or more blue cubes using the function add_cube() below.",
+				"error": "Change the robot so it has 1 or more blue cubes already. The function focusBot() should recognize that the first cube in the arena is a color it already has; it should return \"take\".",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var color\ncolor = allCubes[0]\n\nif (cubes[color] > 0) {\n  return \"take\"\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "cubes, allCubes",
+				"code": "var color color = allCubes[0] if (cubes[color] > 0) { return \"take\" } else { return \"power\" }",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('#add_cube').closest('.section').hide()",
+				"$('.cube_outer').remove()",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer greenback\"><div class=\"cube_inner whitetext\">green</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>')",
+				"$('.self').find('.cubes_blue').val(3)"
+			],
+			"messages": {
+				"instructions": "The function focusBot() was only looking at the first color of allCubes, but it should loop through all of them. Fix the for of loop so it checks for each color of allCubes.",
+				"error": "Use a for of loop; the placeholder should be color, and the array should be allCubes. Make sure the robot still has 1 or more blue cubes.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "cubes, allCubes",
+				"code": "for ( ??? ) {\n  if (cubes[color] > 0) {\n    return \"take\"\n  }\n}\n\nreturn \"power\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "cubes, allCubes",
+				"code": "for (color of allCubes) { if (cubes[color] > 0) { return \"take\" } } return \"power\"",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.cubes_blue').val(3)"
+			],
+			"messages": {
+				"instructions": "Currently, the function focusBot() is using the cubes input, which is derived from self, which is derived from currentRound. Instead, the robot should concentrate on its initial cubes; use the firstRound input. Then define the var cubes as the .cubes property of the first robot within the firstRound.",
+				"error": "The inputs should be (firstRound, allCubes). The definition of the var cubes should be firstRound.robots[0].cubes.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "cubes, allCubes",
+				"code": "var cubes\ncubes = ???\n\nfor (color of allCubes) {\n  if (cubes[color] > 0) {\n    return \"take\"\n  }\n}\n\nreturn \"power\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "firstRound, allCubes",
+				"code": "var cubes cubes = firstRound.robots[0].cubes for (color of allCubes) { if (cubes[color] > 0) { return \"take\"\n  } } return \"power\"",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+				"$('.self').find('.cubes_blue').val(3)"
+			],
+			"messages": {
+				"instructions": "Of course, the function focusBot() would not necessarily be in position 0 in an arena. Instead, add the name input, and use the .find() function to find the robot whose .name == name.",
+				"error": "Make the the inputs are (firstRound, allCubes, name), and the .find() function is set to return x.name == name.",
+				"success": "Success. This function focusBot() will now concentrate on collecting more cubes in the same colors it had to start. Select the function next() to complete the tutorial."
+			},
+			"start": {
+				"inputs": "firstRound, allCubes",
+				"code": "var cubes\ncubes = firstRound.robots.???(function(x) {\n  return x.name == ???\n}).cubes\n\nfor (color of allCubes) {\n  if (cubes[color] > 0) {\n    return \"take\"\n  }\n}\n\nreturn \"power\"",
+				"output": ""
+			},
+			"end": {
+				"inputs": "firstRound, allCubes, name",
+				"code": "var cubes cubes = firstRound.robots.find(function(x) { return x.name == name }).cubes for (color of allCubes) { if (cubes[color] > 0) { return \"take\" } } return \"power\"",
 				"output": "take"
 			}
 		}
