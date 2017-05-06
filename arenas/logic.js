@@ -240,7 +240,10 @@
 			}
 		}
 
-		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
+		if (session.human.robots.length == 0) {
+			callback({success: false, messages: {navbar: "//unable to create arena; no robots", top: "//unable to create arena; no robots"}});
+		}
+		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((parameters.robots.actions.indexOf("sap") > -1) || (parameters.robots.actions.indexOf("halftake") > -1) || (parameters.robots.actions.indexOf("fliptake") > -1))) {
 			callback({success: false, messages: {navbar: "//unable to create arena; actions too advanced", top: "//unable to create arena; actions too advanced"}});
 		}
 		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 50) && ((parameters.robots.actions.indexOf("shock") > -1) || (parameters.robots.actions.indexOf("burn") > -1) || (parameters.robots.actions.indexOf("swaptake") > -1))) {
@@ -341,6 +344,9 @@
 		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 4)) {
 			callback({success: false, messages: {top: "//invalid arena id", navbar: "//invalid arena id"}});
 		}
+		else if (session.human.robots.length == 0) {
+			callback({success: false, messages: {navbar: "//unable to join arena; no robots", top: "//unable to join arena; no robots"}});
+		}
 		else {
 			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + data.arena_id.toLowerCase() + "'"}, function(arena) {
 				if (typeof arena.id === "undefined") { arena = arena[0]; }
@@ -379,7 +385,10 @@
 	function random(session, post, callback) {
 		var parameters = JSON.parse(post.data);
 
-		if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((parameters.preset === "simple") || (parameters.preset === "deathmatch") || (parameters.preset === "advanced"))) {
+		if (session.human.robots.length == 0) {
+			callback({success: false, messages: {navbar: "//unable to join arena; no robots", top: "//unable to join arena; no robots"}});
+		}
+		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 25) && ((parameters.preset === "simple") || (parameters.preset === "deathmatch") || (parameters.preset === "advanced"))) {
 			callback({success: false, messages: {navbar: "//unable to join arena; preset too advanced", top: "//unable to join arena; preset too advanced"}});
 		}
 		else if ((((session.human.statistics.wins * 5) + session.human.statistics.losses) < 50) && ((parameters.preset === "intense") || (parameters.preset === "scarcity") || (parameters.preset === "random"))) {

@@ -16,6 +16,10 @@
 			line-height: 1;
 		}
 
+		#code {
+			line-height: 1.15;
+		}
+
 	/* robots */
 		.self {
 			width: 340px;

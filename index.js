@@ -332,7 +332,7 @@
 						/* arenas */
 							case (/^\/arenas\/?$/).test(request.url):
 								try {
-									if (session.human !== null) {
+									if ((session.human !== null) && (session.human.robots.length > 0)) {
 										response.end(processes.render("./arenas/main.html", session, null));
 									}
 									else {

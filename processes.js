@@ -486,16 +486,20 @@
 						<div class='navbar_item'><a class='navbar_button' href='../../../../robots'><span class='whitetext'>.</span><span class='greentext'>workshop</span><span class='whitetext'>()</span></a></div>\
 						" + robots + "\
 					</div>\
-					<br>\
-					<div id='navbar_arenas'>\
+					<br>";
+
+				if (session.human.robots.length > 0) {
+					navbar += "<div id='navbar_arenas'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_join_arena();'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>)</span></form></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><select id='navbar_arena_random_presets' class='orangetext'>" + options + "</select><span class='whitetext'>)</span></form></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_arena();'><button class='navbar_button' id='navbar_create_arena'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(</span><select id='navbar_arena_create_presets' class='orangetext'><option value='custom'>custom</option>" + options + "</select><span class='whitetext'>)</span></form></div>\
 						" + arenas + "\
 					</div>\
-					<br>\
-					<div id='navbar_info'>\
+					<br>";
+				}
+
+				navbar += "<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../about'><span class='whitetext'>.</span><span class='bluetext'>about</span></a></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../tutorials'><span class='whitetext'>.</span><span class='bluetext'>tutorials</span></a></div>\

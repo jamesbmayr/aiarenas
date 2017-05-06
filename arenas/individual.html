@@ -23,10 +23,10 @@
 							var timeNow = new Date().getTime();
 							console.log("timeNow: " + timeNow);
 							if ((data.state.end !== null) && (data.state.end < timeNow)) { "style='display: none;'";}
-							else if ((data.state.start === null) || (data.state.start > timeNow)) { "style='display: none;'";}
+							else if ((data.state.start === null) || (data.state.start - 5000 > timeNow)) { "style='display: none;'";}
 						%>>
 							<span class="whitetext">.round</span><span class="redtext"> = </span><span id="round" class="purpletext" value="<% if ((data.state.start === null) || (data.state.start - 5000 > timeNow)) { 'unstarted' } else if ((data.state.end !== null) && (data.state.end < timeNow)) { 'concluded' } else { 'active' } %>"><%
-								if ((data.state.start === null) || (data.state.start > timeNow)) {
+								if ((data.state.start === null) || (data.state.start - 5000 > timeNow)) {
 									"null";
 								}
 								else if ((data.state.end !== null) && (data.state.end < timeNow)) {
@@ -55,7 +55,7 @@
 							%></span>
 						</div>
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && ((data.state.start === null) || (data.state.start > timeNow))) {
+							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && ((data.state.start === null) || (data.state.start - 5000 > timeNow))) {
 								var string = "";
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return data.entrants[i].human.id === session.human.id })] || null;
 								
@@ -92,7 +92,7 @@
 
 								string;
 							}
-							else if ((session.human !== null) && (data.state.start === null)) {
+							else if ((session.human !== null) && (session.human.robots.length > 0) && ((data.state.start === null) || (data.state.start - 5000 > timeNow))) {
 								'<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();">\
 									<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">()</span>\
 								</form>';
@@ -147,7 +147,7 @@
 						%>
 					</div>
 				</div>
-				<div class="megasection" id="players_outer" <% if ((data.state.start !== null) && (data.state.start < timeNow)) {"style='display: none';"} %>>
+				<div class="megasection" id="players_outer" <% if ((data.state.start !== null) && (data.state.start - 5000 < timeNow)) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.players</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 					<div class="section indented whitetext" id="players" value="<% data.humans %>">
@@ -170,7 +170,7 @@
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">]</span></div>
 				</div>
-				<div class="megasection" id="workshop_outer" <% if ((data.state.start === null) || ((data.state.end !== null) && (data.state.end < timeNow)) || (data.state.pauseFrom === null) || (data.state.pauseTo === null) || (timeNow < data.state.pauseFrom) || (timeNow > data.state.pauseTo)) {"style='display: none';"} %>>
+				<div class="megasection" id="workshop_outer" <% if ((data.state.start === null) || (data.state.start - 5000 > timeNow) || ((data.state.end !== null) && (data.state.end < timeNow)) || (data.state.pauseFrom === null) || (data.state.pauseTo === null) || (timeNow < data.state.pauseFrom) || (timeNow > data.state.pauseTo)) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.workshop</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
 					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}) || null) } %>">
@@ -300,13 +300,13 @@
 					</div>
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">]</span></div>
-				<div class="megasection" id="cubes_outer" <% if (((data.state.start === null) || (data.state.start > timeNow)) || ((data.state.end !== null) && (data.state.end < timeNow))) {"style='display: none';"} %>>
+				<div class="megasection" id="cubes_outer" <% if (((data.state.start === null) || (data.state.start - 5000 > timeNow)) || ((data.state.end !== null) && (data.state.end < timeNow))) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.cubes</span><span class="redtext"> = </span><span class="whitetext">[</span></div>
 					<div class="section indented whitetext" id="cubes">
 						<div id="cube_spacer"></div>
 						<% 
-							if ((data.state.start !== null) && ((data.state.end === null) || (data.state.end > timeNow)) && (data.rounds.length > 0)) {
+							if ((data.state.start !== null) && (data.state.start - 5000 < timeNow) && ((data.state.end === null) || (data.state.end > timeNow)) && (data.rounds.length > 0)) {
 								var currentRound = data.rounds[data.rounds.length - 1];
 								var string = "";
 
@@ -402,7 +402,7 @@
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				<% 
-					if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start !== null) && (data.state.end === null)) {
+					if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start !== null) && (data.state.start - 5000 < timeNow) && (data.state.end === null)) {
 							var string = '<div class="megasection">';
 
 						if ((data.humans[0] === session.human.id) && (data.state.end === null)) {

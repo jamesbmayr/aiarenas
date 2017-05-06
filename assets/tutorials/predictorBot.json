@@ -10,21 +10,222 @@
 		},
 		{
 			"commands": [
+				"$('#workshop').show()",
+				"$('#arena').show()",
+				"$('#console').closest('details').hide()",
+				"$('#cubes_outer').hide()",
+				"$('#robots_outer').hide()",
+				"$('#rules').closest('.megasection').show()",
+				"$('#rules_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
 			],
 			"messages": {
-				"instructions": "",
-				"error": "",
-				"success": "Success. Select the function next() to complete the tutorial."
+				"instructions": "In ai_arenas, the cube or cubes that appear each round are not completely random. Instead, the spawnMemory ensures cubes of the same color cannot generate too frequently. Below, add the rules parameter to return the current spawnMemory.",
+				"error": "Using the rules settings below, change the spawnMemory to 2.",
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
-				"inputs": "colors, rules, rounds",
-				"code": "for (x = 1; (x < rules.cubes.spawnMemory) && (x < rounds.length); x++) {\n  colors.filter(function(y) {\n    y !==  rounds[ rounds.length - x ].cubes[0]\n  })\n}\n\nreturn colors",
+				"inputs": "",
+				"code": "return rules.cubes.spawnMemory",
 				"output": ""
 			},
 			"end": {
-				"inputs": "colors, rules, rounds",
-				"code": "for (x = 1; (x < rules.cubes.spawnMemory) && (x < rounds.length); x++) { colors.filter(function(y) { y !== rounds[ rounds.length - x ].cubes[0] }) } return colors",
-				"output": "yellow,purple"
+				"inputs": "rules",
+				"code": "return rules.cubes.spawnMemory",
+				"output": "2"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "In a previous tutorial, the while loop was used to repeat code while a condition was true. Below, set the loop to continue while x is less than or equal to the spawnMemory using the <= comparison.",
+				"error": "Make sure the while condition is (x <= rules.cubes.spawnMemory). In the rules below, spawnMemory should still be 2.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "rules",
+				"code": "var x\nx = 0\nvar sum\nsum = 0\n\nwhile (???) {\n  sum = sum + x\n  x++\n  //without this, x will stay the same, and the while loop will be true forever!\n}\n\nreturn sum",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules",
+				"code": "var x x = 0 var sum sum = 0 while (x <= rules.cubes.spawnMemory) { sum = sum + x x++ } return sum",
+				"output": "3"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#workshop').hide()"
+			],
+			"messages": {
+				"instructions": "For a while loop, the counter x must be defined prior to the loop, and the incrementor x++ must be defined within the loop. This can be restructured using a for loop (which works differently than the for in loop and for of loop).",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show()",
+				"$('#workshop').show()"
+			],
+			"messages": {
+				"instructions": "A for loop contains all 3 things in this structure: for (start counter; condition; increment counter) {... Below, fix each ??? within the for loop.",
+				"error": "Start the counter with x = 0; use the same condition as before, x <= rules.cubes.spawnMemory; increment the counter with x++.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "rules",
+				"code": "var sum\nsum = 0\n//no need to define x outside the for loop\n\nfor (???; ???; ???) {\n  sum = sum + x\n  //no need to increment x here\n}\n\nreturn sum",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules",
+				"code": "var sum sum = 0 for (x = 0; x <= rules.cubes.spawnMemory; x++) { sum = sum + x } return sum",
+				"output": "3"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Besides the for loop, the function predictorBot() needs to look at the colors of the cubes from each round. Below, add the colors input, which determines which colors are set by the rules.",
+				"error": "No code changes; just add the colors input. (Ensure all colors are set to true in the rules.)",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "rules",
+				"code": "return colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules, colors",
+				"code": "return colors",
+				"output": "red,orange,yellow,green,blue,purple"
+			}
+		},
+		{
+			"commands": [
+				"$('#cubes_outer').show()",
+				"$('#cubes').closest('.megasection').show()",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_cube').closest('.section').hide()",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer yellowback\"><div class=\"cube_inner whitetext\">yellow</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>')"
+			],
+			"messages": {
+				"instructions": "Now add the rounds input to filter out the cube colors from the latest round.",
+				"error": "This .filter() function is currently set to return the cubes that are in this round. Change > -1 to == -1 so it will return the cubes not present instead.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "rules, colors",
+				"code": "colors = colors.filter(function(y) {\n  return rounds[0].cubes.indexOf(y) > -1\n})\n\nreturn colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules, colors, rounds",
+				"code": "colors = colors.filter(function(y) { return rounds[0].cubes.indexOf(y) == -1 }) return colors",
+				"output": "orange,green,purple"
+			}
+		},
+		{
+			"commands": [
+				"$('.cube_outer').remove()",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer yellowback\"><div class=\"cube_inner whitetext\">yellow</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>')"
+			],
+			"messages": {
+				"instructions": "In this tutorial, round 0 is the most recent round. But within a real arena, that would not true. Change [0] to [rounds.length - 1] to get the most recent round.",
+				"error": "",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "rules, colors, rounds",
+				"code": "colors = colors.filter(function(y) {\n  return rounds[0].cubes.indexOf(y) == -1\n})\n\nreturn colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules, colors, rounds",
+				"code": "colors = colors.filter(function(y) { return rounds[rounds.length - 1].cubes.indexOf(y) == -1 }) return colors",
+				"output": "orange,green,purple"
+			}
+		},
+		{
+			"commands": [
+				"$('.cube_outer').remove()",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer yellowback\"><div class=\"cube_inner whitetext\">yellow</div></div>')",
+				"$('#cubes').append('<div class=\"cube_outer blueback\"><div class=\"cube_inner whitetext\">blue</div></div>')"
+			],
+			"messages": {
+				"instructions": "Now use the for loop from earlier to loop through each round, starting at the most recent (rounds.length - 1) and continuing while x is <= (less than or equal to) the spawnMemory.",
+				"error": "The for loop should have a start of x = 1 (so the .filter() starts at rounds.length - 1); then a condition of x <= rules.cubes.spawnMemory; and then an incrementor of x++.",
+				"success": "Did the for loop crash? That should not be surprising... Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "rules, colors, rounds",
+				"code": "for (???; ???; ???) {\n  colors = colors.filter(function(y) {\n    return rounds[rounds.length - x].cubes.indexOf(y) == -1\n  })\n}\n\nreturn colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules, colors, rounds",
+				"code": "for (x = 1; x <= rules.cubes.spawnMemory; x++) { colors = colors.filter(function(y) { return rounds[rounds.length - x].cubes.indexOf(y) == -1 }) } return colors",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#workshop').hide()"
+			],
+			"messages": {
+				"instructions": "The for loop successfully pulled data from rounds[rounds.length - 1], but crashed on rounds[rounds.length - 2]. It was set to keep going until 2 (spawnMemory), but there are not 2 rounds. A second condition must be added to the for loop.",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show()",
+				"$('#workshop').show()"
+			],
+			"messages": {
+				"instructions": "Within the for loop, add the second condition inside the second set of parentheses. This ensures the loop will stop when either condition is false.",
+				"error": "The second condition is that x <= rounds.length. This way, when the for loop has run through all rounds, it will stop.",
+				"success": "Success. The function predictorBot() is now able to determine which cubes may spawn when the next round happens. Select the function next() to complete the tutorial."
+			},
+			"start": {
+				"inputs": "rules, colors, rounds",
+				"code": "for (x = 1; (x <= rules.cubes.spawnMemory) && (???); x++) {\n  colors = colors.filter(function(y) {\n    return rounds[rounds.length - x].cubes.indexOf(y) == -1\n  })\n}\n\nreturn colors",
+				"output": ""
+			},
+			"end": {
+				"inputs": "rules, colors, rounds",
+				"code": "for (x = 1; (x <= rules.cubes.spawnMemory) && (x <= rounds.length); x++) { colors = colors.filter(function(y) { return rounds[rounds.length - x].cubes.indexOf(y) == -1 }) } return colors",
+				"output": "orange,green,purple"
 			}
 		}
 	]

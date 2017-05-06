@@ -19,6 +19,10 @@
 	}
 
 	/* code */
+		#code_outer {
+			line-height: 1.15;
+		}
+
 		#code {
 			user-select: auto;
 			-webkit-user-select: auto;

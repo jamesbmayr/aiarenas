@@ -10,20 +10,175 @@
 		},
 		{
 			"commands": [
+				"$('#workshop').show()",
+				"$('#arena').show()",
+				"$('#console').closest('details').hide()",
+				"$('#cubes').closest('.megasection').show()",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_cube').closest('.section').hide()",
+				"$('#rules_outer').hide()",
+				"$('#robots').closest('.megasection').show()",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#add_opponent').closest('.section').hide()",
+				"$('#cubes').append('<div class=\"cube_outer redback\"><div class=\"cube_inner whitetext\">red</div></div>')"
 			],
 			"messages": {
-				"instructions": "",
-				"error": "",
-				"success": "Success. Select the function next() to complete the tutorial."
+				"instructions": "The function switchBot() wants to \"take\" whenever it has 0 of a color, to collect them all. It also wants to \"take\" when it has 4 or 5 of a color, to reach 6. Otherwise, it will \"power\". Below, add the correct action to each if or else if block.",
+				"error": "Change the robot to have 1 red cube already. Then ensure the function will only \"take\" for 0, 4, and 5, selecting \"power\" otherwise.",
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
-				"inputs": "self, allCubes",
-				"code": "var color\ncolor = allCubes[0]\n\nswitch (self.cubes[color]) {\n  case 0:\n  case 5:\n    return \"take\"\n    break\n\n  default:\n    return \"power\"\n    break\n}",
+				"inputs": "cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\nvar action\n\nif (cubes[color] == 0) {\n  action = \"take\"\n}\nelse if (cubes[color] == 1) {\n  action = \"power\"\n}\nelse if (cubes[color] == 2) {\n  action = ???\n}\nelse if (cubes[color] == 3) {\n  action = ???\n}\nelse if (cubes[color] == 4) {\n  action = ???\n}\nelse if (cubes[color] = 5) {\n  action = ???\n}\n\nreturn action",
 				"output": ""
 			},
 			"end": {
-				"inputs": "self, allCubes",
-				"code": "var color color = allCubes[0] switch (self.cubes[color]) { case 0: case 5: return \"take\" break default: return \"power\" break }",
+				"inputs": "cubes, allCubes",
+				"code": "var color color = allCubes[0] var action if (cubes[color] == 0) { action = \"take\" } else if (cubes[color] == 1) { action = \"power\" } else if (cubes[color] == 2) { action = \"power\" } else if (cubes[color] == 3) { action = \"power\" } else if (cubes[color] == 4) { action = \"take\" } else if (cubes[color] = 5) { action = \"take\" } return action",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
+			],
+			"messages": {
+				"instructions": "Previously, only the if and else if blocks were used to test conditions. Below, add an else if block to set output to \"three\" if x is \"c\".",
+				"error": "The function should have output = \"three\" when the else if condition x == \"c\" is met.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var x\nx = \"c\"\nvar output\n\nif (x == \"a\") {\n  output = \"one\"\n}\nelse if (x == \"b\") {\n  output = \"two\"\n}\n\nreturn output",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var x x = \"c\" var output if (x == \"a\") { output = \"one\" } else if (x == \"b\") { output = \"two\" } else if (x == \"c\") { output = \"three\" } return output",
+				"output": "three"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "When checking for specific values, another method is to use a switch block. Each condition is converted to a case. Below, convert the else if block of \"three\" to a case.",
+				"error": "Make sure the case \"c\" is inside the switch {}.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var x\nx = \"c\"\nvar output\n\nswitch (x) {\n  case \"a\":\n    output = \"one\"\n  case \"b\":\n    output = \"two\"\n\n}\nelse if (x == \"c\") {\n  output = \"three\"\n}\n\nreturn output",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var x x = \"c\" var output switch (x) { case \"a\": output = \"one\" case \"b\": output = \"two\" case \"c\": output = \"three\" } return output",
+				"output": "three"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
+			],
+			"messages": {
+				"instructions": "What happens when x = \"b\"? The switch continues checking case \"c\", even though it has already found the correct condition. Test below by selecting eval().",
+				"error": "After each case, add the break statement to stop the switch when that case is executed. For example, case \"a\" should have output = \"one\" followed by break on the next line.",
+				"success": "Success. The break statement can also be used within a loop, like while or for, to force the code out of the loop. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var x\nx = \"b\"\nvar output\n\nswitch (x) {\n  case \"a\":\n    output = \"one\"\n  case \"b\":\n    output = \"two\"\n  case \"c\":\n    output = \"three\"\n}\n\nreturn output",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var x x = \"b\" var output switch (x) { case \"a\": output = \"one\" break case \"b\": output = \"two\" break case \"c\": output = \"three\" break } return output",
+				"output": "two"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show()",
+				"$('#inputs').closest('.field_frame').show()",
+				"$('.self').find('.cubes_red').val(1)"
+			],
+			"messages": {
+				"instructions": "The function switchBot() can use a switch as well. Below, change each else if block to a case (with a break statement) within the switch.",
+				"error": "Each else if (condition) { should be converted to the format case #: . Each closing } should be converted to a break statement. The robot should have 1 or more red cubes already.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\nvar action\n\nswitch (cubes[color]) {\n  case 0:\n    action = \"take\"\n  break\n  case 1:\n    action = \"power\"\n  break\n\n}\nelse if (cubes[color] == 2) {\n  action = \"power\"\n}\nelse if (cubes[color] == 3) {\n  action = \"power\"\n}\nelse if (cubes[color] == 4) {\n  action = \"take\"\n}\nelse if (cubes[color] = 5) {\n  action = \"take\"\n}\n\nreturn action",
+				"output": ""
+			},
+			"end": {
+				"inputs": "cubes, allCubes",
+				"code": "var color color = allCubes[0] var action switch (cubes[color]) { case 0: action = \"take\" break case 1: action = \"power\" break case 2: action = \"power\" break case 3: action = \"power\" break case 4: action = \"take\" break case 5: action = \"take\" break } return action",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
+			],
+			"messages": {
+				"instructions": "Sometimes the var is not set to any of the values tested in a case. For these situations, the default statement is used as a catchall. Change ??? to default below.",
+				"error": "Use default to set output = \"none\".",
+				"success": "Success. It is good practice to always have a default statement; this is functionally equivalent to an else block. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var x\nx = \"d\"\nvar output\n\nswitch (x) {\n  case \"a\":\n    output = \"one\"\n  break\n  case \"b\":\n    output = \"two\"\n  break\n  case \"c\":\n    output = \"three\"\n  break\n  ???:\n    output = \"none\"\n}\n\nreturn output",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var x x = \"d\" var output switch (x) { case \"a\": output = \"one\" break case \"b\": output = \"two\" break case \"c\": output = \"three\" break default: output = \"none\" } return output",
+				"output": "none"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show()",
+				"$('#inputs').closest('.field_frame').show()"
+			],
+			"messages": {
+				"instructions": "The function switchBot() can use the default statement to group together case 1, case 2, and case 3, since they all output \"power\". Below, remove case 1, case 2, and case 3, and add a default at the end to set action = \"power\".",
+				"error": "Make sure the default: results in action = \"power\". There is no need to include a break statement for default.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\nvar action\n\nswitch (cubes[color]) {\n  case 0:\n    action = \"take\"\n  break\n  case 1:\n    action = \"power\"\n  break\n  case 2:\n    action = \"power\"\n  break\n  case 3:\n    action = \"power\"\n  break\n  case 4:\n    action = \"take\"\n  break\n  case 5:\n    action = \"take\"\n  break\n\n}\n\nreturn action",
+				"output": ""
+			},
+			"end": {
+				"inputs": "cubes, allCubes",
+				"code": "var color color = allCubes[0] var action switch (cubes[color]) { case 0: action = \"take\" break case 4: action = \"take\" break case 5: action = \"take\" break default: action = \"power\" } return action",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Finally, a case can cascade into the next case if no break statement is included. This can be used to group more than one case to execute the same code. For case 0: below, remove action = \"take\" and the break statement so it cascades into case 4: and case 5:.",
+				"error": "The line case 0: should be followed by case 4: and then case 5:, such that action = \"take\" only needs to appear once within the function. Then set the robot to 5 red cubes to test it.",
+				"success": "Success. Cascading cases make the switch a powerful tool. This is functionally equivalent to testing multiple conditions within an if block using the or || operator. Select the function next() to complete the tutorial."
+			},
+			"start": {
+				"inputs": "cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\nvar action\n\nswitch (cubes[color]) {\n  case 0:\n    action = \"take\"\n  break\n  case 4:\n  case 5:\n    action = \"take\"\n  break\n\n  default:\n    action = \"power\"\n}\n\nreturn action",
+				"output": ""
+			},
+			"end": {
+				"inputs": "cubes, allCubes",
+				"code": "var color color = allCubes[0] var action switch (cubes[color]) { case 0: case 4: case 5: action = \"take\" break default: action = \"power\" } return action",
 				"output": "take"
 			}
 		}

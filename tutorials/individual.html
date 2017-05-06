@@ -19,7 +19,7 @@
 			<div class="top_outer">
 				<div class="top_inner">
 					<div class="section">
-						<span class="whitetext header">tutorials<% ("." + data.name) || "" %></span> <span class="graytext" id="message_top"></span>
+						<span class="whitetext header"><% data.name || "tutorials" %></span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
 						<div class="section">
@@ -41,7 +41,7 @@
 					<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext"><% data.name %></span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value=''></span></span><span class="whitetext">) {</span> <span class='message graytext'></span></div>
 					<div class="megasection">
 						<div class="indented">
-							<div class="field_frame">
+							<div class="field_frame" id="code_outer">
 								<span class="whitetext field" id="code" value=''></span>
 							</div>
 						</div>
