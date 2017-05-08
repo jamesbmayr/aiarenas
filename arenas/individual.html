@@ -178,14 +178,23 @@
 							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && ((data.state.end === null) || (data.state.end > timeNow))) {
 								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
 								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-									'<div class="section indented">\
-										<form id="save_form" method="post" action="javascript:;" onsubmit="window.robot_save();">\
-											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">()</span></button>\
-										</form>\
-									</div> <span class="message graytext"></span>\
-									<div class="section indented">\
-										<span class="greentext">code</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span> <span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul>\
-										<li><span class="code orangetext">arena</span>: all information</li>\
+
+									var outputList = '<li><span class="code greentext">power</span>: increment the robot\'s power number</li>\
+										<li><span class="code greentext">take</span>: the taker with the most power wins the round\'s cubes</li>\
+										<li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li>';
+									if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
+										outputList += '<li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li>\
+										<li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li>\
+										<li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li>';
+									}
+									if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
+										outputList += '<li><span class="code greentext">burn</span>: convert a random cube into power</li>\
+										<li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li>\
+										<li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>';
+									}
+
+									if ((session.human !== null) && (session.human.tutorials.indexOf("deriveBot") !== -1)) {
+										var inputList = '<li><span class="code orangetext">arena</span>: all information</li>\
 										<li><span class="code orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>\
 										<li><span class="code orangetext">rules</span>: arena parameters <details><summary></summary><span class="code">arena.rules</span></details></li>\
 										<li><span class="code orangetext">rounds</span>: all previous rounds <details><summary></summary><span class="code">arena.rounds</span></details></li>\
@@ -205,15 +214,46 @@
 										<li><span class="code orangetext">opponents</span>: currentRound data of all robots except self <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== name})</span></details></li>\
 										<li><span class="code orangetext">colors</span>: list of cube colors <details><summary></summary><span class="code">arena.rules.cubes.colors</span></details></li>\
 										<li><span class="code orangetext">actions</span>: list of robot actions <details><summary></summary><span class="code">arena.rules.robots.actions</span></details></li>\
-										<li><span class="code orangetext">conditions</span>: list of victory conditions <details><summary></summary><span class="code">arena.rules.victory.conditions</span></details></li>\
-									</ul></span></details></span>\
+										<li><span class="code orangetext">conditions</span>: list of victory conditions <details><summary></summary><span class="code">arena.rules.victory.conditions</span></details></li>';
+									}
+									else {
+										var inputList = '<li><span class="code orangetext">arena</span>: all information</li>\
+										<li><span class="code orangetext">name</span>: name of this robot</li>\
+										<li><span class="code orangetext">rules</span>: arena parameters</li>\
+										<li><span class="code orangetext">rounds</span>: all previous rounds</li>\
+										<li><span class="code orangetext">roundCount</span>: number of rounds</li>\
+										<li><span class="code orangetext">currentRound</span>: all data of the round that just executed</li>\
+										<li><span class="code orangetext">lastRound</span>: all data of the previous round</li>\
+										<li><span class="code orangetext">firstRound</span>: all data from the starting round</li>\
+										<li><span class="code orangetext">robots</span>: currentRound data of all robots</li>\
+										<li><span class="code orangetext">robotCount</span>: number of robots in the arena</li>\
+										<li><span class="code orangetext">allCubes</span>: all cubes in the currentRound</li>\
+										<li><span class="code orangetext">newCubes</span>: all cubes spawned for the currentRound</li>\
+										<li><span class="code orangetext">self</span>: currentRound data of the robot executing this code</li>\
+										<li><span class="code orangetext">power</span>: power of self in the currentRound</li>\
+										<li><span class="code orangetext">cubes</span>: cubes owned by self in the currentRound</li>\
+										<li><span class="code orangetext">action</span>: action performed by self in the currentRound</li>\
+										<li><span class="code orangetext">winner</span>: name of robot that won the currentRound</li>\
+										<li><span class="code orangetext">opponents</span>: currentRound data of all robots except self</li>\
+										<li><span class="code orangetext">colors</span>: list of cube colors</li>\
+										<li><span class="code orangetext">actions</span>: list of robot actions</li>\
+										<li><span class="code orangetext">conditions</span>: list of victory conditions</li>';
+									}
+
+									'<div class="section indented">\
+										<form id="save_form" method="post" action="javascript:;" onsubmit="window.robot_save();">\
+											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">()</span></button>\
+										</form>\
+									</div> <span class="message graytext"></span>\
+									<div class="section indented">\
+										<span class="greentext">code</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" contenteditable="true" id="inputs" value=' + (String(entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span> <span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul>' + inputList + '</ul></span></details></span>\
 										<div class="indented">\
 											<div class="field_frame active">\
 												<span class="whitetext field" contenteditable="true" id="code" value=' + (String(entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(entrant.code) + '</span>\
 											</div>\
 										</div>\
 										<span class="whitetext">}</span>\
-										<span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><li><span class="code greentext">power</span>: increment the robot\'s power number</li><li><span class="code greentext">take</span>: the taker with the most power wins the round\'s cubes</li><li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li><li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li><li><span class="code greentext">burn</span>: convert a random cube into power</li><li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li><li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li><li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li><li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li></details></span>\
+										<span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><ul>' + outputList + '</ul></details></span>\
 									</div>';
 								}
 							}
@@ -374,7 +414,22 @@
 								catch (error) {
 									"null";
 								}
-							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary><li>power: increment its power number</li><li>take: the taker with the most power wins the round's cubes</li><li>sleep: do nothing; this is the default for code errors or taking without power</li><li>sap: steal power from charging opponents with greater power</li><li>burn: convert a random cube into power</li><li>shock: put opponents with more total cubes to sleep</li><li>halftake: use half power, rounding up, to take cubes</li><li>swaptake: use half power to take cubes and return the same number of cubes, randomly</li><li>fliptake: take the cubes but invert the colors</li></details></span><br>
+							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary><ul><%
+								var outputList = '<li><span class="code greentext">power</span>: increment the robot\'s power number</li>\
+									<li><span class="code greentext">take</span>: the taker with the most power wins the round\'s cubes</li>\
+									<li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li>';
+								if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
+									outputList += '<li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li>\
+									<li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li>\
+									<li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li>';
+								}
+								if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
+									outputList += '<li><span class="code greentext">burn</span>: convert a random cube into power</li>\
+									<li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li>\
+									<li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>';
+								}
+								outputList
+							%></ul></details></span><br>
 							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.robots.tieBreaker || "null" %>"</span><span class="graytext"> // <details class="graytext"><summary><span>when multiple takers have the same power, where do the cubes go?</span></summary><li>leave: the cubes stay in the arena</li><li>dissolve: the cubes are destroyed</li><li>cascade: the cubes go to the next-most-powered robot</li><li>catchup: the cubes go to the robot with the least cubes</li><li>random: the cubes go to a random robot</li></details></span>
 						</div>
 						<span class="whitetext">},</span>

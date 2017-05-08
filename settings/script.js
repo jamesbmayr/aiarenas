@@ -76,9 +76,11 @@
 					},
 					success: function(data) {
 						if (data.success) {
-							$("#current_name").text($("#new_name").val());
+							var new_name = $("#new_name").val();
+							$("#current_name").text(new_name);
 							$("#new_name").val("");
 							$("#name").find(".message").animateText({text: (data.messages.name || "//name updated")}, 1000);
+							$("#navbar_human").find(".human_name").text(new_name);
 						}
 						else {
 							$("#new_name").val("");

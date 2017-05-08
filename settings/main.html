@@ -33,11 +33,6 @@
 				<div class="bracketer_top"><span class="whitetext">.preferences</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
 				<div class="megasection">
 					<div class="section indented">
-						<form method='post' action='javascript:;' onsubmit='window.settings_save();'>
-							<button id='settings_save'><span class='whitetext'></span><span class='greentext'>save</span><span class='whitetext'>: </span><span class='bluetext'>function</span><span class='whitetext'>(),</button>
-						</form>
-					</div>
-					<div class="section indented">
 						<span class="whitetext">font: </span>
 						<select id="font_scheme" class="whitetext">
 							<% 
@@ -87,6 +82,11 @@
 						</select>
 						<span class="whitetext"></span> <span class='message graytext'></span>
 					</div> -->
+					<div class="section indented">
+						<form method='post' action='javascript:;' onsubmit='window.settings_save();'>
+							<button id='settings_save'><span class='whitetext'></span><span class='greentext'>save</span><span class='whitetext'>: </span><span class='bluetext'>function</span><span class='whitetext'>()</button>
+						</form>
+					</div>
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>

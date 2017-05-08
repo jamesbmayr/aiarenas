@@ -1171,7 +1171,7 @@
 						}
 
 					//give the winner all the cubes, up to the maximum
-						if ((typeof winner !== "undefined") && (winner.name !== null)) {
+						if ((typeof winner !== "undefined") && (winner !== null) && (winner.name !== null)) {
 							console.log("winner: " + winner.name);
 							newRound.winner = winner.name; //log the winner's id in the current round
 
@@ -1296,16 +1296,21 @@
 
 				//spawn
 					console.log("phase 5: spawning cubes from " + newRound.cubes);
-					var colors = arena.rules.cubes.colors;
+					var colors = arena.rules.cubes.colors.join(",").split(",");
 					var spawnRate = arena.rules.cubes.spawnRate;
 					var spawnMemory = arena.rules.cubes.spawnMemory;
 
 					var pastCubes = [];
 
-					for (var i = 1; i < Math.min(spawnMemory, arena.rounds.length); i++) { //go back to each round that should be remembered...
+					for (var i = 1; i <= Math.min(spawnMemory, arena.rounds.length); i++) { //go back to each round that should be remembered...
 						pastCubes.push(arena.rounds[arena.rounds.length - i].cubes.slice(-spawnRate)); //and get which cubes were created
 					}
-					colors = colors.filter(function(color) {return pastCubes.indexOf(color) < 0}); //filter out those colors
+
+					for (var i = 0; i < pastCubes.length; i++) {
+						if (colors.indexOf(String(pastCubes[i])) > -1) {
+							colors.splice(colors.indexOf(String(pastCubes[i])),1);
+						}
+					}
 					
 					for (var i = 0; i < spawnRate; i++) {
 						var newCube = colors[Math.floor(Math.random() * colors.length)] || null; //pick a random color from the remaining colors

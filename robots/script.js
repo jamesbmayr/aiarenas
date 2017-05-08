@@ -124,10 +124,20 @@
 
 							data.code = data.code.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 
-							$(".field").each(function() {
-								$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
-								$(this).closest(".section").find(".message").animateText({text: (messages[$(this).attr("id")] || "")}, 1000);
-							});
+							/* navbar name */
+							console.log(data.name);
+							console.log($("#name").text());
+								if (data.name !== $("#name").attr("value")) {
+									console.log("name change");
+									$("#name").attr("value",data.name);
+									$("#navbar").find("a[href='../../../../robots/" + data.id + "']").find("span.bluetext").text(data.name);
+								}
+
+							/* fields */
+								$(".field").each(function() {
+									$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
+									$(this).closest(".section").find(".message").animateText({text: (messages[$(this).attr("id")] || "")}, 1000);
+								});
 
 							/* avatar */
 								if (Object.keys(data.avatar).length > 0) {
@@ -148,6 +158,7 @@
 									$("#avatar_color").css("color", data.avatar.color || previousColor);
 									$("#avatar").find(".message").animateText({text: (messages["avatar"] || "")}, 1000);
 								}
+
 						}
 
 						$("#robot_edit").show();

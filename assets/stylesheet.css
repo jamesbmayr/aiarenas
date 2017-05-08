@@ -256,6 +256,10 @@
 			display: inline-block;
 		}
 
+		details[open] ul {
+			min-width: calc(100vw - 138px);
+		}
+
 	/* noscript */
 		noscript div {
 			width: 100vw;

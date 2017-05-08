@@ -1172,7 +1172,11 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click", ".bracketer_top:not(.field_frame):not(details)", function() {
+		$(document).on("click",".bracketer_top details", function(event) {
+			event.stopPropagation();
+		});
+
+		$(document).on("click", ".bracketer_top:not(.field_frame):not(details)", function(event) {
 			if (!$(this).find(".field_frame.active").toArray().length) {
 				if ($(this).prev().hasClass("section-toggle-down")) {
 					$(this).next().animate({
