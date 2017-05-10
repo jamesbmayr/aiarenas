@@ -19,8 +19,8 @@
 				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
 			],
 			"messages": {
-				"instructions": "As mentioned earlier, data can be stored within an Object; each opponent within the opponents Array is an Object. Below, use the function add_opponent() to add 5 additional robots.",
-				"error": "No code changes; just use the function add_opponent() to create 5 new robots.",
+				"instructions": "As mentioned earlier, data can be stored within an Object; each opponent within the opponents Array is an Object. Below, use the function addOpponent() to add 5 additional robots.",
+				"error": "No code changes; just use the function addOpponent() to create 5 new robots.",
 				"success": "Success. Select the function next() to continue."
 			},
 			"start": {

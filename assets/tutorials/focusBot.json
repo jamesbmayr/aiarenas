@@ -62,7 +62,7 @@
 				"$('#inputs').closest('.field_frame').show()"
 			],
 			"messages": {
-				"instructions": "The function focusBot() should concentrate on whichever cubes it already has. Below, add the cubes and allCubes inputs. Then add 1 or more blue cubes using the function add_cube() below.",
+				"instructions": "The function focusBot() should concentrate on whichever cubes it already has. Below, add the cubes and allCubes inputs. Then add 1 or more blue cubes using the function addCube() below.",
 				"error": "Change the robot so it has 1 or more blue cubes already. The function focusBot() should recognize that the first cube in the arena is a color it already has; it should return \"take\".",
 				"success": "Success. Select the function next() to continue."
 			},

@@ -214,7 +214,7 @@
 				"$('.self').find('.cubes_purple').val(4);"
 			],
 			"messages": {
-				"instructions": "This game is not played alone. Add an opponent using the function add_opponent(), then add the Object opponents as another input.",
+				"instructions": "This game is not played alone. Add an opponent using the function addOpponent(), then add the Object opponents as another input.",
 				"error": "Make sure to add the opponents input. Keep the bot_0 power at 0.",
 				"success": "Success. Select the function next() to continue."
 			},

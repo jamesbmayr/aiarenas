@@ -1,6 +1,6 @@
 {
 	"name": "victoryBot",
-	"overview": "use the ternary operator ? : to meet the right conditions",
+	"overview": "change strategy based on victory conditions with the ? : operator",
 	"steps": [
 		{
 			"commands": [
@@ -10,21 +10,167 @@
 		},
 		{
 			"commands": [
+				"$('#workshop').show()",
+				"$('#console').closest('details').hide()",
+				"$('#arena').show()",
+				"$('#robots_outer').hide()",
+				"$('#cubes_outer').hide()",
+				"$('#rules').closest('.megasection').show()",
+				"$('#rules_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
 			],
 			"messages": {
-				"instructions": "",
-				"error": "",
-				"success": "Success. Select the function next() to complete the tutorial."
+				"instructions": "This function victoryBot() will use the victory conditions to determine what strategy to take. Below, add the conditions input, and set all 4 conditions to true within the rules.",
+				"error": "Make sure to set all 4 victory conditions to true.",
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
-				"inputs": "conditions, cubes, allCubes",
-				"code": "var color\ncolor = allCubes[0]\n\nif (conditions.indexOf(\"1of6\") > -1) {\n  return (cubes[ color ] == 0) ? \"take\" : \"power\"\n}\nelse if (conditions.indexOf(\"2of3\") > -1) {\n  return ( (cubes[ color ] < 2) && ((color == \"red\") || (color == \"yellow\") || (color == \"blue\")) ) ? \"take\" : \"power\"\n}\nelse if (conditions.indexOf(\"3of2\") > -1) {\n  return ( (cubes[ color ] < 3) && ((color == \"blue\") || (color == \"orange\")) ) ? \"take\" : \"power\"\n}\nelse if (conditions.indexOf(\"6of1\") > -1) {\n  return (cubes[ color ] < 6) ? \"take\" : \"power\"\n}",
+				"inputs": "",
+				"code": "return conditions",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions",
+				"code": "return conditions",
+				"output": "1of6,2of3,3of2,6of1"
+			}
+		},
+		{
+			"commands": [
+				"$('#robots_outer').show()",
+				"$('#robots').closest('.megasection').show()",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#cubes_outer').show()",
+				"$('#cubes').closest('.megasection').show()",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "The function victoryBot() will also need the cubes and allCubes inputs; add these below. For the tutorial, the function will make decisions based on the first cube. Add 1 orange cube using the function addCube() and set the function to return allCubes[0].",
+				"error": "Make sure the function victoryBot() will return only the first cube, allCubes[0].",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "conditions",
+				"code": "return conditions",
 				"output": ""
 			},
 			"end": {
 				"inputs": "conditions, cubes, allCubes",
-				"code": "var color color = allCubes[0] if (conditions.indexOf(\"1of6\") > -1) { return (cubes[ color ] == 0) ? \"take\" : \"power\" } else if (conditions.indexOf(\"2of3\") > -1) { return ( (cubes[ color ] < 2) && ((color == \"red\") || (color == \"yellow\") || (color == \"blue\")) ) ? \"take\" : \"power\" } else if (conditions.indexOf(\"3of2\") > -1) { return ( (cubes[ color ] < 3) && ((color == \"blue\") || (color == \"orange\")) ) ? \"take\" : \"power\" } else if (conditions.indexOf(\"6of1\") > -1) { return (cubes[ color ] < 6) ? \"take\" : \"power\" }",
+				"code": "return allCubes[0]",
+				"output": "orange"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Now the function will return \"take\" if it does not have any orange cubes, and \"power\" if it does. Change the if and else blocks to the ? : ternary operator.",
+				"error": "The ternary operator condition should be... cubes[color] == 0. After the ? the true code should be... return \"take\". After the : the false code should be... return \"power\".",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nif (cubes[color] == 0) {\n  return \"take\"\n}\nelse {\n  return \"power\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] return (cubes[color] == 0 ? \"take\" : \"power\")",
 				"output": "take"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "This strategy only works if the condition \"1of6\" is true. Check the .indexOf() the condition within the conditions Array first. Set the \"1of6\" condition to false within the rules below.",
+				"error": "The if condition should be (conditions.indexOf(\"1of6\") !== -1).",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nif (???) {\n  return (cubes[color] == 0 ? \"take\" : \"power\")\n}\nelse {\n  return \"condition not set\"\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] if (conditions.indexOf(\"1of6\") !== -1) { return (cubes[color] == 0 ? \"take\" : \"power\") } else { return \"condition not set\" }",
+				"output": "condition not set"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Now the function victoryBot() can check multiple conditions. For the \"6of1\" condition, the robot should check if it already has 5 cubes of a color, since it needs 6 to win. So if it does have 5, return \"take\", or else return \"power\".",
+				"error": "For \"6of1\", use the ternary operator. The condition is... cubes[color] == 5.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nif (conditions.indexOf(\"1of6\") !== -1) {\n  return (cubes[color] == 0 ? \"take\" : \"power\")\n}\nelse if (conditions.indexOf(\"6of1\") !== -1) {\n  return (???)\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] if (conditions.indexOf(\"1of6\") !== -1) { return (cubes[color] == 0 ? \"take\" : \"power\") } else if (conditions.indexOf(\"6of1\") !== -1) { return (cubes[color] == 5 ? \"take\" : \"power\") }",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "The function victoryBot() can also add a strategy for the \"2of3\" condition by copying the function primaryBot(). Below, complete the ternary operator using the colors \"red\", \"yellow\", and \"blue\".",
+				"error": "Make sure to return \"take\" when the color is red, yellow, or blue... or else return \"power\".",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nreturn ( ((color == ???) || (color == ???) || (color == \"blue\")) ? \"take\" : ??? )",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] return ( ((color == \"red\") || (color == \"yellow\") || (color == \"blue\")) ? \"take\" : \"power\" )",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Similarly, the function victoryBot() can add a strategy for the \"3of2\" condition by focusing on 2 complimentary (opposite) colors: orange and blue. Below, complete the ternary operator using the colors \"orange\" and \"blue\".",
+				"error": "Make sure to return \"take\" when the color is orange or blue... or else return \"power\".",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nreturn ( ((color == ???) || (color == ???)) ? ??? : ??? )",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] return ( ((color == \"orange\") || (color == \"blue\")) ? \"take\" : \"power\" )",
+				"output": "take"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Finally, add these conditions into the overall function within the \"2of3\" and \"3of2\" else if blocks.",
+				"error": "For \"2of3\", the ternary operator should check whether the color is red, yellow, or blue. For \"3of2\", the ternary operator should check whether the color is orange or blue.",
+				"success": "Success. Try changing the arena cubes and the robot cubes below to see different eval()uations, or select the function next() to complete the tutorial."
+			},
+			"start": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color\ncolor = allCubes[0]\n\nif (conditions.indexOf(\"1of6\") !== -1) {\n  return (cubes[color] == 0 ? \"take\" : \"power\")\n}\nelse if (conditions.indexOf(\"2of3\") !== -1) {\n  ???\n}\nelse if (conditions.indexOf(\"3of2\") !== -1) {\n  ???\n}\nelse if (conditions.indexOf(\"6of1\") !== -1) {\n  return (cubes[color] == 5 ? \"take\" : \"power\")\n}",
+				"output": ""
+			},
+			"end": {
+				"inputs": "conditions, cubes, allCubes",
+				"code": "var color color = allCubes[0] if (conditions.indexOf(\"1of6\") !== -1) { return (cubes[color] == 0 ? \"take\" : \"power\") } else if (conditions.indexOf(\"2of3\") !== -1) { return ( ((color == \"red\") || (color == \"yellow\") || (color == \"blue\")) ? \"take\" : \"power\") } else if (conditions.indexOf(\"3of2\") !== -1) { return ( ((color == \"orange\") || (color == \"blue\")) ? \"take\" : \"power\" ) } else if (conditions.indexOf(\"6of1\") !== -1) { return (cubes[color] == 5 ? \"take\" : \"power\") }",
+				"output": "power"
 			}
 		}
 	]

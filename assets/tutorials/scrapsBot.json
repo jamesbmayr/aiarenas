@@ -1,6 +1,6 @@
 {
 	"name": "scrapsBot",
-	"overview": "go after what opponents leave behind using Array and .push()",
+	"overview": "go for cubes opponents ignore using the ternary operator",
 	"steps": [
 		{
 			"commands": [
@@ -10,20 +10,287 @@
 		},
 		{
 			"commands": [
+				"$('#workshop').show()",
+				"$('#console').closest('details').hide()",
+				"$('#arena').show()",
+				"$('#rules_outer').hide()",
+				"$('#robots').closest('.megasection').show()",
+				"$('#robots_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+				"$('#cubes').closest('.megasection').show()",
+				"$('#cubes_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
 			],
 			"messages": {
-				"instructions": "",
-				"error": "",
-				"success": "Success. Select the function next() to complete the tutorial."
+				"instructions": "This function scrapsBot() identifies the colors opponents are collecting and chooses to \"take\" other cubes instead. Below, add the opponents and allCubes inputs. Then add 1 opponent robot (using the function addOpponent()) and 2 blue cubes (using the function addCube()) below.",
+				"error": "Make sure to add 2 blue cubes, 1 opponent robot, and the opponents and allCubes inputs.",
+				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
-				"inputs": "conditions, cubes, allCubes",
-				"code": "var actions\nactions = []\n\nfor (opponent of opponents) {\n  opponent.takeProb = 0\n    for (color of allCubes) {\n      opponent.takeProb =  opponent.takeProb + (opponent.cubes[color] > 2) ? 1 : - 1\n  }\n  actions.push( (opponents.takeProb > 0) ? \"power\" : \"take\" )\n}\n\nreturn actions[ Math.floor(Math.random() * actions.length) ]",
+				"inputs": "",
+				"code": "return opponents.length + allCubes.length",
 				"output": ""
 			},
 			"end": {
-				"inputs": "conditions, cubes, allCubes",
-				"code": "var actions actions = [] for (opponent of opponents) { opponent.takeProb = 0 for (color of allCubes) { opponent.takeProb = opponent.takeProb + (opponent.cubes[color] > 2) ? 1 : - 1 } actions.push( (opponents.takeProb > 0) ? \"power\" : \"take\" ) } return actions[ Math.floor(Math.random() * actions.length) ]",
+				"inputs": "opponents, allCubes",
+				"code": "return opponents.length + allCubes.length",
+				"output": "3"
+			}
+		},
+		{
+			"commands": [
+				"$('#rules_outer').show()",
+				"$('#rules').closest('.megasection').show()",
+				"$('#rules_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
+			],
+			"messages": {
+				"instructions": "The function scrapsBot() will work by selecting a random action (either \"power\" or \"take\"), with probabilities weighted based on the state of the arena. Below, add the actions input and disable all actions except \"power\" and \"take\" within the rules.",
+				"error": "Make sure to enable only the \"power\" and \"take\" actions.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes",
+				"code": "return actions",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "return actions",
+				"output": "power,take"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "As a baseline, this function will use Math.random() to select a random action. Fix the code below to return \"power\" and \"take\" with equal probability. (This should be similar to the function randomBot() code.)",
+				"error": "The structure to return a random item from an Array is example[ Math.floor(Math.random() * example.length) ]. Keep eval()uating until the function has return value of \"power\".",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "return actions[ ???(??? * actions.length) ]",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "return actions[ Math.floor(Math.random() * actions.length) ]",
+				"output": "power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "The function scrapsBot() must now determine the probability that the opponent will \"take\". This function will assume that if the opponent already has 3 or more blue cubes, it will likely attempt to \"take\" another; otherwise, it will not. Fix the if condition below accordingly.",
+				"error": "For now, the if condition should be (opponents[0].cubes[\"blue\"] >= 3). Set the opponent to 3 blue cubes within the robot card below to see the probability become positive.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability\nprobability = 0\n\n//what should the condition be?\nif (opponents[0].??? >= ???) {\n  probability = probability + 1\n}\nelse {\n  probability = probability - 1\n}\n\nreturn probability",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability probability = 0 if (opponents[0].cubes[\"blue\"] >= 3) { probability = probability + 1 } else { probability = probability - 1 } return probability",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#workshop').hide()"
+			],
+			"messages": {
+				"instructions": "Previous robots have all used the if, else if, else method or the switch  case method to test conditions. Javascript provides a third option: the ternary operator.",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#workshop').show()",
+				"$('#inputs').closest('.field_frame').hide()"
+			],
+			"messages": {
+				"instructions": "The ternary operator is structured... condition ? value when true : value when false.",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "return (2 == 2 ? \"yes\" : \"no\")",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "return (2 == 2 ? \"yes\" : \"no\")",
+				"output": "yes"
+			}
+		},
+		{
+			"commands": [
+				"$('#inputs').closest('.field_frame').show()"
+			],
+			"messages": {
+				"instructions": "The ternary operator is equivalent to if (condition) { code when true } else { code when false }. Below, transform the if and else blocks into a ternary operator statement.",
+				"error": "Use the ternary operator to condense the if and else blocks onto one line. The structure is... condition ? value when true : value when false.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var output\n\nif (1 + 2 == 4) {\n  output = \"math checks out\"\n}\nelse {\n  output = \"bad math\"\n}\n\nreturn output",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var output output = (1 + 2 == 4 ? \"math checks out\" : \"bad math\") return output",
+				"output": "bad math"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show()"
+			],
+			"messages": {
+				"instructions": "The function scrapsBot() can use the ternary operator to condense its code. Below, change the if and else blocks using the ternary operator ? :.",
+				"error": "Start with probability = probability + (). Then, inside the parentheses, the condition is still opponents[0].cubes[\"blue\"] >= 3. Then, after the ? is the code when true... 1. After the : is the value when false... -1.",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability\nprobability = 0\n\nif (opponents[0].cubes[\"blue\"] >= 3) {\n  probability = probability + 1\n}\nelse {\n  probability = probability - 1\n}\n\nreturn probability",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability probability = 0 probability = probability + (opponents[0].cubes[\"blue\"] >= 3 ? 1 : -1) return probability",
+				"output": "1"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Of course, the function scrapsBot() should not check only blue cubes. Wrap the existing code inside a for of loop to check the color of each of allCubes.",
+				"error": "Make sure to loop through for (color of allCubes). Instead of checking opponents[0].cubes[\"blue\"], the function must check opponents[0].cubes[color].",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability\nprobability = 0\n\nfor (color of ???) {\n  probability = probability + (opponents[0].cubes[???] >= 3 ? 1 : -1)\n}\n\nreturn probability",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability probability = 0 for (color of allCubes) { probability = probability + (opponents[0].cubes[color] >= 3 ? 1 : -1) } return probability",
+				"output": "2"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').hide()",
+				"$('#inputs').closest('.field_frame').hide()"
+			],
+			"messages": {
+				"instructions": "The function scrapsBot() should use the probability to affect its actions output: if the probability is positive, another \"power\" will be added to the actions Array. Otherwise, the actions Array will receive another \"take\". This can be done using the Array.push() function.",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "var alphabet\nalphabet = [\"a\",\"b\",\"c\"]\n\nalphabet.push(\"d\")\n\nreturn alphabet",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "var alphabet\nalphabet = [\"a\",\"b\",\"c\"]\n\nalphabet.push(\"d\")\n\nreturn alphabet",
+				"output": "a,b,c,d"
+			}
+		},
+		{
+			"commands": [
+				"$('#arena').show()"
+			],
+			"messages": {
+				"instructions": "Below, use .push() to add \"power\" to the actions Array if the probability is positive; otherwise, add \"take\".",
+				"error": "Remember, if the probability > 0, the Array actions should have .push(\"power\"), or else it should have .push(\"take\").",
+				"success": "Success. Now the actions Array has \"power\" more than \"take\", essentially weighting that action so it will appear in a Math.random() construction more often. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability\nprobability = 0\n\nfor (color of allCubes) {\n  probability = probability + (opponents[0].cubes[color] >= 3 ? 1 : -1)\n}\n\nif (???) {\n  actions.push(???)\n}\nelse {\n  actions.push(???)\n}\n\nreturn actions",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability probability = 0 for (color of allCubes) { probability = probability + (opponents[0].cubes[color] >= 3 ? 1 : - 1) } if (probability > 0) { actions.push(\"power\") } else { actions.push(\"take\") } return actions",
+				"output": "power,take,power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Again, the ternary operator can be used to simplify these if and else blocks into 1 line. Below, change the newest section into a ? : statement. The entire ternary statement can be inside the .push() parentheses.",
+				"error": "Start with actions.push(). Inside the parentheses, use probability > 0 as the condition; when that condition is true, \"power\"; when that condition is false, \"take\".",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability\nprobability = 0\n\nfor (color of allCubes) {\n  probability = probability + (opponents[0].cubes[color] >= 3 ? 1 : -1)\n}\n\nif (probability > 0) {\n  actions.push(\"power\")\n}\nelse {\n  actions.push(\"take\")\n}\n\nreturn actions",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "var probability probability = 0 for (color of allCubes) { probability = probability + (opponents[0].cubes[color] >= 3 ? 1 : - 1) } actions.push( probability > 0 ? \"power\" : \"take\" ) return actions",
+				"output": "power,take,power"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "The function scrapsBot() should also check the cubes of other opponents. Below, wrap the existing code inside another for of loop. Use the function addOpponent() below to add 2 opponents, each with 0 blue cubes.",
+				"error": "The outer for of loop should check for (opponent of opponents).",
+				"success": "Success. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "for (??? of ???) {\n  var probability\n  probability = 0\n  //here, probability is reset for each opponent\n\n for (color of allCubes) {\n    probability = probability + (opponent.cubes[color] >= 3 ? 1 : -1)\n    //this checks each opponent, not just opponent[0]\n  }\n\n  actions.push( probability > 0 ? \"power\" : \"take\" )\n  //this will add 1 action in response to each opponent\n}\n\nreturn actions",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "for (opponent of opponents) { var probability probability = 0 for (color of allCubes) { probability = probability + (opponent.cubes[color] >= 3 ? 1 : -1) } actions.push( probability > 0 ? \"power\" : \"take\" ) } return actions",
+				"output": "power,take,power,take,take"
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "Finally, bring back the Math.random() construction from earlier to select 1 action from the actions Array.",
+				"error": "The function should return actions[ Math.floor(Math.random() * actions.length) ]. Change the cubes and opponents below to see different return values, or select the function next() to complete the tutorial.",
+				"error": "The function should return actions[ Math.floor(Math.random() * actions.length) ]. Change the cubes and opponents below to see different return values, or select the function next() to complete the tutorial."
+			},
+			"start": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "for (opponent of opponents) {\n  var probability\n  probability = 0\n\n  for (color of allCubes) {\n    probability = probability + (opponent.cubes[color] >= 3 ?  1 : -1)\n  }\n\n  actions.push( probability > 0 ? \"power\" : \"take\" )\n}\n\nreturn ???",
+				"output": ""
+			},
+			"end": {
+				"inputs": "opponents, allCubes, actions",
+				"code": "for (opponent of opponents) { var probability probability = 0 for (color of allCubes) { probability = probability + (opponent.cubes[color] >= 3 ?  1 : -1) } actions.push( probability > 0 ? \"power\" : \"take\" ) } return actions[ Math.floor(Math.random() * actions.length) ]",
 				"output": "take"
 			}
 		}
