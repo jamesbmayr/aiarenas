@@ -620,6 +620,21 @@
 								catch (error) {_403();}
 							break;
 
+							case "upload_robot":
+							console.log("here");
+								try {
+									if (session.human !== null) {
+										robots.upload(session, post, function(data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to upload robot"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
 						/* arenas */
 							case "create_arena":
 								try {

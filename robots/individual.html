@@ -15,7 +15,8 @@
 		<div class="container" value="<% data.id %>">
 			<div class="top_outer">
 				<div class="top_inner">
-					<div class="section">
+					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<div class="section bracketer_top">
 						<span class="field_frame" id="name_frame"><span class="field whitetext header" id="name" value="<% data.name %>"><% data.name %></span></span> <span class="graytext" id="message_top"></span> <span class='message graytext'></span>
 					</div>
 					<div class="indented">
@@ -71,7 +72,7 @@
 						<span class="whitetext">},</span>
 					</div>
 					<%
-						if ((session.human !== null) && (session.human.id === data.human.id)) {
+						/* if ((session.human !== null) && (session.human.id === data.human.id)) {
 							if (data.information.show_code === "true") {
 								console.log("true");
 								var show_code_true = " selected";
@@ -91,7 +92,7 @@
 								</select>\
 								<span class="whitetext">,</span> <span class="message graytext"></span>\
 							</div>';
-						}
+						} */
 					%>
 					<div class="section indented">
 						<span class="whitetext">bio: </span> <span class='message graytext'></span>
@@ -267,14 +268,18 @@
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				<% 
-					if (((typeof data.information.show_code !== "undefined") && (data.information.show_code === "true")) || (session.human !== null) && (data.human.id === session.human.id)) {
-						var code = data.code || " /* no code */ ";
-						var inputs = data.inputs || "";
-					} 
-					else {
-						var code = " /* hidden */ ";
-						var inputs = "";
-					}
+					//if (((typeof data.information.show_code !== "undefined") && (data.information.show_code === "true")) || (session.human !== null) && (data.human.id === session.human.id)) { 
+					//	var code = data.code || " /* no code */ ";
+					//	var inputs = data.inputs || "";
+					//} 
+					//else {
+					//	var code = " /* hidden */ ";
+					//	var inputs = "";
+					//}
+				%>
+				<%
+					var code = data.code || " /* no code */ ";
+					var inputs = data.inputs || "";
 				%>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span><span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul><%

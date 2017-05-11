@@ -3,10 +3,10 @@
 
 /* create(session, post, callback) */
 	function create(session, post, callback) {
-		if ((session.human.robots.length > 0) && ((typeof session.human.email === "undefined") || (session.human.email === null))) {
-			callback({success: false, messages: {top: "//verify email to create additional robots"}});
-		}
-		else {
+		// if ((session.human.robots.length > 0) && ((typeof session.human.email === "undefined") || (session.human.email === null))) {
+		// 	callback({success: false, messages: {top: "//verify email to create additional robots"}});
+		// }
+		// else {
 			var id = processes.random();
 
 			var robot = {
@@ -48,12 +48,12 @@
 				code: "action = \"sleep\"\nreturn action"
 			}
 
-			processes.store("robots", null, robot, function(robot) {
+			processes.store("robots", null, robot, function(results) {
 				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
-					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}});
+					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}, data: robot});
 				});
 			});
-		}
+		// }
 	}
 
 /* update(session, post, callback) */
@@ -92,7 +92,7 @@
 							}
 						break;
 
-						case "show_code":
+						/* case "show_code":
 							if (data.show_code === robot.information.show_code) {
 								//no change
 							}
@@ -104,7 +104,7 @@
 								robot.information.show_code = data.show_code;
 								messages.show_code = "//code visibility updated";
 							}
-						break;
+						break; */
 
 						case "bio":
 							if (data.bio === robot.information.bio) {
@@ -213,10 +213,33 @@
 		})
 	}
 
+/* upload(session, post, callback) */
+	function upload(session, post, callback) {
+		console.log(1);
+		var robot = JSON.parse(post.data);
+		console.log(robot);
+
+		robot.id = processes.random();
+		console.log(robot.id);
+		robot.human.id = session.human.id;
+		robot.human.name = session.human.name;
+		robot.statistics.wins = 0;
+		robot.statistics.losses = 0;
+		
+		console.log(2);
+
+		processes.store("robots", null, robot, function(results) {
+			processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
+				callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created from upload"}, data: robot});
+			});
+		});
+	}
+
 /* exports */
 	module.exports = {
 		create: create,
 		update: update,
 		destroy: destroy,
-		load: load
+		load: load,
+		upload: upload
 	};

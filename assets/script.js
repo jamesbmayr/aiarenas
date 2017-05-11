@@ -1154,6 +1154,12 @@ $(document).ready(function() {
 					height: 0
 				},1000);
 
+				if ($(this).parent().hasClass("top_inner")) {
+					$(".content").animate({
+						"margin-top": 46
+					},1000);
+				}
+
 				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
 			}
 			else if ($(this).hasClass("section-toggle-up")) {
@@ -1163,6 +1169,12 @@ $(document).ready(function() {
 				$(section).css("height",0).show().animate({
 					height: height
 				},1000);
+
+				if ($(this).parent().hasClass("top_inner")) {
+					$(".content").animate({
+						"margin-top": (Number(height.replace("px","")) + 46)
+					},1000);
+				}
 
 				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
 
@@ -1176,29 +1188,43 @@ $(document).ready(function() {
 			event.stopPropagation();
 		});
 
-		$(document).on("click", ".bracketer_top:not(.field_frame):not(details)", function(event) {
-			if (!$(this).find(".field_frame.active").toArray().length) {
-				if ($(this).prev().hasClass("section-toggle-down")) {
-					$(this).next().animate({
-						height: 0
+		$(document).on("click",".field_frame.active", function(event) {
+			event.stopPropagation();
+		});
+
+		$(document).on("click", ".bracketer_top", function(event) {
+			if ($(this).prev().hasClass("section-toggle-down")) {
+				$(this).next().animate({
+					height: 0
+				},1000);
+
+				if ($(this).parent().hasClass("top_inner")) {
+					$(".content").animate({
+						"margin-top": 46
 					},1000);
-
-					$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
 				}
-				else if ($(this).prev().hasClass("section-toggle-up")) {
-					var section = $(this).next();
-					var height = $(section).hide().css("height","auto").css("height");
 
-					$(section).css("height",0).show().animate({
-						height: height
+				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
+			}
+			else if ($(this).prev().hasClass("section-toggle-up")) {
+				var section = $(this).next();
+				var height = $(section).hide().css("height","auto").css("height");
+
+				$(section).css("height",0).show().animate({
+					height: height
+				},1000);
+
+				if ($(this).parent().hasClass("top_inner")) {
+					$(".content").animate({
+						"margin-top": (Number(height.replace("px","")) + 46)
 					},1000);
-
-					$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
-
-					setTimeout(function() {
-						$(section).css("height","auto");
-					},1010);
 				}
+
+				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+
+				setTimeout(function() {
+					$(section).css("height","auto");
+				},1010);
 			}
 		});
 

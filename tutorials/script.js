@@ -150,7 +150,9 @@
 						window.evaluating = true;
 						$("#console").empty();
 						$("#next_step").prop("disabled",true);
+						
 						$(".top_inner").find(".indented").hide();
+						$(".top_inner").find(".section-toggle").removeClass("section-toggle-down").addClass("section-toggle-up").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
 						resizeTop();
 
 					//get code and inputs
@@ -428,12 +430,14 @@
 								clearInterval(window.loop);
 
 								$(".top_inner").find(".indented").show();
+								$(".top_inner").find(".section-toggle").removeClass("section-toggle-up").addClass("section-toggle-down").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
 								resizeTop();
 								setTimeout(function() {
 									$("#inputs").animateText({text: window.inputs.join(", ") || ""},1000);
 									$("#inputs").prop("contenteditable",true).closest(".field_frame").addClass("active");
 									$("#code").animateText({text: window.code.join("\n") || ""},1000);
 									$("#code").prop("contenteditable",true).closest(".field_frame").addClass("active");
+									
 									window.evaluating = false;
 									$("#next_step").prop("disabled",false);
 								},3000);

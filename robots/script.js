@@ -246,8 +246,50 @@
 			window.load_robot = function() {
 				var robot_id = $("#robot_select").val() || null;
 
-				if (robot_id === "new_robot") {
-					window.navbar_create_robot();
+				if (robot_id === "new") {
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "create_robot",
+						},
+						success: function(results) {
+							if (results.success) {
+								var data = results.data;
+								$("#message_top").animateText({text: (results.messages.top || "//successfully created robot")},1000);
+								$(".content").show();
+								$("#workshop_save").show();
+								$("#workshop_download").show();
+
+								$(".robot_name").animateText({text: data.name},1000);
+								$(".container").attr("value",data.id);
+
+								$("#inputs").attr("value", data.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).text(data.inputs);
+								$("#code").attr("value", data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).text(data.code);
+								
+								$(".self").attr("id",data.id).find(".avatar_pre").replaceWith('<pre class="avatar_pre" monospace style="color: ' + (data.avatar.color || "var(--white)") + '">\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (data.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (data.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.eyes || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (data.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.mouth || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (data.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (data.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (data.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (data.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (data.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (data.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
+ <a class="bluetext" href="../../../../robots/' + data.id + '" target="_blank">' + data.name + '</a></pre>');
+								
+								resizeTop();
+
+								$("#navbar_robots").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
+							}
+							else {
+								$("#message_top").animateText({text: (results.messages.top || "//unable to create robot")},1000);
+							}
+						}
+					});
+				}
+				else if (robot_id === "upload") {
+					$("#file_chooser").click();
 				}
 				else {
 					$.ajax({
@@ -260,9 +302,10 @@
 						success: function(results) {
 							if (results.success) {
 								var data = results.data;
-								$("#message_top").animateText({text: (results.messages.top || "successfully loaded robot")},1000);
+								$("#message_top").animateText({text: (results.messages.top || "//successfully loaded robot")},1000);
 								$(".content").show();
 								$("#workshop_save").show();
+								$("#workshop_download").show();
 
 								$(".robot_name").animateText({text: data.name},1000);
 								$(".container").attr("value",data.id);
@@ -284,7 +327,7 @@
 								resizeTop();
 							}
 							else {
-								$("#message_top").animateText({text: (data.messages.top || "unable to retrieve robot")},1000);
+								$("#message_top").animateText({text: (results.messages.top || "unable to retrieve robot")},1000);
 							}
 						}
 					});
@@ -366,9 +409,14 @@
 						window.evaluating = true;
 						$("#console").empty();
 						$("#load_robot").prop("disabled",true);
+						$("#workshop_save").prop("disabled",true);
+						$("#workshop_download").prop("disabled",true);
+						
 						$(".top_inner").find(".indented").hide();
-						$("#message_top").animateText({text: "//evaluating..."}, 1000);
+						$(".top_inner").find(".section-toggle").removeClass("section-toggle-down").addClass("section-toggle-up").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
 						resizeTop();
+						
+						$("#message_top").animateText({text: "//evaluating..."}, 1000);
 
 					//get code and inputs
 						window.code = $("#code").html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
@@ -632,19 +680,128 @@
 								clearInterval(window.loop);
 
 								$(".top_inner").find(".indented").show();
+								$(".top_inner").find(".section-toggle").removeClass("section-toggle-up").addClass("section-toggle-down").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
 								$("#message_top").animateText({text: "//eval complete"}, 1000);
-								resizeTop();
+								
 								setTimeout(function() {
 									$("#inputs").animateText({text: window.inputs.join(", ") || ""},1000);
 									$("#inputs").prop("contenteditable",true).closest(".field_frame").addClass("active");
 									$("#code").animateText({text: window.code.join("\n") || ""},1000);
 									$("#code").prop("contenteditable",true).closest(".field_frame").addClass("active");
+									
 									window.evaluating = false;
 									$("#load_robot").prop("disabled",false);
+									$("#workshop_save").prop("disabled",false);
+									$("#workshop_download").prop("disabled",false);
 								},3000);
 							}
 						},1000);
 				}
 			}
 		
+		/* download & upload */
+			window.robot_download = function() {
+				//data
+					var robot = {
+						id: $(".container").attr("value"),
+						name: $(".robot_name").toArray()[0].innerHTML.trim(),
+						human: {
+							id: null,
+							name: null
+						},
+						created: new Date().getTime(),
+						information: {
+							show_code: true,
+							bio: null,
+							music: {}
+						},
+						avatar: {
+							color: $(".avatar_pre").attr("style").toString().replace("color: ",""),
+							antennae: $(".avatar_antennae").attr("value"),
+							eyes: $(".avatar_eyes").attr("value"),
+							mouth: $(".avatar_mouth").attr("value"),
+							left_arm: $(".avatar_left_arm").attr("value"),
+							right_arm: $(".avatar_right_arm").attr("value"),
+							left_wrist: $(".avatar_left_wrist").attr("value"),
+							right_wrist: $(".avatar_right_wrist").attr("value"),
+							left_hand: $(".avatar_left_hand").attr("value"),
+							right_hand: $(".avatar_right_hand").attr("value"),
+							torso_1:$(".avatar_torso_1").attr("value"),
+							torso_2: $(".avatar_torso_2").attr("value"),
+							torso_3: $(".avatar_torso_3").attr("value"),
+							legs: $(".avatar_legs").attr("value"),
+							left_foot: $(".avatar_left_foot").attr("value"),
+							right_foot: $(".avatar_right_foot").attr("value"),
+						},
+						statistics: {
+							wins: 0,
+							losses: 0,
+						},
+						inputs: $("#inputs").text(),
+						code: $("#code").text()
+					}
+
+				//package
+					var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(robot));
+
+					$("body").append("<a id='download_link' href='data:" + data + "' download='" + robot.name + ".json'></a>");
+
+				//download
+					$("#download_link").click(function() {
+						$(this).remove();
+					})[0].click();
+			}
+
+			$(document).on("change","#file_chooser",function(event) {
+				if (($("#file_chooser").val() !== null) && ($("#file_chooser").val().length > 0)) {
+				var reader = new FileReader();
+				reader.readAsText(event.target.files[0]);
+				reader.onload = function(event) {
+					var data = JSON.parse(event.target.result);
+
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "upload_robot",
+							data: JSON.stringify(data)
+						},
+						success: function(results) {
+							if (results.success) {
+								var data = results.data;
+								$("#message_top").animateText({text: (results.messages.top || "//successfully uploaded robot")},1000);
+								$(".content").show();
+								$("#workshop_save").show();
+								$("#workshop_download").show();
+
+								$(".robot_name").animateText({text: data.name},1000);
+								$(".container").attr("value",data.id);
+
+								$("#inputs").attr("value", data.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).text(data.inputs);
+								$("#code").attr("value", data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).text(data.code);
+								
+								$(".self").attr("id",data.id).find(".avatar_pre").replaceWith('<pre class="avatar_pre" monospace style="color: ' + (data.avatar.color || "var(--white)") + '">\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (data.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (data.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.eyes || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (data.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.mouth || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (data.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (data.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (data.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (data.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (data.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (data.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
+ <a class="bluetext" href="../../../../robots/' + data.id + '" target="_blank">' + data.name + '</a></pre>');
+								
+								resizeTop();
+
+								$("#navbar_robots").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
+							}
+							else {
+								$("#message_top").animateText({text: (results.messages.top || "unable to upload robot")},1000);
+							}
+						}
+					});
+				}
+			}
+		});
+
 	});

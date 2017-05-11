@@ -15,7 +15,8 @@
 		<div class="container" value="<% data.id %>">
 			<div class="top_outer">
 				<div class="top_inner">
-					<div class="section">
+					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<div class="section bracketer_top">
 						<span class="whitetext header" id="name"><% data.name %></span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
@@ -124,7 +125,7 @@
 							if ((session.human !== null) && (session.human.id === data.id)) {
 								var robots = "<div class='section'>\
 									<form method='post' action='javascript:;' onsubmit='window.create_robot();'>\
-										<button id='human_create_robot'><span class='greentext'>create</span><span class='whitetext'>() ,</span></button>\
+										<button id='human_create_robot'><span class='greentext'>create</span><span class='whitetext'>()</span></button>,\
 									</form>\
 								</div>"
 							}

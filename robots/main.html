@@ -15,7 +15,8 @@
 		<div class="container" value="">
 			<div class="top_outer">
 				<div class="top_inner">
-					<div class="section">
+					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<div class="section bracketer_top">
 						<span class="whitetext header">robots</span> <span class="graytext" id="message_top"></span>
 					</div>
 					<div class="indented">
@@ -25,9 +26,10 @@
 									<% 
 										var robots = session.human.robots || [];
 										var options = "";
-										if (session.human.email !== null) {
-											robots.push({"id": "new_robot", "name": "new_robot"});
-										}
+										//if (session.human.email !== null) {
+											robots.push({"id": "new", "name": "new"});
+											robots.push({"id": "upload", "name": "upload"});
+										//}
 										for (var i = 0; i < robots.length; i++) {
 											options += "<option value='" + robots[i].id + "'>" + robots[i].name + "</option>";
 										}
@@ -41,6 +43,14 @@
 							<form method='post' action='javascript:;' onsubmit='window.robot_save();'>
 								<button id='workshop_save' style='display: none'><span class='whitetext'>.</span><span class='greentext'>save</span><span class='whitetext'>()</span></button>
 							</form>
+						</div>
+						<div class="section">
+							<form method='post' action='javascript:;' onsubmit='window.robot_download();'>
+								<button id='workshop_download' style='display: none'><span class='whitetext'>.</span><span class='greentext'>download</span><span class='whitetext'>()</span></button>
+							</form>
+						</div>
+						<div class="section">
+							<input type="file" name="file_chooser" id="file_chooser"/>
 						</div>
 					</div>
 					<hr>
