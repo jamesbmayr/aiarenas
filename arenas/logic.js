@@ -977,6 +977,8 @@
 										newRound.robots[j].action = "sleep"; //sleep all robots who aren't themselves shocking and have more cubes than the shocker
 									}
 								}
+
+								newRound.robots[i].power = Math.floor(newRound.robots[i].power / 2); //set the robot's power to 50%, rounded down
 							}
 						}
 

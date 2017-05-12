@@ -279,7 +279,17 @@
 										}
 
 										options.substring(0,options.length - 1).replace("id='robots_actions_take'", "id='robots_actions_take' checked").replace("id='robots_actions_power'", "id='robots_actions_power' checked").replace("id='robots_actions_sleep'", "id='robots_actions_sleep' checked");
-									%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which actions are available to robots in this arena?</span></summary><li>power: increment its power number</li><li>take: the taker with the most power wins the round's cubes</li><li>sleep: do nothing; this is the default for code errors or taking without power</li><li>sap: steal power from charging opponents with greater power</li><li>burn: convert a random cube into power</li><li>shock: put opponents with more total cubes to sleep</li><li>halftake: use half power, rounding up, to take cubes</li><li>swaptake: use half power to take cubes and return the same number of cubes, randomly</li><li>fliptake: take the cubes but invert the colors</li></details></span><br>
+									%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><ul>
+										<li><span class="code greentext">power</span>: increment the robot\'s power number</li>
+										<li><span class="code greentext">take</span>: the taker with the most power wins the round\'s cubes</li>
+										<li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li>
+										<li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li>
+										<li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li>
+										<li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li>
+										<li><span class="code greentext">burn</span>: convert a random cube into power</li>
+										<li><span class="code greentext">shock</span>: use half power to put opponents with more total cubes to sleep</li>
+										<li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>
+									</ul></details></span><br>
 									<span class="whitetext">tieBreaker: </span><select class="yellowtext" id="robots_tieBreaker"><% 
 										var options = "";
 										var values = ["leave","dissolve","cascade","catchup","random"];

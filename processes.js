@@ -158,9 +158,9 @@
 
 	/* isReserved(string) */
 		function isReserved(string) {
-			var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings",
-				"signup","signin","signout","login","logout",
-				"user","users","robot","robots","arena","arenas","human","humans",
+			var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings","data","database",
+				"signup","signin","signout","login","logout","verify","validate","verification","validation","verified","validated",
+				"user","users","robot","robots","arena","arenas","human","humans","tutorial","tutorials",
 				"game","games","statistic","statistics",
 				"create","new","delete","read","start","go","all"];
 
@@ -520,7 +520,7 @@
 				break;
 
 				case "antennae":
-					options = [" _|_ "," _∆_ "," _M_ "," _I_ ","|||||", " iii ", "][ ]["," .:. ","∆___∆","_____"];
+					options = [" _I_ "," _∆_ "," _M_ "," _|_ ","|||||", " iii ", "][ ]["," .:. ","∆___∆","_____"];
 				break;
 
 				case "eyes":
@@ -553,11 +553,11 @@
 				case "torso_1":
 				case "torso_2":
 				case "torso_3":
-					options = ["/HHH\\","IHHHI","[[-]]","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "," WWW ","V-V-V"," (O) "];
+					options = ["[[-]]","/HHH\\","IHHHI","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "," WWW ","V-V-V"," (O) "];
 				break;
 
 				case "legs":
-					options = ["//---\\\\","/// \\\\\\",".Y. .Y."," /---\\ "," || || "," |---| ","::: :::"," : - : "," OO OO ","[-] [-]"];
+					options = [".Y. .Y.","//---\\\\","/// \\\\\\"," /---\\ "," || || "," |---| ","::: :::"," : - : "," OO OO ","[-] [-]"];
 				break;
 
 				case "foot":

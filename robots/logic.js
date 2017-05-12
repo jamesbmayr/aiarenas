@@ -33,9 +33,9 @@
 					right_wrist: " II ",
 					left_hand: "{••}",
 					right_hand: "{••}",
-					torso_1: "/HHH\\",
-					torso_2: "IHHHI",
-					torso_3: "IHHHI",
+					torso_1: "[[-]]",
+					torso_2: "[[-]]",
+					torso_3: "[[-]]",
 					legs: ".Y. .Y.",
 					left_foot: "{_}",
 					right_foot: "{_}"
@@ -215,18 +215,27 @@
 
 /* upload(session, post, callback) */
 	function upload(session, post, callback) {
-		console.log(1);
 		var robot = JSON.parse(post.data);
-		console.log(robot);
 
 		robot.id = processes.random();
-		console.log(robot.id);
 		robot.human.id = session.human.id;
 		robot.human.name = session.human.name;
 		robot.statistics.wins = 0;
 		robot.statistics.losses = 0;
 		
-		console.log(2);
+		for (component in robot.avatar) {
+			var list = processes.ascii_robot(component);
+			if (list.indexOf(robot.avatar[component]) == -1) {
+				robot.avatar[component] = list[0];
+			}
+		}
+
+		if (processes.isReserved(robot.name)) {
+			robot.name = robot.id.substring(0,4) + "_bot";
+		}
+		else if ((robot.name.length < 8) || (!processes.isNumLet(robot.name))) {
+			robot.name = robot.id.substring(0,4) + "_bot";
+		}
 
 		processes.store("robots", null, robot, function(results) {
 			processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
