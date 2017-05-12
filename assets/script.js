@@ -1049,7 +1049,7 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#navbar_message").text(data.messages.navbar || "//unable to signout");
+						$("#message_top").animateText({text: (data.messages.top || "//unable to signout")}, 1000);
 					}
 				}
 			});
@@ -1070,7 +1070,6 @@ $(document).ready(function() {
 							window.location = data.redirect;
 						}
 						else {
-							$("#navbar_message").text( data.messages.navbar || "//unable to create robot");
 							$("#message_top").animateText({text: (data.messages.top || "//unable to create robot")},1000);
 						}
 					}
@@ -1127,7 +1126,7 @@ $(document).ready(function() {
 							window.location = data.redirect;
 						}
 						else {
-							$("#navbar_message").text(data.messages.navbar || "//unable to create arena");
+							$("#message_top").animateText({text: (data.messages.top || "//unable to create arena")}, 1000);
 						}
 					}
 				});
@@ -1149,7 +1148,7 @@ $(document).ready(function() {
 						window.location = data.redirect;
 					}
 					else {
-						$("#navbar_message").text(data.messages.navbar || "//unable to join arena");
+						$("#message_top").animateText({text: (data.messages.top || "//unable to join arena")}, 1000);
 					}
 				} 
 			})
@@ -1167,6 +1166,7 @@ $(document).ready(function() {
 							data: JSON.stringify({arena_id: arena_id || null})
 						},
 						success: function(data) {
+							console.log("and..." + data.success);
 							if (data.success) {
 								window.location = data.redirect;
 							}

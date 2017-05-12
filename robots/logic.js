@@ -248,6 +248,8 @@
 			});
 		}
 		else {
+			robot.human.id = null;
+			robot.human.name = null;
 			callback({success: true, messages: {top: "//robot created from upload"}, data: robot});
 		}
 	}

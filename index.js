@@ -650,56 +650,36 @@
 
 							case "join_arena":
 								try {
-									if (session.human !== null) {
-										arenas.joinin(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join arena", navbar: "//unable to join arena"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									arenas.joinin(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join arena"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
 
 							case "random_arena":
 								try {
-									if (session.human !== null) {
-										arenas.random(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join random arena", navbar: "//unable to join random arena"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									arenas.random(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to join random arena"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
 
 							case "leave_arena":
 								try {
-									if (session.human !== null) {
-										arenas.leave(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to leave arena"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									arenas.leave(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to leave arena"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
 
 							case "select_robot":
 								try {
-									if (session.human !== null) {
-										arenas.selectRobot(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to select robot"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									arenas.selectRobot(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to select robot"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
@@ -720,28 +700,18 @@
 
 							case "adjust_robot":
 								try {
-									if (session.human !== null) {
-										arenas.adjustRobot(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to save changes"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									arenas.adjustRobot(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to save changes"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
 
 							case "read_arena":
 								try {
-									if (session.human !== null) {
-										arenas.read(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to read arena"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									arenas.read(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to read arena"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;

@@ -56,30 +56,41 @@
 							%></span>
 						</div>
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && ((data.state.start === null) || (data.state.start - 5000 > timeNow))) {
+							if ((((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) || (data.humans.indexOf("session_" + session.id) > -1)) && ((data.state.start === null) || (data.state.start - 5000 > timeNow))) {
+
 								var string = "";
-								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return data.entrants[i].human.id === session.human.id })] || null;
+								if (session.human !== null) {
+									var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return data.entrants[i].human.id === session.human.id })] || null;
+								}
+								else {
+									var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return data.entrants[i].human.id === "session_" + session.id })] || null;
+								}
 								
-								if ((typeof entrant === "undefined") || (entrant === "undefined") || (entrant === null)) {
+								if ((typeof entrant === "undefined") || (entrant === null)) {
 									var options = "";
-									var values = session.human.robots || [];
-									for (var i = 0; i < values.length; i++) {
-										options += '<option value="' + values[i].id + '">' + values[i].name + '</option>';
+									
+									if (session.human !== null) {
+										var values = session.human.robots || [];
+										for (var i = 0; i < values.length; i++) {
+											options += '<option value="' + values[i].id + '">' + values[i].name + '</option>';
+										}
 									}
 
-
 									string += '<form id="selection_form" method="post" action="javascript:;" onsubmit="window.select_robot();">\
-										<span class="whitetext">.</span><button id="select_robot" name="action" value="select_robot"><span class="greentext">select</span></button><span class="whitetext">(</span><select class="whitetext" id="robot_selection">' + options + '</select><span class="whitetext">)</span>\
-										</form>';
+										<span class="whitetext">.</span><button id="select_robot" name="action" value="select_robot"><span class="greentext">select</span></button><span class="whitetext">(</span><select class="whitetext" id="robot_selection">' + options + '<option value="upload">upload</option></select><span class="whitetext">)</span>\
+										</form>\
+										<div class="section">\
+											<input type="file" name="file_chooser" id="file_chooser"/>\
+										</div>';
 								}
 
-								if (data.humans[0] === session.human.id) {
+								if ((session.human !== null) && (data.humans[0] === session.human.id)) {
 									string += '<form id="launch_form" method="post" action="javascript:;" onsubmit="window.launch_arena();">\
 										<span class="whitetext">.</span><button id="launch_arena" name="action" value="launch_arena"><span class="greentext">launch</span></button><span class="whitetext">()</span>\
 									</form>';
 								}
 
-								if ((data.humans[0] === session.human.id) && (data.state.end === null)) {
+								if ((session.human !== null) && (data.humans[0] === session.human.id) && (data.state.end === null)) {
 									string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
 										<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">()</span>\
 									</form>';
@@ -93,7 +104,7 @@
 
 								string;
 							}
-							else if ((session.human !== null) && (session.human.robots.length > 0) && ((data.state.start === null) || (data.state.start - 5000 > timeNow))) {
+							else if ((data.state.start === null) || (data.state.start - 5000 > timeNow)) {
 								'<form id="join_form" method="post" action="javascript:;" onsubmit="window.join_arena();">\
 									<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">()</span>\
 								</form>';
@@ -126,10 +137,10 @@
 					<div class="section" id="postgame">
 						<%
 							if ((data.state.end !== null) && (data.state.end < timeNow)) {
-								if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) {
+								if (((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) || (data.humans.indexOf("session_" + session.human.id) > -1)) {
 									var victory = false;
 									for (var i = 0; i < data.state.victors.length; i++) {
-										if (data.entrants[data.state.victors[i]].human.id === session.human.id) {
+										if (((session.human !== null) && (data.entrants[data.state.victors[i]].human.id === session.human.id)) || (data.entrants[data.state.victors[i]].human.id === "session_" + session.id)) {
 											victory = true;
 										}
 									}
@@ -174,21 +185,27 @@
 				<div class="megasection" id="workshop_outer" <% if ((data.state.start === null) || (data.state.start - 5000 > timeNow) || ((data.state.end !== null) && (data.state.end < timeNow)) || (data.state.pauseFrom === null) || (data.state.pauseTo === null) || (timeNow < data.state.pauseFrom) || (timeNow > data.state.pauseTo)) {"style='display: none';"} %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.workshop</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id)}) || null) } %>">
+					<div class="section" id="workshop" value="<% if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === session.human.id) }) || null) } else if ((data.humans.indexOf('session_' + session.id) > -1) && (Object.keys(data.entrants).length > 0)) { (Object.keys(data.entrants).find(function(entrant) { return (data.entrants[entrant].human.id === 'session_' + session.id) }) || null) } %>">
 						<% 
-							if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (Object.keys(data.entrants).length > 0) && ((data.state.end === null) || (data.state.end > timeNow))) {
-								var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
+							if ((((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) || (data.humans.indexOf("session_" + session.id) > -1)) && (Object.keys(data.entrants).length > 0) && ((data.state.end === null) || (data.state.end > timeNow))) {
+								
+								if (session.human !== null) {
+									var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === session.human.id); })] || null;
+								}
+								else {
+									var entrant = data.entrants[Object.keys(data.entrants).find(function(i) { return (data.entrants[i].human.id === "session_" + session.id); })] || null;
+								}
 								if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 
 									var outputList = '<li><span class="code greentext">power</span>: increment the robot\'s power number</li>\
 										<li><span class="code greentext">take</span>: the taker with the most power wins the round\'s cubes</li>\
 										<li><span class="code greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li>';
-									if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
+									if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
 										outputList += '<li><span class="code greentext">sap</span>: steal power from charging opponents with greater power</li>\
 										<li><span class="code greentext">halftake</span>: use half power, rounding up, to take cubes</li>\
 										<li><span class="code greentext">fliptake</span>: take the cubes but invert the colors</li>';
 									}
-									if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
+									if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
 										outputList += '<li><span class="code greentext">burn</span>: convert a random cube into power</li>\
 										<li><span class="code greentext">shock</span>: use half power to put opponents with more total cubes to sleep</li>\
 										<li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>';
@@ -279,6 +296,10 @@
 									var entrants = Object.keys(data.entrants).filter(function(i) { return data.entrants[i].human.id !== session.human.id }) || [];
 									entrants.unshift(Object.keys(data.entrants).find(function (i) { return data.entrants[i].human.id === session.human.id }));
 								}
+								else if (data.humans.indexOf("sessions_" + session.id) > -1) {
+									var entrants = Object.keys(data.entrants).filter(function(i) { return data.entrants[i].human.id !== "session_" + session.id }) || [];
+									entrants.unshift(Object.keys(data.entrants).find(function (i) { return data.entrants[i].human.id === "session_" + session.id }));
+								}
 								else {
 									var entrants = Object.keys(data.entrants);
 								}
@@ -330,7 +351,7 @@
 									</div>');
 								}
 
-								if ((session.human !== null) && (data.entrants[entrants[0]].human.id === session.human.id)) {
+								if (((session.human !== null) && (data.entrants[entrants[0]].human.id === session.human.id)) || (data.entrants[entrants[0]].human.id === "session_" + session.id)) {
 									string.replace("section opponent", "section self"); //replaces only the first one
 								}
 								else {
@@ -458,10 +479,10 @@
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				<% 
-					if ((session.human !== null) && (data.humans.indexOf(session.human.id) > -1) && (data.state.start !== null) && (data.state.start - 5000 < timeNow) && (data.state.end === null)) {
+					if ((((session.human !== null) && (data.humans.indexOf(session.human.id) > -1)) || (data.humans.indexOf("session_" + session.id) > -1)) && (data.state.start !== null) && (data.state.start - 5000 < timeNow) && (data.state.end === null)) {
 							var string = '<div class="megasection">';
 
-						if ((data.humans[0] === session.human.id) && (data.state.end === null)) {
+						if ((session.human !== null) && (data.humans[0] === session.human.id) && (data.state.end === null)) {
 							string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
 								<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">()</span>\
 							</form>';

@@ -438,26 +438,63 @@
 				var robot_id = $("#robot_selection").val();
 				var arena_id = $(".container").attr("value");
 
-				$.ajax({
-					type: "POST",
-					url: window.location.pathname,
-					data: {
-						action: "select_robot",
-						data: JSON.stringify({
-							robot_id: (robot_id || null),
-							arena_id: (arena_id || null)
-						})
-					},
-					success: function(data) {
-						if (data.success) {
-							window.location = data.redirect;
+				if (robot_id === "upload") {
+					$("#file_chooser").click();
+				}
+				else {
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "select_robot",
+							data: JSON.stringify({
+								robot_id: (robot_id || null),
+								arena_id: (arena_id || null)
+							})
+						},
+						success: function(data) {
+							if (data.success) {
+								window.location = data.redirect;
+							}
+							else {
+								$("#message_top").animateText({text: (data.messages.top || "//unable to select robot")}, 1000);
+							}
 						}
-						else {
-							$("#message_top").animateText({text: (data.messages.top || "//unable to join arena")}, 1000);
-						}
-					}
-				});
+					});
+				}
 			}
+
+			$(document).on("change","#file_chooser",function(event) {
+				if (($("#file_chooser").val() !== null) && ($("#file_chooser").val().length > 0)) {
+					var reader = new FileReader();
+					reader.readAsText(event.target.files[0]);
+					reader.onload = function(event) {
+						var robot = JSON.parse(event.target.result);
+						var arena_id = $(".container").attr("value");
+
+						$.ajax({
+							type: "POST",
+							url: window.location.pathname,
+							data: {
+								action: "select_robot",
+								data: JSON.stringify({
+									robot_id: "upload",
+									arena_id: (arena_id || null),
+									robot: robot
+								})
+							},
+							success: function(data) {
+								if (data.success) {
+									window.location = data.redirect;
+								}
+								else {
+									$("#message_top").animateText({text: (data.messages.top || "unable to upload robot")},1000);
+								}
+							}
+						});
+					}
+				}
+			});
 
 			window.delete_arena = function() {
 				var arena_id = $(".container").attr("value");

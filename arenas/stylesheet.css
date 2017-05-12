@@ -82,7 +82,8 @@
 			position: relative;
 			top: 50%;
 			transform: translateY(-50%);
-			color: var(--white);
+			color: var(--black);
+			font-weight: bold;
 		}
 
 		#cube_spacer {
