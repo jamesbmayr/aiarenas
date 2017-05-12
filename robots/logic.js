@@ -3,57 +3,60 @@
 
 /* create(session, post, callback) */
 	function create(session, post, callback) {
-		// if ((session.human.robots.length > 0) && ((typeof session.human.email === "undefined") || (session.human.email === null))) {
-		// 	callback({success: false, messages: {top: "//verify email to create additional robots"}});
-		// }
-		// else {
-			var id = processes.random();
+		var id = processes.random();
 
-			var robot = {
-				id: id,
-				name: id.substring(0,4) + "_bot",
-				human: {
-					id: session.human.id,
-					name: session.human.name
-				},
-				created: new Date().getTime(),
-				information: {
-					show_code: true,
-					bio: null,
-					music: {}
-				},
-				avatar: {
-					color: "var(--white)",
-					antennae: " _I_ ",
-					eyes: "|o o|",
-					mouth: "| = |",
-					left_arm: "--",
-					right_arm: "--",
-					left_wrist: " II ",
-					right_wrist: " II ",
-					left_hand: "{••}",
-					right_hand: "{••}",
-					torso_1: "[[-]]",
-					torso_2: "[[-]]",
-					torso_3: "[[-]]",
-					legs: ".Y. .Y.",
-					left_foot: "{_}",
-					right_foot: "{_}"
-				},
-				statistics: {
-					wins: 0,
-					losses: 0,
-				},
-				inputs: "",
-				code: "action = \"sleep\"\nreturn action"
-			}
+		var robot = {
+			id: id,
+			name: id.substring(0,4) + "_bot",
+			human: {
+				id: null,
+				name: null,
+			},
+			created: new Date().getTime(),
+			information: {
+				show_code: true,
+				bio: null,
+				music: {}
+			},
+			avatar: {
+				color: "var(--white)",
+				antennae: " _I_ ",
+				eyes: "|o o|",
+				mouth: "| = |",
+				left_arm: "--",
+				right_arm: "--",
+				left_wrist: " II ",
+				right_wrist: " II ",
+				left_hand: "{••}",
+				right_hand: "{••}",
+				torso_1: "[[-]]",
+				torso_2: "[[-]]",
+				torso_3: "[[-]]",
+				legs: ".Y. .Y.",
+				left_foot: "{_}",
+				right_foot: "{_}"
+			},
+			statistics: {
+				wins: 0,
+				losses: 0,
+			},
+			inputs: "",
+			code: "action = \"sleep\"\nreturn action"
+		}
+
+		if (session.human !== null) {
+			robot.human.id = session.human.id;
+			robot.human.name = session.human.name;
 
 			processes.store("robots", null, robot, function(results) {
 				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
 					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}, data: robot});
 				});
 			});
-		// }
+		}
+		else {
+			callback({success: true, messages: {top: "//robot created"}, data: robot});
+		}
 	}
 
 /* update(session, post, callback) */
@@ -216,12 +219,9 @@
 /* upload(session, post, callback) */
 	function upload(session, post, callback) {
 		var robot = JSON.parse(post.data);
-
-		robot.id = processes.random();
-		robot.human.id = session.human.id;
-		robot.human.name = session.human.name;
-		robot.statistics.wins = 0;
-		robot.statistics.losses = 0;
+			robot.id = processes.random();
+			robot.statistics.wins = 0;
+			robot.statistics.losses = 0;
 		
 		for (component in robot.avatar) {
 			var list = processes.ascii_robot(component);
@@ -237,11 +237,19 @@
 			robot.name = robot.id.substring(0,4) + "_bot";
 		}
 
-		processes.store("robots", null, robot, function(results) {
-			processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
-				callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created from upload"}, data: robot});
+		if (session.human !== null) {
+			robot.human.id = session.human.id;
+			robot.human.name = session.human.name;
+
+			processes.store("robots", null, robot, function(results) {
+				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
+					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created from upload"}, data: robot});
+				});
 			});
-		});
+		}
+		else {
+			callback({success: true, messages: {top: "//robot created from upload"}, data: robot});
+		}
 	}
 
 /* exports */

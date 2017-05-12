@@ -303,12 +303,7 @@
 						/* robots */
 							case (/^\/robots\/?$/).test(request.url):
 								try {
-									if (session.human !== null) {
-										response.end(processes.render("./robots/main.html", session, null));
-									}
-									else {
-										_302();
-									}
+									response.end(processes.render("./robots/main.html", session, null));
 								}
 								catch (error) {_404();}
 							break;
@@ -566,14 +561,9 @@
 						/* robots */
 							case "create_robot":
 								try {
-									if (session.human !== null) {												
-										robots.create(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create robot"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									robots.create(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to create robot"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;
@@ -621,16 +611,10 @@
 							break;
 
 							case "upload_robot":
-							console.log("here");
 								try {
-									if (session.human !== null) {
-										robots.upload(session, post, function(data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to upload robot"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									robots.upload(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to upload robot"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;

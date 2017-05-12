@@ -280,7 +280,7 @@
 								
 								resizeTop();
 
-								$("#navbar_robots").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
+								$("#navbar_robots").find(".robot_list").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
 							}
 							else {
 								$("#message_top").animateText({text: (results.messages.top || "//unable to create robot")},1000);
@@ -758,7 +758,7 @@
 				reader.readAsText(event.target.files[0]);
 				reader.onload = function(event) {
 					var data = JSON.parse(event.target.result);
-
+					
 					$.ajax({
 						type: "POST",
 						url: window.location.pathname,
@@ -793,7 +793,7 @@
 								
 								resizeTop();
 
-								$("#navbar_robots").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
+								$("#navbar_robots").find(".robot_list").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
 							}
 							else {
 								$("#message_top").animateText({text: (results.messages.top || "unable to upload robot")},1000);
