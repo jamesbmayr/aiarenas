@@ -1056,23 +1056,57 @@ $(document).ready(function() {
 		}
 
 		window.navbar_create_robot = function() {
-			$.ajax({
-				type: "POST",
-				url: window.location.pathname,
-				data: {
-					action: "create_robot",
-				},
-				success: function(data) {
-					if (data.success) {
-						window.location = data.redirect;
+			var preset = $("#navbar_robot_create_selection").val();
+
+			if (preset === "new") {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "create_robot",
+					},
+					success: function(data) {
+						if (data.success) {
+							window.location = data.redirect;
+						}
+						else {
+							$("#navbar_message").text( data.messages.navbar || "//unable to create robot");
+							$("#message_top").animateText({text: (data.messages.top || "//unable to create robot")},1000);
+						}
 					}
-					else {
-						$("#navbar_message").text( data.messages.navbar || "//unable to create robot");
-						$("#message_top").animateText({text: (data.messages.top || "//unable to create robot")},1000);
-					}
-				}
-			});
+				});
+			}
+			else if (preset === "upload") {
+				$("#navbar_file_chooser").click();
+			}
 		}
+
+		$(document).on("change","#navbar_file_chooser",function(event) {
+			if (($("#navbar_file_chooser").val() !== null) && ($("#navbar_file_chooser").val().length > 0)) {
+				var reader = new FileReader();
+				reader.readAsText(event.target.files[0]);
+				reader.onload = function(event) {
+					var data = JSON.parse(event.target.result);
+
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "upload_robot",
+							data: JSON.stringify(data)
+						},
+						success: function(data) {
+							if (data.success) {
+								window.location = data.redirect;
+							}
+							else {
+								$("#message_top").animateText({text: (data.messages.top || "unable to upload robot")},1000);
+							}
+						}
+					});
+				}
+			}
+		});
 
 		window.navbar_create_arena = function() {
 			var preset = $("#navbar_arena_create_presets").val();

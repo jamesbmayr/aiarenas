@@ -80,7 +80,8 @@
 							$("#current_name").text(new_name);
 							$("#new_name").val("");
 							$("#name").find(".message").animateText({text: (data.messages.name || "//name updated")}, 1000);
-							$("#navbar_human").find(".human_name").text(new_name);
+							$("#navbar_humans").find(".human_name").find(".bluetext").text(new_name);
+							$("#navbar_humans").find(".human_name").attr("href","../../../../humans" + new_name);
 						}
 						else {
 							$("#new_name").val("");

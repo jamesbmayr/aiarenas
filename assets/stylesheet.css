@@ -650,6 +650,17 @@
 			box-shadow: 0px 0px 20px var(--white);
 		}
 
+		#navbar_logo {
+			text-align: center;
+			margin-top: -24px;
+		}
+
+		.super_header {
+			font-size: 144px;
+			margin-bottom: -24px;
+			line-height: 1;
+		}
+
 		.navbar_item {
 			display: block;
 		}
