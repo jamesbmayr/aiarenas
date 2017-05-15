@@ -369,6 +369,9 @@
 					if (arena.humans.length >= arena.rules.robots.maxCount) {
 						callback({success: false, messages: {top: "//unable to join arena; human maximum exceeded"}});
 					}
+					else if ((arena.start !== null) && (arena.state.start < new Date().getTime())) {
+						callback({success: false, messages: {top: "//unable to join arena; game has already started"}});
+					}
 					else if ((session.human !== null) && (arena.humans.indexOf(session.human.id) > -1)) {
 						callback({success: false, messages: {top: "//arena already contains this human"}});
 					}

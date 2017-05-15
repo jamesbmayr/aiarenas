@@ -63,8 +63,6 @@
 				"dreaming.exe... 1 electric_sheep; 2 electric_sheep; 3 electric_sheep; electric_sheep.count() = ..."
 			]
 
-			$("#status").animateText({text: statuses[Math.floor(Math.random() * statuses.length)], color: "var(--white)", indicator: "|"}, 5000);
-
 			window.statusLoop = setInterval(function() {
 				$("#status").animateText({text: statuses[Math.floor(Math.random() * statuses.length)], color: "var(--white)", indicator: "|"}, 5000);
 				window.animateRobot("helloBot",["power","take","sleep","halftake","burn","sap","fliptake","shock","swaptake"][Math.floor(Math.random() * 9)])

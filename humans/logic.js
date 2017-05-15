@@ -37,6 +37,7 @@
 				wins: 0,
 				losses: 0,
 			},
+			tour: [],
 			tutorials: [],
 			robots: [],
 			arenas: []

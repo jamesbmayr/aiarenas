@@ -737,7 +737,8 @@
 							"accept-language": request.headers["accept-language"],
 							created: new Date().getTime(),
 							end: null,
-							human: null
+							human: null,
+							tour: []
 						}
 						store("sessions", null, newSession, callback);
 					}

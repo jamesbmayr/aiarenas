@@ -1265,5 +1265,72 @@ $(document).ready(function() {
 	/* resizeTop */
 		window.resizeTop = function() {
 			$(".content").css("margin-top",($(".top_outer").css("height").replace("px","") - 46));
-		};
+		}
+
+	/* tour */
+		window.continueTour = function() {
+			if ($(".overlay_outer").toArray().length === 0) {
+				$("body").append("<div class='overlay_outer'>\
+					<div class='overlay_circle'>\
+						<div class='overlay_inner'>\
+							<div class='overlay_message'></div>\
+							<form action='javascript:;' onSubmit='window.continueTour();' id='tour_form'>\
+								<button class='whitetext' id='continueTour' name='continueTour' value=''>.<span class='greentext'>continue</span>()</button>\
+							</form>\
+						</div>\
+					</div>\
+				</div>");
+			}
+
+			var selector = $("#continueTour").val() || "";
+
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "tour",
+					data: JSON.stringify({selector: selector})
+				},
+				success: function(data) {
+					if (data.success) {
+						var tour = data.tour;
+						console.log(tour);
+						if (tour.length > 0) {
+							var next = tour.find(function(item) {
+								return item.page == window.location.pathname;
+							});
+							console.log(next);
+
+							if ((typeof next !== "undefined") && (next !== null)) {
+								eval(next.action);
+
+								var element = $(next.selector);
+									var x = $(element).position().top + ($(element).css("height").replace("px","") / 2);
+									var y = $(element).position().left + ($(element).css("width").replace("px","") / 2);
+								$(".overlay_outer").css("top",x - 50).css("left",y - 50);
+								$(".overlay_message").animateText({text: next.message},1000);
+								$("#continueTour").val(next.selector);
+							}
+							else {
+								//no tour steps remain on this page
+								window.stopTour();
+							}
+						}
+						else {
+							//no tour steps remain at all
+							window.stopTour();
+						}
+					}
+					else {
+						//success: false response
+						console.log("tour malfunction");
+						window.stopTour();
+					}
+				}
+			});
+		}
+
+		window.stopTour = function() {
+			$(".overlay_outer").remove();
+		}
 });

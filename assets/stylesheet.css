@@ -419,6 +419,7 @@
 			min-height: 38px;
 		}
 
+/* * text * */
 	/* colortext */
 		.redtext {
 			color: var(--red);
@@ -707,3 +708,42 @@
 			margin-left: -5px;
 		}
 
+/* * tour * */
+	.overlay_outer {
+		background-color: rgba(0,0,0,0);
+		border-radius: 100%;
+		position: fixed;
+		box-shadow: 0px 0px 0px calc(100vh + 100vw) rgba(000,000,000,0.7);
+		width: 100px;
+		height: 100px;
+		z-index: 2;
+	}
+
+
+	.overlay_circle {
+		border-radius: 100%;
+		position: relative;
+		width: 100px;
+		height: 100px; 
+		box-shadow: 0px 0px 50px #ffffff;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		pointer-events: none;
+	}
+
+	.overlay_inner {
+		float: left;
+		position: relative;
+		top: 50%;
+		padding: 5px 5px 5px 115px;
+		transform: translateY(-50%);
+		width: 400px;
+		height: 100px;
+		border: 2px solid #ffffff;
+		border-radius: 50px 10px 10px 50px;
+		color: var(--white);
+		overflow: hidden;
+		pointer-events: none;
+		vertical-align: bottom;
+	}

@@ -458,6 +458,15 @@
 								catch (error) {_403();}
 							break;
 
+							case "tour":
+								try {
+									home.tour(session, post, function(data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to continue tour"}}));
+									});
+								}
+								catch (error) {_403();}
+							break;
+
 						/* settings */
 							case "destroy_session":
 								try {
