@@ -261,4 +261,4 @@
 		destroy: destroy,
 		load: load,
 		upload: upload
-	};
+	}

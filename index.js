@@ -327,7 +327,7 @@
 						/* arenas */
 							case (/^\/arenas\/?$/).test(request.url):
 								try {
-									if ((session.human !== null) && (session.human.robots.length > 0)) {
+									if (session.human !== null) {
 										response.end(processes.render("./arenas/main.html", session, null));
 									}
 									else {
@@ -460,7 +460,8 @@
 
 							case "tour":
 								try {
-									home.tour(session, post, function(data) {
+									post.url = request.url;
+									tutorials.tour(session, post, function(data) {
 										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to continue tour"}}));
 									});
 								}

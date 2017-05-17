@@ -66,6 +66,16 @@
 				suggestions += '<div class="section"><span class="whitetext">.suggestions</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class="graytext">//<span id="status">HELLO FELLOW HUMAN WHAT SHALL WE DO THIS DAY?</span>\
 						<div class="megasection" id="suggestions">';
 
+				//tour
+					if (session.human === null) {
+						if (session.show_help !== "true") {
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.continueTour();"><li class="section indented"><span class="whitetext">learn about the website: </span><button id="startTour" name="action" value="startTour"><span class="greentext">startTour</span></button><span class="whitetext">()</span></li></form>';
+						}
+					}
+					else if ((session.human.settings.show_help !== "true") && (session.human.tour.length < 20)) {
+						suggestions += '<form method="post" action="javascript:;" onsubmit="window.continueTour();"><li class="section indented"><span class="whitetext">turn on help as you visit new pages: </span><button id="startTour" name="action" value="startTour"><span class="greentext">continueTour</span></button><span class="whitetext">()</span></li></form>';
+					}
+
 				//account & email
 					if (session.human === null) {
 						suggestions += '<li class="section indented"><span class="whitetext">see what ai_arenas are all <a class="bluetext" href="../../../../about">about</a></span></li>';

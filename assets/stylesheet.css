@@ -709,16 +709,25 @@
 		}
 
 /* * tour * */
+	.touring {
+		overflow: hidden;
+		pointer-events: none;
+	}
+
 	.overlay_outer {
 		background-color: rgba(0,0,0,0);
 		border-radius: 100%;
-		position: fixed;
-		box-shadow: 0px 0px 0px calc(100vh + 100vw) rgba(000,000,000,0.7);
+		position: absolute;
+		box-shadow: 0px 0px 0px calc(100vh + 100vw) rgba(000,000,000,0.8);
+		text-shadow: 0px 0px 20px rgba(000,000,000,0.8);
 		width: 100px;
 		height: 100px;
-		z-index: 2;
+		z-index: 100;
 	}
 
+	.overlay_outer form {
+		display: inline-block;
+	}
 
 	.overlay_circle {
 		border-radius: 100%;
@@ -729,7 +738,6 @@
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		pointer-events: none;
 	}
 
 	.overlay_inner {
@@ -744,6 +752,5 @@
 		border-radius: 50px 10px 10px 50px;
 		color: var(--white);
 		overflow: hidden;
-		pointer-events: none;
-		vertical-align: bottom;
+		pointer-events: auto;
 	}

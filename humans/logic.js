@@ -21,8 +21,8 @@
 			settings: {
 				color_scheme: "default",
 				font_scheme: "default",
-				show_email: true,
-				email_notifications: true,
+				show_email: "true",
+				show_help: "true"
 			},
 			notifications: {},
 			information: {
@@ -148,5 +148,5 @@
 	module.exports = {
 		create: create,
 		update: update,
-		destroy: destroy,
-	};
+		destroy: destroy
+	}

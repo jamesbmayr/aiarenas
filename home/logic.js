@@ -90,7 +90,11 @@
 							var random = processes.random();
 							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<div>commence human verification process for <span class='bluetext'>" + post.signup_name + "</span>: <a class='greentext' href='http://aiarenas.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>();</div>", function(data) {
 								var human = humans.create(post.signup_name, post.signup_email, post.signup_password);
-								human.status.verification = random;
+									human.status.verification = random;
+
+								if ((session.tour !== null) && (session.tour.length > 0)) {
+									human.tour = session.tour;
+								}
 
 								processes.store("humans", null, human, function(data) {									
 									session.human = data.id;
@@ -196,81 +200,6 @@
 		}
 	}
 
-/* tour(session, post, callback) */
-	function tour(session, post, callback) {
-		var data = JSON.parse(post.data);
-
-		tour = [
-			{
-				page: "/",
-				action: "",
-				selector: "#navbar_open",
-				message: "Use this to open and close the navigation panel."
-			},
-			{
-				page: "/",
-				action: "$('#navbar_open').click(); $('*').stop(true,true);",
-				selector: "a[href='../../../../']",
-				message: "Select the blue \"home\" link to go return to this home page at any time."
-			},
-			{
-				page: "/",
-				action: "",
-				selector: "a[href='../../../../about']",
-				message: "Select the \"about\" link to learn more about ai_arenas."
-			}
-		];
-
-		if (session.human !== null) {
-			if (data.selector.length > 0) {
-				processes.store("humans",{id: session.human.id},{$push: {tour: data.selector}},function(human) {
-					if (typeof human.id === "undefined") { human = human[0]; }
-
-					tour = tour.filter(function(x) {
-						return human.tour.indexOf(x.selector) == -1;
-					});
-
-					callback({success: true, tour: tour});
-				});
-			}
-			else {
-				processes.retrieve("humans",{id: session.human.id},function(human) {
-					if (typeof human.id === "undefined") { human = human[0]; }
-
-					tour = tour.filter(function(x) {
-						return human.tour.indexOf(x.selector) == -1;
-					});
-
-					callback({success: true, tour: tour});
-				});
-			}
-		}
-		else {
-			if (data.selector.length > 0) {
-				processes.store("sessions",{id: session.id},{$push: {tour: data.selector}},function(session) {
-					if (typeof session.id === "undefined") { session = session[0]; }
-
-					tour = tour.filter(function(x) {
-						return session.tour.indexOf(x.selector) == -1;
-					});
-
-					callback({success: true, tour: tour});
-				});
-			}
-			else {
-				processes.retrieve("sessions",{id: session.id},function(session) {
-					if (typeof session.id === "undefined") { session = session[0]; }
-
-					tour = tour.filter(function(x) {
-						return session.tour.indexOf(x.selector) == -1;
-					});
-
-					callback({success: true, tour: tour});
-				});
-			}
-		}
-	}
-
 /* exports */
 	module.exports = {
 		signin: signin,
@@ -278,6 +207,5 @@
 		signup: signup,
 		verify: verify,
 		sendReset: sendReset,
-		verifyReset: verifyReset,
-		tour: tour
-	};
+		verifyReset: verifyReset
+	}

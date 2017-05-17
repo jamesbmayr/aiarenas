@@ -161,7 +161,7 @@
 			var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings","data","database",
 				"signup","signin","signout","login","logout","verify","validate","verification","validation","verified","validated",
 				"user","users","robot","robots","arena","arenas","human","humans","tutorial","tutorials",
-				"game","games","statistic","statistics",
+				"game","games","statistic","statistics","guest",
 				"create","new","delete","read","start","go","all"];
 
 			return (reservations.indexOf(string.toLowerCase().replace(/ /g,"")) > -1);
@@ -405,9 +405,15 @@
 					</pre></div></noscript>";
 
 			if (session.human === null) {
+				//tour
+					if (session.show_help === "true") {
+						navbar += "<script>$(document).ready(function() {window.continueTour();});</script>";
+					}
+
 				navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
-				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>\
-				<div id='navbar'>\
+				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
+				
+				navbar += "<div id='navbar'>\
 					<div id='navbar_logo'>\
 						<div class='super_header'>ai</div>\
 						<div class='header'>arenas</div>\
@@ -438,9 +444,11 @@
 				</div>";
 			}
 			else {
-				navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
-				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
-			
+				//tour
+					if (session.human.settings.show_help === "true") {
+						navbar += "<script>$(document).ready(function() {window.continueTour();});</script>";
+					}
+
 				//robot list
 					var robots = "";
 					for (var i = 0; i < session.human.robots.length; i++) {
@@ -467,6 +475,9 @@
 					for (var i = 0; i < presets.length; i++) {
 						options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
 					}
+
+				navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
+				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 
 				navbar += "<div id='navbar'>\
 					<div id='navbar_logo'>\

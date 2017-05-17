@@ -237,20 +237,22 @@
 
 		/* about */
 			/* github commit fetch */
-				$.ajax({
-					type: "GET",
-					url: "https://api.github.com/repos/jamesbmayr/aiarenas/commits",
-					success: function(data) {
-						var string = "";
-						for (var i = 0; i < Math.min(data.length, 10); i++) {
-							string += "<div class='whitetext'><span class='purpletext'>" + data[i].commit.author.date + "</span>: <span class='graytext'>//" + data[i].commit.message + "</span></div>";
+				if (window.location.pathname === "/about") {
+					$.ajax({
+						type: "GET",
+						url: "https://api.github.com/repos/jamesbmayr/aiarenas/commits",
+						success: function(data) {
+							var string = "";
+							for (var i = 0; i < Math.min(data.length, 10); i++) {
+								string += "<div class='whitetext'><span class='purpletext'>" + data[i].commit.author.date + "</span>: <span class='graytext'>//" + data[i].commit.message + "</span></div>";
+							}
+
+							string += "<div class='graytext'>...</div>";
+
+							$("#log").html(string || "");
 						}
-
-						string += "<div class='graytext'>...</div>";
-
-						$("#log").html(string || "");
-					}
-				});
+					});
+				}
 
 			/* feedback form */
 				window.submit_feedback = function() {

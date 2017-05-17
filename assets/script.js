@@ -308,7 +308,7 @@ $(document).ready(function() {
 			}
 		}
 
-	/* robot animations */
+	/* animateRobot */
 		window.animateRobot = function(robot, action) {
 			if ((robot !== null) && (robot.length > 0)) {
 				switch(action) {
@@ -1269,62 +1269,76 @@ $(document).ready(function() {
 
 	/* tour */
 		window.continueTour = function() {
+			$("body").addClass("touring");
+			$("#navbar").addClass("touring");
+
 			if ($(".overlay_outer").toArray().length === 0) {
 				$("body").append("<div class='overlay_outer'>\
 					<div class='overlay_circle'>\
 						<div class='overlay_inner'>\
 							<div class='overlay_message'></div>\
 							<form action='javascript:;' onSubmit='window.continueTour();' id='tour_form'>\
-								<button class='whitetext' id='continueTour' name='continueTour' value=''>.<span class='greentext'>continue</span>()</button>\
+								<button class='whitetext' id='continueTour' name='continueTour' value=''><span class='greentext'>next</span>()</button>\
+							</form>\
+							<span class='redtext'>||</span>\
+							<form action='javascript:;' onSubmit='window.stopTour();' id='stop_form'>\
+								<button class='whitetext' id='stopTour' name='stopTour' value=''><span class='greentext'>close</span>()</button>\
 							</form>\
 						</div>\
 					</div>\
 				</div>");
 			}
 
-			var selector = $("#continueTour").val() || "";
+			var data = {
+				selector: ($("#continueTour").val() || ""),
+				state: ($("#round").attr("value") || "")
+			}
 
 			$.ajax({
 				type: "POST",
 				url: window.location.pathname,
 				data: {
 					action: "tour",
-					data: JSON.stringify({selector: selector})
+					data: JSON.stringify(data)
 				},
 				success: function(data) {
 					if (data.success) {
 						var tour = data.tour;
-						console.log(tour);
 						if (tour.length > 0) {
-							var next = tour.find(function(item) {
-								return item.page == window.location.pathname;
-							});
+							var next = tour[0];
 							console.log(next);
+							eval(next.action);
 
-							if ((typeof next !== "undefined") && (next !== null)) {
-								eval(next.action);
+							$("#continueTour").val(next.selector);
 
+							if ($(next.selector).toArray().length === 0) {
+								window.continueTour();
+							}
+							else {
 								var element = $(next.selector);
 									var x = $(element).position().top + ($(element).css("height").replace("px","") / 2);
 									var y = $(element).position().left + ($(element).css("width").replace("px","") / 2);
 								$(".overlay_outer").css("top",x - 50).css("left",y - 50);
 								$(".overlay_message").animateText({text: next.message},1000);
-								$("#continueTour").val(next.selector);
-							}
-							else {
-								//no tour steps remain on this page
-								window.stopTour();
+
+								$("html, body, #navbar").animate({
+									scrollTop: ($(".overlay_outer").offset().top - 200)
+								}, 0);
 							}
 						}
 						else {
-							//no tour steps remain at all
-							window.stopTour();
+							//no tour steps remain on this page
+							$(".overlay_outer").remove();
+							$("body").removeClass("touring");
+							$("#navbar").removeClass("touring");
 						}
 					}
 					else {
 						//success: false response
 						console.log("tour malfunction");
-						window.stopTour();
+						$(".overlay_outer").remove();
+						$("body").removeClass("touring");
+						$("#navbar").removeClass("touring");
 					}
 				}
 			});
@@ -1332,5 +1346,28 @@ $(document).ready(function() {
 
 		window.stopTour = function() {
 			$(".overlay_outer").remove();
+			$("body").removeClass("touring");
+			$("#navbar").removeClass("touring");
+
+			var data = {
+				stop: true
+			}
+
+			$.ajax({
+				type: "POST",
+				url: window.location.pathname,
+				data: {
+					action: "tour",
+					data: JSON.stringify(data)
+				},
+				success: function(data) {
+					if (data.success) {
+						$("#message_top").animateText({text: data.messages.top || "//help deactivated"},1000);
+					}
+					else {
+						$("#message_top").animateText({text: data.messages.top || "//help deactivated"},1000);
+					}
+				}
+			});
 		}
 });

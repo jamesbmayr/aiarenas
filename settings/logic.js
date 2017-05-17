@@ -52,19 +52,18 @@
 					}
 				break;
 
-				case "email_notifications":
-					if (session.human.settings.email_notifications === data.email_notifications) {
+				case "show_help":
+					if (session.human.settings.show_help === data.show_help) {
 						//no change
 					}
-					else if ((data.email_notifications !== "true") && (data.email_notifications !== "false")) {
-						messages.email_notifications = "//invalid option";
+					else if ((data.show_help !== "true") && (data.show_help !== "false")) {
+						messages.show_help = "//invalid option";
 					}
 					else {
-						session.human.settings.email_notifications = data.email_notifications;
-						messages.email_notifications = "//email notifications updated";
+						session.human.settings.show_help = data.show_help;
+						messages.show_help = "//help activation updated";
 					}
 				break;
-
 			}
 		}
 
@@ -184,5 +183,5 @@
 		updateName: updateName,
 		updatePassword: updatePassword,
 		sendVerification: sendVerification,
-		destroy: destroy,
-	};
+		destroy: destroy
+	}

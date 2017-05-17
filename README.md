@@ -45,7 +45,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |
 |- /assets/
 |   |- stylesheet.css
-|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot)
+|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot, tour)
 |   |- images/
 |   |   |- logo.html
 |   |   |- black_logo.html
@@ -111,7 +111,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |   |- script.js
 |
 |- /tutorials/
-    |- logic.js (complete)
+    |- logic.js (complete, tour)
     |- main.html
     |- individual.html
     |- stylesheet.css
