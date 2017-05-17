@@ -1287,11 +1287,9 @@ $(document).ready(function() {
 						</div>\
 					</div>\
 				</div>");
-			}
 
-			var data = {
-				selector: ($("#continueTour").val() || ""),
-				state: ($("#round").attr("value") || "")
+				$("#startTour").closest("form").remove();
+				$("#message_top").animateText({text: "//help activated"},1000);
 			}
 
 			$.ajax({
@@ -1299,32 +1297,37 @@ $(document).ready(function() {
 				url: window.location.pathname,
 				data: {
 					action: "tour",
-					data: JSON.stringify(data)
+					data: JSON.stringify({selector: ($("#continueTour").val() || "")})
 				},
 				success: function(data) {
 					if (data.success) {
 						var tour = data.tour;
-						if (tour.length > 0) {
-							var next = tour[0];
-							console.log(next);
-							eval(next.action);
+						do {
+							if (tour.length > 0) {
+								var next = tour[0];
+								console.log(next);
 
-							$("#continueTour").val(next.selector);
-
-							if ($(next.selector).toArray().length === 0) {
-								window.continueTour();
+								tour.shift();
+								eval(next.action);
+								$("#continueTour").val(next.selector);
 							}
 							else {
-								var element = $(next.selector);
-									var x = $(element).position().top + ($(element).css("height").replace("px","") / 2);
-									var y = $(element).position().left + ($(element).css("width").replace("px","") / 2);
-								$(".overlay_outer").css("top",x - 50).css("left",y - 50);
-								$(".overlay_message").animateText({text: next.message},1000);
-
-								$("html, body, #navbar").animate({
-									scrollTop: ($(".overlay_outer").offset().top - 200)
-								}, 0);
+								next = null;
 							}
+						}
+						while ((next !== null) && (($(next.selector).toArray().length === 0) || ($(next.selector).css("display") === "none") || ($(next.selector).css("height") === "0px") || ($(next.selector).css("width") === "0px")))
+						
+						if (next !== null) {
+							var element = $(next.selector);
+								var x = $(element).position().top + ($(element).css("height").replace("px","") / 2);
+								var y = $(element).position().left + ($(element).css("width").replace("px","") / 2);
+							$(".overlay_outer").css("top",x - 50).css("left",y - 50);
+							$(".overlay_message").animateText({text: next.message},1000);
+
+							$("html, body, #navbar").animate({
+								scrollTop: ($(".overlay_outer").offset().top - 200)
+							}, 0);
+							
 						}
 						else {
 							//no tour steps remain on this page
@@ -1349,16 +1352,12 @@ $(document).ready(function() {
 			$("body").removeClass("touring");
 			$("#navbar").removeClass("touring");
 
-			var data = {
-				stop: true
-			}
-
 			$.ajax({
 				type: "POST",
 				url: window.location.pathname,
 				data: {
 					action: "tour",
-					data: JSON.stringify(data)
+					data: JSON.stringify({stop: true})
 				},
 				success: function(data) {
 					if (data.success) {

@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="../../home/script.js"></script>
 	</head>
 	<body>
-		<% if (session.human !== null) { navbar(session); } %>
+		<% navbar(session, "/"); %>
 		<div class="container">
 			<div class="top_outer">
 				<div class="top_inner">
@@ -68,12 +68,20 @@
 
 				//tour
 					if (session.human === null) {
-						if (session.show_help !== "true") {
+						if ((session.show_help !== "true") && ((session.tour === null) || (session.tour.length === 0))) {
 							suggestions += '<form method="post" action="javascript:;" onsubmit="window.continueTour();"><li class="section indented"><span class="whitetext">learn about the website: </span><button id="startTour" name="action" value="startTour"><span class="greentext">startTour</span></button><span class="whitetext">()</span></li></form>';
 						}
+						else if (session.show_help !== "true") {
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.continueTour();"><li class="section indented"><span class="whitetext">turn on help as you visit new pages: </span><button id="startTour" name="action" value="startTour"><span class="greentext">continueTour</span></button><span class="whitetext">()</span></li></form>';
+						}
 					}
-					else if ((session.human.settings.show_help !== "true") && (session.human.tour.length < 20)) {
+					else {
+						if ((session.human.settings.show_help !== "true") && (session.human.tour.length === 0)) {
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.continueTour();"><li class="section indented"><span class="whitetext">learn about the website: </span><button id="startTour" name="action" value="startTour"><span class="greentext">startTour</span></button><span class="whitetext">()</span></li></form>';
+						}
+						else if ((session.human.settings.show_help !== "true") && (session.human.tour.length < 20)) {
 						suggestions += '<form method="post" action="javascript:;" onsubmit="window.continueTour();"><li class="section indented"><span class="whitetext">turn on help as you visit new pages: </span><button id="startTour" name="action" value="startTour"><span class="greentext">continueTour</span></button><span class="whitetext">()</span></li></form>';
+						}
 					}
 
 				//account & email

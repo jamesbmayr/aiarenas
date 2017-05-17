@@ -24,14 +24,9 @@
 				show_email: "true",
 				show_help: "true"
 			},
-			notifications: {},
 			information: {
 				sites: [],
 				bio: "...",
-			},
-			avatar: {
-				color: "var(--white)",
-				ascii: processes.ascii_character(name[0])
 			},
 			statistics: {
 				wins: 0,
@@ -83,19 +78,6 @@
 						}
 						session.human.information.sites = data.sites;
 						messages.sites = "//sites updated";
-					}
-				break;
-
-				case "avatar":
-					if (data.avatar.color === session.human.avatar.color) {
-						//no change
-					}
-					else if (!(processes.ascii_robot("color").indexOf(data.avatar.color) > -1)) {
-						//no change
-					}
-					else {
-						session.human.avatar.color = data.avatar.color;
-						messages.avatar = "//color updated";
 					}
 				break;
 			}

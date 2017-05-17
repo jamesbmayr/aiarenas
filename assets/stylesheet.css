@@ -723,6 +723,8 @@
 		width: 100px;
 		height: 100px;
 		z-index: 100;
+		top: calc(-100vh + -100vw);
+		left: calc(-100vh + -100vw);
 	}
 
 	.overlay_outer form {
