@@ -1,6 +1,6 @@
 # ai_arenas
 a battleground for javascript functions: http://aiarenas.com
-<pre style='line-height: 1; font-family: Courier monospace'>
+<pre style='line-height: 1;'>
        _H_                     _!_                    _[+]_                    !!!      
  (--) /. .\              {--} (^ ^) {--}              (V V)              {!!} !x x!     
   ()  \ u /               {}  | = |  {}               |[-]|               ~~  ! O !     
@@ -41,7 +41,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |- /data/
 |   |- db
 |
-|- processes.js (render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour)
+|- processes.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour)
 |
 |- /assets/
 |   |- stylesheet.css
