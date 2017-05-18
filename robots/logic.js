@@ -85,9 +85,9 @@
 								data.name = robot.name;
 								messages.name = "//name unavailable";
 							}
-							else if ((data.name.length < 8) || (!processes.isNumLet(data.name))) {
+							else if ((data.name.length < 8) || (data.name.length > 32) || (!processes.isNumLet(data.name))) {
 								data.name = robot.name;
-								messages.name = "//enter robot name of 8 or more numbers and letters";
+								messages.name = "//enter robot name of 8 to 32 numbers and letters";
 							}
 							else {								
 								robot.name = data.name;
@@ -113,8 +113,11 @@
 							if (data.bio === robot.information.bio) {
 								//no change
 							}
+							else if (data.bio.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").length > 1000) {
+								messages.bio = "//bio cannot exceed 1000 characters";
+							}
 							else {
-								robot.information.bio = data.bio;
+								robot.information.bio = data.bio.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"");
 								messages.bio = "//bio updated";
 							}
 						break;

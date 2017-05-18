@@ -22,7 +22,6 @@
 					<div class="indented">
 						<div class="section" <% 
 							var timeNow = new Date().getTime();
-							console.log("timeNow: " + timeNow);
 							if ((data.state.end !== null) && (data.state.end < timeNow)) { "style='display: none;'";}
 							else if ((data.state.start === null) || (data.state.start - 5000 > timeNow)) { "style='display: none;'";}
 						%>>
@@ -46,7 +45,7 @@
 							%></span>
 						</div>
 						<div class="section" id="pauseDetails" <% if ((data.state.pauseFrom === null) || (data.state.pauseTo === null) || (data.state.pauseFrom > timeNow) || (data.state.pauseTo < timeNow)) { "style='display: none;'";} %>>
-							<span class="whitetext">.pauseRemaining</span><span class="redtext"> = </span><span id="pause" class="purpletext"><% 
+							<span class="whitetext">.workshopRemaining</span><span class="redtext"> = </span><span id="pause" class="purpletext"><% 
 								if ((data.state.pauseFrom !== null) && (data.state.pauseTo !== null)) {
 									Math.floor((data.state.pauseTo - (new Date().getTime())) / 1000);
 								}
@@ -169,7 +168,12 @@
 								if (data.humans[i] !== 0) {
 									var entrant = data.entrants[Object.keys(data.entrants).find(function(j) { return (data.entrants[j].human.id === data.humans[i])})];
 									if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-										string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
+										if (entrant.human.name === "guest") {
+											string += "<span class='bluetext'>guest</a>, ";
+										}
+										else {
+											string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
+										}
 									}
 									else {
 										string += "<span class='yellowtext unknown'>???</span>, ";
@@ -390,8 +394,8 @@
 						<div class="indented">
 							<span class="whitetext">minimum: </span><span class="purpletext"><% String(data.rules.players.minimum) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans must this arena contain at least?</span></summary></details></span><br>
 							<span class="whitetext">maximum: </span><span class="purpletext"><% String(data.rules.players.maximum) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans can this arena contain at most?</span></summary></details></span><br>
-							<span class="whitetext">pauseDuration: </span><span class="purpletext"><% ((data.rules.players.pauseDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when the arena pauses, how long does the code workshop last?</span></summary></details></span><br>
-							<span class="whitetext">pausePeriod: </span><span class="purpletext"><% String(data.rules.players.pausePeriod) || "null" %></span><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop pause?</span></summary></details></span>
+							<span class="whitetext">workshopDuration: </span><span class="purpletext"><% ((data.rules.players.workshopDuration / 1000 / 60) + ":00") || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how long does the code workshop last?</span></summary></details></span><br>
+							<span class="whitetext">workshopPeriod: </span><span class="purpletext"><% String(data.rules.players.workshopPeriod) || "null" %></span><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop?</span></summary></details></span>
 						</div>
 						<span class="whitetext">},</span>
 					</div>

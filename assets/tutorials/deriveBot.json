@@ -46,7 +46,7 @@
 				"$('#rules_outer').find('.section-toggle').removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');"
 			],
 			"messages": {
-				"instructions": "The arena Object contains 2 sections: a rounds Array and a rules Object. (Other sections are hidden from the robot function, like whether the arena is paused.) Change the code to return the .conditions property of the .victory property of .rules.)",
+				"instructions": "The arena Object contains 2 sections: a rounds Array and a rules Object. (Other sections are hidden from the robot function, like whether the workshop is active.) Change the code to return the .conditions property of the .victory property of .rules.)",
 				"error": "Change the rules below so that all 4 victory conditions are true. Remember, this information is accessed from arena.rules.victory.conditions.",
 				"success": "Success. Select the function next() to continue."
 			},

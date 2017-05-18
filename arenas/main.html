@@ -94,7 +94,7 @@
 
 							options.replace("value='6'", "value='6' selected");
 						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans can this arena contain at most?</span></summary></details></span><br>
-						<span class="whitetext">pauseDuration: </span><select class="purpletext" id="players_pauseDuration"><% 
+						<span class="whitetext">workshopDuration: </span><select class="purpletext" id="players_workshopDuration"><% 
 							var options = "";
 							var values = ["1:00","2:00","5:00","10:00","20:00"];
 							for (var i = 0; i < values.length; i++) {
@@ -102,8 +102,8 @@
 							}
 
 							options.replace("value='300000'", "value='5:00' selected");
-						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when the arena pauses, how long does the code workshop last?</span></summary></details></span><br>
-						<span class="whitetext">pausePeriod: </span><select class="purpletext" id="players_pausePeriod"><% 
+						%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how long does the code workshop last?</span></summary></details></span><br>
+						<span class="whitetext">workshopPeriod: </span><select class="purpletext" id="players_workshopPeriod"><% 
 							var options = "";
 							var values = [1,5,10,20,50,255];
 							for (var i = 0; i < values.length; i++) {
@@ -111,7 +111,7 @@
 							}
 
 							options.replace("value='10'", "value='10' selected");
-						%></select><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop pause?</span></summary></details></span>
+						%></select><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop?</span></summary></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
@@ -239,7 +239,7 @@
 							}
 							if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
 								outputList += '<li><span class="code greentext">burn</span>: convert a random cube into power</li>\
-								<li><span class="code greentext">shock</span>: put opponents with more total cubes to sleep</li>\
+								<li><span class="code greentext">shock</span>: use half power to put opponents with more total cubes to sleep</li>\
 								<li><span class="code greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>';
 							}
 							outputList;

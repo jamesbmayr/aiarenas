@@ -18,7 +18,7 @@ Robots can choose to "power" up or use that power to try to "take" cubes - and t
 
 But how do robots decide what to do? Code!
 Humans write javascript code that uses various inputs - the cube colors, opponent power levels, the active victory conditions, etc. - to output actions.
-Every few rounds, the gameplay pauses so humans can workshop their robots and refine the code based on opponent strategies.
+Every few rounds, the gameplay stops so humans can workshop their robots and refine the code based on opponent strategies.
 
 The site comes with a number of tutorials that guide coding novices and Javascript experts alike through the most important features of the language - and the mechanics of the game - so they can build smart robots to take down the competition.
 Robots, arenas, and tutorials are all available without even making an account - but sign up to get challenging arena modes, advanced tutorials, customizable robot avatars, and more.

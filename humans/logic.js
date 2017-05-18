@@ -55,8 +55,11 @@
 					if (data.bio === session.human.information.bio) {
 						//no change
 					}
+					else if (data.bio.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").length > 1000) {
+						messages.bio = "//bio cannot exceed 1000 characters";
+					}
 					else {
-						session.human.information.bio = data.bio;
+						session.human.information.bio = data.bio.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"");
 						messages.bio = "//bio updated";
 					}
 				break;
@@ -66,7 +69,7 @@
 						//no change
 					}
 					else {
-						data.sites = data.sites.replace(/\s/g,"").split(",");
+						data.sites = data.sites.replace(/\s/g,"").replace(/(<([^>]+)>)/ig,"").split(",");
 						for (var i = 0; i < data.sites.length; i++) {
 							if (!(data.sites[i].length > 0)) {
 								data.sites.splice(i,1);

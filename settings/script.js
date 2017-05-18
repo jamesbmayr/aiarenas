@@ -119,7 +119,6 @@
 		/* font_scheme */
 			$(document).on("change", "select#font_scheme", function() {
 				var font = String($("#font_scheme").val());
-				console.log(font);
 
 				switch (font) {
 					case "Ubuntu Mono":

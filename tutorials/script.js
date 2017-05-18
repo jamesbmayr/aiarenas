@@ -374,7 +374,6 @@
 					//execute code
 						try {
 							window.output = eval("function " + sandbox.rounds[0].robots[0].name + "(" + window.inputs.join(", ") + ") {" + window.code.join("\n") + "} \n " + sandbox.rounds[0].robots[0].name + "(" + window.inputs.join(", ") + ");");
-							console.log(window.output);
 						}
 						catch (error) {
 							window.output = "";
@@ -386,9 +385,6 @@
 						}
 
 					//display code, logs, output, errors
-						console.log(window.lines);
-						console.log(window.logs);
-						console.log(window.code);
 						window.code = window.code.join("\n").replace(/else\ if\ \(window\.lineLog\([\d]*\)\)\ \{\}\n/g,"").replace(/case\ \(window\.lineLog\([\d]*\)\):\nbreak\;\n/g,"").replace(/window\.lineLog\([\d]*\);\n/g,"").replace(/window\.consoleLog\([\d]*\,/g,"console.log("); 
 						window.code = window.code.split("\n");
 

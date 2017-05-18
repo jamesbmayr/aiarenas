@@ -83,7 +83,7 @@
 									response.writeHead(200, {"Content-Type": "image/png"});
 									response.end(fs.readFileSync("./assets/images/logo.png"), "binary");
 								}
-								catch (error) {console.log(error); _404();}
+								catch (error) {_404();}
 							break;
 
 						/* stylesheets */
@@ -112,7 +112,7 @@
 				}
 				else if (request.method === "GET") { //views
 					response.writeHead(200, {
-						"Set-Cookie": String("session=" + session.id + "; expires=" + (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 7)).toUTCString()) + "; path=/; domain=localhost"),
+						"Set-Cookie": String("session=" + session.id + "; expires=" + (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 7)).toUTCString()) + "; path=/; domain=" + processes.environment("domain")),
 						"Content-Type": "text/html; charset=utf-8"
 					});
 
@@ -371,7 +371,7 @@
 									}
 									catch (error) {
 										var breakpoint = Number(error.message.substring((Number(error.message.indexOf("at position")) + 12), error.message.length).trim());
-										console.log("breakpoint: " + tutorial.substring(breakpoint - 20, breakpoint + 20));
+										//console.log("breakpoint: " + tutorial.substring(breakpoint - 20, breakpoint + 20));
 										_404(processes.render("./assets/asciiBots/buildBot.shtml"));
 									}
 								}

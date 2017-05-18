@@ -61,8 +61,8 @@
 
 /* signup(session, post, callback) */
 	function signup(session, post, callback) {
-		if ((typeof post.signup_name == "undefined") || (post.signup_name.length < 8) || (!processes.isNumLet(post.signup_name))) {
-			callback({success: false, messages: {top: "//enter human name of 8 or more letters and numbers"}});
+		if ((typeof post.signup_name == "undefined") || (post.signup_name.length < 8) || (post.signup_name.length > 32) || (!processes.isNumLet(post.signup_name))) {
+			callback({success: false, messages: {top: "//enter human name of 8 to 32 letters and numbers"}});
 		}
 		else if ((typeof post.signup_email == "undefined") || (post.signup_email.length == 0) || (!processes.isEmail(post.signup_email))) {
 			callback({success: false, messages: {top: "//enter valid email address"}});

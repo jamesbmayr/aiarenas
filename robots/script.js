@@ -49,7 +49,6 @@
 					$("#avatar_selection select").each(function() {
 						var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
 						var value = String(avatar[key]).replace(/\\/g,"\\\\");
-						console.log("finding " + value);
 						$(this).find("option[value=\"" + value + "\"]").attr("selected",true);
 					});
 
@@ -125,10 +124,7 @@
 							data.code = data.code.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 
 							/* navbar name */
-							console.log(data.name);
-							console.log($("#name").text());
 								if (data.name !== $("#name").attr("value")) {
-									console.log("name change");
 									$("#name").attr("value",data.name);
 									$("#navbar").find("a[href='../../../../robots/" + data.id + "']").find("span.bluetext").text(data.name);
 								}
@@ -637,7 +633,6 @@
 					//execute code
 						try {
 							window.output = eval("function " + sandbox.rounds[0].robots[0].name + "(" + window.inputs.join(", ") + ") {" + window.code.join("\n") + "} \n " + sandbox.rounds[0].robots[0].name + "(" + window.inputs.join(", ") + ");");
-							console.log(window.output);
 						}
 						catch (error) {
 							window.output = "";
@@ -645,9 +640,6 @@
 						}
 
 					//display code, logs, output, errors
-						console.log(window.lines);
-						console.log(window.logs);
-						console.log(window.code);
 						window.code = window.code.join("\n").replace(/else\ if\ \(window\.lineLog\([\d]*\)\)\ \{\}\n/g,"").replace(/case\ \(window\.lineLog\([\d]*\)\):\nbreak\;\n/g,"").replace(/window\.lineLog\([\d]*\);\n/g,"").replace(/window\.consoleLog\([\d]*\,/g,"console.log("); 
 						window.code = window.code.split("\n");
 

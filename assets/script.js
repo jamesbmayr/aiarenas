@@ -1166,7 +1166,6 @@ $(document).ready(function() {
 							data: JSON.stringify({arena_id: arena_id || null})
 						},
 						success: function(data) {
-							console.log("and..." + data.success);
 							if (data.success) {
 								window.location = data.redirect;
 							}
@@ -1305,7 +1304,6 @@ $(document).ready(function() {
 						do {
 							if (tour.length > 0) {
 								var next = tour[0];
-								console.log(next);
 
 								tour.shift();
 								eval(next.action);

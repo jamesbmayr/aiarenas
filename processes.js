@@ -2,19 +2,62 @@
 	const crypto = require("crypto");
 	const fs = require("fs");
 	const mongo = require("mongodb").MongoClient;
-	if (typeof process.env.MLABS_URL !== "undefined") {
-		var database = "mongodb://" + process.env.MLABS_USERNAME + ":" + process.env.MLABS_PASSWORD + "@" + process.env.MLABS_URL;
-	}
-	else {
-		var database = "mongodb://localhost:27017/aiarenas";
-	}
+	const database = "mongodb://" + environment("database_username") + ":" + environment("database_password") + environment("database_url");
 	const nodemailer = require("nodemailer").createTransport({
 		service: "gmail",
 		auth: {
-			user: process.env.EMAIL || "",
-			pass: process.env.EMAIL_PASSWORD || ""
+			user: environment("email_username"),
+			pass: environment("email_password")
 		}
 	});
+
+/*** environment(index) ***/
+	function environment(index) {	
+		if (typeof process.env.DOMAIN !== "undefined") {
+			switch (index) {
+				case "domain":
+					return process.env.DOMAIN;
+				break;
+				case "email_username":
+					return process.env.EMAIL_USERNAME;
+				break;
+				case "email_password":
+					return process.env.EMAIL_PASSWORD;
+				break;
+				case "database_username":
+					return process.env.MLABS_USERNAME;
+				break;
+				case "database_password":
+					return process.env.MLABS_PASSWORD;
+				break;
+				case "database_url":
+					return "@" + process.env.MLABS_URL;
+				break;
+			}
+		}
+		else {
+			switch (index) {
+				case "domain":
+					return "localhost";
+				break;
+				case "email_username":
+					return "";
+				break;
+				case "email_password":
+					return "";
+				break;
+				case "database_username":
+					return "localhost";
+				break;
+				case "database_password":
+					return "";
+				break;
+				case "database_url":
+					return "27017/aiarenas";
+				break;
+			}
+		}
+	}
 
 /*** files ***/
 	/* render(file, data) */
@@ -25,7 +68,7 @@
 			
 			for (html.count = 0; html.count < html.array.length; html.count++) {
 				if (html.count % 2 === 1) {
-					console.log("evaluating chunk " + html.count + "...");
+					console.log("<% " + ((html.count + 1) / 2) + " %>");
 					try {
 						html.temp = eval(html.array[html.count]);
 					}
@@ -169,7 +212,7 @@
 
 	/* isNumLet(string) */
 		function isNumLet(string) {
-			return (/[a-z0-9A-Z]/).test(string);
+			return (/[a-z0-9A-Z_]/).test(string);
 		}
 
 /*** page content ***/
@@ -585,7 +628,7 @@
 						},
 						{
 							action: "$('#cubes').hide(); $('#robots').hide(); $('#victory').hide(); $('.section-toggle-down').removeClass('section-toggle-down').addClass('section-toggle-up').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up'); $('#players').show(); $('#players').prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
-							selector: "#players_pauseDuration",
+							selector: "#players_workshopDuration",
 							message: "Set how long the coding workshop lasts and how frequently it happens."
 						},
 						{
@@ -651,7 +694,7 @@
 						{
 							action: "",
 							selector: "div#workshop",
-							message: "Edit your robot when the arena pauses; changes are saved only within the arena."
+							message: "Edit your robot when the workshop activates; changes are only set for this arena."
 						},
 						{
 							action: "",
@@ -802,9 +845,6 @@
 					var tourStops = tour(url).filter(function(x) {
 						return session.human.tour.indexOf(x.selector) === -1;
 					});
-
-					console.log("show_help: " + session.human.settings.show_help);
-					console.log("tourStops: " + tourStops);
 
 					if ((session.human.settings.show_help === "true") && (tourStops.length > 0)) {
 						navbar += "<script>$(document).ready(function() {window.continueTour();});</script>";
@@ -1238,6 +1278,7 @@
 
 /*** exports ***/
 	module.exports = {
+		environment: environment,
 		render: render,
 		assets: assets,
 		navbar: navbar,

@@ -80,8 +80,8 @@
 
 /* updateName(session, post, callback) */
 	function updateName(session, post, callback) {
-		if ((typeof post.name === "undefined") || (post.name.length < 8) || (!processes.isNumLet(post.name))) {
-			callback({success: false, messages: {name: "//enter human name of 8 or more letters and numbers"}});
+		if ((typeof post.name === "undefined") || (post.name.length < 8) || (post.signup_name.length > 32) || (!processes.isNumLet(post.name))) {
+			callback({success: false, messages: {name: "//enter human name of 8 to 32 letters and numbers"}});
 		}
 		else if (processes.isReserved(post.name)) {
 			callback({success: false, messages: {name: "//name unavailable"}});

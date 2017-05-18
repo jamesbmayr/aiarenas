@@ -12,8 +12,8 @@
 							players: {
 								minimum: 2,
 								maximum: 6,
-								pauseDuration: 300000,
-								pausePeriod: 10
+								workshopDuration: 300000,
+								workshopPeriod: 10
 							},
 							cubes: {
 								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
@@ -44,8 +44,8 @@
 							players: {
 								minimum: 2,
 								maximum: 4,
-								pauseDuration: 300000,
-								pausePeriod: 10
+								workshopDuration: 300000,
+								workshopPeriod: 10
 							},
 							cubes: {
 								colors: ["red", "yellow", "blue"],
@@ -76,8 +76,8 @@
 							players: {
 								minimum: 2,
 								maximum: 2,
-								pauseDuration: 300000,
-								pausePeriod: 5
+								workshopDuration: 300000,
+								workshopPeriod: 5
 							},
 							cubes: {
 								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
@@ -108,8 +108,8 @@
 							players: {
 								minimum: 2,
 								maximum: 6,
-								pauseDuration: 300000,
-								pausePeriod: 10
+								workshopDuration: 300000,
+								workshopPeriod: 10
 							},
 							cubes: {
 								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
@@ -140,8 +140,8 @@
 							players: {
 								minimum: 6,
 								maximum: 6,
-								pauseDuration: 120000,
-								pausePeriod: 20
+								workshopDuration: 120000,
+								workshopPeriod: 20
 							},
 							cubes: {
 								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
@@ -172,8 +172,8 @@
 							players: {
 								minimum: 4,
 								maximum: 6,
-								pauseDuration: 120000,
-								pausePeriod: 10
+								workshopDuration: 120000,
+								workshopPeriod: 10
 							},
 							cubes: {
 								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
@@ -204,8 +204,8 @@
 							players: {
 								minimum: 3,
 								maximum: 6,
-								pauseDuration: 60000,
-								pausePeriod: 20
+								workshopDuration: 60000,
+								workshopPeriod: 20
 							},
 							cubes: {
 								colors: ["red", "orange", "yellow", "green", "blue", "purple"],
@@ -240,8 +240,8 @@
 				if ((typeof parameters !== "undefined") && (parameters !== null)) {
 					$("#players_minimum").val(parameters.players.minimum);
 					$("#players_maximum").val(parameters.players.maximum);
-					$("#players_pauseDuration").val(parameters.players.pauseDuration);
-					$("#players_pausePeriod").val(parameters.players.pausePeriod);
+					$("#players_workshopDuration").val(parameters.players.workshopDuration);
+					$("#players_workshopPeriod").val(parameters.players.workshopPeriod);
 
 					$("#cubes_colors_red").prop("checked",(parameters.cubes.colors.indexOf("red") > -1));
 					$("#cubes_colors_orange").prop("checked",(parameters.cubes.colors.indexOf("orange") > -1));
@@ -613,7 +613,12 @@
 												for (var i = 0; i < data.arena.humans.length; i++) {
 													var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].human.id === data.arena.humans[i])})];
 													if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-														string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
+														if (entrant.human.name === "guest") {
+															string += "<span class='bluetext'>guest</a>, ";
+														}
+														else {
+															string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
+														}
 													}
 													else if (data.arena.humans[i] !== 0) { //no ??? for fake human in random arena
 														string += "<span class='yellowtext unknown'>???</span>, ";
@@ -731,8 +736,7 @@
 						else {
 							var timeNow = new Date().getTime();
 							var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
-
-							console.log(timeNow + ": round " + (pastRounds.length - 1));
+							//console.log(timeNow + ": round " + (pastRounds.length - 1));
 							
 							//starting soon
 								if (timeNow < window.arena.state.start) {
@@ -747,7 +751,7 @@
 										if (pastRounds.length - 1 >= 0) {
 											$("#round").text(pastRounds.length - 1);
 											var currentRound = pastRounds[pastRounds.length - 1] || {};
-											console.log("data: " + JSON.stringify(currentRound));
+											//console.log("data: " + JSON.stringify(currentRound));
 										}
 										else {
 											$("#round").hide().text("null");
@@ -790,7 +794,6 @@
 
 									//winner
 										if ((typeof currentRound !== "undefined") && (currentRound !== null) && (currentRound.winner !== null)) {
-											console.log("winner: " + currentRound.winner);
 											var winnerTop = $("#" + currentRound.winner).find("pre").position().top;
 											var winnerLeft = $("#" + currentRound.winner).find("pre").position().left;
 											var winnerBottom = winnerTop + Number($("#" + currentRound.winner).find("pre").css("height").replace("px",""));
@@ -815,7 +818,6 @@
 										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
 											window.cubes = "";
 											for (var i = 0; i < currentRound.cubes.length; i++) {
-												console.log(i + " :: "  + currentRound.cubes[i]);
 												window.cubes += "<div class='cube_outer " + currentRound.cubes[i] + "back'><div class='cube_inner whitetext'>" + currentRound.cubes[i] + "</div></div>";
 											}
 
@@ -899,7 +901,7 @@
 													$("#workshop_outer").show();
 
 													resizeTop();
-													$("#message_top").animateText({text: "//arena paused"}, 1000);
+													$("#message_top").animateText({text: "//workshop activated"}, 1000);
 												}
 
 												lastTime = window.arena.state.pauseTo;
@@ -949,7 +951,6 @@
 												data: JSON.stringify({arena_id: arena_id || null})
 											},
 											success: function(data) {
-												console.log("read it and hopefully it did something");
 												window.location = window.location; //refresh to start gameLoop (for random arenas)
 											}
 										});

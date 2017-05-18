@@ -50,10 +50,10 @@
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 					<div class="section">
 						<form method="post" action="javascript:;" onsubmit="window.eval_code();">
-							<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext"><% data.name %></span>)</button><span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span>
+							<button class="whitetext" id="eval_code" name="action" value="eval_code">.<span class="bluetext">eval</span>(<span class="greentext"><% data.name %></span>)</button><span class="redtext"> = </span><span class="yellowtext"><span id="output"></span></span>
 						</form>
 					</div>
-					<details class="graytext"><summary>//console</summary><div id="console"></div></details>
+					<details class="graytext" open><summary>//console</summary><div id="console"></div></details>
 				</div>
 				<div class="megasection" id="arena">
 					<br><br><br><hr style="margin-left: -40px">
@@ -154,7 +154,7 @@
 
 										options.replace("value='6'", "value='6' selected");
 									%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many humans can this arena contain at most?</span></summary></details></span><br>
-									<span class="whitetext">pauseDuration: </span><select class="purpletext" id="players_pauseDuration"><% 
+									<span class="whitetext">workshopDuration: </span><select class="purpletext" id="players_workshopDuration"><% 
 										var options = "";
 										var values = ["1:00","2:00","5:00","10:00","20:00"];
 										for (var i = 0; i < values.length; i++) {
@@ -162,8 +162,8 @@
 										}
 
 										options.replace("value='300000'", "value='5:00' selected");
-									%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when the arena pauses, how long does the code workshop last?</span></summary></details></span><br>
-									<span class="whitetext">pausePeriod: </span><select class="purpletext" id="players_pausePeriod"><% 
+									%></select><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how long does the code workshop last?</span></summary></details></span><br>
+									<span class="whitetext">workshopPeriod: </span><select class="purpletext" id="players_workshopPeriod"><% 
 										var options = "";
 										var values = [1,5,10,20,50,255];
 										for (var i = 0; i < values.length; i++) {
@@ -171,7 +171,7 @@
 										}
 
 										options.replace("value='10'", "value='10' selected");
-									%></select><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop pause?</span></summary></details></span>
+									%></select><span class="graytext"> // <details class="graytext"><summary><span>how many rounds occur between each code workshop?</span></summary></details></span>
 								</div>
 								<div><span class="whitetext">},</span></div>
 								<div><span class="whitetext">cubes: {</span></div>
