@@ -68,14 +68,14 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |   |   |- victoryBot.json
 |   |
 |   |- asciiBots/
-|       |- buildBot.shtml
-|       |- crashBot.shtml
-|       |- emailBot.shtml
-|       |- errorBot.shtml
-|       |- helloBot.shtml
-|       |- learnBot.shtml
-|       |- noscriptBot.shtml
-|       |- opponentBot.shtml
+|       |- buildBot.html
+|       |- crashBot.html
+|       |- emailBot.html
+|       |- errorBot.html
+|       |- helloBot.html
+|       |- learnBot.html
+|       |- noscriptBot.html
+|       |- opponentBot.html
 |
 |- / (home)
 |   |- logic.js (signin, signup, signout, verify, sendReset, verifyReset)

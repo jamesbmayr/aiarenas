@@ -372,7 +372,7 @@
 									catch (error) {
 										var breakpoint = Number(error.message.substring((Number(error.message.indexOf("at position")) + 12), error.message.length).trim());
 										//console.log("breakpoint: " + tutorial.substring(breakpoint - 20, breakpoint + 20));
-										_404(processes.render("./assets/asciiBots/buildBot.shtml"));
+										_404(processes.render("./assets/asciiBots/buildBot.html"));
 									}
 								}
 								catch (error) {_404();}
@@ -765,7 +765,7 @@
 
 				function _404(data) { //invalid get request
 					response.writeHead(404, {"Content-Type": "text/html"});
-					response.end(data || processes.render("./assets/asciiBots/errorBot.shtml"));
+					response.end(data || processes.render("./assets/asciiBots/errorBot.html"));
 				}
 			}
 	}
