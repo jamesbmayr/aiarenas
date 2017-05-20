@@ -14,6 +14,7 @@
 			$(document).on("change", "#cube_color", function() {
 				var value = $("#cube_color").val();
 				$("#cube_color").css("color","var(--" + value + ")");
+				$("#cube_color").closest(".select_outer").css("color","var(--" + value + ")");
 			});
 
 		/* next_step */
@@ -79,19 +80,18 @@
 				var opponentCount = $(".opponent").toArray().length || 0;
 
 				$("#opponents").append('<div class="section opponent" id="opponentBot_' + opponentCount + '">\
+					<form class="avatar_name" action="javascript:;" onsubmit="window.remove_opponent(this);"> <span class="bluetext">bot_' + opponentCount + '</span><span class="whitetext">.</span><button class="whitetext" name="action" value="remove_opponent"><span class="greentext">remove</span>()</button></form>\
 					<div class="stats">\
-						<span class="whitetext">power: </span><input type="number" min="0" max="255" class="purpletext power" value="0"><span class="whitetext">,</span><br>\
-						<span class="whitetext">cubes: {\
-							<div class="indented">\
-								<span class="redtext">r: <input type="number" min="0" max="255" class="cubes_red" value="0"></span>,<br>\
-								<span class="orangetext">o: <input type="number" min="0" max="255" class="cubes_orange" value="0"></span>,<br>\
-								<span class="yellowtext">y: <input type="number" min="0" max="255" class="cubes_yellow" value="0"></span>,<br>\
-								<span class="greentext">g: <input type="number" min="0" max="255" class="cubes_green" value="0"></span>,<br>\
-								<span class="bluetext">b: <input type="number" min="0" max="255" class="cubes_blue" value="0"></span>,<br>\
-								<span class="purpletext">p: <input type="number" min="0" max="255" class="cubes_purple" value="0"></span>\
-							</div>\
-						},</span><br>\
-						<span class="whitetext">action:</span><select class="greentext action">\
+						<span class="whitetext">power: </span><input type="number" min="0" max="255" class="purpletext power" value="0"><br>\
+						<div class="whitetext">\
+							cubes.<span class="redtext">red</span>:<input type="number" min="0" max="255" class="cubes_red" value="0"><br>\
+							cubes.<span class="orangetext">orange</span>:<input type="number" min="0" max="255" class="cubes_orange" value="0"><br>\
+							cubes.<span class="yellowtext">yellow</span>:<input type="number" min="0" max="255" class="cubes_yellow" value="0"><br>\
+							cubes.<span class="greentext">green</span>:<input type="number" min="0" max="255" class="cubes_green" value="0"><br>\
+							cubes.<span class="bluetext">blue</span>:<input type="number" min="0" max="255" class="cubes_blue" value="0"><br>\
+							cubes.<span class="purpletext">purple</span>:<input type="number" min="0" max="255" class="cubes_purple" value="0">\
+						</div>\
+						<span class="whitetext">action: </span><span class="select_outer yellowtext"><select class="yellowtext action">\
 							<option value="power">power</option>\
 							<option value="take">take</option>\
 							<option value="sleep">sleep</option>\
@@ -101,7 +101,7 @@
 							<option value="halftake">halftake</option>\
 							<option value="swaptake">swaptake</option>\
 							<option value="fliptake">fliptake</option>\
-						</select>\
+						</select></span>\
 					</div>\
 					<pre class="avatar_pre ' + ["red","orange","yellow","green","blue","purple"][Math.floor(Math.random() * 6)] + 'text" monospace>\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value=" _|_ "> _|_ </span><span class="transparenttext">•••••</span>\n\
@@ -112,8 +112,7 @@
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="{**}">{**}</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HHHHH">HHHHH</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="{**}">{**}</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" /] [\\ "> /] [\\ </span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="MWM">MWM</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="MWM">MWM</span><span class="transparenttext">••••</span>\n\
-<form action="javascript:;" onsubmit="window.remove_opponent(this);"> <span class="bluetext">bot_' + opponentCount + '</span><span class="whitetext">.</span><button class="whitetext" name="action" value="remove_opponent"><span class="greentext">remove</span>()</button></form></pre>\
- 				</div>');
+</pre></div>');
 			}
 
 			window.remove_opponent = function(button) {
@@ -428,6 +427,7 @@
 								$(".top_inner").find(".indented").show();
 								$(".top_inner").find(".section-toggle").removeClass("section-toggle-up").addClass("section-toggle-down").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
 								resizeTop();
+								
 								setTimeout(function() {
 									$("#inputs").animateText({text: window.inputs.join(", ") || ""},1000);
 									$("#inputs").prop("contenteditable",true).closest(".field_frame").addClass("active");
@@ -436,6 +436,7 @@
 									
 									window.evaluating = false;
 									$("#next_step").prop("disabled",false);
+									resizeTop();
 								},3000);
 							}
 						},1000);

@@ -792,6 +792,8 @@
       IsOff [xx]\n\
       -   -     \n\
      [x] [x]    \n\
+\n\
+please enable JavaScript to continue\
 					</pre></div></noscript>";
 
 			if (session.human === null) {
@@ -835,7 +837,7 @@
 						<div id='navbar_arenas'>\
 							<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
 							<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_join_arena();'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>)</span></form></div>\
-							<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><select id='navbar_arena_random_presets' class='orangetext'><option value='default'>default</option></select><span class='whitetext'>)</span></form></div>\
+							<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'><option value='default'>default</option></select></span><span class='whitetext'>)</span></form></div>\
 						</div>\
 					</div>";
 				}
@@ -903,7 +905,7 @@
 					<div id='navbar_robots'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>robots</span></div>\
 						<div class='navbar_item'><a class='navbar_button' href='../../../../robots'><span class='whitetext'>.</span><span class='greentext'>workshop</span><span class='whitetext'>()</span></a></div>\
-						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_robot();'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(<select id='navbar_robot_create_selection' class='orangetext'><option value='new'>new</option><option value='upload'>upload</option></select>)</span></form></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_robot();'><button class='navbar_button' id='navbar_create_robot'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(<span class='select_outer orangetext'><select id='navbar_robot_create_selection' class='orangetext'><option value='new'>new</option><option value='upload'>upload</option></select></span>)</span></form></div>\
 						<input type='file' name='navbar_file_chooser' id='navbar_file_chooser'/>\
 						<div class='robot_list'>" + robots + "</div>\
 					</div>\
@@ -911,8 +913,8 @@
 					<div id='navbar_arenas'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_join_arena();'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>)</span></form></div>\
-						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><select id='navbar_arena_random_presets' class='orangetext'>" + options + "</select><span class='whitetext'>)</span></form></div>\
-						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_arena();'><button class='navbar_button' id='navbar_create_arena'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(</span><select id='navbar_arena_create_presets' class='orangetext'><option value='custom'>custom</option>" + options + "</select><span class='whitetext'>)</span></form></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_arena();'><button class='navbar_button' id='navbar_create_arena'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_create_presets' class='orangetext'><option value='custom'>custom</option>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
 						<div class='arena_list'>" + arenas + "</div>\
 					</div>\
 				</div>";

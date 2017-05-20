@@ -21,16 +21,16 @@
 					<div class="indented">
 						<div id="signinup" class="section">
 							<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else {} %> >
-								<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">sign</span></button><select class="sign_action greentext">
+								<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">sign</span></button><span class="select_outer greentext"><select class="sign_action greentext">
 									<option value="signin">in</option>
 									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >up</option>
-								</select><span class="whitetext">(</span><input type="text" id="signin_name" class="orangetext" name="signin_name" placeholder="name"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">)</span>
+								</select></span><span class="whitetext">(</span><input type="text" id="signin_name" class="orangetext" name="signin_name" placeholder="name"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">)</span>
 							</form>
 							<form id="signup_form" method="post" action="javascript:;" onsubmit="window.signup();" <% if (session.human !== null) {"style='display: none;'";} else if ((typeof data.action !== "undefined") && (data.action === "signup")) {} else {"style='display: none;'";} %> >
-								<span class="whitetext">.</span><button id="signup" name="action" value="signup"><span class="greentext">sign</span></button><select class="sign_action greentext">
+								<span class="whitetext">.</span><button id="signup" name="action" value="signup"><span class="greentext">sign</span></button><span class="select_outer greentext"><select class="sign_action greentext">
 									<option value="signin">in</option>
 									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >up</option>
-								</select><span class="whitetext">(</span><input type="text" id="signup_name" class="orangetext" name="signup_name" placeholder="name"/><span class="whitetext">,</span><input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/><span class="whitetext">,</span><input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/><span class="whitetext">,</span><input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/><span class="whitetext">)</span>
+								</select></span><span class="whitetext">(</span><input type="text" id="signup_name" class="orangetext" name="signup_name" placeholder="name"/><span class="whitetext">,</span><input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/><span class="whitetext">,</span><input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/><span class="whitetext">,</span><input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/><span class="whitetext">)</span>
 							</form>
 							<form id="send_form" method="post" action="javascript:;" onsubmit="window.sendReset();" style='display: none;'>
 								<span class="whitetext">.</span><button id="sendReset" name="action" value="sendReset"><span class="greentext">forgotPassword</span></button><span class="whitetext">(</span><input type="text" id="sendReset_email" class="orangetext" name="sendReset_email" placeholder="email"/><span class="whitetext">)</span>
@@ -38,7 +38,7 @@
 							<form id="signout_form" method="post" action="javascript:;" onsubmit="window.signout();" <% if (session.human === null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signout")) {"style='display: none;'"} else {} %> >
 								<span class="whitetext">.</span><button id="signout" name="action" value="signout"><span class="greentext">signout</span><span class="whitetext">()</span></button>
 							</form>
-							<form id="verify_form" method="post" action="javascript:;" onsubmit="window.verify();" <% if (session.human === null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action === "verify")) {} else {"style='display: none;'"} %> >
+							<form id="verify_form" method="post" action="javascript:;" onsubmit="window.verify();" <% if ((typeof data.action !== "undefined") && (data.action === "verify")) {} else {"style='display: none;'"} %> >
 								<span class="whitetext">.</span><button id="verify" name="action" value="verify"><span class="greentext">verify</span></button><span class="whitetext">(</span><input type="text" id="verify_email" class="orangetext" name="verify_email" placeholder="email" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.email || null } %>"/><span class="whitetext">,</span><input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.verification || null } %>"/><span class="whitetext">)</span>
 							</form>
 							<form id="reset_form" method="post" action="javascript:;" onsubmit="window.verifyReset();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action === "reset")) {} else {"style='display: none;'"} %> >
@@ -136,7 +136,7 @@
 
 				//arenas
 					if (session.human === null) {
-						suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_random_arena();"><li class="section indented"><span class="whitetext">compete against random opponents: <button id="navbar_random_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><select id="navbar_arena_random_presets" class="orangetext"><option value="default">default</option></select><span class="whitetext">)</span></span></li></form>';
+						suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_random_arena();"><li class="section indented"><span class="whitetext">compete against random opponents: <button id="navbar_random_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><span class="select_outer orangetext"><select id="navbar_arena_random_presets" class="orangetext"><option value="default">default</option></select></span><span class="whitetext">)</span></span></li></form>';
 
 						suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_join_arena();"><li class="section indented"><span class="whitetext">compete against human acquaintances: <button id="navbar_join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" class="navbar_input orangetext" name="navbar_arena_id" id="navbar_arena_id" placeholder="arena id"><span class="whitetext">)</span></span></li></form>'
 					}

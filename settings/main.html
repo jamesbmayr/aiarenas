@@ -35,7 +35,7 @@
 				<div class="megasection">
 					<div class="section indented">
 						<span class="whitetext">font: </span>
-						<select id="font_scheme" class="whitetext">
+						<span class="select_outer whitetext"><select id="font_scheme" class="whitetext">
 							<% 
 								var options = "";
 								var fonts = assets("fonts");
@@ -47,12 +47,12 @@
 
 								options;
 							%>
-						</select>
+						</select></span>
 						<span class="whitetext">,</span> <span class='message graytext'></span>
 					</div>
 					<div class="section indented">
 						<span class="whitetext">colors: </span>
-						<select id="color_scheme" class="whitetext">
+						<span class="select_outer whitetext"><select id="color_scheme" class="whitetext">
 							<% 
 								var options = "";
 								var color_schemes = assets("color_schemes");
@@ -64,23 +64,23 @@
 
 								options;
 							%>
-						</select>
+						</select></span>
 						<span class="whitetext">,</span> <span class='message graytext'></span>
 					</div>
 					<div class="section indented">
 						<span class="whitetext">show_email: </span>
-						<select id="show_email" class="purpletext">
+						<span class="select_outer purpletext"><select id="show_email" class="purpletext">
 							<option value="true" <% if (data.settings.show_email === "true") {"selected"} %>>true</option>
 							<option value="false" <% if (data.settings.show_email === "false") {"selected"} %>>false</option>
-						</select>
+						</select></span>
 						<span class="whitetext">,</span> <span class='message graytext'></span>
 					</div>
 					<div class="section indented">
 						<span class="whitetext">show_help: </span>
-						<select id="show_help" class="purpletext">
+						<span class="select_outer purpletext"><select id="show_help" class="purpletext">
 							<option value="true" <% if (data.settings.show_help === "true") {"selected"} %>>true</option>
 							<option value="false" <% if (data.settings.show_help === "false") {"selected"} %>>false</option>
-						</select>
+						</select></span>
 						<span class="whitetext">,</span> <span class='message graytext'></span>
 					</div>
 					<div class="section indented">

@@ -12,23 +12,63 @@
 			"commands": [
 				"$('#workshop').show()",
 				"$('#inputs').closest('.field_frame').hide()",
+				"$('#eval_code').hide()",
 				"$('#eval_code').closest('form').find('.redtext').hide()",
 				"$('#eval_code').closest('form').find('.yellowtext').hide()",
 				"$('#console').closest('details').hide()"
 			],
 			"messages": {
-				"instructions": "In ai_arenas, each robot is its own function. A function is a standalone block of code. Below, type the text \"hello world!\" (using quotes) inside the code workshop.",
-				"error": "Hm, that does not look right. Just type \"hello world!\" below the //instructions.",
-				"success": "Success. Select the function next() to continue."
+				"instructions": "Welcome to the tutorials. In each tutorial, instructions will be presented here, and code can be typed below. Select the function next() to continue.",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
-				"code": "//type your code below these comments\n//then run it using eval() below",
+				"code": "\n\n",
 				"output": ""
 			},
 			"end": {
 				"inputs": "",
-				"code": "\"hello world!\"",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+			],
+			"messages": {
+				"instructions": "For some steps, the code will contain helpful comments. Comments start with // like below.",
+				"error": "Select the function next() to continue.",
+				"success": "Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//this is a comment\n\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "",
+				"output": ""
+			}
+		},
+		{
+			"commands": [
+				"$('#eval_code').show()"
+			],
+			"messages": {
+				"instructions": "Below, type the text \"hello world\" (using quotes) after the comment. Then eval()uate it using the .eval() button.",
+				"error": "Hm, that does not look right. Just type \"hello world\" below the //comments.",
+				"success": "Success. Note that //comments will appear gray when eval()uated. Select the function next() to continue."
+			},
+			"start": {
+				"inputs": "",
+				"code": "//type your code below, then run it using eval()\n\n",
+				"output": ""
+			},
+			"end": {
+				"inputs": "",
+				"code": "\"hello world\"",
 				"output": ""
 			}
 		},
@@ -38,32 +78,32 @@
 				"$('#eval_code').closest('form').find('.yellowtext').show()"
 			],
 			"messages": {
-				"instructions": "This function takeBot() can produce an output using the keyword return. Type return before \"hello world!\" to see it output.",
-				"error": "Not getting any output... make sure to return the text \"hello world!\"",
+				"instructions": "In ai_arenas, each robot is its own function: a standalone block of code. A function can produce an output using the keyword return. Type return before \"hello world\" to see it output.",
+				"error": "Not getting any output... make sure to return the text \"hello world\"",
 				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
-				"code": "//type your code below these comments\n//then run it using eval() below\n\"hello world!\"",
+				"code": "//type your code below, then run it using eval()\n\"hello world\"",
 				"output": ""
 			},
 			"end": {
 				"inputs": "",
-				"code": "return \"hello world!\"",
-				"output": "hello world!"
+				"code": "return \"hello world\"",
+				"output": "hello world"
 			}
 		},
 		{
 			"commands": [
 			],
 			"messages": {
-				"instructions": "\"hello world!\" is a String. There are many other types of data, like Number and function(). In ai_arenas, all return values must be a String: the name of an action. \nChange the string to \"take\" to perform this action.",
+				"instructions": "\"hello world\" is a type of text called a String. There are many other types of data, like Number and function. In ai_arenas, all return values must be a String: the name of an action. \nChange the string to \"take\" to perform the \"take\" action.",
 				"error": "Make sure the function takeBot() will return the String \"take\".",
 				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
-				"code": "//change the String to \"take\"\n//then run it using eval() below\nreturn \"hello world!\"",
+				"code": "//change the String to \"take\"\nreturn \"hello world\"",
 				"output": ""
 			},
 			"end": {
@@ -88,7 +128,7 @@
 			},
 			"start": {
 				"inputs": "",
-				"code": "//make the String \"take\" and takeBot() will perform this action\n//then run it using eval() below\nreturn \"take\"",
+				"code": "//make the String \"take\" and takeBot() will perform this action\nreturn \"take\"",
 				"output": ""
 			},
 			"end": {

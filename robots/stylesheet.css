@@ -11,36 +11,6 @@
 		padding-top: 28px;
 	}
 
-	#bio {
-		user-select: auto;
-		-webkit-user-select: auto;
-		-moz-user-select: auto;
-		cursor: auto;
-	}
-
-	/* code */
-		#code_outer {
-			line-height: 1.15;
-		}
-
-		#code {
-			user-select: auto;
-			-webkit-user-select: auto;
-			-moz-user-select: auto;
-			cursor: auto;
-		}
-
-		#console {
-			line-height: 1;
-		}
-
-		.live_line {
-			background-color: var(--code);
-			border-radius: 5px;
-			padding: 0px 4px 0px 4px;
-			margin: 0px -4px 0px -4px;
-		}
-
 	/* avatar */
 		#avatar_selection {
 			display: none;
@@ -75,78 +45,16 @@
 		}
 
 	/* arena */
-		.self {
-			width: 340px;
-			height: 186px;
-			border: 2px solid var(--white);
-			border-radius: 5px;
-			padding: 10px 10px 0px 10px;
-			display: inline-block;
-			margin: 5px;
-			line-height: 1;
-		}
-
-		.self pre {
-			width: 155px;
-			height: 172px;
-			text-align: center;
-			overflow: hidden;
-			float: left;
-			padding: 0px;
-		}
-
-		.opponent {
-			width: 340px;
-			height: 186px;
-			border: 2px solid var(--gray);
-			border-radius: 5px;
-			padding: 10px 10px 0px 10px;
-			display: inline-block;
-			margin: 5px;
-			line-height: 1;
-		}
-
-		.opponent pre {
-			width: 155px;
-			height: 172px;
-			text-align: center;
-			overflow: hidden;
-			float: left;
-			padding: 0px;
-		}
-
-		.stats {
-			float: left;
-			width: 161px;
-			height: 172px;
-		}
-
-		.cube_outer {
-			width: 80px;
-			height: 80px;
-			border: 2px solid var(--white);
-			border-radius: 5px;
-			text-align: center;
-			display: inline-block;
-			margin: 5px;
-		}
-
-		.cube_inner {
-			position: relative;
-			top: 50%;
-			transform: translateY(-50%);
-			color: var(--white);
-		}
-
-		.action {
-			border: 0px;
+		.section .action {
 			background-color: var(--transparent);
 			margin-left: -8px;
 			margin-top: -6px;
 		}
 
 		input[type=number] {
+			-webkit-appearance: default;
 			background-color: var(--transparent);
+			float: right;
 		}
 		
 		

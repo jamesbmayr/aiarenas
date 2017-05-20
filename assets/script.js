@@ -1,5 +1,15 @@
 $(document).ready(function() {
 
+	/* test browser */
+		function isIE() {
+			if ( (/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent) ) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
 	/* animateText */
 		jQuery.fn.extend({
 			animateText: function(options, timespan) {
@@ -1367,4 +1377,5 @@ $(document).ready(function() {
 				}
 			});
 		}
+
 });

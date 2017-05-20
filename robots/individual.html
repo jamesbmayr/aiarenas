@@ -17,7 +17,7 @@
 				<div class="top_inner">
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="section bracketer_top">
-						<span class="field_frame" id="name_frame"><span class="field whitetext header" id="name" value="<% data.name %>"><% data.name %></span></span> <span class="graytext" id="message_top"></span> <span class='message graytext'></span>
+						<span class="field_frame" id="name_frame"><span class="field whitetext header" spellcheck="false" id="name" value="<% data.name %>"><% data.name %></span></span> <span class="graytext" id="message_top"></span> <span class='message graytext'></span>
 					</div>
 					<div class="indented">
 						<%
@@ -84,10 +84,10 @@
 
 							'<div class="section indented" id="robot_settings" style="display: none">\
 								<span class="whitetext">showCode: </span>\
-								<select id="show_code" class="purpletext">\
+								<span class="select_outer purpletext"><select id="show_code" class="purpletext">\
 									<option value="true"' + show_code_true + '>true</option>\
 									<option value="false"' + show_code_false + '>false</option>\
-								</select>\
+								</select></span>\
 								<span class="whitetext">,</span> <span class="message graytext"></span>\
 							</div>';
 						} */
@@ -95,7 +95,7 @@
 					<div class="section indented">
 						<span class="whitetext">bio: </span> <span class='message graytext'></span>
 						<div class="indented">
-							<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
+							<div class="field_frame"><span class="field yellowtext" spellcheck="false" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || null %></span></div>
 						</div>
 					</div>
 				</div>
@@ -246,7 +246,8 @@
 					<% 
 						if ((session.human !== null) && (session.human.id === data.human.id)) {
 							var display = '<div class="section indented" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
-								<span class="whitetext">color: </span><select>\
+								<br>\
+								<span class="whitetext">color: </span><span class="select_outer" style="color: ' + (data.avatar.color || 'var(--white)') + '"><select>\
 									<option value="var(--white)">white</option>\
 									<option value="var(--red)">red</option>\
 									<option value="var(--orange)">orange</option>\
@@ -255,7 +256,7 @@
 									<option value="var(--blue)">blue</option>\
 									<option value="var(--purple)">purple</option>\
 									<option value="var(--gray)">gray</option>\
-								</select>\
+								</select></span>\
 							</div>';
 
 							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");
@@ -280,7 +281,7 @@
 					var inputs = data.inputs || "";
 				%>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span><span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul><%
+				<div class="bracketer_top"><span class="whitetext">.</span><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame"><span class="orangetext field" spellcheck="false" id="inputs" value='<% inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% inputs %></span></span><span class="whitetext">) {</span> <span class='message graytext'></span><span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul><%
 					if ((session.human !== null) && (session.human.tutorials.indexOf("deriveBot") !== -1)) {
 						var inputList = '<li><span class="code orangetext">arena</span>: all information</li>\
 						<li><span class="code orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>\
@@ -332,7 +333,7 @@
 				<div class="megasection">
 					<div class="section indented">						
 						<div class="field_frame" id="code_outer">
-							<span class="whitetext field" id="code" value='<% code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% code %></span>
+							<span class="whitetext field" spellcheck="false" id="code" value='<% code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>'><% code %></span>
 						</div>
 					</div>
 				</div>

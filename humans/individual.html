@@ -80,7 +80,7 @@
 					<% 
 						if ((session.human !== null) && (session.human.id === data.id)) {
 							var display = '<div class="section indented" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
-								<span class="whitetext">.color</span><span class="redtext"> = </span><select>\
+								<span class="whitetext">.color</span><span class="redtext"> = </span><span class="select_outer whitetext"><select>\
 									<option value="var(--white)">white</option>\
 									<option value="var(--red)">red</option>\
 									<option value="var(--orange)">orange</option>\
@@ -89,7 +89,7 @@
 									<option value="var(--blue)">blue</option>\
 									<option value="var(--purple)">purple</option>\
 									<option value="var(--gray)">gray</option>\
-								</select><span class="whitetext"></span>\
+								</select></span>\
 							</div>';
 
 							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");
@@ -98,7 +98,7 @@
 						}
 					%> -->
 					<div class="section indented">
-						<span class="whitetext">sites: </span><span class="whitetext">[</span> <span class="field_frame"><span class="field whitetext" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
+						<span class="whitetext">sites: </span><span class="whitetext">[</span> <span class="field_frame"><span class="field whitetext" spellcheck="false" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
 								if ((typeof data.information.sites !== "undefined") && (data.information.sites.length > 0)) {
 									var string = "";
 									for (var i = 0; i < data.information.sites.length; i++) {
@@ -111,7 +111,7 @@
 					<div class="section indented">
 						<span class="whitetext">bio: <span class='message graytext'></span>
 						<div class="indented">
-							<div class="field_frame"><span class="field yellowtext" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
+							<div class="field_frame"><span class="field yellowtext" spellcheck="false" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
 							</div>
 						</div>
 					</div>

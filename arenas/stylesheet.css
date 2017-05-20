@@ -12,78 +12,8 @@
 			font-size: 32px;
 		}
 
-		#rules {
-			line-height: 1;
-		}
-
-		#code {
-			line-height: 1.15;
-		}
-
-	/* robots */
-		.self {
-			width: 340px;
-			height: 186px;
-			border: 2px solid var(--white);
-			border-radius: 5px;
-			padding: 10px 10px 0px 10px;
-			display: inline-block;
-			margin: 5px;
-			line-height: 1;
-		}
-
-		.self pre {
-			width: 155px;
-			height: 172px;
-			text-align: center;
-			overflow: hidden;
-			float: left;
-			padding: 0px;
-		}
-
-		.opponent {
-			width: 340px;
-			height: 186px;
-			border: 2px solid var(--gray);
-			border-radius: 5px;
-			padding: 10px 10px 0px 10px;
-			display: inline-block;
-			margin: 5px;
-			line-height: 1;
-		}
-
-		.opponent pre {
-			width: 155px;
-			height: 172px;
-			text-align: center;
-			overflow: hidden;
-			float: left;
-			padding: 0px;
-		}
-
-		.stats {
-			float: left;
-			width: 161px;
-			height: 172px;
-		}
-
-	/* cubes */
-		.cube_outer {
-			width: 80px;
-			height: 80px;
-			border: 2px solid var(--white);
-			border-radius: 5px;
-			text-align: center;
-			display: inline-block;
-			margin: 5px;
-		}
-
-		.cube_inner {
-			position: relative;
-			top: 50%;
-			transform: translateY(-50%);
-			color: var(--black);
-			font-weight: bold;
+		.count {
+			float: right;
 		}
 
 		#cube_spacer {
@@ -91,4 +21,8 @@
 			vertical-align: bottom;
 			height: 90px;
 			width: 0px;
+		}
+
+		#rules {
+			line-height: 1;
 		}

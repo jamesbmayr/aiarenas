@@ -7,7 +7,12 @@
 		top: 44px;
 	}
 
-	select {
-		vertical-align: bottom;
-		margin-bottom: 1px;
+	.sign_action {
+		vertical-align: top;
+		margin-top: 4px;
+	}
+
+	.sign_action:-moz-focusring {
+		color: transparent;
+		text-shadow: 0 0 0 var(--green);
 	}

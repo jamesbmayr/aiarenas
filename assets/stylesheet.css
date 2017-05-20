@@ -1,5 +1,5 @@
 /* * page * */
-	/* colors & fonts */
+	/* variables */
 		:root {
 			--red: #F92672;
 			--orange: #FD971F;
@@ -20,9 +20,12 @@
 		body {
 			margin: 0;
 			padding: 4px;
+			background-color: black;
 			background-color: var(--black);
+			font-family: Courier, monospace;
 			font-family: var(--font_scheme);
-			color: (--white);
+			color: white;
+			color: var(--white);
 			font-size: 16px;
 			text-shadow: 0px;
 		}
@@ -38,6 +41,7 @@
 			user-select: none;
 			-webkit-user-select: none;
 			-moz-user-select: none;
+			-o-user-select: none;
 			cursor: default;
 		}
 
@@ -116,6 +120,7 @@
 			appearance: none;
 			-webkit-appearance: none;
 			-moz-appearance: none;
+			-o-appearance: none;
 			border: 2px solid var(--code);
 			border-radius: 5px;
 			background-color: var(--code);
@@ -126,8 +131,10 @@
 			height: 30px;
 			width: 30px;
 			text-align: center;
-			vertical-align: top;
+			vertical-align: center;
 			margin-top: 2px;
+			margin-top: 2px;
+			font-family: var(--font_scheme);
 		}
 
 		input[type=checkbox]:active {
@@ -148,6 +155,7 @@
 		input[type=checkbox]:checked:after {
 			content: "T";
 			font-weight: bold;
+			font-family: var(--font_scheme);
 			font-size: 20px;
 			color: var(--purple);
 		}
@@ -155,6 +163,7 @@
 		input[type=checkbox]:after {
 			content: "F";
 			font-weight: bold;
+			font-family: var(--font_scheme);
 			font-size: 20px;
 			color: var(--purple);
 		}
@@ -202,13 +211,33 @@
 			padding: 0px 2px 0px 2px;
 		}
 
-		select {
+		.select_outer select {
 			background-color: var(--code);
 			font-size: 16px;
 			border: 0px solid var(--white);
+			border-radius: 5px;
 			outline: none;
 			cursor: pointer;
 			height: 30px;
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			padding: 0px 20px 0px 5px;
+		}
+
+		select:-moz-focusring {
+			color: transparent;
+			text-shadow: 0 0 0 var(--orange);
+		}
+
+		.select_outer:after {
+			content:"▼";
+			position: relative;
+			right: 15px;
+			top: 0px;
+			font-size: 8px;
+			pointer-events: none;
+			margin-right: -8px;
 		}
 
 		hr {
@@ -226,6 +255,7 @@
 			user-select: none;
 			-webkit-user-select: none;
 			-moz-user-select: none;
+			-o-user-select: none;
 			cursor: pointer;
 		}
 
@@ -246,6 +276,7 @@
 			user-select: none;
 			-webkit-user-select: none;
 			-moz-user-select: none;
+			-o-user-select: none;
 			vertical-align: top;
 		}
 
@@ -323,6 +354,10 @@
 			text-shadow: 0px 0px 20px var(--white);
 		}
 
+		.bracketer_top {
+			cursor: pointer;
+		}
+
 		.indented {
 			padding-left: 38px;
 		}
@@ -377,19 +412,12 @@
 			user-select: none;
 			-webkit-user-select: none;
 			-moz-user-select: none;
+			-o-user-select: none;
 			line-height: 1;
 		}
 
 		.content {
 			margin-top: 100px;
-		}
-
-		.bracketer_top {
-			cursor: pointer;
-		}
-
-		.bracketer_top .field_frame.active {
-			cursor: text;
 		}
 
 	/* editing */
@@ -417,6 +445,10 @@
 			margin-top: 8px;
 			line-height: 1.15;
 			min-height: 38px;
+		}
+
+		.bracketer_top .field_frame.active {
+			cursor: text;
 		}
 
 /* * text * */
@@ -595,6 +627,7 @@
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
+		-o-user-select: none;
 		cursor: default;
 	}
 
@@ -634,7 +667,7 @@
 			display: none;
 		}
 
-	/* items */
+	/* logo */
 		#logo_block pre {
 			border: 2px solid var(--white);
 			border-radius: 5px;
@@ -662,6 +695,7 @@
 			line-height: 1;
 		}
 
+	/* items */
 		.navbar_item {
 			display: block;
 		}
@@ -705,7 +739,10 @@
 			border: 0px;
 			height: 24px;
 			background-color: var(--transparent);
-			margin-left: -5px;
+		}
+
+		#navbar .select_outer {
+			margin: 0px -5px 0px -5px;
 		}
 
 /* * tour * */
@@ -756,3 +793,100 @@
 		overflow: hidden;
 		pointer-events: auto;
 	}
+
+/* * arena * */
+	/* workshop */
+		#code_outer {
+			line-height: 1.15;
+		}
+
+		#code {
+			user-select: auto;
+			-webkit-user-select: auto;
+			-moz-user-select: auto;
+			-o-user-select: none;
+			cursor: auto;
+		}
+
+		#console {
+			line-height: 1;
+		}
+
+		.live_line {
+			background-color: var(--code);
+			border-radius: 5px;
+			padding: 0px 4px 0px 4px;
+			margin: 0px -4px 0px -4px;
+		}
+
+
+	/* robot cards */
+		.self {
+			width: 350px;
+			height: 186px;
+			border: 2px solid var(--white);
+			border-radius: 5px;
+			padding: 10px 10px 0px 10px;
+			display: inline-block;
+			margin: 5px;
+			line-height: 1.15;
+		}
+
+		.self pre {
+			width: 155px;
+			height: 172px;
+			text-align: center;
+			overflow: hidden;
+			float: left;
+			padding: 0px;
+		}
+
+		.opponent {
+			width: 350px;
+			height: 186px;
+			border: 2px solid var(--gray);
+			border-radius: 5px;
+			padding: 10px 10px 0px 10px;
+			display: inline-block;
+			margin: 5px;
+			line-height: 1.15;
+		}
+
+		.opponent pre {
+			width: 155px;
+			height: 172px;
+			text-align: center;
+			overflow: hidden;
+			float: left;
+			padding: 0px;
+		}
+
+		.stats {
+			float: left;
+			width: 171px;
+			height: 172px;
+		}
+
+		.avatar_name {
+			float: left;
+			text-align: center;
+			width: 100%;
+		}
+
+	/* cubes */
+		.cube_outer {
+			width: 80px;
+			height: 80px;
+			border: 2px solid var(--white);
+			border-radius: 5px;
+			text-align: center;
+			display: inline-block;
+			margin: 5px;
+		}
+
+		.cube_inner {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--white);
+		}

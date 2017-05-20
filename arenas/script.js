@@ -655,19 +655,18 @@
 														}
 
 														string += ('<div class="section opponent" id="' + entrant.id + '">\
+															<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>\
 															<div class="stats">\
-																<span class="whitetext">power: </span><span class="purpletext power">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
-																<span class="whitetext">cubes: {\
-																	<div class="indented">\
-																		<span class="redtext">r: <span class="cubes_red">' + (robot.cubes.red || "0") + '</span></span>,<br>\
-																		<span class="orangetext">o: <span class="cubes_orange">' + (robot.cubes.orange || "0") + '</span></span>,<br>\
-																		<span class="yellowtext">y: <span class="cubes_yellow">' + (robot.cubes.yellow || "0") + '</span></span>,<br>\
-																		<span class="greentext">g: <span class="cubes_green">' + (robot.cubes.green || "0") + '</span></span>,<br>\
-																		<span class="bluetext">b: <span class="cubes_blue">' + (robot.cubes.blue || "0") + '</span></span>,<br>\
-																		<span class="purpletext">p: <span class="cubes_purple">' + (robot.cubes.purple || "0") + '</span></span>\
-																	</div>\
-																},</span><br>\
-																<span class="whitetext">action: </span><span class="greentext action">' + (robot.action || "???") + '</span>\
+																<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+																<div class="whitetext">\
+																	cubes.<span class="redtext">red</span>:<span class="cubes_red purpletext count">' + (robot.cubes.red || "0") + '</span><br>\
+																	cubes.<span class="orangetext">orange</span>:<span class="cubes_orange purpletext count">' + (robot.cubes.orange || "0") + '</span><br>\
+																	cubes.<span class="yellowtext">yellow</span>:<span class="cubes_yellow purpletext count">' + (robot.cubes.yellow || "0") + '</span><br>\
+																	cubes.<span class="greentext">green</span>:<span class="cubes_green purpletext count">' + (robot.cubes.green || "0") + '</span><br>\
+																	cubes.<span class="bluetext">blue</span>:<span class="cubes_blue purpletext count">' + (robot.cubes.blue || "0") + '</span><br>\
+																	cubes.<span class="purpletext">purple</span>:<span class="cubes_purple purpletext count">' + (robot.cubes.purple || "0") + '</span>\
+																</div>\
+																<span class="whitetext">action: </span><span class="yellowtext action count">' + (robot.action || "?") + '</span>\
 															</div>\
 															<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
@@ -678,7 +677,7 @@
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
- <a class="bluetext" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a></pre>\
+</pre>\
 														</div>');
 													}
 
@@ -799,13 +798,18 @@
 											var winnerBottom = winnerTop + Number($("#" + currentRound.winner).find("pre").css("height").replace("px",""));
 											var winnerRight = winnerLeft + Number($("#" + currentRound.winner).find("pre").css("width").replace("px",""));
 
+											var top = (((winnerTop + winnerBottom) / 2) - 40 + "px");
+											var left = (((winnerLeft + winnerRight) / 2) - 40 + "px");
+
 											var i = 0;
 											$(".cube_outer").each(function(index) {
 												var cube = $(this);
 												setTimeout(function() {
-													$(cube).css("position","absolute").animate({
-														top: (((winnerTop + winnerBottom) / 2) - 40 + "px"),
-														left: (((winnerLeft + winnerRight) / 2) - 40 + "px"),
+													var currentTop = $(cube).position().top;
+													var currentLeft = $(cube).position().left;
+													$(cube).css("position","absolute").css("top",currentTop).css("left",currentLeft).animate({
+														top: top,
+														left: left,
 														opacity: 0
 													}, 2000);
 												}, 250 * i);
