@@ -18,14 +18,14 @@
 		}
 
 	/* mobile */
-		@media screen and (max-width: 799px) {
+		@media screen and (max-width: 980px) {
 			:root {
 				--font_size: 2;
 			}
 		}
 
 	/* desktop */
-		@media screen and (min-width: 800px) {
+		@media screen and (min-width: 981px) {
 			:root {
 				--font_size: 1;
 			}
