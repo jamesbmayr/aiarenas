@@ -4,12 +4,22 @@
 	}
 	
 	.section-toggle {
-		top: 44px;
+		top: calc(var(--font_size) * 44px);
 	}
 
 	.sign_action {
 		vertical-align: top;
-		margin-top: 4px;
+		margin-top: calc(var(--font_size) * 4px);
+	}
+
+	#signin {
+		height: calc(var(--font_size) * 30px);
+		margin-top: calc(var(--font_size) * 4px);
+	}
+
+	#signup {
+		height: calc(var(--font_size) * 30px);
+		margin-top: calc(var(--font_size) * 4px);
 	}
 
 	.sign_action:-moz-focusring {

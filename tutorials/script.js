@@ -91,7 +91,7 @@
 							cubes.<span class="bluetext">blue</span>:<input type="number" min="0" max="255" class="cubes_blue" value="0"><br>\
 							cubes.<span class="purpletext">purple</span>:<input type="number" min="0" max="255" class="cubes_purple" value="0">\
 						</div>\
-						<span class="whitetext">action: </span><span class="select_outer yellowtext"><select class="yellowtext action">\
+						<span class="whitetext">action:</span><span class="select_outer yellowtext"><select class="yellowtext action">\
 							<option value="power">power</option>\
 							<option value="take">take</option>\
 							<option value="sleep">sleep</option>\

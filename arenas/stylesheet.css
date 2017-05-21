@@ -9,7 +9,7 @@
 
 	/* game */
 		.spectatorMessage {
-			font-size: 32px;
+			font-size: calc(((var(--font_size) + 1) / 2) * 32px);
 		}
 
 		.count {
@@ -19,7 +19,7 @@
 		#cube_spacer {
 			display: inline-block;
 			vertical-align: bottom;
-			height: 90px;
+			height: calc(var(--font_size) * 90px);
 			width: 0px;
 		}
 

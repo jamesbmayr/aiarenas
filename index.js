@@ -143,12 +143,13 @@
 								catch (error) {_404();}
 							break;
 
+							case (/\/workshop\/?$/).test(request.url):
 							case (/\/newrobot\/?$/).test(request.url):
 							case (/\/buildrobot\/?$/).test(request.url):
 							case (/\/createrobot\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										_302("../../../../humans");
+										_302("../../../../robots");
 									}
 									else {
 										_302();

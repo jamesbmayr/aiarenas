@@ -815,7 +815,6 @@ please enable JavaScript to continue\
 							<div class='super_header'>ai</div>\
 							<div class='header'>arenas</div>\
 						</div>\
-						<br>\
 						<div id='navbar_info'>\
 							<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 							<div class='navbar_item'><a class='navbar_link' href='../../../../'><span class='whitetext'>.</span><span class='bluetext'>home</span></a></div>\
@@ -887,7 +886,6 @@ please enable JavaScript to continue\
 						<div class='super_header'>ai</div>\
 						<div class='header'>arenas</div>\
 					</div>\
-					<br>\
 					<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../'><span class='whitetext'>.</span><span class='bluetext'>home</span></a></div>\

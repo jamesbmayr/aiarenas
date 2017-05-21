@@ -1021,30 +1021,44 @@ $(document).ready(function() {
 		}
 
 	/* navbar */
-		window.navbar_open = function() {
-			$("#navbar_open").animate({left: "+=256px"}, 500);
+		window.navbar_open = function() {			
+			$("#navbar_close").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			$("#navbar_open").find(".glyphicon").animate({opacity: 0},500);
 			setTimeout(function() {
 				$("#navbar_open").hide();
 			}, 500);
 			
-			$("#navbar_close").show().animate({left: "+=256px"}, 500);
-			$("#navbar_close").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
-			
-			$("#navbar").animate({left: "+=256px"}, 500);
+			var multiplier = $(":root").css("--font_size") || 1;
+			if (multiplier > 1) {
+				$("#navbar_open").animate({left: "512px"}, 500);
+				$("#navbar_close").show().animate({left: "512px"}, 500);
+				$("#navbar").animate({left: "0px"}, 500);
+			}
+			else {
+				$("#navbar_open").animate({left: "256px"}, 500);
+				$("#navbar_close").show().animate({left: "256px"}, 500);
+				$("#navbar").animate({left: "0px"}, 500);
+			}
 		}
 
 		window.navbar_close = function() {
-			$("#navbar_close").animate({left: "-=256px"}, 500);
+			$("#navbar_open").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
 			$("#navbar_close").find(".glyphicon").animate({opacity: 0},500);;
 			setTimeout(function() {
 				$("#navbar_close").hide();
 			}, 500);
 
-			$("#navbar_open").show().animate({left: "-=256px"}, 500);
-			$("#navbar_open").find(".glyphicon").css("opacity",0).animate({opacity: 1},500);
-			
-			$("#navbar").animate({left: "-=256px"}, 500);
+			var multiplier = $(":root").css("--font_size") || 1;
+			if (multiplier > 1) {
+				$("#navbar_open").show().animate({left: "-=512px"}, 500);
+				$("#navbar_close").animate({left: "-=512px"}, 500);
+				$("#navbar").animate({left: "-512px"}, 500);
+			}
+			else {
+				$("#navbar_open").show().animate({left: "0px"}, 500);
+				$("#navbar_close").animate({left: "0px"}, 500);
+				$("#navbar").animate({left: "-256px"}, 500);
+			}
 		}
 
 		window.navbar_signout = function() {
@@ -1197,9 +1211,11 @@ $(document).ready(function() {
 					height: 0
 				},1000);
 
+				var multiplier = $(":root").css("--font_size") || 1;
+
 				if ($(this).parent().hasClass("top_inner")) {
 					$(".content").animate({
-						"margin-top": 46
+						"margin-top": (((Number(multiplier) + 1) / 2) * 64)
 					},1000);
 				}
 
@@ -1213,9 +1229,11 @@ $(document).ready(function() {
 					height: height
 				},1000);
 
+				var multiplier = $(":root").css("--font_size") || 1;
+
 				if ($(this).parent().hasClass("top_inner")) {
 					$(".content").animate({
-						"margin-top": (Number(height.replace("px","")) + 46)
+						"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
 					},1000);
 				}
 
@@ -1241,9 +1259,11 @@ $(document).ready(function() {
 					height: 0
 				},1000);
 
+				var multiplier = $(":root").css("--font_size") || 1;
+
 				if ($(this).parent().hasClass("top_inner")) {
 					$(".content").animate({
-						"margin-top": 46
+						"margin-top": (((Number(multiplier) + 1) / 2) * 64)
 					},1000);
 				}
 
@@ -1257,9 +1277,11 @@ $(document).ready(function() {
 					height: height
 				},1000);
 
+				var multiplier = $(":root").css("--font_size") || 1;
+
 				if ($(this).parent().hasClass("top_inner")) {
 					$(".content").animate({
-						"margin-top": (Number(height.replace("px","")) + 46)
+						"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
 					},1000);
 				}
 
@@ -1273,7 +1295,9 @@ $(document).ready(function() {
 
 	/* resizeTop */
 		window.resizeTop = function() {
-			$(".content").css("margin-top",($(".top_outer").css("height").replace("px","") - 46));
+			var multiplier = $(":root").css("--font_size") || 1;
+
+			$(".content").css("margin-top",Number(String($(".top_inner").css("height")).replace("px","")));
 		}
 
 	/* tour */
@@ -1329,7 +1353,8 @@ $(document).ready(function() {
 							var element = $(next.selector);
 								var x = $(element).position().top + ($(element).css("height").replace("px","") / 2);
 								var y = $(element).position().left + ($(element).css("width").replace("px","") / 2);
-							$(".overlay_outer").css("top",x - 50).css("left",y - 50);
+							var multiplier = $(":root").css("--font_size") || 1;
+							$(".overlay_outer").css("top",x - (multiplier * 50)).css("left",y - (multiplier * 50));
 							$(".overlay_message").animateText({text: next.message},1000);
 
 							$("html, body, #navbar").animate({

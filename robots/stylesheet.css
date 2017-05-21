@@ -8,7 +8,7 @@
 	}
 
 	#name_frame.active {
-		padding-top: 28px;
+		padding-top: calc((var(--font_size) + 4) * 7px);*/
 	}
 
 	/* avatar */
@@ -33,7 +33,7 @@
 			outline: none;
 			border: 0px;
 			border-radius: 5px;
-			font-size: 16px;
+			font-size: calc(var(--font_size) * 16px);
 			text-align-last:center;
 			font-weight: bold;
 			padding-bottom: 2px;
@@ -49,6 +49,10 @@
 			background-color: var(--transparent);
 			margin-left: -8px;
 			margin-top: -6px;
+		}
+
+		.stats .select_outer {
+			float: right;
 		}
 
 		input[type=number] {
