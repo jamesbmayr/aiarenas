@@ -654,9 +654,16 @@
 															};
 														}
 
-														string += ('<div class="section opponent" id="' + entrant.id + '">\
-															<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>\
-															<div class="stats">\
+														if (entrant.human.name === "guest") {
+															var robot_link = '<span class="bluetext avatar_name">' + entrant.name + '</span>';
+														}
+														else {
+															var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
+														}
+
+														string += ('<div class="section opponent" id="' + entrant.id + '">'
+															+ robot_link + 
+															'<div class="stats">\
 																<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
 																<div class="whitetext">\
 																	cubes.<span class="redtext">red</span>:<span class="cubes_red purpletext count">' + (robot.cubes.red || "0") + '</span><br>\

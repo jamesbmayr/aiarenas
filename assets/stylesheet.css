@@ -1,7 +1,6 @@
 /* * page * */
 	/* variables */
 		:root {
-			background-color: blue;
 			--red: #F92672;
 			--orange: #FD971F;
 			--yellow: #FFE792;
@@ -132,42 +131,34 @@
 			height: calc(var(--font_size) * 30px);
 		}
 
-		input[type=checkbox] {
-			appearance: none;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			-o-appearance: none;
+		label.pseudocheckbox input[type="checkbox"] {
+			display: none;
+		}
+
+		label.pseudocheckbox span {
 			border: 2px solid var(--code);
 			border-radius: 5px;
 			background-color: var(--code);
 			outline: none;
 			margin: 0px;
-			padding: calc(var(--font_size) * 1px);
+			padding: calc(var(--font_size) * 2px) calc(var(--font_size) * 6px) calc(var(--font_size) * 2px) calc(var(--font_size) * 6px);
 			cursor: pointer;
-			height: calc(var(--font_size) * 30px);
-			width: calc(var(--font_size) * 30px);
+			min-height: calc(var(--font_size) * 30px);
+			min-width: calc(var(--font_size) * 30px);
 			text-align: center;
 			vertical-align: center;
 			margin-top: calc(var(--font_size) * 2px);
 			font-family: var(--font_scheme);
 		}
 
-		input[type=checkbox]:active {
-			outline: none;
-		}
-
-		input[type=checkbox]:focus {
-			outline: none;
-		}
-
-		input[type=checkbox]:checked {
+		label.pseudocheckbox :checked + span {
 			border: 2px solid var(--white);
 			background-color: var(--white);
 			outline: none;
 			box-shadow: 0px 0px 5px var(--white);
 		}
 
-		input[type=checkbox]:checked:after {
+		label.pseudocheckbox :checked + span:before {
 			content: "T";
 			font-weight: bold;
 			font-family: var(--font_scheme);
@@ -175,7 +166,7 @@
 			color: var(--purple);
 		}
 
-		input[type=checkbox]:after {
+		label.pseudocheckbox span:before  {
 			content: "F";
 			font-weight: bold;
 			font-family: var(--font_scheme);
@@ -221,6 +212,8 @@
 			outline: none;
 			margin-bottom: 2px;
 			height: calc(var(--font_size) * 30px);
+			min-height: calc(var(--font_size) * 30px);
+			min-width: calc(var(--font_size) * 100px);
 			padding: 0px;
 			vertical-align: bottom;
 			padding: 0px calc(var(--font_size) * 2px) 0px calc(var(--font_size) * 2px);
@@ -237,11 +230,6 @@
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			padding: 0px calc(var(--font_size) * 20px) 0px calc(var(--font_size) * 5px);
-		}
-
-		select:-moz-focusring {
-			color: transparent;
-			text-shadow: 0 0 0 var(--orange);
 		}
 
 		.select_outer:after {
@@ -304,7 +292,7 @@
 		
 		summary {
 			cursor: pointer;
-			display: inline-block;
+			display: list-item;
 		}
 
 		details summary span {
@@ -317,6 +305,10 @@
 
 		details[open] ul {
 			min-width: calc(100vw - 138px);
+		}
+
+		li {
+			list-style-position: inside;
 		}
 
 	/* noscript */
@@ -626,6 +618,55 @@
 			color: var(--gray);
 		}
 
+	/* firefox select caret */
+		select:-moz-focusring {
+			color: transparent;
+		}
+
+		select.whitetext:-moz-focusring {
+			text-shadow: 0 0 0 var(--white);
+		}
+
+		select.graytext:-moz-focusring {
+			text-shadow: 0 0 0 var(--gray);
+		}
+
+		select.blacktext:-moz-focusring {
+			text-shadow: 0 0 0 var(--black);
+		}
+
+		select.codetext:-moz-focusring {
+			text-shadow: 0 0 0 var(--code);
+		}
+
+		select.transparenttext:-moz-focusring {
+			text-shadow: 0 0 0 var(--transparent);
+		}
+
+		select.redtext:-moz-focusring {
+			text-shadow: 0 0 0 var(--red);
+		}
+
+		select.orangetext:-moz-focusring {
+			text-shadow: 0 0 0 var(--orange);
+		}
+
+		select.yellowtext:-moz-focusring {
+			text-shadow: 0 0 0 var(--yellow);
+		}
+
+		select.greentext:-moz-focusring {
+			text-shadow: 0 0 0 var(--green);
+		}
+
+		select.bluetext:-moz-focusring {
+			text-shadow: 0 0 0 var(--blue);
+		}
+
+		select.purpletext:-moz-focusring {
+			text-shadow: 0 0 0 var(--purple);
+		}
+
 /* * navbar * */
 	#navbar {
 		z-index: 3;
@@ -658,7 +699,7 @@
 			height: calc(var(--font_size) * 40px);
 			width: calc(var(--font_size) * 40px);
 			font-size: calc(var(--font_size) * 25px);
-			padding: 0px calc(var(--font_size) * 4px) 0px 0px;
+			padding: 0px;
 			background-color: var(--black);
 			color: var(--white);
 			border: solid var(--white);
@@ -675,7 +716,7 @@
 			height: calc(var(--font_size) * 40px);
 			width: calc(var(--font_size) * 40px);
 			font-size: calc(var(--font_size) * 25px);
-			padding: 0px calc(var(--font_size) * 4px) 0px 0px;
+			padding: 0px;
 			background-color: var(--black);
 			color: var(--white);
 			border: solid var(--white);
@@ -683,6 +724,20 @@
 			border-radius: 0px 10px 10px 0px;
 			outline: none;
 			display: none;
+		}
+
+		#navbar_open .glyphicon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+		}
+
+		#navbar_close .glyphicon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
 		}
 
 	/* logo */
@@ -887,11 +942,13 @@
 			text-align: center;
 			display: inline-block;
 			margin: 5px;
+			color: var(--black);
 		}
 
 		.cube_inner {
 			position: relative;
 			top: 50%;
 			transform: translateY(-50%);
-			color: var(--white);
+			color: var(--black);
+			font-weight: bold;
 		}

@@ -1207,13 +1207,17 @@ $(document).ready(function() {
 	/* sectionToggle */
 		$(document).on("click", ".section-toggle", function() {
 			if ($(this).hasClass("section-toggle-down")) {
-				$(this).next().next().animate({
-					height: 0
+				var section = $(this).next().next();
+				$(section).animate({
+					height: 0,
 				},1000);
 
-				var multiplier = $(":root").css("--font_size") || 1;
+				setTimeout(function() {
+					$(section).hide();
+				},1000);
 
 				if ($(this).parent().hasClass("top_inner")) {
+					var multiplier = $(":root").css("--font_size") || 1;
 					$(".content").animate({
 						"margin-top": (((Number(multiplier) + 1) / 2) * 64)
 					},1000);
@@ -1229,19 +1233,18 @@ $(document).ready(function() {
 					height: height
 				},1000);
 
-				var multiplier = $(":root").css("--font_size") || 1;
+				setTimeout(function() {
+					$(section).css("height","auto");
+				},1010);
 
 				if ($(this).parent().hasClass("top_inner")) {
+					var multiplier = $(":root").css("--font_size") || 1;
 					$(".content").animate({
 						"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
 					},1000);
 				}
 
 				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
-
-				setTimeout(function() {
-					$(section).css("height","auto");
-				},1010);
 			}
 		});
 
@@ -1255,13 +1258,17 @@ $(document).ready(function() {
 
 		$(document).on("click", ".bracketer_top", function(event) {
 			if ($(this).prev().hasClass("section-toggle-down")) {
-				$(this).next().animate({
-					height: 0
+				var section = $(this).next();
+				$(section).animate({
+					height: 0,
 				},1000);
 
-				var multiplier = $(":root").css("--font_size") || 1;
+				setTimeout(function() {
+					$(section).hide();
+				},1000);
 
 				if ($(this).parent().hasClass("top_inner")) {
+					var multiplier = $(":root").css("--font_size") || 1;
 					$(".content").animate({
 						"margin-top": (((Number(multiplier) + 1) / 2) * 64)
 					},1000);
@@ -1277,9 +1284,12 @@ $(document).ready(function() {
 					height: height
 				},1000);
 
-				var multiplier = $(":root").css("--font_size") || 1;
+				setTimeout(function() {
+					$(section).css("height","auto");
+				},1010);
 
 				if ($(this).parent().hasClass("top_inner")) {
+					var multiplier = $(":root").css("--font_size") || 1;
 					$(".content").animate({
 						"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
 					},1000);
@@ -1287,9 +1297,6 @@ $(document).ready(function() {
 
 				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
 
-				setTimeout(function() {
-					$(section).css("height","auto");
-				},1010);
 			}
 		});
 

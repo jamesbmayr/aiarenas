@@ -47,12 +47,17 @@
 	/* arena */
 		.section .action {
 			background-color: var(--transparent);
-			margin-left: -8px;
 			margin-top: -6px;
+			margin-left: -2px;
+			padding: 0px 20px 0px 0px;
+			width: calc(var(--font_size) * 100px);
+			white-space: nowrap;
+			overflow: hidden;
 		}
 
 		.stats .select_outer {
-			float: right;
+			margin: 0px;
+			padding: 0px;
 		}
 
 		input[type=number] {

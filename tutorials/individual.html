@@ -178,7 +178,7 @@
 										var options = "";
 										var values = ["red","orange","yellow","green","blue","purple"];
 										for (var i = 0; i < values.length; i++) {
-											options += " <input type='checkbox' value='" + values[i] + "' id='cubes_colors_" + values[i] + "' checked/> <label for='cubes_colors_" + values[i] + "' class='" + values[i] + "text'>" + values[i] + "</label>,";
+											options += " <label class='pseudocheckbox " + values[i] + "text'><input type='checkbox' value='" + values[i] + "' id='cubes_colors_" + values[i] + "' checked/><span></span> " + values[i] + "</label>,";
 										}
 
 										options.substring(0,options.length - 1);
@@ -273,7 +273,7 @@
 										var values = ["power","take","sleep","sap","burn","shock","halftake","swaptake","fliptake"];
 										
 										for (var i = 0; i < values.length; i++) {
-											options += " <input type='checkbox' value='" + values[i] + "' id='robots_actions_" + values[i] + "'/> <label for='robots_actions_" + values[i] + "' class='greentext'>" + values[i] + "<span class='whitetext'>()</span></label>,";
+											options += " <label class='pseudocheckbox greentext'><input type='checkbox' value='" + values[i] + "' id='robots_actions_" + values[i] + "'/><span></span> " + values[i] + "</label>,";
 										}
 
 										options.substring(0,options.length - 1).replace("id='robots_actions_take'", "id='robots_actions_take' checked").replace("id='robots_actions_power'", "id='robots_actions_power' checked").replace("id='robots_actions_sleep'", "id='robots_actions_sleep' checked");
@@ -305,7 +305,7 @@
 										var options = "";
 										var values = ["1of6","2of3","3of2","6of1"];
 										for (var i = 0; i < values.length; i++) {
-											options += " <input type='checkbox' value='" + values[i] + "' id='victory_conditions_" + values[i] + "'/> <label for='victory_conditions_" + values[i] + "' class='yellowtext'>" + values[i] + "</label>,";
+											options += " <label class='pseudocheckbox yellowtext'><input type='checkbox' value='" + values[i] + "' id='victory_conditions_" + values[i] + "'/><span></span> " + values[i] + "</label>,";
 										}
 
 										options.substring(0,options.length - 1).replace("id='victory_conditions_1of6'", "id='victory_conditions_1of6' checked").replace("id='victory_conditions_2of3'", "id='victory_conditions_2of3' checked").replace("id='victory_conditions_6of1'", "id='victory_conditions_6of1' checked");

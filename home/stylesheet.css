@@ -21,8 +21,3 @@
 		height: calc(var(--font_size) * 30px);
 		margin-top: calc(var(--font_size) * 4px);
 	}
-
-	.sign_action:-moz-focusring {
-		color: transparent;
-		text-shadow: 0 0 0 var(--green);
-	}

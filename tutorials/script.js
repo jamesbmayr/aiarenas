@@ -123,7 +123,7 @@
 
 			window.add_cube = function() {
 				var color = $("#cube_color").val();
-				$("#cubes").append("<div class='cube_outer " + color + "back'><div class='cube_inner whitetext'>" + color + "<br><form action='javascript:;' onsubmit='window.remove_cube(this);'><span class='whitetext'>.</span><button class='whitetext' name='action' value='remove_cube'>x()</button></form></div></div>");
+				$("#cubes").append("<div class='cube_outer " + color + "back'><div class='cube_inner'>" + color + "<br><form action='javascript:;' onsubmit='window.remove_cube(this);'>.<button name='action' value='remove_cube'>x()</button></form></div></div>");
 			}
 
 			window.remove_cube = function(button) {

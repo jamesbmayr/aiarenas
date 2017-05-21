@@ -327,9 +327,16 @@
 										};
 									}
 
-									string += ('<div class="section opponent" id="' + entrant.id + '">\
-										<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>\
-										<div class="stats">\
+									if (entrant.human.name === "guest") {
+										var robot_link = '<span class="bluetext avatar_name">' + entrant.name + '</span>';
+									}
+									else {
+										var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
+									}
+
+									string += ('<div class="section opponent" id="' + entrant.id + '">'
+										+ robot_link +
+										'<div class="stats">\
 											<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><br>\
 											<div class="whitetext">\
 												cubes.<span class="redtext">red</span>:<span class="cubes_red count purpletext">' + (robot.cubes.red || "0") + '</span><br>\
@@ -474,7 +481,7 @@
 								}
 							%></span><span class="whitetext">],</span><span class="graytext"> // <details class="graytext"><summary><span>which cube combinations result in victory?</span></summary><li><span class="yellowtext">1of6</span>: 1 cube of each of the 6 colors</li><li><span class="yellowtext">2of3</span>: 2 cubes of each primary (red, yellow, blue) or secondary (orange, green, purple) color</li><li><span class="yellowtext">3of2</span>: 3 of each of two complimentary colors (red/green, orange/blue, yellow/purple)</li><li><span class="yellowtext">6of1</span>: 6 cubes of 1 color</li></details></span><br>
 							<span class="whitetext">multiplier: </span><span class="purpletext"><% String(data.rules.victory.multiplier) || "null" %></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>by how much are the cube counts necessary for victory multiplied?</span></summary></details></span><br>
-							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.victory.tieBreaker || "null" %>"</span><span class="graytext"> // <details class="graytext"><summary><span>if multiple robots meet the victory conditions, which robot is the winner?</span></summary><li><span class="yellowtext">tie</span>; each of these robots wins</li><li><span class="yellowtext">greedy</span>: the robot with the most cubes wins</li><li><span class="yellowtext">efficient</span>: the robot with the least cubes wins</li><li><span class="yellowtext">random</span>: a random one of these robots wins</li></details></span>
+							<span class="whitetext">tieBreaker: </span><span class="yellowtext">"<% data.rules.victory.tieBreaker || "null" %>"</span><span class="graytext"> // <details class="graytext"><summary><span>if multiple robots meet the victory conditions, which robot is the winner?</span></summary><li><span class="yellowtext">tie</span>: each of these robots wins</li><li><span class="yellowtext">greedy</span>: the robot with the most cubes wins</li><li><span class="yellowtext">efficient</span>: the robot with the least cubes wins</li><li><span class="yellowtext">random</span>: a random one of these robots wins</li></details></span>
 						</div>
 						<span class="whitetext">}</span>
 					</div>
