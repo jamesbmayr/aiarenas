@@ -40,13 +40,17 @@
 					request.url = request.url.split("?")[0];
 					routes = String(request.url).split("/");
 				try {cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null;} catch(error) {cookie = {};}
+				try {protocol = request.connect.encrypted || "http";} catch(error) {protocol = "http";}
+				console.log(protocol);
+				console.log(JSON.stringify(protocol));
 				console.log("\n" + new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
 
-				if ((/\.well\-known\/acme\-challenge\/oGh6DIxBrbtMy\-Ocptr5sI\-7L7QTBQp33ftikFmpgRU$/).test(request.url)) { //cert setup
+				/*if ((/\.well\-known\/acme\-challenge\/???$/).test(request.url)) { //cert setup
 					response.writeHead(200, {"Content-Type": "text/plain"});
-					response.end("oGh6DIxBrbtMy-Ocptr5sI-7L7QTBQp33ftikFmpgRU.dWLkpUdybzFkZSfFxTGLbH1qq-wi272qIefy7JlggBY");
-				}
-				else if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
+					response.end("???");
+				}*/
+				
+				if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
 					routing(null);
 				}
 				else {
