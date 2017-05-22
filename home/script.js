@@ -208,6 +208,8 @@
 					success: function(data) {
 						if (data.success) {
 							$("#message_top").animateText({text: (data.messages.top || "//email verified")}, 1000);
+							$("#verify_form").hide();
+							resizeTop();
 						}
 						else {
 							$("#message_top").animateText({text: (data.messages.top || "//unable to verify email")}, 1000);

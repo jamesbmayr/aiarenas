@@ -139,12 +139,25 @@
 
 			if (recipients.length > 0) {
 				nodemailer.sendMail({
-					from: sender || ' "adminBot" <adminBot@ai_arenas.com>',
+					from: sender || ' "ai_arenas Bot" <aiarenasbot@gmail.com>',
 					to: recipients || "",
 					subject: subject || "ai_arenas correspondence",
 					text: message || "hello world",
-					html: ("<div style='background-color: #272822; padding: 16px; font-size: 32px; font-family: Courier, monospace; color: #F8F8F2;'><a style='font-size: 64px; color: 66D9EF; font-weight: bold; text-decoration: none' href='aiarenas.com'>ai_arenas</a>" + (message || "hello world") + "</div>"),
-					}, function(error, info) {
+					html: ("<div style='background-color: #272822; padding: 16px; font-size: 16px; font-family: Courier, monospace; color: white; text-align: center'>\
+						" + (message || "hello world") + "</br>\
+<pre style='text-align: center; color: white; font-family: Courier, monospace; font-size: 16px; position: relative; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); line-height: 1.25;'>\
+  __  _[@]_  __ \n\
+ |\\/| |@ @| |\\/|\n\
+  TT  \\ - /  TT \n\
+   \\==EMAIL==/  \n\
+      EMAIL     \n\
+      EMAIL     \n\
+      || ||     \n\
+     [v] [v]    \n\
+<a style='font-size: 32px; color: #66D9EF; font-weight: bold; text-decoration: none' href='https://aiarenas.com'>ai_arenas.com</a>\
+</pre>\
+						</div>\
+					")}, function(error, info) {
 
 					if (error) {
 						console.log("unable to send email to " + (recipients || null) + ": " + error);

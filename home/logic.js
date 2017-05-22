@@ -88,7 +88,7 @@
 						}
 						else {
 							var random = processes.random();
-							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<div>commence human verification process for <span class='bluetext'>" + post.signup_name + "</span>: <a class='greentext' href='http://aiarenas.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>();</div>", function(data) {
+							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + post.signup_name + "</span>: <a class='greentext' href='https://www.aiarenas.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
 								var human = humans.create(post.signup_name, post.signup_email, post.signup_password);
 									human.status.verification = random;
 
@@ -115,7 +115,7 @@
 		if ((typeof post.verification === "undefined") || (post.verification.length !== 32)) {
 			callback({success: false, messages: {top: "//enter 32-character verification key"}});
 		}
-		else if ((typeof post.email === "undefined") || (!isEmail(post.email))) {
+		else if ((typeof post.email === "undefined") || (!processes.isEmail(post.email))) {
 			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else {
@@ -159,7 +159,7 @@
 					var random = processes.random();
 
 					processes.store("humans", {id: human.id}, {$set: {"status.verification": random}}, function (results) {
-						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='http://aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>();</div>", function(data) {
+						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div class='whitetext'>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='https://aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>()</div>", function(data) {
 							callback({success: true, messages: {top: "//reset email sent"}});
 						});
 					});
