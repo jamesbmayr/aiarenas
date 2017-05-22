@@ -1,5 +1,5 @@
 # ai_arenas
-a battleground for javascript functions: http://aiarenas.com
+a battleground for javascript functions: https://www.aiarenas.com
 <pre style='line-height: 1;'>
        _H_                     _!_                    _[+]_                    !!!      
  (--) /o o\              {--} (^ ^) {--}              (V V)              {!!} !x x!     
