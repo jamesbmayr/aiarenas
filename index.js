@@ -35,14 +35,17 @@
 
 		/* get routes, post, get, cookies --> session --> routing */
 			request.on("end", function() {
+				console.log(request);
 				post = qs.parse(post) || {};
 				get = qs.parse(request.url.split("?")[1]) || {};
 					request.url = request.url.split("?")[0];
 					routes = String(request.url).split("/");
 				try {cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null;} catch(error) {cookie = {};}
-				try {protocol = request.connect.encrypted || "http";} catch(error) {protocol = "http";}
+				try {protocol = request.connect.encrypted;} catch(error) {protocol = "http";}
+				try {protocol_1 = request.headers['x-forwarded-proto'];} catch(error) {protocol_1 = "http";}
 				console.log(protocol);
 				console.log(JSON.stringify(protocol));
+				console.log(protocol_1);
 				console.log("\n" + new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
 
 				/*if ((/\.well\-known\/acme\-challenge\/???$/).test(request.url)) { //cert setup
