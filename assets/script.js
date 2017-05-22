@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	/* test browser */
-		function isIE() {
+		window.isIE = function() {
 			if ( (/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent) ) {
 				return true;
 			}
@@ -1308,6 +1308,29 @@ $(document).ready(function() {
 		}
 
 	/* tour */
+		window.splashScreen = function() {
+			setTimeout(function() {
+				$("#splash_screen").find(".message").animateText({text: "initializing..."},1000);
+				window.animateRobot("splashBot","power");
+			},1000);
+			
+			setTimeout(function() {
+				$("#splash_screen").find(".message").animateText({text: "initializing..."},1000);
+				window.animateRobot("splashBot","sap");
+			},2000);
+			
+			setTimeout(function() {
+				$("#splash_screen").animate({
+					opacity: 0
+				},2000);
+				window.animateRobot("splashBot","shock");
+			},3000);
+			
+			setTimeout(function() {
+				$("#splash_screen").remove();
+			},5000);
+		}
+
 		window.continueTour = function() {
 			$("body").addClass("touring");
 			$("#navbar").addClass("touring");

@@ -803,6 +803,26 @@
 		}
 
 /* * tour * */
+	#splash_screen {
+		z-index: 4;
+		width: 100vw;
+		height: 100vh;
+		background-color: var(--black);
+		color: var(--white);
+		position: fixed;
+		top: 0;
+		left: 0;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#splash_screen pre {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
 	.touring {
 		overflow: hidden;
 		pointer-events: none;

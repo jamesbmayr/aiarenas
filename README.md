@@ -2,8 +2,8 @@
 a battleground for javascript functions: http://aiarenas.com
 <pre style='line-height: 1;'>
        _H_                     _!_                    _[+]_                    !!!      
- (--) /. .\              {--} (^ ^) {--}              (V V)              {!!} !x x!     
-  ()  \ u /               {}  | = |  {}               |[-]|               ~~  ! O !     
+ (--) /o o\              {--} (^ ^) {--}              (V V)              {!!} !x x!     
+  ()  \ - /               {}  | = |  {}               |[-]|               ~~  ! O !     
    \--HELLO--\             \==/---\==/             /==/|||\==\             \~~CRASH~~\  
       HELLO  ()               LEARN               []  BUILD  []               CRASH  ~~ 
       HELLO (--)              \___/              [++] ]===[ [++]              CRASH {!!}
@@ -45,7 +45,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |
 |- /assets/
 |   |- stylesheet.css
-|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot, tour)
+|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot, tour, splashScreen)
 |   |- images/
 |   |   |- logo.html
 |   |   |- black_logo.html

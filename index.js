@@ -55,7 +55,7 @@
 					}
 				
 				/* routing for images, stylesheets, and scripts */
-					if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
+					else if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
 						routing(null);
 					}
 

@@ -806,6 +806,24 @@ please enable JavaScript to continue\
 						navbar += "<script>$(document).ready(function() {window.continueTour();});</script>";
 					}
 
+				//splash screen
+					if (session.created > new Date().getTime() - 1000) {
+						navbar += '<div id="splash_screen">\
+<pre id="splashBot" class="avatar_pre ' + ["red","orange","yellow","green","blue","purple"][Math.floor(Math.random() * 6)] + 'text" monospace>\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value=" _H_ "> _H_ </span><span class="transparenttext">•••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="/o o\\">/o o\\</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="(--)">(--)</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="\\ - /">\\ - /</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value=" () "> () </span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="--">--</span><span class="avatar avatar_torso_1" value="HELLO">HELLO</span><span class="avatar avatar_right_arm" value="--">--</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value=" () "> () </span>\n\
+<span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="(--)">(--)</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" [] [] "> [] [] </span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="/_]">/_]</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="[_\\">[_\\</span><span class="transparenttext">••••</span>\n\
+\n <span class="whitetext message">initializing...</span>\
+</pre>\
+							<script>$(document).ready(function() { window.splashScreen(); });</script>\
+						</div>';
+					}
+
 				if (url !== "/") {
 					navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
 					<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
