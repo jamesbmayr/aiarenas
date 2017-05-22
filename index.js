@@ -35,50 +35,54 @@
 
 		/* get routes, post, get, cookies --> session --> routing */
 			request.on("end", function() {
-				console.log(request);
 				post = qs.parse(post) || {};
 				get = qs.parse(request.url.split("?")[1]) || {};
 					request.url = request.url.split("?")[0];
 					routes = String(request.url).split("/");
 				try {cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null;} catch(error) {cookie = {};}
-				try {protocol = request.connect.encrypted;} catch(error) {protocol = "http";}
-				try {protocol_1 = request.headers['x-forwarded-proto'];} catch(error) {protocol_1 = "http";}
-				console.log(protocol);
-				console.log(JSON.stringify(protocol));
-				console.log(protocol_1);
 				console.log("\n" + new Date().getTime() + ": [" + request.method + "] to " + request.url + "\n  GET: " + JSON.stringify(get) + "\n  POST: " + JSON.stringify(post) + "\n  COOKIE: " + JSON.stringify(cookie));
 
-				/*if ((/\.well\-known\/acme\-challenge\/???$/).test(request.url)) { //cert setup
-					response.writeHead(200, {"Content-Type": "text/plain"});
-					response.end("???");
-				}*/
+				/* certbot authentication */
+					/*if ((/\.well\-known\/acme\-challenge\/???$/).test(request.url)) {
+						response.writeHead(200, {"Content-Type": "text/plain"});
+						response.end("???");
+					}*/
 				
-				if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
-					routing(null);
-				}
-				else {
-					processes.session(request, response, cookie.session || null, function(session) {
-						if (typeof session.id === "undefined") { session = session[0]; }
-						if (typeof session.human === "undefined") { session.human = null; }
+				/* reroute for https online */
+					if ((processes.environment("domain") === "aiarenas.com") && (request.headers['x-forwarded-proto'] !== "https")) {
+						response.writeHead(302, {Location: "https://www.aiarenas.com" + (request.url || "/")});
+						response.end();
+					}
+				
+				/* routing for images, stylesheets, and scripts */
+					if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
+						routing(null);
+					}
 
-						if (session.human !== null) {
-							processes.retrieve("humans", {id: session.human}, function(human) {
-								if (typeof human.id === "undefined") { human = human[0]; }
+				/* snag session and route for all webpages */
+					else {
+						processes.session(request, response, cookie.session || null, function(session) {
+							if (typeof session.id === "undefined") { session = session[0]; }
+							if (typeof session.human === "undefined") { session.human = null; }
 
-								if (human) {
-									session.human = human;
-									routing(session);
-								}
-								else {
-									routing(session);
-								}
-							});
-						}
-						else {
-							routing(session);
-						}
-					});
-				}
+							if (session.human !== null) {
+								processes.retrieve("humans", {id: session.human}, function(human) {
+									if (typeof human.id === "undefined") { human = human[0]; }
+
+									if (human) {
+										session.human = human;
+										routing(session);
+									}
+									else {
+										routing(session);
+									}
+								});
+							}
+							else {
+								routing(session);
+							}
+						});
+					}
 			});
 
 		/* routing */
