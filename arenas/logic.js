@@ -385,9 +385,7 @@
 						callback({success: false, messages: {top: "//unable to join arena; actions too expert"}});
 					}
 					else {
-						if (session.human !== null) { //join arena signed in
-							arena.humans.push(session.human.id);
-							
+						if (session.human !== null) { //join arena signed in					
 							processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}}, function(human) {
 								processes.store("arenas", {id: arena.id}, {$push: {humans: session.human.id}}, function(data) {
 									callback({success: true, messages: {top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});

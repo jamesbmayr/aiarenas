@@ -807,7 +807,7 @@
      [x] [x]    \n\
 \n\
 please enable JavaScript to continue\
-					</pre></div></noscript>";
+</pre></div></noscript>";
 
 			if (session.human === null) {
 				//tour

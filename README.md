@@ -45,7 +45,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |
 |- /assets/
 |   |- stylesheet.css
-|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot, tour, splashScreen)
+|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot, tour, splashScreen, eval_code)
 |   |- images/
 |   |   |- logo.html
 |   |   |- black_logo.html
