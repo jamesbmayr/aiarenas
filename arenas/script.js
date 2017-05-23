@@ -576,106 +576,106 @@
 					});
 				}
 			}
-	
-		/* gameLoop */
-			if ((typeof $(".container").attr("value") !== "undefined") && ($(".container").attr("value").length > 0)) { //if this is an individual game
-				var state = $("#round").attr("value");
-				
-				if (state === "unstarted") { //unstarted game --> checkLoop
-					window.checkLoop = setInterval(function() {
-						var arena_id = $(".container").attr("value");
-						var timeNow = new Date().getTime();
 
-						$.ajax({
-							type: "POST",
-							url: window.location.pathname,
-							data: {
-								action: "read_arena",
-								data: JSON.stringify({arena_id: arena_id || null})
-							},
-							success: function(data) {
-								if (data.success) {
-									if ((data.arena.state.start !== null) && (data.arena.state.start - 5000 < timeNow)) { //game has started or starts in under 5 seconds
-										clearInterval(window.checkLoop);
-										window.location = window.location; //refresh to start gameLoop
+		/* checkLoop */
+			window.startCheckLoop = function() {
+				window.checkLoop = setInterval(function() {
+					console.log("checkloop");
+					var arena_id = $(".container").attr("value");
+					var timeNow = new Date().getTime();
+
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "read_arena",
+							data: JSON.stringify({arena_id: arena_id || null})
+						},
+						success: function(data) {
+							if (data.success) {
+								if ((data.arena.state.start !== null) && (data.arena.state.start - 5000 < timeNow)) { //game has started or starts in under 5 seconds
+									console.log("here");
+									clearInterval(window.checkLoop);
+									window.location = window.location; //refresh to start gameLoop
+								}
+								else {
+									console.log("there");
+									if (data.arena.state.start !== null) {
+										$("#message_top").animateText({text: "//" + Math.max(0, Math.floor(Math.ceil((data.arena.state.start - timeNow) / 1000) / 5) * 5) + "..."}, 1000); //show a countdown
 									}
 									else {
-										if (data.arena.state.start !== null) {
-											$("#message_top").animateText({text: "//" + Math.max(0, Math.floor(Math.ceil((data.arena.state.start - timeNow) / 1000) / 5) * 5) + "..."}, 1000); //show a countdown
-										}
-										else {
-											$("#message_top").animateText({text: "//not started..."}, 1000);
-										}
-										
-										//update player list
-											if (($("#players").attr("value") !== data.arena.humans.join()) || ($("#players").find(".unknown").toArray().length > 0)) {
-												var string = "";
-												for (var i = 0; i < data.arena.humans.length; i++) {
-													var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].human.id === data.arena.humans[i])})];
-													if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
-														if (entrant.human.name === "guest") {
-															string += "<span class='bluetext'>guest</a>, ";
-														}
-														else {
-															string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
-														}
+										$("#message_top").animateText({text: "//not started..."}, 1000);
+									}
+									
+									//update player list
+										if (($("#players").attr("value") !== data.arena.humans.join()) || ($("#players").find(".unknown").toArray().length > 0)) {
+											var string = "";
+											for (var i = 0; i < data.arena.humans.length; i++) {
+												var entrant = data.arena.entrants[Object.keys(data.arena.entrants).find(function(j) { return (data.arena.entrants[j].human.id === data.arena.humans[i])})];
+												if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
+													if (entrant.human.name === "guest") {
+														string += "<span class='bluetext'>guest</a>, ";
 													}
-													else if (data.arena.humans[i] !== 0) { //no ??? for fake human in random arena
-														string += "<span class='yellowtext unknown'>???</span>, ";
+													else {
+														string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
 													}
 												}
-
-												$("#players").attr("value", data.arena.humans);
-												$("#players").html(string.substring(0, string.length - 2));
+												else if (data.arena.humans[i] !== 0) { //no ??? for fake human in random arena
+													string += "<span class='yellowtext unknown'>???</span>, ";
+												}
 											}
 
-										//update robot list
-											if ($("#robots").attr("value") !== Object.keys(data.arena.entrants).join()) {
-												if ((data.arena.entrants !== null) && (Object.keys(data.arena.entrants).length > 0)) {
-													var string = "";
-													var entrants = Object.keys(data.arena.entrants);
+											$("#players").attr("value", data.arena.humans);
+											$("#players").html(string.substring(0, string.length - 2));
+										}
 
-													for (var i = 0; i < entrants.length; i++) {
-														var entrant = data.arena.entrants[entrants[i]];
-														if (data.arena.rounds.length > 0) {
-															var robot = data.arena.rounds[data.arena.rounds.length - 1].robots.find(function(i) { return i.name = entrant.id}) || {};
-														}
-														else {
-															var robot = {
-																power: 0,
-																cubes: {
-																	red: 0,
-																	orange: 0,
-																	yellow: 0,
-																	green: 0,
-																	blue: 0,
-																	purple: 0
-																}
-															};
-														}
+									//update robot list
+										if ($("#robots").attr("value") !== Object.keys(data.arena.entrants).join()) {
+											if ((data.arena.entrants !== null) && (Object.keys(data.arena.entrants).length > 0)) {
+												var string = "";
+												var entrants = Object.keys(data.arena.entrants);
 
-														if (entrant.human.name === "guest") {
-															var robot_link = '<span class="bluetext avatar_name">' + entrant.name + '</span>';
-														}
-														else {
-															var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
-														}
+												for (var i = 0; i < entrants.length; i++) {
+													var entrant = data.arena.entrants[entrants[i]];
+													if (data.arena.rounds.length > 0) {
+														var robot = data.arena.rounds[data.arena.rounds.length - 1].robots.find(function(i) { return i.name = entrant.id}) || {};
+													}
+													else {
+														var robot = {
+															power: 0,
+															cubes: {
+																red: 0,
+																orange: 0,
+																yellow: 0,
+																green: 0,
+																blue: 0,
+																purple: 0
+															}
+														};
+													}
 
-														string += ('<div class="section opponent" id="' + entrant.id + '">'
-															+ robot_link + 
-															'<div class="stats">\
-																<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
-																<div class="whitetext">\
-																	cubes.<span class="redtext">red</span>:<span class="cubes_red purpletext count">' + (robot.cubes.red || "0") + '</span><br>\
-																	cubes.<span class="orangetext">orange</span>:<span class="cubes_orange purpletext count">' + (robot.cubes.orange || "0") + '</span><br>\
-																	cubes.<span class="yellowtext">yellow</span>:<span class="cubes_yellow purpletext count">' + (robot.cubes.yellow || "0") + '</span><br>\
-																	cubes.<span class="greentext">green</span>:<span class="cubes_green purpletext count">' + (robot.cubes.green || "0") + '</span><br>\
-																	cubes.<span class="bluetext">blue</span>:<span class="cubes_blue purpletext count">' + (robot.cubes.blue || "0") + '</span><br>\
-																	cubes.<span class="purpletext">purple</span>:<span class="cubes_purple purpletext count">' + (robot.cubes.purple || "0") + '</span>\
-																</div>\
-																<span class="whitetext">action: </span><span class="yellowtext action count">' + (robot.action || "?") + '</span>\
+													if (entrant.human.name === "guest") {
+														var robot_link = '<span class="bluetext avatar_name">' + entrant.name + '</span>';
+													}
+													else {
+														var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
+													}
+
+													string += ('<div class="section opponent" id="' + entrant.id + '">'
+														+ robot_link + 
+														'<div class="stats">\
+															<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+															<div class="whitetext">\
+																cubes.<span class="redtext">red</span>:<span class="cubes_red purpletext count">' + (robot.cubes.red || "0") + '</span><br>\
+																cubes.<span class="orangetext">orange</span>:<span class="cubes_orange purpletext count">' + (robot.cubes.orange || "0") + '</span><br>\
+																cubes.<span class="yellowtext">yellow</span>:<span class="cubes_yellow purpletext count">' + (robot.cubes.yellow || "0") + '</span><br>\
+																cubes.<span class="greentext">green</span>:<span class="cubes_green purpletext count">' + (robot.cubes.green || "0") + '</span><br>\
+																cubes.<span class="bluetext">blue</span>:<span class="cubes_blue purpletext count">' + (robot.cubes.blue || "0") + '</span><br>\
+																cubes.<span class="purpletext">purple</span>:<span class="cubes_purple purpletext count">' + (robot.cubes.purple || "0") + '</span>\
 															</div>\
-															<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
+															<span class="whitetext">action: </span><span class="yellowtext action count">' + (robot.action || "?") + '</span>\
+														</div>\
+														<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
@@ -684,85 +684,85 @@
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
-</pre>\
-														</div>');
-													}
-
-													$("#robots").attr("value", Object.keys(data.arena.entrants));
-													$("#robots").find("div.indented").html(string);
+</pre></div>');
 												}
+
+												$("#robots").attr("value", Object.keys(data.arena.entrants));
+												$("#robots").find("div.indented").html(string);
 											}
-									}
-								}
-								else {
-									$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
+										}
 								}
 							}
-						});
-					},5000);
-				}
-				else if (state === "concluded") { //concluded game --> do nothing
-					clearInterval(window.checkLoop);
-					clearInterval(window.gameLoop);
-					$("#message_top").animateText({text: "//arena concluded"}, 1000);
-					resizeTop();
-				}
-				else { //active game --> gameLoop
-					resizeTop();
-					window.gameLoop = setInterval(function() {
-						if ((typeof window.arena === "undefined") || (window.arena === null)) {
-
-							if ((typeof window.wait === "undefined") || (window.wait === null)) {
-								window.wait = true;		
-								setTimeout(function() {
-									window.wait = null;
-								}, 5000);
-
-								var arena_id = $(".container").attr("value");
-
-								$.ajax({
-									type: "POST",
-									url: window.location.pathname,
-									data: {
-										action: "read_arena",
-										data: JSON.stringify({arena_id: arena_id || null})
-									},
-									success: function(data) {
-										if (data.success) {
-											window.arena = data.arena;
-											$("#message_top").animateText({text: (data.messages.top || "//arena retrieved")}, 1000);
-										}
-										else {
-											$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
-										}
-									}
-								});
+							else {
+								$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
 							}
 						}
-						else {
-							var timeNow = new Date().getTime();
-							var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
-							//console.log(timeNow + ": round " + (pastRounds.length - 1));
-							
-							//starting soon
-								if (timeNow < window.arena.state.start) {
-									$("#message_top").animateText({text: "//" + Math.max(0, Math.ceil((window.arena.state.start - timeNow) / 1000)) + "..."}, 500); //show a countdown
+					});
+				},5000);
+			}
+
+		/* gameLoop */
+			window.startGameLoop = function() {
+				window.gameLoop = setInterval(function() {
+					console.log("gameloop");
+					if ((typeof window.arena === "undefined") || (window.arena === null)) {
+						if ((typeof window.wait === "undefined") || (window.wait === null)) {
+							window.wait = true;		
+							setTimeout(function() {
+								window.wait = null;
+							}, 5000);
+
+							var arena_id = $(".container").attr("value");
+
+							$.ajax({
+								type: "POST",
+								url: window.location.pathname,
+								data: {
+									action: "read_arena",
+									data: JSON.stringify({arena_id: arena_id || null})
+								},
+								success: function(data) {
+									if (data.success) {
+										window.arena = data.arena;
+										$("#message_top").animateText({text: (data.messages.top || "//arena retrieved")}, 1000);
+									}
+									else {
+										$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
+									}
 								}
+							});
+						}
+					}
+					else {
+						var timeNow = new Date().getTime();
+						var pastRounds = window.arena.rounds.filter(function(round) { return (round.start <= timeNow);});
+						//console.log(timeNow + ": round " + (pastRounds.length - 1));
+						
+						//starting soon
+							if (timeNow < window.arena.state.start) {
+								$("#message_top").animateText({text: "//" + Math.max(0, Math.ceil((window.arena.state.start - timeNow) / 1000)) + "..."}, 500); //show a countdown
+							}
 
-							//display up-to-date info
-								else if (($("#round").text() === "null") || (Number($("#round").text()) < (pastRounds.length - 1))) { //displayedRound is out of date
-									$("#message_top").animateText({text: "//displaying round " + (pastRounds.length - 1)}, 1000);
+						//display up-to-date info
+							else if (($("#round").text() === "null") || (Number($("#round").text()) < (pastRounds.length - 1))) { //displayedRound is out of date
+								$("#message_top").animateText({text: "//round " + (pastRounds.length - 1)}, 1000);
 
-									//state
-										if (pastRounds.length - 1 >= 0) {
-											$("#round").text(pastRounds.length - 1);
-											var currentRound = pastRounds[pastRounds.length - 1] || {};
-											//console.log("data: " + JSON.stringify(currentRound));
-										}
-										else {
-											$("#round").hide().text("null");
-										}
+								//state
+									if (pastRounds.length - 1 >= 0) {
+										$("#round").text(pastRounds.length - 1);
+										var currentRound = pastRounds[pastRounds.length - 1] || {};
+										//console.log("data: " + JSON.stringify(currentRound));
+									}
+									else {
+										$("#round").hide().text("null");
+									}
 
+								//code
+									if (pastRounds.length > 1) {
+										window.eval_code();
+									}
+
+								setTimeout(function() {
 									//robots
 										if ((typeof currentRound !== "undefined") && (currentRound !== null)) {
 											for (var i = 0; i < currentRound.robots.length; i++) {
@@ -844,131 +844,169 @@
 												}, 2000);
 											}, 4000);
 										}
-								}
-								else {
-									//
-								}
+								}, 5000);
+							}
+							else {
+								//
+							}
 
-							//concluded
-								if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
-									$("#message_top").animateText({text: "//arena concluded"}, 1000);
-									clearInterval(gameLoop);
+						//concluded
+							if ((window.arena.state.end !== null) && (window.arena.state.end < timeNow)) { //if the game is over AND displayedRound is up to date
+								$("#message_top").animateText({text: "//arena concluded"}, 1000);
+								clearInterval(gameLoop);
 
-									//sections
-										$("#pauseDetails").hide();
-										$("#players_outer").hide();
-										$("#cubes_outer").hide();
-										$("#victors").show();
-										$("#workshop_outer").hide();
-										$("#postgame_outer").show();
+								//sections
+									$("#pauseDetails").hide();
+									$("#players_outer").hide();
+									$("#cubes_outer").hide();
+									$("#victors").show();
+									$("#workshop_outer").hide();
+									$("#postgame_outer").show();
 
-										$("#leave_form").remove();
-										$("#delete_form").remove();
+									$("#leave_form").remove();
+									$("#delete_form").remove();
 
-										$("#round").text("null").closest(".section").hide();
-										$("#round").attr("value", "concluded");
+									$("#round").text("null").closest(".section").hide();
+									$("#round").attr("value", "concluded");
 
-									//victors
-										var victors = window.arena.state.victors;
-										var string = "";
+								//victors
+									var victors = window.arena.state.victors;
+									var string = "";
 
-										for (var i = 0; i < victors.length; i++) {
-											string += "{<span class='victor'><a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + window.arena.entrants[victors[i]].name + "</a> : <a class='victor_human bluetext' href='../../../../humans/" + window.arena.entrants[victors[i]].human.name + "'>" + window.arena.entrants[victors[i]].human.name + "</a></span>}, ";
-										}
-
-										$(".victorList").html(string.substring(0, string.length - 2));
-
-									//message
-										if (window.arena.state.victors.indexOf(String($("#workshop").attr("value"))) > -1) {
-											var message = '<div class="indented">\
-												<span class="graytext spectatorMessage">//your robot has achieved victory in this arena</span>\
-											</div>';
-										}
-										else if (String($("#workshop").attr("value")).length > 0) {
-											var message = '<div class="indented">\
-												<span class="graytext spectatorMessage">//your robot has achieved defeat in this arena</span>\
-											</div>';
+									for (var i = 0; i < victors.length; i++) {
+										if (window.arena.entrants[victors[i]].human.name === "guest") {
+											string += "{<span class='victor'><span class='victor_robot bluetext'>" + window.arena.entrants[victors[i]].name + "</span> : <span class='victor_human bluetext'>" + window.arena.entrants[victors[i]].human.name + "</span></span>}, ";
 										}
 										else {
-											var message = '<div class="indented">\
-												<span class="graytext spectatorMessage">//this arena has concluded</span>\
-											</div>';
+											string += "{<span class='victor'><a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + window.arena.entrants[victors[i]].name + "</a> : <a class='victor_human bluetext' href='../../../../humans/" + window.arena.entrants[victors[i]].human.name + "'>" + window.arena.entrants[victors[i]].human.name + "</a></span>}, ";
+										}
+									}
+
+									$(".victorList").html(string.substring(0, string.length - 2));
+
+								//message
+									if (window.arena.state.victors.indexOf(String($("#workshop").attr("value"))) > -1) {
+										var message = '<div class="indented">\
+											<span class="graytext spectatorMessage">//your robot has achieved victory in this arena</span>\
+										</div>';
+									}
+									else if (String($("#workshop").attr("value")).length > 0) {
+										var message = '<div class="indented">\
+											<span class="graytext spectatorMessage">//your robot has achieved defeat in this arena</span>\
+										</div>';
+									}
+									else {
+										var message = '<div class="indented">\
+											<span class="graytext spectatorMessage">//this arena has concluded</span>\
+										</div>';
+									}
+
+									$("#postgame").html(message || "//arena concluded");
+									resizeTop();
+							}
+							
+						//active
+							else if (timeNow > window.arena.state.start) {
+								if (window.arena.rounds.length > 0) {
+									var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start || 0;
+
+									//paused
+										if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
+											if ($("#pauseDetails").css("display") === "none") {
+												$("#pauseDetails").show();
+												$("#message_top").animateText({text: "//workshop activated"}, 1000);
+												resizeTop();
+												
+												var id = String($("#workshop").attr("value")) || "";
+												if ((id !== null) && (id.length > 0)) {
+													$("#save_form").show();
+													$("#output").closest(".section").hide();
+
+													var entrant = window.arena.entrants[id];
+													$("#inputs").animateText({text: entrant.inputs || ""},1000);
+													$("#inputs").prop("contenteditable",true).closest(".field_frame").addClass("active");
+													$("#code").animateText({text: entrant.code || ""},1000);
+													$("#code").prop("contenteditable",true).closest(".field_frame").addClass("active");
+												}
+											}
+
+											lastTime = window.arena.state.pauseTo;
+											$("#pause").text(Math.floor((lastTime - timeNow) / 1000));
 										}
 
-										$("#postgame").html(message || "//arena concluded");
-										
-										resizeTop();
-								}
-								
-							//active
-								else if (timeNow > window.arena.state.start) {
-									if (window.arena.rounds.length > 0) {
-										var lastTime = window.arena.rounds[window.arena.rounds.length - 1].start || 0;
+									//unpaused
+										else if ($("#pauseDetails").css("display") !== "none") {
+											$("#pauseDetails").hide();
+											$("#pause").text("null");
+											resizeTop();
 
-										//paused
-											if ((window.arena.state.pauseFrom !== null) && (window.arena.state.pauseTo !== null) && (timeNow > window.arena.state.pauseFrom) && (timeNow < window.arena.state.pauseTo)) {
-												if ($("#pauseDetails").css("display") === "none") {
-													$("#pauseDetails").show();
-													$("#workshop_outer").show();
+											$("#save_form").hide();
+											$("#output").closest(".section").show();
+											$("#code").prop("contenteditable",false);
+											$("#code").closest(".field_frame").removeClass("active");
+											$("#inputs").prop("contenteditable",false);
+											$("#inputs").closest(".field_frame").removeClass("active");
+										}
 
-													resizeTop();
-													$("#message_top").animateText({text: "//workshop activated"}, 1000);
-												}
+									//fetch more data if necessary										
+										if (timeNow >= lastTime) {
+											var arena_id = $(".container").attr("value");
 
-												lastTime = window.arena.state.pauseTo;
-												$("#pause").text(Math.floor((lastTime - timeNow) / 1000));
-											}
-
-										//unpaused
-											else if ($("#pauseDetails").css("display") !== "none") {
-												$("#pauseDetails").hide();
-												$("#workshop_outer").hide();
-
-												$("#pause").text("null");
-
-												resizeTop();
-											}
-
-										//fetch more data if necessary										
-											if (timeNow >= lastTime) {
-												var arena_id = $(".container").attr("value");
-
-												$.ajax({
-													type: "POST",
-													url: window.location.pathname,
-													data: {
-														action: "read_arena",
-														data: JSON.stringify({arena_id: arena_id || null})
-													},
-													success: function(data) {
-														if (data.success) {
-															window.arena = data.arena;
-														}
-														else {
-															$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
-														}
+											$.ajax({
+												type: "POST",
+												url: window.location.pathname,
+												data: {
+													action: "read_arena",
+													data: JSON.stringify({arena_id: arena_id || null})
+												},
+												success: function(data) {
+													if (data.success) {
+														window.arena = data.arena;
 													}
-												});
-											}
-									}
-									else { //for random arenas, read and refresh
-										var arena_id = $(".container").attr("value");
-
-										$.ajax({
-											type: "POST",
-											url: window.location.pathname,
-											data: {
-												action: "read_arena",
-												data: JSON.stringify({arena_id: arena_id || null})
-											},
-											success: function(data) {
-												window.location = window.location; //refresh to start gameLoop (for random arenas)
-											}
-										});
-									}
+													else {
+														$("#message_top").animateText({text: (data.messages.top || "//unable to read arena")}, 1000);
+													}
+												}
+											});
+										}
 								}
-						}
-					}, 1000);
+								else { //for random arenas, read and refresh
+									var arena_id = $(".container").attr("value");
+
+									$.ajax({
+										type: "POST",
+										url: window.location.pathname,
+										data: {
+											action: "read_arena",
+											data: JSON.stringify({arena_id: arena_id || null})
+										},
+										success: function(data) {
+											window.location = window.location; //refresh to start gameLoop (for random arenas)
+										}
+									});
+								}
+							}
+					}
+				}, 1000);
+			}
+
+		/* state? */
+			if ((typeof $(".container").attr("value") !== "undefined") && ($(".container").attr("value").length > 0)) { //if this is an individual game
+				var state = $("#round").attr("value");
+				
+				if (state === "unstarted") { //unstarted game --> checkLoop
+					window.startCheckLoop();
+				}
+				else if (state === "concluded") { //concluded game --> do nothing
+					$("#code").html(window.colorText($("#code").text()));
+					clearInterval(window.checkLoop);
+					clearInterval(window.gameLoop);
+					$("#message_top").animateText({text: "//arena concluded"}, 1000);
+					resizeTop();
+				}
+				else { //active game --> gameLoop
+					$("#code:not([contenteditable='true'])").html(window.colorText($("#code").text()));
+					window.startGameLoop();
 				}
 			}
 	});

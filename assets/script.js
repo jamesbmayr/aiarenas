@@ -1488,7 +1488,8 @@ $(document).ready(function() {
 							resizeTop();
 						break;
 						case "arenas":
-							//
+							$("#console").empty();
+							$("#output").empty();
 						break;
 					}
 				
@@ -1506,7 +1507,11 @@ $(document).ready(function() {
 							var id = $(".self").attr("id");
 							if ((id !== null) && (id.length > 0)) {
 								window.code = window.arena.entrants[id].code;
-								window.inputs = window.arena.entrants[id].inputs;
+								window.code = window.code.split("\n");
+								window.inputs = window.arena.entrants[id].inputs.replace(/\s/g,"");
+								window.inputs = window.inputs.split(",");
+								console.log(window.code);
+								console.log(window.inputs);
 							}
 						break;
 					}
@@ -1600,7 +1605,7 @@ $(document).ready(function() {
 							var sandbox = {
 								rules: window.arena.rules,
 								rounds: window.arena.rounds.filter(function(x) {
-									return x.start <= new Date().getTime();
+									return (x.start + 10000 <= new Date().getTime());
 								})
 							}
 						break;
@@ -1757,6 +1762,16 @@ $(document).ready(function() {
 					$("#inputs").prop("contenteditable",false);
 					$("#inputs").closest(".field_frame").removeClass("active");
 
+					switch (page) {
+						case "tutorials":
+						case "robots":
+							var interval = 1000;
+						break;
+						case "arenas":
+							var interval = 5000 / Math.max(window.lines.length,5);
+						break;
+					}
+
 					window.loop = setInterval(function() {
 						if (window.lines.length > 0) {
 							console.log(window.code[window.lines[0]]);
@@ -1829,7 +1844,7 @@ $(document).ready(function() {
 								break;
 							}
 						}
-					},1000);
+					},interval);
 			}
 		}
 
