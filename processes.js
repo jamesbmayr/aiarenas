@@ -68,13 +68,12 @@
 			
 			for (html.count = 0; html.count < html.array.length; html.count++) {
 				if (html.count % 2 === 1) {
-					console.log("<% " + ((html.count + 1) / 2) + " %>");
 					try {
 						html.temp = eval(html.array[html.count]);
 					}
 					catch (error) {
 						html.temp = "";
-						console.log(error);
+						console.log("<% " + ((html.count + 1) / 2) + " %>\n" + error);
 					}
 					html.array[html.count] = html.temp;
 				}
@@ -809,6 +808,23 @@
 please enable JavaScript to continue\
 </pre></div></noscript>";
 
+			if (typeof session.activity[session.activity.length - 1]["ip-address"] !== "undefined") {
+				navbar += "<script>\
+					$(document).ready(function() {\
+						$.getJSON('//freegeoip.net/json/?callback=?', function(data) {\
+							$.ajax({\
+								type: 'POST',\
+								url: window.location.pathname,\
+								data: {\
+									action: 'locate',\
+									data: JSON.stringify(data)\
+								}\
+							});\
+						});\
+					});\
+				</script>";
+			}
+
 			if (session.human === null) {
 				//tour
 					var tourStops = tour(url).filter(function(x) {
@@ -1166,42 +1182,79 @@ please enable JavaScript to continue\
 
 /*** database ***/
 	/* session(request, response, id, callback) */
-		function session(session_id, headers, callback) {
-			if (!session_id) {
-				var newSession = {
-					id: random(),
-					"user-agent": headers["user-agent"],
-					"accept-language": headers["accept-language"],
-					created: new Date().getTime(),
-					end: null,
-					human: null,
-					tour: []
+		function session(session_id, data, callback) {
+			//log activity
+				var newActivity = {
+					time: new Date().getTime(),
+					url: data.url
 				}
-				store("sessions", null, newSession, {}, function (results) {
-					callback(newSession);
-				});
-			}
-			else {
-				retrieve("sessions", {id: session_id}, {}, function (oldSession) {
-					if (!oldSession) {
-						var newSession = {
-							id: random(),
-							"user-agent": headers["user-agent"],
-							"accept-language": headers["accept-language"],
-							created: new Date().getTime(),
-							end: null,
-							human: null,
-							tour: []
+				if ((typeof data.post.action !== "undefined") && (data.post.action !== null)) {
+					newActivity.post = data.post.action;
+				}
+
+			//new session
+				if (!session_id) {
+					var newSession = {
+						id: random(),
+						created: new Date().getTime(),
+						activity: [
+							newActivity,
+							{
+								time: new Date().getTime(),
+								"ip-address": data.headers["ip-address"],
+								"user-agent": data.headers["user-agent"],
+								"accept-language": data.headers["accept-language"]
+							}
+						],
+						ip: data.headers["ip-address"],
+						end: null,
+						human: null,
+						tour: []
+					}
+					store("sessions", null, newSession, {}, function (results) {
+						callback(newSession);
+					});
+				}
+
+			//existing session
+				else {
+					store("sessions", {id: session_id}, {$push: {activity: newActivity}}, {}, function (oldSession) {
+						if (!oldSession) {
+							session(false, data, callback); //try again
 						}
-						store("sessions", null, newSession, {}, function (results) {
-							callback(newSession);
-						});
-					}
-					else {
-						callback(oldSession);
-					}
-				});
+						else if (oldSession.ip !== data.headers["ip-address"]) { //new location
+							var newActivity = {
+								time: new Date().getTime(),
+								"ip-address": data.headers["ip-address"],
+								"user-agent": data.headers["user-agent"],
+								"accept-language": data.headers["accept-language"]
+							}
+							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {ip: data.headers["ip-address"]}}, {}, function (oldSession) {
+								callback(oldSession);
+							});
+						}
+						else {
+							callback(oldSession);
+						}
+					});
+				}
+		}
+
+	/* locate(session, post, callback) */
+		function locate(session, post, callback) {
+			var data = JSON.parse(post.data);
+			var locateActivity = {
+				time: new Date().getTime(),
+				city: data.city || null,
+				state: data.region_name || null,
+				country: data.country_name || null
 			}
+
+			console.log("newActivity: " + JSON.stringify(locateActivity));
+			store("sessions", {id: session.id}, {$push: {activity: locateActivity}}, {}, function (data) {
+				console.log("data: " + JSON.stringify(data));
+				callback(data);
+			});
 		}
 
 	/* retrieve(collection, query, options, callback) */
@@ -1376,5 +1429,6 @@ please enable JavaScript to continue\
 		sendEmail: sendEmail,
 		colors: colors,
 		fonts: fonts,
-		tour: tour
+		tour: tour,
+		locate: locate
 	};
