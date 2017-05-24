@@ -121,7 +121,6 @@
 					success: function(results) {
 						if (results.success) {
 							var data = results.data;
-							var messages = results.messages;
 
 							data.code = data.code.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 
@@ -134,7 +133,7 @@
 							/* fields */
 								$(".field").each(function() {
 									$(this).text(data[$(this).attr("id")]).attr("value",data[$(this).attr("id")]);
-									$(this).closest(".section").find(".message").animateText({text: (messages[$(this).attr("id")] || "")}, 1000);
+									$(this).closest(".section").find(".message").animateText({text: (results.messages[$(this).attr("id")] || "")}, 1000);
 								});
 
 							/* avatar */
@@ -154,7 +153,7 @@
 									$("#avatar_pre").css("color", data.avatar.color || previousColor);
 									$("#avatar_selection").css("color", data.avatar.color || previousColor);
 									$("#avatar_color").css("color", data.avatar.color || previousColor);
-									$("#avatar").find(".message").animateText({text: (messages["avatar"] || "")}, 1000);
+									$("#avatar").find(".message").animateText({text: (results.messages["avatar"] || "")}, 1000);
 								}
 
 						}
@@ -173,7 +172,7 @@
 							$("#avatar_selection").hide();
 							$("#avatar_color").hide();
 
-						$("#message_top").animateText({text: (messages.top || "//changes submitted")}, 1000);
+						$("#message_top").animateText({text: (results.messages.top || "//changes submitted")}, 1000);
 
 						if ((window.location.pathname !== "/robots") && (window.location.pathname !== "/robots/")) {
 							$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");

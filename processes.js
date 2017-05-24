@@ -137,7 +137,10 @@
 				.replace(/class='blacktext'/gi, "style='color: #272822;'")
 				.replace(/class='transparenttext'/gi, "style='color: rgba(000,000,000,0);'")
 
-			if (recipients.length > 0) {
+			if (recipients.length === 0) {
+				callback({success: false, messages: {top: "//no email specified"}});
+			}
+			else {
 				nodemailer.sendMail({
 					from: sender || ' "ai_arenas Bot" <aiarenasbot@gmail.com>',
 					to: recipients || "",
@@ -168,9 +171,6 @@
 						callback({success: true, messages: {top: "//email sent"}});
 					}
 				});
-			}
-			else {
-				callback({success: false, messages: {top: "//no email specified"}});
 			}
 		}
 
@@ -1166,143 +1166,193 @@ please enable JavaScript to continue\
 
 /*** database ***/
 	/* session(request, response, id, callback) */
-		function session(request, response, id, callback) {
-			if ((typeof id === "undefined") || (id === null)) {
-				id = random();
-
-				retrieve("sessions", {id: id}, function(result) {
-					if (result.length > 0) {
-						session(request, response, null, callback);
-					}
-					else {
+		function session(session_id, headers, callback) {
+			if (!session_id) {
+				var newSession = {
+					id: random(),
+					"user-agent": headers["user-agent"],
+					"accept-language": headers["accept-language"],
+					created: new Date().getTime(),
+					end: null,
+					human: null,
+					tour: []
+				}
+				store("sessions", null, newSession, {}, function (results) {
+					callback(newSession);
+				});
+			}
+			else {
+				retrieve("sessions", {id: session_id}, {}, function (oldSession) {
+					if (!oldSession) {
 						var newSession = {
-							id: id,
-							"user-agent": request.headers["user-agent"],
-							"accept-language": request.headers["accept-language"],
+							id: random(),
+							"user-agent": headers["user-agent"],
+							"accept-language": headers["accept-language"],
 							created: new Date().getTime(),
 							end: null,
 							human: null,
 							tour: []
 						}
-						store("sessions", null, newSession, callback);
-					}
-				});
-			}
-			else {
-				retrieve("sessions", {id: id}, function(result) {
-					if (!(result.length > 0)) {
-						session(request, response, null, callback);
+						store("sessions", null, newSession, {}, function (results) {
+							callback(newSession);
+						});
 					}
 					else {
-						callback(result);
+						callback(oldSession);
 					}
 				});
 			}
 		}
 
-	/* store(table, search, data, callback) */
-		function store(table, search, data, callback) {
+	/* retrieve(collection, query, options, callback) */
+		function retrieve(collection, query, options, callback) {
+			if (arguments.length !== 4) {
+				console.log("retrieve error: " + JSON.stringify(arguments));
+			}
+
+			//options
+				var projection = options["$projection"] || {};
+				var sample = options["$sample"] || false;
+				var multi = options["$multi"] || false;
+				var sort = options["$sort"] || {created: -1};
+				var limit = options["$limit"] || 100;
+
 			mongo.connect(database, function(error, db) {
 				if (error) {
 					console.log(error);
-				}			
-				else {			
-					if ((search === null) && (data !== null)) { //create
-						console.log("create in " + table + ":\n" + JSON.stringify(data));
-						db.collection(table).insert(data, function (error, result) {
-							if (error) {
-								console.log(error);
-							}
-							else {
-								callback(result.ops[0]);
-							}
-						});
-					}
-					else if ((search !== null) && (data !== null)) { //update
-						console.log("update in " + table + " at " + JSON.stringify(search) + ":\n " + JSON.stringify(data));
-						if (JSON.stringify(search).indexOf("$in") > -1) {
-							db.collection(table).update(search, data, {multi:true}, function (error, result) {
-								if (error) {
-									console.log(error);
-								}
-								else {
-									//callback(data);
-									retrieve(table, search, callback);
-								}
-							});
-						}
-						else {
-							db.collection(table).update(search, data, function (error, result) {
-								if (error) {
-									console.log(error);
-								}
-								else {
-									//callback(data);
-									retrieve(table, search, callback);
-								}
-							});
-						}
-					}
-					else if ((search !== null) && (data === null)) { //delete
-						console.log("delete in " + table + " at " + JSON.stringify(search));
-						if (JSON.stringify(search).indexOf("$in") > -1) {
-							db.collection(table).remove(search, {multi:true}, function (error, result) {
-								if (error) {
-									console.log(error);
-								}
-								else {
-									//callback(result);
-									retrieve(table, search, callback);
-								}
-							});
-						}
-						else {
-							db.collection(table).remove(search, function (error, result) {
-								if (error) {
-									console.log(error);
-								}
-								else {
-									//callback(result);
-									retrieve(table, search, callback);
-								}
-							});
-						}
-					}
 				}
+
+			//aggregate
+				else if (sample) {
+					console.log("aggregate: " + collection + ": " + JSON.stringify([{$match: query}, {$sample: sample}]));
+					db.collection(collection).aggregate([{$match: query}, {$sample: sample}]).sort(sort).limit(limit).toArray(function (error, resultArray) {
+						if (error) {
+							console.log(error);
+						}
+						else {
+							if (resultArray.length === 0) {
+								resultArray = null;
+							}
+							callback(resultArray);
+						}
+					});
+				}
+
+			//findOne
+				else if (!multi) {
+					console.log("findOne: " + collection + ": " + JSON.stringify(query));
+					db.collection(collection).findOne(query, projection, function (error, result) {
+						if (error) {
+							console.log(error);
+						}
+						else {
+							callback(result);
+						}
+					});
+				}
+
+			//find
+				else if (multi) {
+					console.log("find: " + collection + ": " + JSON.stringify(query));
+					db.collection(collection).find(query, projection).sort(sort).limit(limit).toArray(function (error, resultArray) {
+						if (error) {
+							console.log(error);
+						}
+						else {
+							if (resultArray.length === 0) {
+								resultArray = null;
+							}
+							callback(resultArray);
+						}
+					});
+				}
+
 				db.close();
 			});
 		}
 
-	/* retrieve(table, search, callback) */
-		function retrieve(table, search, callback) {
-			mongo.connect(database, function(error, db) {
-				if (error) {
-					console.log(error);
-				}
-				else {
-					console.log("read in " + table + " at " + JSON.stringify(search));
-					
-					if (JSON.stringify(search).indexOf("$sample") > -1) {
-						db.collection(table).aggregate(search).sort({created: -1}).toArray(function (error, result) {
+	/* store(collection, filter, data, options, callback) */
+		function store(collection, filter, data, options, callback) {
+			if (arguments.length !== 5) {
+				console.log("store error: " + JSON.stringify(arguments));
+			}
+
+			//options
+				var projection = options["$projection"] || {};
+				var upsert = options["$upsert"] || false;
+				var multi = options["$multi"] || false;
+				var sort = options["$sort"] || {created: -1};
+				var limit = options["$limit"] || 100;
+
+				returnNewDocument: true
+
+				mongo.connect(database, function(error, db) {
+					if (error) {
+						console.log(error);
+					}
+
+				//insert
+					else if ((filter === null) && (data !== null)) {
+						console.log("insert: " + collection + ":\n" + JSON.stringify(data));
+						db.collection(collection).insert(data, function (error, result) {
 							if (error) {
 								console.log(error);
 							}
 							else {
-								callback(result);
+								callback(result.nInserted);
 							}
 						});
 					}
-					else {
-						db.collection(table).find(search).sort({created: -1}).toArray(function (error, result) {
+
+				//findOneAndUpdate
+					else if ((filter !== null) && (data !== null) && (!multi)) {
+						console.log("findOneAndUpdate: " + collection + ": " + JSON.stringify(filter) + ":\n" + JSON.stringify(data));
+						db.collection(collection).findOneAndUpdate(filter, data, {sort: sort, upsert: upsert, projection: projection, returnNewDocument: true}, function (error, result) {
 							if (error) {
 								console.log(error);
 							}
 							else {
-								callback(result);
+								callback(result.value);
 							}
 						});
 					}
-				}
+
+				//updateMany, then find
+					else if ((filter !== null) && (data !== null) && (multi)) {
+						console.log("updateMany: " + collection + ": " + JSON.stringify(filter) + ":\n" + JSON.stringify(data));
+						db.collection(collection).updateMany(filter, data, {upsert: upsert}, function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								db.collection(collection).find(filter, projection).sort(sort).limit(limit).toArray(function (error, resultArray) {
+									if (error) {
+										console.log(error);
+									}
+									else {
+										if (resultArray.length === 0) {
+											resultArray = null;
+										}
+										callback(resultArray);
+									}
+								});
+							}
+						});
+					}
+
+				//remove
+					else if ((filter !== null) && (data === null)) {
+						console.log("remove: " + collection + ": " + JSON.stringify(filter));
+						db.collection(collection).remove(filter, !multi, function (error, result) {
+							if (error) {
+								console.log(error);
+							}
+							else {
+								callback(result.nRemoved);
+							}
+						});
+					}
+
 				db.close();
 			});
 		}

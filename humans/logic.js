@@ -86,14 +86,13 @@
 			}
 		}
 
-		if (before !== JSON.stringify(session.human)) {
-			processes.store("humans", {id: session.human.id}, session.human, function(human) {
-				if (typeof human.id === "undefined") { human = human[0]; }
-				callback({success: true, messages: messages, data: data, human: human});
-			});
+		if (before === JSON.stringify(session.human)) {
+			callback({success: false, data: data, messages: {top: "//no changes"}});
 		}
 		else {
-			callback({success: true, data: data, messages: {top: "//no changes"}});
+			processes.store("humans", {id: session.human.id}, {$set: {information: session.human.information}}, {}, function (human) {
+				callback({success: true, messages: messages, data: data, human: human});
+			});
 		}
 	}
 
@@ -101,12 +100,16 @@
 	function destroy(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		if ((session.human !== null) && (typeof data.id !== null) && (data.id === session.human.id)) {
-			processes.retrieve("humans", {id: session.human.id}, function(human) {
-				if (typeof human.id === "undefined") { human = human[0]; }
-				
-				if ((typeof human === "undefined") || (typeof human.id === "undefined") || (human.id !== session.human.id)) {
-					callback({success: false, messages: {top: "//unable to delete human"}});
+		if ((session.human === null) || (typeof data.id !== null) || (data.id === session.human.id)) {
+			callback({success: false, messages: {top: "//not authorized"}});
+		}
+		else {
+			processes.retrieve("humans", {id: session.human.id}, {}, function (human) {		
+				if (!human) {
+					callback({success: false, messages: {top: "//human not found"}});
+				}
+				else if (human.id !== session.human.id) {
+					callback({success: false, messages: {top: "//not authorized"}});
 				}
 				else {
 					var robots = [];
@@ -114,18 +117,15 @@
 						robots.push(human.robots[i].id);
 					}
 
-					processes.store("robots", {id: {$in: robots}}, null, function(robot) {
-						processes.store("humans", {id: session.human.id}, null, function(human) {
-							processes.store("sessions", {human: session.human.id}, {$set: {human: null}}, function(session) {
+					processes.store("robots", {id: {$in: robots}}, null, {$multi: true}, function (robots) {
+						processes.store("humans", {id: session.human.id}, null, {}, function (human) {
+							processes.store("sessions", {human: session.human.id}, {$set: {human: null}}, {}, function (session) {
 								callback({success: true, redirect: "../../../../"});
 							});
 						});
 					});
 				}
 			});
-		}
-		else {
-			callback({success: false, messages: {top: "//unable to delete human"}});
 		}
 	}
 

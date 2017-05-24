@@ -5,25 +5,21 @@
 	function complete(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		if ((typeof data.tutorial !== "undefined") && (data.tutorial !== null)) {
-			if (session.human.tutorials.indexOf(data.tutorial) > -1) {
-				callback({success: true, messages: {top: "//tutorial already completed"}});
-			}
-			else {
-				processes.store("humans", {id: session.human.id}, {$push: {tutorials: data.tutorial}}, function(human) {
-					if (typeof human.id === "undefined") { human = human[0]; }
-
-					if ((typeof human === "undefined") || (human === null)) {
-						callback({success: false, messages: {top: "//invalid human"}});
-					}
-					else {
-						callback({success: true, messages: {top: "//tutorial completion saved"}});
-					}
-				});
-			}
+		if (!data.tutorial) {
+			callback({success: false, messages: {top: "//invalid tutorial"}});
+		}
+		else if (session.human.tutorials.indexOf(data.tutorial) > -1) {
+			callback({success: false, messages: {top: "//tutorial already completed"}});
 		}
 		else {
-			callback({success: false, messages: {top: "//invalid tutorial"}});
+			processes.store("humans", {id: session.human.id}, {$push: {tutorials: data.tutorial}}, {}, function (human) {
+				if (!human) {
+					callback({success: false, messages: {top: "//invalid human"}});
+				}
+				else {
+					callback({success: true, messages: {top: "//tutorial completion saved"}});
+				}
+			});
 		}
 	}
 
@@ -33,12 +29,12 @@
 
 		if (data.stop) {
 			if (session.human !== null) {
-				processes.store("humans", {id: session.human.id}, {$set: {"settings.show_help": "false"}}, function(human) {
+				processes.store("humans", {id: session.human.id}, {$set: {"settings.show_help": "false"}}, {}, function (human) {
 					callback({success: true, messages: {top: "//help deactivated"}});
 				});
 			}
 			else {
-				processes.store("sessions", {id: session.id}, {$set: {"show_help":"false"}}, function(session) {
+				processes.store("sessions", {id: session.id}, {$set: {"show_help":"false"}}, {}, function (session) {
 					callback({success: true, messages: {top: "//help deactivated"}});
 				});
 			}
@@ -48,9 +44,7 @@
 
 			if (session.human !== null) {
 				if ((data.selector !== null) && (data.selector.length > 0)) {
-					processes.store("humans", {id: session.human.id}, {$push: {tour: data.selector}, $set: {"settings.show_help": "true"}}, function(human) {
-						if (typeof human.id === "undefined") { human = human[0]; }
-
+					processes.store("humans", {id: session.human.id}, {$push: {tour: data.selector}, $set: {"settings.show_help": "true"}}, {}, function (human) {
 						tour = tour.filter(function(x) {
 							return human.tour.indexOf(x.selector) === -1;
 						});
@@ -59,9 +53,7 @@
 					});
 				}
 				else {
-					processes.store("humans", {id: session.human.id}, {$set: {"settings.show_help": "true"}}, function(human) {
-						if (typeof human.id === "undefined") { human = human[0]; }
-
+					processes.store("humans", {id: session.human.id}, {$set: {"settings.show_help": "true"}}, {}, function (human) {
 						tour = tour.filter(function(x) {
 							return human.tour.indexOf(x.selector) === -1;
 						});
@@ -72,9 +64,7 @@
 			}
 			else {
 				if ((data.selector !== null) && (data.selector.length > 0)) {
-					processes.store("sessions", {id: session.id}, {$push: {tour: data.selector}, $set: {"show_help": "true"}}, function(session) {
-						if (typeof session.id === "undefined") { session = session[0]; }
-
+					processes.store("sessions", {id: session.id}, {$push: {tour: data.selector}, $set: {"show_help": "true"}}, {}, function (session) {
 						tour = tour.filter(function(x) {
 							return session.tour.indexOf(x.selector) === -1;
 						});
@@ -83,9 +73,7 @@
 					});
 				}
 				else {
-					processes.store("sessions", {id: session.id}, {$set: {"show_help": "true"}}, function(session) {
-						if (typeof session.id === "undefined") { session = session[0]; }
-
+					processes.store("sessions", {id: session.id}, {$set: {"show_help": "true"}}, {}, function (session) {
 						tour = tour.filter(function(x) {
 							return session.tour.indexOf(x.selector) === -1;
 						});

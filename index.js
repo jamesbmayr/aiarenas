@@ -61,24 +61,15 @@
 
 				/* snag session and route for all webpages */
 					else {
-						processes.session(request, response, cookie.session || null, function(session) {
-							if (typeof session.id === "undefined") { session = session[0]; }
-							if (typeof session.human === "undefined") { session.human = null; }
-
-							if (session.human !== null) {
-								processes.retrieve("humans", {id: session.human}, function(human) {
-									if (typeof human.id === "undefined") { human = human[0]; }
-
-									if (human) {
-										session.human = human;
-										routing(session);
-									}
-									else {
-										routing(session);
-									}
+						processes.session((cookie.session || false), request.headers, function (session) {
+							if ((session.human !== undefined) && (session.human !== null)) {
+								processes.retrieve("humans", {id: session.human}, {}, function (human) {
+									session.human = human || null;
+									routing(session);
 								});
 							}
 							else {
+								session.human = null;
 								routing(session);
 							}
 						});
@@ -275,7 +266,7 @@
 							case (/^\/settings\/?$/).test(request.url):
 								try {
 									if (session.human !== null) {
-										processes.retrieve("sessions", {human: session.human.id}, function(data) {
+										processes.retrieve("sessions", {human: session.human.id}, {$multi: true}, function(data) {
 											session.human.sessions = data;
 											response.end(processes.render("./settings/main.html", session, session.human));
 										});
@@ -302,9 +293,7 @@
 
 							case (/^\/humans\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									processes.retrieve("humans", {name: routes[2]}, function (human) {
-										if (typeof human.id === "undefined") { human = human[0]; }
-
+									processes.retrieve("humans", {name: routes[2]}, {}, function (human) {
 										if (human) {
 											response.end(processes.render("./humans/individual.html", session, human));
 										}
@@ -326,9 +315,7 @@
 
 							case (/^\/robots\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									processes.retrieve("robots", {id: routes[2]}, function (robot) {
-										if (typeof robot.id === "undefined") { robot = robot[0]; }
-
+									processes.retrieve("robots", {id: routes[2]}, {}, function (robot) {
 										if (robot) {
 											response.end(processes.render("./robots/individual.html", session, robot));
 										}
@@ -355,11 +342,9 @@
 
 							case (/^\/arenas\/[0-9a-zA-Z]*\/?$/).test(request.url):
 								try {
-									processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + routes[2].toLowerCase() + "'"}, function (arena) {
-										if (typeof arena.id === "undefined") { arena = arena[0]; }
-
-										if (arena) {
-											response.end(processes.render("./arenas/individual.html", session, arena));
+									processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + routes[2].toLowerCase() + "'"}, {$multi: true}, function (arenas) {
+										if (arenas[0]) {
+											response.end(processes.render("./arenas/individual.html", session, arenas[0]));
 										}
 										else {
 											_302();

@@ -594,12 +594,10 @@
 						success: function(data) {
 							if (data.success) {
 								if ((data.arena.state.start !== null) && (data.arena.state.start - 5000 < timeNow)) { //game has started or starts in under 5 seconds
-									console.log("here");
 									clearInterval(window.checkLoop);
 									window.location = window.location; //refresh to start gameLoop
 								}
 								else {
-									console.log("there");
 									if (data.arena.state.start !== null) {
 										$("#message_top").animateText({text: "//" + Math.max(0, Math.floor(Math.ceil((data.arena.state.start - timeNow) / 1000) / 5) * 5) + "..."}, 1000); //show a countdown
 									}

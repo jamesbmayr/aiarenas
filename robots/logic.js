@@ -48,8 +48,8 @@
 			robot.human.id = session.human.id;
 			robot.human.name = session.human.name;
 
-			processes.store("robots", null, robot, function(results) {
-				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
+			processes.store("robots", null, robot, {}, function (results) {
+				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
 					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}, data: robot});
 				});
 			});
@@ -63,15 +63,15 @@
 	function update(session, post, callback) {
 		var data = JSON.parse(post.data);
 		
-		processes.retrieve("robots", {$and: [{id: data.id || null}, {"human.id": session.human.id}]}, function(robot) {
-			if (typeof robot.id === "undefined") { robot = robot[0]; }
-			
-			if ((typeof robot === "undefined") || (typeof robot.human === "undefined") || (robot.human.id !== session.human.id)) {
+		processes.retrieve("robots", {$and: [{id: data.id || null}, {"human.id": session.human.id}]}, {}, function (robot) {		
+			if (!robot) {
+				callback({success: false, messages: {top: "//robot not found"}});
+			}
+			else if (robot.human.id !== session.human.id) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
 				var before = JSON.stringify(robot);
-
 				var fields = Object.keys(data);
 				var messages = {top: "//changes submitted"};
 				
@@ -94,20 +94,6 @@
 								messages.name = "//name updated";
 							}
 						break;
-
-						/* case "show_code":
-							if (data.show_code === robot.information.show_code) {
-								//no change
-							}
-							else if ((data.show_code !== "true") && (data.show_code !== "false")) {
-								data.show_code = robot.information.show_code
-								messages.show_code = "//invalid option";
-							}
-							else {
-								robot.information.show_code = data.show_code;
-								messages.show_code = "//code visibility updated";
-							}
-						break; */
 
 						case "bio":
 							if (data.bio === robot.information.bio) {
@@ -162,13 +148,14 @@
 					}
 				}
 				
-				if (before !== JSON.stringify(robot)) {
-					processes.store("robots", {id: robot.id}, robot, function(robot) {
-						if (typeof robot.id === "undefined") { robot = robot[0]; }
-
+				if (before === JSON.stringify(robot)) {
+					callback({success: false, data: data, messages: {top: "//no changes"}});
+				}
+				else {
+					processes.store("robots", {id: robot.id}, robot, {}, function (robot) {
 						if (before.name !== robot.name) {
-							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}}, function(human) {
-								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
+							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}}, {}, function (human) {
+								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
 									callback({success: true, messages: messages, data: data, robot: robot});
 								});
 							});
@@ -178,9 +165,6 @@
 						}
 					});
 				}
-				else {
-					callback({success: true, data: data, messages: {top: "//no changes"}});
-				}
 			}
 		});
 	}
@@ -188,15 +172,16 @@
 /* destroy(session, post, callback) */
 	function destroy(session, post, callback) {
 		var data = JSON.parse(post.data);
-		processes.retrieve("robots", {$and: [{id: data.id || null}, {"human.id": session.human.id}]}, function(robot) {
-			if (typeof robot.id === "undefined") { robot = robot[0]; }
-			
-			if ((typeof robot === "undefined") || (typeof robot.human === "undefined") || (robot.human.id !== session.human.id)) {
+		processes.retrieve("robots", {$and: [{id: data.id || null}, {"human.id": session.human.id}]}, {}, function (robot) {		
+			if (!robot) {
+				callback({success: false, messages: {top: "//robot not found"}});
+			}
+			else if (robot.human.id !== session.human.id) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
-				processes.store("humans", {id: robot.human.id}, {$pull: {robots: {id: robot.id}}}, function(human) {
-					processes.store("robots", {id: robot.id}, null, function(results) {
+				processes.store("humans", {id: robot.human.id}, {$pull: {robots: {id: robot.id}}}, {}, function (human) {
+					processes.store("robots", {id: robot.id}, null, {}, function (results) {
 						callback({success: true, redirect: "../../../../robots", messages: {top: "//robot deleted"}});
 					});
 				});
@@ -207,10 +192,11 @@
 /* load(session, post, callback) */
 	function load(session, post, callback) {
 		var data = JSON.parse(post.data);
-		processes.retrieve("robots", {id: data.robot_id}, function(robot) {
-			if (typeof robot.id === "undefined") { robot = robot[0]; }
-
-			if ((typeof robot === "undefined") || (typeof robot.human === "undefined") || (robot.human.id !== session.human.id)) {
+		processes.retrieve("robots", {id: data.robot_id}, {}, function (robot) {
+			if (!robot) {
+				callback({success: false, messages: {top: "//robot not found"}});
+			}
+			else if (robot.human.id !== session.human.id) {
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
@@ -244,8 +230,8 @@
 			robot.human.id = session.human.id;
 			robot.human.name = session.human.name;
 
-			processes.store("robots", null, robot, function(results) {
-				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, function(human) {
+			processes.store("robots", null, robot, {}, function (results) {
+				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
 					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created from upload"}, data: robot});
 				});
 			});

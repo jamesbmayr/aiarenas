@@ -68,8 +68,7 @@
 		}
 
 		if (before !== JSON.stringify(session.human)) {
-			processes.store("humans", {id: session.human.id}, session.human, function(human) {
-				if (typeof human.id === "undefined") { human = human[0]; }
+			processes.store("humans", {id: session.human.id}, {$set: {settings: session.human.settings}}, {}, function (human) {
 				callback({success: true, messages: messages, data: data, human: human});
 			});
 		}
@@ -87,10 +86,8 @@
 			callback({success: false, messages: {name: "//name unavailable"}});
 		}
 		else {
-			processes.retrieve("humans", {name: post.name}, function(human) {
-				if (typeof human.id === "undefined") { human = human[0]; }
-
-				if ((typeof human !== "undefined") && (human.id !== null)) {
+			processes.retrieve("humans", {name: post.name}, {}, function (human) {
+				if (human) {
 					callback({success: false, messages: {name: "//name unavailable"}});
 				}
 				else {
@@ -99,8 +96,8 @@
 						robots.push(session.human.robots[i].id);
 					}
 
-					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, function(robot) {
-						processes.store("humans", {id: session.human.id}, {$set: {name: post.name}}, function(human) {
+					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, {$multi: true}, function (robots) {
+						processes.store("humans", {id: session.human.id}, {$set: {name: post.name}}, {}, function (human) {
 							callback({success: true, messages: {name: "//name updated"}});
 						});
 					});
@@ -120,7 +117,7 @@
 		else {
 			var salt = processes.random();
 			var password = processes.hash(post.password, salt);
-			processes.store("humans", {id: session.human.id}, {$set: {password: password, salt: salt}}, function(human) {
+			processes.store("humans", {id: session.human.id}, {$set: {password: password, salt: salt}}, {}, function (human) {
 				callback({success: true, messages: {password: "//password updated"}});
 			});
 		}
@@ -132,16 +129,14 @@
 			callback({success: false, messages: {top: "//enter valid email address"}});
 		}
 		else {
-			processes.retrieve("humans", {email: post.email}, function(human) {
-				if (typeof human.id === "undefined") {human = human[0];}
-
-				if ((typeof human !== "undefined") && (human.id !== null)) {
+			processes.retrieve("humans", {email: post.email}, {}, function (human) {
+				if (human) {
 					callback({success: false, messages: {top: "//email unavailable"}});
 				}
 				else {
 					var random = processes.random();
 
-					processes.store("humans", {id: session.human.id}, {$set: {"status.verification": random, "status.new_email": post.email}}, function(results) {
+					processes.store("humans", {id: session.human.id}, {$set: {"status.verification": random, "status.new_email": post.email}}, {}, function (human) {
 						processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + session.human.name + "</span>: <a class='greentext' href='https://www.aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
 							callback(data);
 						});
@@ -153,27 +148,25 @@
 
 /* destroy(session, post, callback) */
 	function destroy(session, post, callback) {
-		if ((typeof post.session !== "undefined") && (post.session.length === 32)) {
-			processes.retrieve("sessions", {$and: [{id: post.session}, {human: session.human.id}]}, function(data) {
-				if (typeof data.id === "undefined") {data = data[0];}
-
-				if ((data.human === session.human.id) && (data.id !== session.id)) {
-					processes.store("sessions", {id: data.id}, null, function(result) {
+		if ((!post.session) || (post.session.length !== 32)) {
+			callback({success: false, messages: {sessions: "//invalid post"}});
+		}
+		else {
+			processes.retrieve("sessions", {$and: [{id: post.session}, {human: session.human.id}]}, {}, function (data) {
+				if (data.human !== session.human.id) {
+					callback({success: false, messages: {sessions: "//unable to delete session"}});
+				}
+				else if (data.id !== session.id) {
+					processes.store("sessions", {id: data.id}, null, {}, function (result) {
 						callback({success: true, messages: {sessions: "//session deleted"}});
 					});
 				}
-				else if ((data.human === session.human.id) && (data.id === session.id)) {
-					processes.store("sessions", {id: data.id}, null, function(result) {
+				else if (data.id === session.id) {
+					processes.store("sessions", {id: data.id}, null, {}, function (result) {
 						callback({success: true, messages: {sessions: "//session deleted; human signed out"}, redirect: "../../../../signin"});
 					});
 				}
-				else {
-					callback({success: false, messages: {sessions: "//unable to delete session"}});
-				}
 			});
-		}
-		else {
-			callback({success: false, messages: {sessions: "//unable to delete session"}});
 		}
 	}
 
