@@ -1257,6 +1257,107 @@ please enable JavaScript to continue\
 			});
 		}
 
+	/* apicall(session, post, callback) */
+		function apicall(session, data, callback) {
+			if (typeof data !== "object") {
+				var data = JSON.parse(data);
+			}
+			var authname = String(data.authname) || null;
+			var authpass = String(data.authpass) || null;
+			var collection = String(data.collection) || null;
+			if ((typeof data.sort !== "undefined") && (sort !== null)) {
+				var sort = JSON.parse(data.sort);
+			}
+			else {
+				var sort = {created: -1};
+			}
+
+			var request = {};
+			for (key in data) {
+				if ((key !== "authname") && (key !== "authpass") && (key !== "collection") && (key !== "sort")) {
+					request[key] = data[key];
+				}
+			}
+			console.log(JSON.stringify(request));
+
+			if ((!isNumLet(authname)) || (authname.length < 8) || (authname.length > 32)) {
+				callback({success: false, message: "invalid username"});
+			}
+			else if ((authpass.length < 8) || (authpass.length > 32)) {
+				callback({success: false, message: "invalid password"});
+			}
+			else if (["humans","robots","arenas"].indexOf(collection) === -1) {
+				callback({success: false, message: "invalid collection"});
+			}
+			else if (Object.keys(request).length === 0) {
+				callback({success: false, message: "no request"});
+			}
+			else {
+				retrieve("humans", {name: authname}, {}, function (human) {
+					if (!human) {
+						callback({success: false, message: "human not found"});
+					}
+					else if (human.status.lockTo > new Date().getTime()) {
+						callback({success: false, messages: "account temporarily locked due to suspicious activity; try again later"});
+					}
+					else {
+						retrieve("humans", {name: authname, password: hash(authpass, human.salt)}, {}, function (human) {
+							if (!human) {
+								callback({success: false, message: "name and password do not match"});
+							}
+							else {
+								switch (collection) {
+									case "humans":
+										var projection = {
+											id: 1,
+											name: 1,
+											created: 1,
+											information: 1,
+											statistics: 1,
+											robots: 1
+										}
+									break;
+									case "robots":
+										var projection = {
+											id: 1,
+											name: 1,
+											created: 1,
+											human: 1,
+											information: 1,
+											avatar: 1,
+											statistics: 1,
+											inputs: 1,
+											code: 1
+										}
+									break;
+									case "arenas":
+										var projection = {
+											id: 1,
+											created: 1,
+											humans: 1,
+											entrants: 1,
+											state: 1,
+											rules: 1,
+											rounds: 1
+										}
+									break;
+								}
+
+								console.log(collection);
+								console.log(JSON.stringify(request));
+								console.log(JSON.stringify(projection));
+								console.log(sort);
+
+								retrieve(collection, request, {$multi: true, $sort: sort, $limit: 100, $projection: projection}, function (data) {
+									callback({success: true, data: data});
+								});
+							}
+						});
+					}
+				});
+			}
+		}
+
 	/* retrieve(collection, query, options, callback) */
 		function retrieve(collection, query, options, callback) {
 			if (arguments.length !== 4) {
@@ -1430,5 +1531,6 @@ please enable JavaScript to continue\
 		colors: colors,
 		fonts: fonts,
 		tour: tour,
-		locate: locate
+		locate: locate,
+		apicall: apicall
 	};

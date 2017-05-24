@@ -193,6 +193,16 @@
 								catch (error) {_404();}
 							break;
 
+						/* data */
+							case (/^\/api/).test(request.url):
+								try {
+									processes.apicall(session, get, function (data) {
+										response.end("<pre monospace>" + JSON.stringify(data,2,2) + "</pre>");
+									});
+								}
+								catch (error) {_404();}
+							break;
+
 						/* home */
 							case (/^\/$/).test(request.url):
 								try {
@@ -392,16 +402,6 @@
 					response.writeHead(200, {"Content-Type": "text/json"});
 
 					switch (post.action) {
-						/* data */
-							case "locate":
-								try {
-									processes.locate(session, post, function (data) {
-										response.end("{}");
-									});
-								}
-								catch (error) {_403();}
-							break;
-
 						/* home */
 							case "signup":
 								try {
@@ -755,10 +755,38 @@
 								catch (error) {_403();}
 							break;
 
+						/* data */
+							case "locate":
+								try {
+									processes.locate(session, post, function (data) {
+										response.end("{}");
+									});
+								}
+								catch (error) {_403();}
+							break;
+
+							case "apicall":
+								try {
+									processes.apicall(session, post, function (data) {
+										response.end(JSON.stringify(data));
+									});
+								}
+								catch (error) {_403();}
+							break;
 
 						/* all others */
 							default:
-								_403();
+								if ((/^\/api/).test(request.url)) {
+									try {
+										processes.apicall(session, post, function (data) {
+											response.end(JSON.stringify(data));
+										});
+									}
+									catch (error) {_403();}
+								}
+								else {
+									_403();
+								}
 							break;
 					}
 				}
@@ -774,7 +802,7 @@
 
 				function _403(data) { //invalid post request
 					response.writeHead(403, {"Content-Type": "text/json"});
-					response.end(JSON.stringify({success: false, messages: {navbar: (data || "//invalid request"), top: (data || "//invalid request")}}));
+					response.end(JSON.stringify({success: false, messages: {top: (data || "//invalid request")}}));
 				}
 
 				function _404(data) { //invalid get request

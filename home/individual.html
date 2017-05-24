@@ -84,6 +84,66 @@
 					</div>
 				</div>
 				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
+				<div class="bracketer_top"><span class="whitetext strong">.api</span></div>
+				<div class="megasection" style="display: none">
+					<div class="indented whitetext">
+						use the <span class="code">API</span> to send <span class="code">GET</span> <span class="redtext">&amp;&amp;</span> <span class="code">POST</span> requests to <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection={}&{parameter}={value}..." target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&collection=<span class="orangetext">{}</span>&<span class="orangetext">{parameter}</span>=<span class="orangetext">{value}</span>...</a><br>
+						• <span class="code orangetext">authname</span>: use your account name<br>
+						• <span class="code orangetext">authpass</span>: use your password<br>
+						• <span class="code orangetext">collection</span>: select <span class="code bluetext">humans</span>, <span class="code greentext">robots</span>, or <span class="code redtext">arenas</span><br>
+						<br>
+						then specify <span class="purpletext">1</span> or more fields to filter results, such as:<br>
+						• <span class="code orangetext">id</span>: get any item by its unique id<br>
+						• <span class="code orangetext">name</span>: get any <span class="code bluetext">human</span> or <span class="code greentext">robot</span> by its name<br>
+						• <span class="code orangetext">human.name</span>: get all <span class="code greentext">robot</span> built by a specific <span class="code bluetext">human</span><br>
+						• <span class="code orangetext">rules.cubes.colors</span>: get all <span class="code redtext">arenas</span> with a specific cube color activated<br>
+						<br>
+						here is an example results page for <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection=robots&human.name=Example_Human" target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&collection=robots&human.name=Example_Human</a>:
+						<pre class="code whitetext">
+{
+  "success": true,
+  "data": [
+  {
+    "id": "12345678901234567890123456789012",
+    "name": "exampleBot",
+    "human": {
+      "id": "09876543210987654321098765432109",
+      "name": "Example_Human"
+    },
+    "created": 1495324460000,
+    "information": {
+      "bio": "...",
+    },
+    "avatar": {
+      "color": "var(--orange)",
+      "antennae": " .:. ",
+      "eyes": "()-()",
+      "mouth": "\\_T_/",
+      "left_arm": "••",
+      "right_arm": "••",
+      "left_wrist": " ][ ",
+      "right_wrist": " ][ ",
+      "left_hand": "<||>",
+      "right_hand": "<||>",
+      "torso_1": "-/|\\-",
+      "torso_2": "/|||\\",
+      "torso_3": "\\|||/",
+      "legs": " OO OO ",
+      "left_foot": "(O)",
+      "right_foot": "(O)"
+    },
+    "statistics": {
+      "wins": 15,
+      "losses": 5
+    },
+    "inputs": "",
+    "code": "action = \"take\"\nreturn action"
+  }
+]
+</pre>
+					</div>
+				</div>
+				<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 				<div class="bracketer_top"><span class="whitetext strong">.<a class="bluetext" href="https://github.com/jamesbmayr/aiarenas/commits/master" target="_blank">log</a></span></div>
 				<div class="megasection" style="display: none">
 					<div class="indented graytext" id="log">...</div>

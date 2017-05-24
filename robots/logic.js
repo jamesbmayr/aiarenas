@@ -14,9 +14,7 @@
 			},
 			created: new Date().getTime(),
 			information: {
-				show_code: true,
 				bio: null,
-				music: {}
 			},
 			avatar: {
 				color: "var(--white)",
