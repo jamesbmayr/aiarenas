@@ -15,8 +15,15 @@
 		<div class="container" value="<% data.id %>">
 			<div class="top_outer">
 				<div class="top_inner">
-					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
-					<div class="section bracketer_top">
+					<%
+						if ((session.human !== null) && (session.human.id === data.human.id)) {
+							'<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
+							<div class="section bracketer_top">';
+						}
+						else {
+							'<div class="section">';
+						}
+					%>
 						<span class="field_frame" id="name_frame"><span class="field whitetext header" spellcheck="false" id="name" value="<% data.name %>"><% data.name %></span></span> <span class="graytext" id="message_top"></span> <span class='message graytext'></span>
 					</div>
 					<div class="indented">

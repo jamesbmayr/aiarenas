@@ -26,7 +26,7 @@
 					<hr>
 				</div>
 			</div>
-			<div class="indented content">
+			<div class="indented content about_page">
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 				<div class="bracketer_top"><span class="whitetext strong">.overview</span></div>
 				<div class="megasection">
@@ -90,13 +90,18 @@
 						use the <span class="code">API</span> to send <span class="code">GET</span> <span class="redtext">&amp;&amp;</span> <span class="code">POST</span> requests to <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection={}&{parameter}={value}..." target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&collection=<span class="orangetext">{}</span>&<span class="orangetext">{parameter}</span>=<span class="orangetext">{value}</span>...</a><br>
 						• <span class="code orangetext">authname</span>: use your account name<br>
 						• <span class="code orangetext">authpass</span>: use your password<br>
-						• <span class="code orangetext">collection</span>: select <span class="code bluetext">humans</span>, <span class="code greentext">robots</span>, or <span class="code redtext">arenas</span><br>
+						• <span class="code orangetext">collection</span>: select <span class="code bluetext">humans</span>, <span class="code greentext">robots</span>, or <span class="code redtext">arenas</span> to <span class="redtext">return</span> all items<br>
 						<br>
 						then specify <span class="purpletext">1</span> or more fields to filter results, such as:<br>
 						• <span class="code orangetext">id</span>: get any item by its unique id<br>
 						• <span class="code orangetext">name</span>: get any <span class="code bluetext">human</span> or <span class="code greentext">robot</span> by its name<br>
 						• <span class="code orangetext">human.name</span>: get all <span class="code greentext">robot</span> built by a specific <span class="code bluetext">human</span><br>
 						• <span class="code orangetext">rules.cubes.colors</span>: get all <span class="code redtext">arenas</span> with a specific cube color activated<br>
+						<br>
+						or use complex queries similar to <span class="code">mongodb</span> format:<br>
+						• <span class="code orangetext">statistics.wins={$gt:10}</span>: get <span class="code bluetext">humans</span> or <span class="code greentext">robots</span> with greater than <span class="purpletext">10</span> wins<br>
+						• <span class="code orangetext">name={$rejex:/a/}</span>: get all <span class="code bluetext">humans</span> or <span class="code greentext">robots</span> with an <span class="yellowtext">"a"</span> in its name<br>
+						• <span class="code orangetext">$where=this.robots.length>3</span>: get <span class="code bluetext">humans</span> with <span class="redtext">></span> <span class="purpletext">3</span> <span class="code greentext">robots</span><br>
 						<br>
 						here is an example results page for <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection=robots&human.name=Example_Human" target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&collection=robots&human.name=Example_Human</a>:
 						<pre class="code whitetext">

@@ -27,6 +27,11 @@
 
 /* requestHandler */
 	function requestHandler(request, response) {
+		/* redirect from heroku */
+			if (request.headers["host"] === "ai-arenas.herokuapp.com") {
+				_302("https://www.aiarenas.com");
+			}
+
 		/* build post body */
 			var routes, get, cookie, post = "";
 			request.on("data", function (data) {
@@ -212,8 +217,10 @@
 									else {
 										data = {};
 									}
-
-									response.end(processes.render("./home/main.html", session, data));
+									processes.statistics(function (statistics) {
+										data.statistics = statistics || {};
+										response.end(processes.render("./home/main.html", session, data));
+									});
 								}
 								catch (error) {_404();}
 							break;
@@ -254,14 +261,14 @@
 								catch (error) {_404();}
 							break;
 
-							case (/^\/verify/).test(request.url):
+							case (/^\/verify\/?$/).test(request.url):
 								try {
 									response.end(processes.render("./home/main.html", session, {action: "verify", messages: {top: "//verify email"}, email: (get.email || null), verification: (get.verification || null) }));
 								}
 								catch (error) {_404();}
 							break;
 
-							case (/^\/reset/).test(request.url):
+							case (/^\/reset\/?$/).test(request.url):
 								try {
 									response.end(processes.render("./home/main.html", session, {action: "reset", messages: {top: "//reset password"}, email: (get.email || null), verification: (get.verification || null) }));
 								}

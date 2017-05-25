@@ -41,7 +41,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |- /data/
 |   |- db
 |
-|- processes.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour, locate, apicall)
+|- processes.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour, locate, apicall, statistics)
 |
 |- /assets/
 |   |- stylesheet.css

@@ -1180,6 +1180,28 @@ please enable JavaScript to continue\
 			return character;
 		}
 
+	/* statistics(callback) */ 
+		function statistics(callback) {
+			retrieve("humans", {"statistics.wins": {$gte: 1}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (humans_wins) { //use .find()
+				retrieve("robots", {"statistics.wins": {$gte: 1}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (robots_wins) { //use .find()
+					retrieve("humans", {}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (humans_ratio) { //use .aggregate()
+						retrieve("robots", {}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (robots_ratio) { //use .aggregate()
+							callback({
+								humans: {
+									wins: humans_wins,
+									ratio: humans_ratio
+								},
+								robots: {
+									wins: robots_wins,
+									ratio: robots_ratio
+								}
+							});
+						});
+					});
+				});
+			});
+		}
+
 /*** database ***/
 	/* session(request, response, id, callback) */
 		function session(session_id, data, callback) {
@@ -1211,6 +1233,24 @@ please enable JavaScript to continue\
 						human: null,
 						tour: []
 					}
+
+					//known bots
+						if (data.headers["user-agent"].indexOf("Googlebot") !== -1) {
+							newSession.name = "Googlebot";
+						}
+						else if (data.headers["user-agent"].indexOf("Google Domains") !== -1) {
+							newSession.name = "Google Domains";
+						}
+						else if (data.headers["user-agent"].indexOf("Google Favicon") !== -1) {
+							newSession.name = "Google Favicon";
+						}
+						else if (data.headers["user-agent"].indexOf("https://developers.google.com/+/web/snippet/") !== -1) {
+							newSession.name = "Google+ Snippet";
+						}
+						else if (data.headers["ip-address"].substring(0,4) == "52.2") {
+							newSession.name = "Amazon";
+						}
+
 					store("sessions", null, newSession, {}, function (results) {
 						callback(newSession);
 					});
@@ -1275,10 +1315,19 @@ please enable JavaScript to continue\
 			var request = {};
 			for (key in data) {
 				if ((key !== "authname") && (key !== "authpass") && (key !== "collection") && (key !== "sort")) {
-					request[key] = data[key];
+					if (data[key].indexOf("{") !== -1) {
+						try {
+							request[key] = eval("(" + data[key] + ")");
+						}
+						catch(error) {
+							request[key] = Number(data[key]) || data[key];
+						}
+					}
+					else {
+						request[key] = Number(data[key]) || data[key];
+					}					
 				}
 			}
-			console.log(JSON.stringify(request));
 
 			if ((!isNumLet(authname)) || (authname.length < 8) || (authname.length > 32)) {
 				callback({success: false, message: "invalid username"});
@@ -1288,9 +1337,6 @@ please enable JavaScript to continue\
 			}
 			else if (["humans","robots","arenas"].indexOf(collection) === -1) {
 				callback({success: false, message: "invalid collection"});
-			}
-			else if (Object.keys(request).length === 0) {
-				callback({success: false, message: "no request"});
 			}
 			else {
 				retrieve("humans", {name: authname}, {}, function (human) {
@@ -1343,11 +1389,6 @@ please enable JavaScript to continue\
 									break;
 								}
 
-								console.log(collection);
-								console.log(JSON.stringify(request));
-								console.log(JSON.stringify(projection));
-								console.log(sort);
-
 								retrieve(collection, request, {$multi: true, $sort: sort, $limit: 100, $projection: projection}, function (data) {
 									callback({success: true, data: data});
 								});
@@ -1367,6 +1408,7 @@ please enable JavaScript to continue\
 			//options
 				var projection = options["$projection"] || {};
 				var sample = options["$sample"] || false;
+				var project = options["$project"] || false;
 				var multi = options["$multi"] || false;
 				var sort = options["$sort"] || {created: -1};
 				var limit = options["$limit"] || 100;
@@ -1376,10 +1418,26 @@ please enable JavaScript to continue\
 					console.log(error);
 				}
 
-			//aggregate
+			//aggregate with $match and $sample
 				else if (sample) {
 					console.log("aggregate: " + collection + ": " + JSON.stringify([{$match: query}, {$sample: sample}]));
 					db.collection(collection).aggregate([{$match: query}, {$sample: sample}]).sort(sort).limit(limit).toArray(function (error, resultArray) {
+						if (error) {
+							console.log(error);
+						}
+						else {
+							if (resultArray.length === 0) {
+								resultArray = null;
+							}
+							callback(resultArray);
+						}
+					});
+				}
+
+			//aggregate with $project
+				else if (project) {
+					console.log("aggregate: " + collection + ": " + JSON.stringify([{$project: project}]));
+					db.collection(collection).aggregate([{$project: project}, {$sort: sort}, {$limit: limit}]).toArray(function (error, resultArray) {
 						if (error) {
 							console.log(error);
 						}
@@ -1532,5 +1590,6 @@ please enable JavaScript to continue\
 		fonts: fonts,
 		tour: tour,
 		locate: locate,
-		apicall: apicall
+		apicall: apicall,
+		statistics: statistics
 	};
