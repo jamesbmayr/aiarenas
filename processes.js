@@ -205,6 +205,16 @@
 			return crypto.createHmac("sha512", salt).update(string).digest("hex");
 		}
 
+	/* convertToData */
+		function convertToData(string) {
+			return string.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+		}
+
+	/* convertToWeb */
+		function convertToWeb(string) {
+			return string.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<)/g, "&lt;").replace(/(>)/g, "&gt;").replace(/(&)/g, "&amp;");
+		}
+
 /*** checks ***/
 	/* isEmail(string) */
 		function isEmail(string) {
@@ -1429,6 +1439,7 @@ please enable JavaScript to continue\
 							}
 							callback(resultArray);
 						}
+						db.close();
 					});
 				}
 
@@ -1445,6 +1456,7 @@ please enable JavaScript to continue\
 							}
 							callback(resultArray);
 						}
+						db.close();
 					});
 				}
 
@@ -1458,6 +1470,7 @@ please enable JavaScript to continue\
 						else {
 							callback(result);
 						}
+						db.close();
 					});
 				}
 
@@ -1474,10 +1487,9 @@ please enable JavaScript to continue\
 							}
 							callback(resultArray);
 						}
+						db.close();
 					});
 				}
-
-				db.close();
 			});
 		}
 
@@ -1509,6 +1521,7 @@ please enable JavaScript to continue\
 							else {
 								callback(result.nInserted);
 							}
+							db.close();
 						});
 					}
 
@@ -1522,18 +1535,18 @@ please enable JavaScript to continue\
 							else {
 								callback(result.value);
 							}
+							db.close();
 						});
 					}
 
-				//updateMany, then find
+				//update, then find
 					else if ((filter !== null) && (data !== null) && (multi)) {
-						console.log("updateMany: " + collection + ": " + JSON.stringify(filter) + ":\n" + JSON.stringify(data));
-						db.collection(collection).updateMany(filter, data, {upsert: upsert}, function (error, result) {
+						console.log("update: " + collection + ": " + JSON.stringify(filter) + ":\n" + JSON.stringify(data));
+						db.collection(collection).update(filter, data, {upsert: upsert, multi: true}, function (error, result) {
 							if (error) {
 								console.log(error);
 							}
 							else {
-								console.log("find: " + collection + ": " + JSON.stringify(filter));
 								db.collection(collection).find(filter, projection).sort(sort).limit(limit).toArray(function (error, resultArray) {
 									if (error) {
 										console.log(error);
@@ -1544,6 +1557,7 @@ please enable JavaScript to continue\
 										}
 										callback(resultArray);
 									}
+									db.close();
 								});
 							}
 						});
@@ -1551,6 +1565,8 @@ please enable JavaScript to continue\
 
 				//remove
 					else if ((filter !== null) && (data === null)) {
+						if (multi) { multi = true; }
+
 						console.log("remove: " + collection + ": " + JSON.stringify(filter));
 						db.collection(collection).remove(filter, !multi, function (error, result) {
 							if (error) {
@@ -1559,10 +1575,9 @@ please enable JavaScript to continue\
 							else {
 								callback(result.nRemoved);
 							}
+							db.close();
 						});
 					}
-
-				db.close();
 			});
 		}
 
@@ -1588,5 +1603,7 @@ please enable JavaScript to continue\
 		tour: tour,
 		locate: locate,
 		apicall: apicall,
-		statistics: statistics
+		statistics: statistics,
+		convertToData: convertToData,
+		convertToWeb: convertToWeb
 	};
