@@ -29,7 +29,8 @@
 	function requestHandler(request, response) {
 		/* redirect from heroku */
 			if (request.headers["host"] === "ai-arenas.herokuapp.com") {
-				_302("https://www.aiarenas.com");
+				response.writeHead(302, {Location: "https://www.aiarenas.com"});
+				response.end();
 			}
 
 		/* build post body */
