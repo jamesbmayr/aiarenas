@@ -160,7 +160,7 @@
 						<div class="indented" id="humans"><span class="whitetext">humans: {</span>
 							<div class="indented" id="human_wins"><span class="whitetext"><span class="yellowtext">"wins"</span>: [</span>
 								<div class="indented"><%
-									if (data.statistics) {
+									if ((data.statistics) && (data.statistics.humans.wins)) {
 										var string = "";
 										for (x of data.statistics.humans.wins) {
 											string += "<span class='statistic whitetext'>{<a class='bluetext' href='../../../../humans/" + x.name + "' target='_blank'>" + x.name + "</a>: <span class='purpletext'>" +  x.statistics.wins + "</span>}</span>,<br>";
@@ -172,7 +172,7 @@
 							</div>
 							<div class="indented" id="human_ratios"><span class="whitetext"><span class="yellowtext">"win/loss_ratio"</span>: [</span>
 								<div class="indented"><%
-									if (data.statistics) {
+									if ((data.statistics) && (data.statistics.humans.ratio)) {
 										var string = "";
 										for (x of data.statistics.humans.ratio) {
 											string += "<span class='statistic whitetext'>{<a class='bluetext' href='../../../../humans/" + x.name + "' target='_blank'>" + x.name + "</a>: <span class='purpletext'>" +  Number(x.ratio).toFixed(2) + "</span>}</span>,<br>";
@@ -187,7 +187,7 @@
 						<div class="indented" id="robots"><span class="whitetext">robots: {</span>
 							<div class="indented" id="robot_wins"><span class="whitetext"><span class="yellowtext">"wins"</span>: [</span>
 								<div class="indented"><%
-									if (data.statistics) {
+									if ((data.statistics) && (data.statistics.robots.wins)) {
 										var string = "";
 										for (x of data.statistics.robots.wins) {
 											string += "<span class='statistic whitetext'>{<a class='bluetext' href='../../../../robots/" + x.id + "' target='_blank'>" + x.name + "</a>: <span class='purpletext'>" +  x.statistics.wins + "</span>}</span>,<br>";
@@ -199,7 +199,7 @@
 							</div>
 							<div class="indented" id="robot_ratios"><span class="whitetext"><span class="yellowtext">"win/loss_ratio"</span>: [</span>
 								<div class="indented"><%
-									if (data.statistics) {
+									if ((data.statistics) && (data.statistics.robots.ratio)) {
 										var string = "";
 										for (x of data.statistics.robots.ratio) {
 											string += "<span class='statistic whitetext'>{<a class='bluetext' href='../../../../robots/" + x.id + "' target='_blank'>" + x.name + "</a>: <span class='purpletext'>" +  Number(x.ratio).toFixed(2) + "</span>}</span>,<br>";
