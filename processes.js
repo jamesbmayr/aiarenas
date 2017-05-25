@@ -207,12 +207,22 @@
 
 	/* convertToData */
 		function convertToData(string) {
-			return string.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+			if ((string) && (string.length > 0)) {
+				return string.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+			}
+			else {
+				return null;
+			}
 		}
 
 	/* convertToWeb */
 		function convertToWeb(string) {
-			return string.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<)/g, "&lt;").replace(/(>)/g, "&gt;").replace(/(&)/g, "&amp;");
+			if ((string) && (string.length > 0)) {
+				return string.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/\&/g, "&amp;");
+			}
+			else {
+				return null;
+			}
 		}
 
 /*** checks ***/

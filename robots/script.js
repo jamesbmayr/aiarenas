@@ -94,11 +94,9 @@
 
 				$(".field").each(function() {
 					var field = $(this).attr("id");
-					var value = $(this).html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+					var value = $(this).text().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 					data[field] = value;
 				});
-
-				data.show_code = $("#show_code").val();
 
 				/* avatar */
 					var avatar = {};
