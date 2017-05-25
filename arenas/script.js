@@ -577,6 +577,19 @@
 				}
 			}
 
+			$("#workshop_select").change(function() {
+				var id = $("#workshop_select").val() || "";
+				if ((typeof window.arena.entrants[id] !== "undefined") && (window.arena.entrants[id] !== null)) {
+					$("#output").text("");
+					$("#console").text("");
+					clearInterval(window.evalLoop);
+					window.evaluating = false;
+
+					$("#inputs").html(window.colorText(window.arena.entrants[id].inputs));
+					$("#code").html(window.colorText(window.arena.entrants[id].code));
+				}
+			});
+
 		/* checkLoop */
 			window.startCheckLoop = function() {
 				window.checkLoop = setInterval(function() {
@@ -919,12 +932,18 @@
 												if ((id !== null) && (id.length > 0)) {
 													$("#save_form").show();
 													$("#output").closest(".section").hide();
+													$("#workshop_select").val(id).prop("disabled",true);
 
 													var entrant = window.arena.entrants[id];
 													$("#inputs").animateText({text: entrant.inputs || ""},1000);
 													$("#inputs").prop("contenteditable",true).closest(".field_frame").addClass("active");
 													$("#code").animateText({text: entrant.code || ""},1000);
 													$("#code").prop("contenteditable",true).closest(".field_frame").addClass("active");
+												}
+												else {
+													$("#code_outer").hide();
+													$("#spectator_workshop").show();
+													$("#output").closest(".section").hide();
 												}
 											}
 
@@ -940,6 +959,12 @@
 
 											$("#save_form").hide();
 											$("#output").closest(".section").show();
+											$("#workshop_select").val(id).prop("disabled",false);
+											
+											$("#code_outer").show();
+											$("#spectator_workshop").hide();
+											$("#output").closest(".section").show();
+
 											$("#code").prop("contenteditable",false);
 											$("#code").closest(".field_frame").removeClass("active");
 											$("#inputs").prop("contenteditable",false);

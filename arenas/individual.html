@@ -96,7 +96,6 @@
 						</div>
 						<% 
 							if ((state === "unstarted") && (participating)) {
-
 								var string = "";								
 								if (self_entrant === null) {
 									var options = "";
@@ -217,107 +216,134 @@
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">]</span></div>
 				</div>
-				<div class="megasection" id="workshop_outer" <%
-					if ((state !== "active") || (!participating) || (self_entrant === null)) {
-						"style='display: none';";
-					} %>>
+				<div class="megasection" id="workshop_outer" <% if (state !== "active") { "style='display: none';"; } %>>
 					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.code</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section" id="workshop" value="<% (self_entrant.id || null) %>">
-						<% 
-							if (self_entrant !== null) {
-								// outputs
-									var outputList = '<li><span class="greentext">power</span>: increment the robot\'s power number</li>\
-										<li><span class="greentext">take</span>: the taker with the most power wins the round\'s cubes</li>\
-										<li><span class="greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li>';
-									if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
-										outputList += '<li><span class="greentext">sap</span>: steal power from charging opponents with greater power</li>\
-										<li><span class="greentext">halftake</span>: use half power, rounding up, to take cubes</li>\
-										<li><span class="greentext">fliptake</span>: take the cubes but invert the colors</li>';
-									}
-									if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
-										outputList += '<li><span class="greentext">burn</span>: convert a random cube into power</li>\
-										<li><span class="greentext">shock</span>: use half power to put opponents with more total cubes to sleep</li>\
-										<li><span class="greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>';
-									}
-
-								// inputs
-									if ((session.human !== null) && (session.human.tutorials.indexOf("deriveBot") !== -1)) {
-										var inputList = '<li><span class="orangetext">arena</span>: all information</li>\
-										<li><span class="orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>\
-										<li><span class="orangetext">rules</span>: arena parameters <details><summary></summary><span class="code">arena.rules</span></details></li>\
-										<li><span class="orangetext">rounds</span>: all previous rounds <details><summary></summary><span class="code">arena.rounds</span></details></li>\
-										<li><span class="orangetext">roundCount</span>: number of rounds <details><summary></summary><span class="code">arena.rounds.length - 1</span></details></li>\
-										<li><span class="orangetext">currentRound</span>: all data of the round that just executed <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1]</span></details></li>\
-										<li><span class="orangetext">lastRound</span>: all data of the previous round <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 2]</span></details></li>\
-										<li><span class="orangetext">firstRound</span>: all data from the starting round <details><summary></summary><span class="code">arena.rounds[0]</span></details></li>\
-										<li><span class="orangetext">robots</span>: currentRound data of all robots <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots</span></details></li>\
-										<li><span class="orangetext">robotCount</span>: number of robots in the arena <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.length</span></details></li>\
-										<li><span class="orangetext">allCubes</span>: all cubes in the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].cubes</span></details></li>\
-										<li><span class="orangetext">newCubes</span>: all cubes spawned for the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].cubes.slice(-arena.rules.cubes.spawnRate)</span></details></li>\
-										<li><span class="orangetext">self</span>: currentRound data of the robot executing this code <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name})</span></details></li>\
-										<li><span class="orangetext">power</span>: power of self in the currentRound <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).power</span></details></li>\
-										<li><span class="orangetext">cubes</span>: cubes owned by self in the currentRound <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).cubes</span></details></li>\
-										<li><span class="orangetext">action</span>: action performed by self in the currentRound <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).action</span></details></li>\
-										<li><span class="orangetext">winner</span>: name of robot that won the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].winner</span></details></li>\
-										<li><span class="orangetext">opponents</span>: currentRound data of all robots except self <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== name})</span></details></li>\
-										<li><span class="orangetext">colors</span>: list of cube colors <details><summary></summary><span class="code">arena.rules.cubes.colors</span></details></li>\
-										<li><span class="orangetext">actions</span>: list of robot actions <details><summary></summary><span class="code">arena.rules.robots.actions</span></details></li>\
-										<li><span class="orangetext">conditions</span>: list of victory conditions <details><summary></summary><span class="code">arena.rules.victory.conditions</span></details></li>';
+					<div class="section" id="workshop" value="<% try { self_entrant.id } catch(error) { null } %>"><%
+						if (state === "active") {
+							// workshop_options
+								var workshop_options = "";
+								for (entrant in data.entrants) {
+									if ((self_entrant) && (entrant === self_entrant.id)) {
+										workshop_options += "<option selected value='" + entrant + "'>" + data.entrants[entrant].name + "</option>";
 									}
 									else {
-										var inputList = '<li><span class="orangetext">arena</span>: all information</li>\
-										<li><span class="orangetext">name</span>: name of this robot</li>\
-										<li><span class="orangetext">rules</span>: arena parameters</li>\
-										<li><span class="orangetext">rounds</span>: all previous rounds</li>\
-										<li><span class="orangetext">roundCount</span>: number of rounds</li>\
-										<li><span class="orangetext">currentRound</span>: all data of the round that just executed</li>\
-										<li><span class="orangetext">lastRound</span>: all data of the previous round</li>\
-										<li><span class="orangetext">firstRound</span>: all data from the starting round</li>\
-										<li><span class="orangetext">robots</span>: currentRound data of all robots</li>\
-										<li><span class="orangetext">robotCount</span>: number of robots in the arena</li>\
-										<li><span class="orangetext">allCubes</span>: all cubes in the currentRound</li>\
-										<li><span class="orangetext">newCubes</span>: all cubes spawned for the currentRound</li>\
-										<li><span class="orangetext">self</span>: currentRound data of the robot executing this code</li>\
-										<li><span class="orangetext">power</span>: power of self in the currentRound</li>\
-										<li><span class="orangetext">cubes</span>: cubes owned by self in the currentRound</li>\
-										<li><span class="orangetext">action</span>: action performed by self in the currentRound</li>\
-										<li><span class="orangetext">winner</span>: name of robot that won the currentRound</li>\
-										<li><span class="orangetext">opponents</span>: currentRound data of all robots except self</li>\
-										<li><span class="orangetext">colors</span>: list of cube colors</li>\
-										<li><span class="orangetext">actions</span>: list of robot actions</li>\
-										<li><span class="orangetext">conditions</span>: list of victory conditions</li>';
+										workshop_options += "<option value='" + entrant + "'>" + data.entrants[entrant].name + "</option>";
 									}
+								}
 
-								// workshop
-									'<div class="section indented">\
+							// inputList
+								if ((session.human !== null) && (session.human.tutorials.indexOf("deriveBot") !== -1)) {
+									var inputList = '<li><span class="orangetext">arena</span>: all information</li>\
+									<li><span class="orangetext">name</span>: name of this robot <details><summary></summary><span class="code">arguments.callee.name</span></details></li>\
+									<li><span class="orangetext">rules</span>: arena parameters <details><summary></summary><span class="code">arena.rules</span></details></li>\
+									<li><span class="orangetext">rounds</span>: all previous rounds <details><summary></summary><span class="code">arena.rounds</span></details></li>\
+									<li><span class="orangetext">roundCount</span>: number of rounds <details><summary></summary><span class="code">arena.rounds.length - 1</span></details></li>\
+									<li><span class="orangetext">currentRound</span>: all data of the round that just executed <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1]</span></details></li>\
+									<li><span class="orangetext">lastRound</span>: all data of the previous round <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 2]</span></details></li>\
+									<li><span class="orangetext">firstRound</span>: all data from the starting round <details><summary></summary><span class="code">arena.rounds[0]</span></details></li>\
+									<li><span class="orangetext">robots</span>: currentRound data of all robots <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots</span></details></li>\
+									<li><span class="orangetext">robotCount</span>: number of robots in the arena <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].robots.length</span></details></li>\
+									<li><span class="orangetext">allCubes</span>: all cubes in the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].cubes</span></details></li>\
+									<li><span class="orangetext">newCubes</span>: all cubes spawned for the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].cubes.slice(-arena.rules.cubes.spawnRate)</span></details></li>\
+									<li><span class="orangetext">self</span>: currentRound data of the robot executing this code <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name})</span></details></li>\
+									<li><span class="orangetext">power</span>: power of self in the currentRound <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).power</span></details></li>\
+									<li><span class="orangetext">cubes</span>: cubes owned by self in the currentRound <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).cubes</span></details></li>\
+									<li><span class="orangetext">action</span>: action performed by self in the currentRound <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).action</span></details></li>\
+									<li><span class="orangetext">winner</span>: name of robot that won the currentRound <details><summary></summary><span class="code">arena.rounds[arena.rounds.length - 1].winner</span></details></li>\
+									<li><span class="orangetext">opponents</span>: currentRound data of all robots except self <details><summary></summary><span class="code">name = arguments.callee.name; arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== name})</span></details></li>\
+									<li><span class="orangetext">colors</span>: list of cube colors <details><summary></summary><span class="code">arena.rules.cubes.colors</span></details></li>\
+									<li><span class="orangetext">actions</span>: list of robot actions <details><summary></summary><span class="code">arena.rules.robots.actions</span></details></li>\
+									<li><span class="orangetext">conditions</span>: list of victory conditions <details><summary></summary><span class="code">arena.rules.victory.conditions</span></details></li>';
+								}
+								else {
+									var inputList = '<li><span class="orangetext">arena</span>: all information</li>\
+									<li><span class="orangetext">name</span>: name of this robot</li>\
+									<li><span class="orangetext">rules</span>: arena parameters</li>\
+									<li><span class="orangetext">rounds</span>: all previous rounds</li>\
+									<li><span class="orangetext">roundCount</span>: number of rounds</li>\
+									<li><span class="orangetext">currentRound</span>: all data of the round that just executed</li>\
+									<li><span class="orangetext">lastRound</span>: all data of the previous round</li>\
+									<li><span class="orangetext">firstRound</span>: all data from the starting round</li>\
+									<li><span class="orangetext">robots</span>: currentRound data of all robots</li>\
+									<li><span class="orangetext">robotCount</span>: number of robots in the arena</li>\
+									<li><span class="orangetext">allCubes</span>: all cubes in the currentRound</li>\
+									<li><span class="orangetext">newCubes</span>: all cubes spawned for the currentRound</li>\
+									<li><span class="orangetext">self</span>: currentRound data of the robot executing this code</li>\
+									<li><span class="orangetext">power</span>: power of self in the currentRound</li>\
+									<li><span class="orangetext">cubes</span>: cubes owned by self in the currentRound</li>\
+									<li><span class="orangetext">action</span>: action performed by self in the currentRound</li>\
+									<li><span class="orangetext">winner</span>: name of robot that won the currentRound</li>\
+									<li><span class="orangetext">opponents</span>: currentRound data of all robots except self</li>\
+									<li><span class="orangetext">colors</span>: list of cube colors</li>\
+									<li><span class="orangetext">actions</span>: list of robot actions</li>\
+									<li><span class="orangetext">conditions</span>: list of victory conditions</li>';
+								}
+
+							// outputList
+								var outputList = '<li><span class="greentext">power</span>: increment the robot\'s power number</li>\
+									<li><span class="greentext">take</span>: the taker with the most power wins the round\'s cubes</li>\
+									<li><span class="greentext">sleep</span>: do nothing; this is the default for code errors or taking without power</li>';
+								if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 25)) {
+									outputList += '<li><span class="greentext">sap</span>: steal power from charging opponents with greater power</li>\
+									<li><span class="greentext">halftake</span>: use half power, rounding up, to take cubes</li>\
+									<li><span class="greentext">fliptake</span>: take the cubes but invert the colors</li>';
+								}
+								if ((session.human !== null) && (session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
+									outputList += '<li><span class="greentext">burn</span>: convert a random cube into power</li>\
+									<li><span class="greentext">shock</span>: use half power to put opponents with more total cubes to sleep</li>\
+									<li><span class="greentext">swaptake</span>: use half power to take cubes and return the same number of cubes, randomly</li>';
+								}
+
+							// save_form, inputs, code
+								if (self_entrant) {
+									var save_form = '<div class="section indented">\
 										<form id="save_form" method="post" action="javascript:;" onsubmit="window.robot_save();" ' + (paused ? '' : 'style="display: none;"') + '>\
-											<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">()</span></button>\
-										</form>\
-									</div> <span class="message graytext"></span>\
-									<div class="section indented" id="code_outer">\
-										<span class="greentext">' + self_entrant.name + '</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame' + (paused ? ' active' : '') + '"><span class="orangetext field" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="inputs" value=' + (String(self_entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(self_entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span> <span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul>' + inputList + '</ul></span></details></span>\
-										<div class="indented">\
-											<div class="field_frame' + (paused ? ' active' : '') + '">\
-												<span class="whitetext field" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="code" value=' + (String(self_entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(self_entrant.code) + '</span>\
-											</div>\
-										</div>\
-										<span class="whitetext">}</span>\
-										<span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><ul>' + outputList + '</ul></details></span>\
-									</div>\
-									<div class="section indented"' + (paused ? ' style="display: none;"' : '') + '>\
+												<button id="robot_save"><span class="greentext">save</span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">()</span></button>\
+											</form>\
+									</div> <span class="message graytext"></span>';
+
+									var code_outer = '<div class="section indented" id="code_outer">';
+
+									var inputs = '<span class="field_frame' + (paused ? ' active' : '') + '"><span class="orangetext field" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="inputs" value=' + (String(self_entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(self_entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>';
+
+									var code = '<div class="field_frame' + (paused ? ' active' : '') + '">\
+										<span class="whitetext field" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="code" value=' + (String(self_entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(self_entrant.code) + '</span>\
+									</div>';
+
+									var spectatorWorkshop = '';
+
+									var outputs = '<div class="section indented"' + (paused ? ' style="display: none;"' : '') + '>\
 										<span class="whitetext">output: </span><span id="output" class="yellowtext"></span>\
 										<br>\
 										<details class="graytext" open><summary>//console</summary><div id="console"></div></details>\
 									</div>';
-							}
-							else {
-								'<div class="indented">\
-									<span class="graytext spectatorMessage">//the arena is not in play</span>\
-								</div>';
-							}
-						%>
-					</div>
+								}
+								else {
+									var save_form = "";
+
+									var code_outer = '<div class="section indented" id="code_outer" ' + (paused ? ' style="display: none;"' : '') + '>';
+
+									var inputs = '<span class="field_frame"><span class="orangetext field" id="inputs" value=""></span></span><span class="whitetext">) {</span>';
+
+									var code = '<div class="field_frame"><span class="whitetext field" id="code"></span></div>';
+
+									var spectatorWorkshop = '<div class="section indented graytext" id="spectator_workshop" ' + (paused ? "" : ' style="display: none;"') + '>//arena paused</div>';
+
+									var outputs = '<div class="section indented"' + (paused ? ' style="display: none;"' : '') + '>\
+										<span class="whitetext">output: </span><span id="output" class="yellowtext"></span>\
+									</div>';
+								}
+
+							// workshop
+								save_form + code_outer +
+									'<span class="select_outer greentext"><select class="greentext" id="workshop_select"' + (paused ? "disabled" : "") + '>' + workshop_options + '</select></span><span class="whitetext">: </span><span class="bluetext">function</span><span class="whitetext">(</span>' + inputs + ' <span class="graytext"> // <details class="graytext"><summary><span>inputs:</span></summary><span><ul>' + inputList + '</ul></span></details></span>\
+									<div class="indented">' + code + '</div>\
+									<span class="whitetext">}</span>\
+									<span class="graytext"> // <details class="graytext"><summary><span>outputs:</span></summary><ul>' + outputList + '</ul></details></span>\
+								</div>' + spectatorWorkshop + outputs;
+						}
+					%></div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				</div>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>

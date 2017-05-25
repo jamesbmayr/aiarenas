@@ -1504,7 +1504,7 @@ $(document).ready(function() {
 							window.inputs = window.inputs.split(",");
 						break;
 						case "arenas":
-							var id = $(".self").attr("id");
+							var id = $("#workshop_select").val();
 							if ((id !== null) && (id.length > 0)) {
 								window.code = window.arena.entrants[id].code;
 								window.code = window.code.split("\n");
@@ -1772,7 +1772,7 @@ $(document).ready(function() {
 						break;
 					}
 
-					window.loop = setInterval(function() {
+					window.evalLoop = setInterval(function() {
 						if (window.lines.length > 0) {
 							console.log(window.code[window.lines[0]]);
 							$("#code").html(window.colorText(window.code.slice(0,window.lines[0]).join("\n").replace(/\n/g,"<br>")) + (window.lines[0] > 0 ? "<br>" : "") + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
@@ -1791,7 +1791,7 @@ $(document).ready(function() {
 
 							window.logs = [];
 							window.lines = [];
-							clearInterval(window.loop);
+							clearInterval(window.evalLoop);
 
 							switch (page) {
 								case "tutorials":

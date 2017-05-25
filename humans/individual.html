@@ -77,33 +77,6 @@
 							<span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span>
 						<span class="whitetext">},</span>
 					</div>
-					<!-- <div class="section indented" id="avatar">
-						<span class="whitetext">avatar: {</span> <span class='message graytext'></span>
-						<div class="indented">
-							<pre id="avatar_pre" monospace value="<% data.avatar.color || 'var(--white)' %>" style="color: <% data.avatar.color || 'var(--white)' %>"><% data.avatar.ascii || "" %></pre>
-						</div>
-						<span class="whitetext">}</span>
-					</div>
-					<% 
-						if ((session.human !== null) && (session.human.id === data.id)) {
-							var display = '<div class="section indented" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
-								<span class="whitetext">.color</span><span class="redtext"> = </span><span class="select_outer whitetext"><select>\
-									<option value="var(--white)">white</option>\
-									<option value="var(--red)">red</option>\
-									<option value="var(--orange)">orange</option>\
-									<option value="var(--yellow)">yellow</option>\
-									<option value="var(--green)">green</option>\
-									<option value="var(--blue)">blue</option>\
-									<option value="var(--purple)">purple</option>\
-									<option value="var(--gray)">gray</option>\
-								</select></span>\
-							</div>';
-
-							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");
-
-							display;
-						}
-					%> -->
 					<div class="section indented">
 						<span class="whitetext">sites: </span><span class="whitetext">[</span> <span class="field_frame"><span class="field whitetext" spellcheck="false" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
 								if ((typeof data.information.sites !== "undefined") && (data.information.sites.length > 0)) {

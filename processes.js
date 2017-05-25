@@ -1290,9 +1290,7 @@ please enable JavaScript to continue\
 				country: data.country_name || null
 			}
 
-			console.log("newActivity: " + JSON.stringify(locateActivity));
 			store("sessions", {id: session.id}, {$push: {activity: locateActivity}}, {}, function (data) {
-				console.log("data: " + JSON.stringify(data));
 				callback(data);
 			});
 		}
@@ -1496,8 +1494,6 @@ please enable JavaScript to continue\
 				var sort = options["$sort"] || {created: -1};
 				var limit = options["$limit"] || 100;
 
-				returnNewDocument: true
-
 				mongo.connect(database, function(error, db) {
 					if (error) {
 						console.log(error);
@@ -1537,6 +1533,7 @@ please enable JavaScript to continue\
 								console.log(error);
 							}
 							else {
+								console.log("find: " + collection + ": " + JSON.stringify(filter));
 								db.collection(collection).find(filter, projection).sort(sort).limit(limit).toArray(function (error, resultArray) {
 									if (error) {
 										console.log(error);
