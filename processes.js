@@ -1239,6 +1239,11 @@ please enable JavaScript to continue\
 					var newSession = {
 						id: random(),
 						created: new Date().getTime(),
+						human: null,
+						"ip-address": data.headers["ip-address"],
+						"user-agent": data.headers["user-agent"],
+						"accept-language": data.headers["accept-language"],
+						tour: [],
 						activity: [
 							newActivity,
 							{
@@ -1247,11 +1252,7 @@ please enable JavaScript to continue\
 								"user-agent": data.headers["user-agent"],
 								"accept-language": data.headers["accept-language"]
 							}
-						],
-						ip: data.headers["ip-address"],
-						end: null,
-						human: null,
-						tour: []
+						]
 					}
 
 					//known bots
@@ -1282,14 +1283,14 @@ please enable JavaScript to continue\
 						if (!oldSession) {
 							session(false, data, callback); //try again
 						}
-						else if (oldSession.ip !== data.headers["ip-address"]) { //new location
+						else if (oldSession["ip-address"] !== data.headers["ip-address"]) { //new location
 							var newActivity = {
 								time: new Date().getTime(),
 								"ip-address": data.headers["ip-address"],
 								"user-agent": data.headers["user-agent"],
 								"accept-language": data.headers["accept-language"]
 							}
-							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {ip: data.headers["ip-address"]}}, {}, function (oldSession) {
+							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {"ip-address": data.headers["ip-address"], "user-agent": data.headers["user-agent"],	"accept-language": data.headers["accept-language"]}}, {}, function (oldSession) {
 								callback(oldSession);
 							});
 						}

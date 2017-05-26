@@ -14,7 +14,7 @@
 			},
 			created: new Date().getTime(),
 			information: {
-				bio: null,
+				bio: "...",
 			},
 			avatar: {
 				color: "var(--white)",

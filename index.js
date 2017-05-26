@@ -522,7 +522,6 @@
 							case "change_name":
 								try {
 									if (session.human !== null) {
-										console.log(1);
 										settings.updateName(session, post, function (data) {
 											response.end(JSON.stringify(data || {success: false, messages: {name: "//unable to update name"}}));
 										});

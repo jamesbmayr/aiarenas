@@ -79,7 +79,6 @@
 
 /* updateName(session, post, callback) */
 	function updateName(session, post, callback) {
-		console.log(2);
 		if ((typeof post.name === "undefined") || (post.name.length < 8) || (post.name.length > 32) || (!processes.isNumLet(post.name))) {
 			callback({success: false, messages: {name: "//enter human name of 8 to 32 letters and numbers"}});
 		}
@@ -87,9 +86,7 @@
 			callback({success: false, messages: {name: "//name unavailable"}});
 		}
 		else {
-			console.log(3);
 			processes.retrieve("humans", {name: post.name}, {}, function (human) {
-				console.log(4);
 				if (human) {
 					callback({success: false, messages: {name: "//name unavailable"}});
 				}
@@ -100,9 +97,7 @@
 					}
 
 					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, {$multi: true}, function (robots) {
-						console.log(5);
 						processes.store("humans", {id: session.human.id}, {$set: {name: post.name}}, {}, function (human) {
-							console.log(6);
 							callback({success: true, messages: {name: "//name updated"}});
 						});
 					});
@@ -162,12 +157,12 @@
 					callback({success: false, messages: {sessions: "//unable to delete session"}});
 				}
 				else if (data.id !== session.id) {
-					processes.store("sessions", {id: data.id}, null, {}, function (result) {
+					processes.store("sessions", {id: data.id}, {$set: {human: null}}, {}, function (result) {
 						callback({success: true, messages: {sessions: "//session deleted"}});
 					});
 				}
 				else if (data.id === session.id) {
-					processes.store("sessions", {id: data.id}, null, {}, function (result) {
+					processes.store("sessions", {id: data.id}, {$set: {human: null}}, {}, function (result) {
 						callback({success: true, messages: {sessions: "//session deleted; human signed out"}, redirect: "../../../../signin"});
 					});
 				}
