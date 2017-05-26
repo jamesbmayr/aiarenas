@@ -79,14 +79,17 @@
 
 /* updateName(session, post, callback) */
 	function updateName(session, post, callback) {
-		if ((typeof post.name === "undefined") || (post.name.length < 8) || (post.signup_name.length > 32) || (!processes.isNumLet(post.name))) {
+		console.log(2);
+		if ((typeof post.name === "undefined") || (post.name.length < 8) || (post.name.length > 32) || (!processes.isNumLet(post.name))) {
 			callback({success: false, messages: {name: "//enter human name of 8 to 32 letters and numbers"}});
 		}
 		else if (processes.isReserved(post.name)) {
 			callback({success: false, messages: {name: "//name unavailable"}});
 		}
 		else {
+			console.log(3);
 			processes.retrieve("humans", {name: post.name}, {}, function (human) {
+				console.log(4);
 				if (human) {
 					callback({success: false, messages: {name: "//name unavailable"}});
 				}
@@ -97,7 +100,9 @@
 					}
 
 					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, {$multi: true}, function (robots) {
+						console.log(5);
 						processes.store("humans", {id: session.human.id}, {$set: {name: post.name}}, {}, function (human) {
+							console.log(6);
 							callback({success: true, messages: {name: "//name updated"}});
 						});
 					});

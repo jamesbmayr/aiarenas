@@ -381,6 +381,18 @@
 			font-size: calc(var(--font_size) * 24px);
 		}
 
+		#temp {
+			display: none;
+			height: 0px;
+			width: 0px;
+			border: 0px;
+			visibility: hidden;
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			z-index: -1;
+		}
+
 	/* top */
 		.top_outer {
 			position: fixed;

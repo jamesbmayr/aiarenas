@@ -46,7 +46,7 @@
 				if ((data.selector !== null) && (data.selector.length > 0)) {
 					processes.store("humans", {id: session.human.id}, {$push: {tour: data.selector}, $set: {"settings.show_help": "true"}}, {}, function (human) {
 						tour = tour.filter(function(x) {
-							return human.tour.indexOf(x.selector) === -1;
+							return ((human.tour.indexOf(x.selector) === -1) && (x.selector !== data.selector));
 						});
 
 						callback({success: true, tour: tour});
@@ -55,7 +55,7 @@
 				else {
 					processes.store("humans", {id: session.human.id}, {$set: {"settings.show_help": "true"}}, {}, function (human) {
 						tour = tour.filter(function(x) {
-							return human.tour.indexOf(x.selector) === -1;
+							return ((human.tour.indexOf(x.selector) === -1) && (x.selector !== data.selector));
 						});
 
 						callback({success: true, tour: tour});
@@ -66,7 +66,7 @@
 				if ((data.selector !== null) && (data.selector.length > 0)) {
 					processes.store("sessions", {id: session.id}, {$push: {tour: data.selector}, $set: {"show_help": "true"}}, {}, function (session) {
 						tour = tour.filter(function(x) {
-							return session.tour.indexOf(x.selector) === -1;
+							return ((session.tour.indexOf(x.selector) === -1) && (x.selector !== data.selector));
 						});
 
 						callback({success: true, tour: tour});
@@ -75,7 +75,7 @@
 				else {
 					processes.store("sessions", {id: session.id}, {$set: {"show_help": "true"}}, {}, function (session) {
 						tour = tour.filter(function(x) {
-							return session.tour.indexOf(x.selector) === -1;
+							return ((session.tour.indexOf(x.selector) === -1) && (x.selector !== data.selector));
 						});
 
 						callback({success: true, tour: tour});

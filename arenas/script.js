@@ -552,6 +552,12 @@
 						data[field] = value;
 					});
 
+					/* code */
+						$("body").append("<div id='temp'></div>");
+						$("#temp").html($("#code").text());
+						data.code = $("#temp").text();
+						$("#temp").remove();
+
 					$.ajax({
 						type: "POST",
 						url: window.location.pathname,

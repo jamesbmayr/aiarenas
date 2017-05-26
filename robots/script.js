@@ -98,6 +98,12 @@
 					data[field] = value;
 				});
 
+				/* code */
+					$("body").append("<div id='temp'></div>");
+					$("#temp").html($("#code").text());
+					data.code = $("#temp").text();
+					$("#temp").remove();
+
 				/* avatar */
 					var avatar = {};
 					$("#avatar_selection select").each(function() {

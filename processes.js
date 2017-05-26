@@ -244,7 +244,7 @@
 
 	/* isNumLet(string) */
 		function isNumLet(string) {
-			return (/[a-z0-9A-Z_]/).test(string);
+			return (/^[a-z0-9A-Z_]+$/).test(string);
 		}
 
 /*** page content ***/
@@ -1434,14 +1434,16 @@ please enable JavaScript to continue\
 			mongo.connect(database, function(error, db) {
 				if (error) {
 					console.log(error);
+					callback(null);
 				}
 
 			//aggregate with $match and $sample
 				else if (sample) {
 					console.log("aggregate: " + collection + ": " + JSON.stringify([{$match: query}, {$sample: sample}]));
-					db.collection(collection).aggregate([{$match: query}, {$sample: sample}]).sort(sort).limit(limit).toArray(function (error, resultArray) {
+					db.collection(collection).aggregate([{$match: query}, {$sample: sample}]).sort(sort).limit(limit).maxTimeMS(1000).toArray(function (error, resultArray) {
 						if (error) {
 							console.log(error);
+							callback(null);
 						}
 						else {
 							if (resultArray.length === 0) {
@@ -1456,9 +1458,10 @@ please enable JavaScript to continue\
 			//aggregate with $project
 				else if (project) {
 					console.log("aggregate: " + collection + ": " + JSON.stringify([{$project: project}]));
-					db.collection(collection).aggregate([{$project: project}, {$sort: sort}, {$limit: limit}]).toArray(function (error, resultArray) {
+					db.collection(collection).aggregate([{$project: project}, {$sort: sort}, {$limit: limit}]).maxTimeMS(1000).toArray(function (error, resultArray) {
 						if (error) {
 							console.log(error);
+							callback(null);
 						}
 						else {
 							if (resultArray.length === 0) {
@@ -1476,6 +1479,7 @@ please enable JavaScript to continue\
 					db.collection(collection).findOne(query, projection, function (error, result) {
 						if (error) {
 							console.log(error);
+							callback(null);
 						}
 						else {
 							callback(result);
@@ -1487,9 +1491,10 @@ please enable JavaScript to continue\
 			//find
 				else if (multi) {
 					console.log("find: " + collection + ": " + JSON.stringify(query));
-					db.collection(collection).find(query, projection).sort(sort).limit(limit).toArray(function (error, resultArray) {
+					db.collection(collection).find(query, projection).sort(sort).limit(limit).maxTimeMS(1000).toArray(function (error, resultArray) {
 						if (error) {
 							console.log(error);
+							callback(null);
 						}
 						else {
 							if (resultArray.length === 0) {
@@ -1519,6 +1524,7 @@ please enable JavaScript to continue\
 				mongo.connect(database, function(error, db) {
 					if (error) {
 						console.log(error);
+						callback(null);
 					}
 
 				//insert
@@ -1527,6 +1533,7 @@ please enable JavaScript to continue\
 						db.collection(collection).insert(data, function (error, result) {
 							if (error) {
 								console.log(error);
+								callback(false);
 							}
 							else {
 								callback(result.nInserted);
@@ -1541,6 +1548,7 @@ please enable JavaScript to continue\
 						db.collection(collection).findOneAndUpdate(filter, data, {sort: sort, upsert: upsert, projection: projection, returnNewDocument: true}, function (error, result) {
 							if (error) {
 								console.log(error);
+								callback(null);
 							}
 							else {
 								callback(result.value);
@@ -1555,11 +1563,13 @@ please enable JavaScript to continue\
 						db.collection(collection).update(filter, data, {upsert: upsert, multi: true}, function (error, result) {
 							if (error) {
 								console.log(error);
+								callback(null);
 							}
 							else {
-								db.collection(collection).find(filter, projection).sort(sort).limit(limit).toArray(function (error, resultArray) {
+								db.collection(collection).find(filter, projection).sort(sort).limit(limit).maxTimeMS(1000).toArray(function (error, resultArray) {
 									if (error) {
 										console.log(error);
+										callback(null);
 									}
 									else {
 										if (resultArray.length === 0) {
@@ -1581,6 +1591,7 @@ please enable JavaScript to continue\
 						db.collection(collection).remove(filter, !multi, function (error, result) {
 							if (error) {
 								console.log(error);
+								callback(false);
 							}
 							else {
 								callback(result.nRemoved);

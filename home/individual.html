@@ -100,7 +100,7 @@
 						<br>
 						or use complex queries similar to <span class="code">mongodb</span> format:<br>
 						• <span class="code orangetext">statistics.wins={$gt:10}</span>: get <span class="code bluetext">humans</span> or <span class="code greentext">robots</span> with greater than <span class="purpletext">10</span> wins<br>
-						• <span class="code orangetext">name={$rejex:/a/}</span>: get all <span class="code bluetext">humans</span> or <span class="code greentext">robots</span> with an <span class="yellowtext">"a"</span> in its name<br>
+						• <span class="code orangetext">name={$regex:/a/}</span>: get all <span class="code bluetext">humans</span> or <span class="code greentext">robots</span> with an <span class="yellowtext">"a"</span> in its name<br>
 						• <span class="code orangetext">$where=this.robots.length>3</span>: get <span class="code bluetext">humans</span> with <span class="redtext">></span> <span class="purpletext">3</span> <span class="code greentext">robots</span><br>
 						<br>
 						here is an example results page for <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection=robots&human.name=Example_Human" target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&collection=robots&human.name=Example_Human</a>:

@@ -121,7 +121,7 @@
 								//no change
 							}
 							else {
-								robot.code = data.code.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
+								robot.code = data.code.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
 								messages.code = "//code updated";
 							}
 						break;

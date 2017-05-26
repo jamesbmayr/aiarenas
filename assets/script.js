@@ -1351,8 +1351,7 @@ $(document).ready(function() {
 					</div>\
 				</div>");
 
-				$("#startTour").closest("form").remove();
-				$("#message_top").animateText({text: "//help activated"},1000);
+				$("#startTour").closest("form").replaceWith('<form method="post" action="javascript:;" onsubmit="window.stopTour();"><li class="section indented"><span class="whitetext">tour is activated:</span> <button id="stopTour" name="action" value="stopTour"><span class="greentext">stopTour</span></button><span class="whitetext">()</span></li></form>');
 			}
 
 			$.ajax({
@@ -1414,6 +1413,7 @@ $(document).ready(function() {
 			$(".overlay_outer").remove();
 			$("body").removeClass("touring");
 			$("#navbar").removeClass("touring");
+			$("#stopTour").closest("form").remove();
 
 			$.ajax({
 				type: "POST",
@@ -1497,21 +1497,19 @@ $(document).ready(function() {
 					switch (page) {
 						case "tutorials":
 						case "robots":
-							window.code = $("#code").text().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-							window.code = window.code.split("\n");
+							/* code */
+							$("body").append("<div id='temp'></div>");
+							$("#temp").html($("#code").text());
+							window.code = $("#temp").text().replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").split("\n");
+							$("#temp").remove();
 
-							window.inputs = $("#inputs").text().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s/g,"");
-							window.inputs = window.inputs.split(",");
+							window.inputs = $("#inputs").text().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s/g,"").split(",");
 						break;
 						case "arenas":
 							var id = $("#workshop_select").val();
 							if ((id !== null) && (id.length > 0)) {
-								window.code = window.arena.entrants[id].code;
-								window.code = window.code.split("\n");
-								window.inputs = window.arena.entrants[id].inputs.replace(/\s/g,"");
-								window.inputs = window.inputs.split(",");
-								console.log(window.code);
-								console.log(window.inputs);
+								window.code = window.arena.entrants[id].code.split("\n");
+								window.inputs = window.arena.entrants[id].inputs.replace(/\s/g,"").split(",");
 							}
 						break;
 					}
