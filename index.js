@@ -47,7 +47,7 @@
 					routes = String(request.url).split("/");
 				try { cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null; } catch(error) { cookie = {}; }
 				request.headers["ip-address"] = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
-				console.log("\n" + new Date().toLocaleString() + ": " + (cookie.session || "new") + " @ " + request.headers["ip-address"] + "\n[" + request.method + "] " + request.url + "\n" + (request.method === "GET" ? JSON.stringify(get) : JSON.stringify(post)));
+				console.log("\n" + new Date().toLocaleString() + ": " + (cookie.session || "new") + " @ " + request.headers["ip-address"] + "\n[" + request.method + "] " + request.url + "\n" + (request.method === "GET" ? JSON.stringify(get) : JSON.stringify(post).replace(/(password|confirm)\"\:\"([^\"]+)\"/gi,"$1\"\:\"••••••••\"")));
 
 				/* certbot authentication */
 					/*if ((/\.well\-known\/acme\-challenge\/???$/).test(request.url)) {
