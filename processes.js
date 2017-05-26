@@ -1545,7 +1545,7 @@ please enable JavaScript to continue\
 				//findOneAndUpdate
 					else if ((filter !== null) && (data !== null) && (!multi)) {
 						console.log("findOneAndUpdate: " + collection + ": " + JSON.stringify(filter) + ":\n" + JSON.stringify(data));
-						db.collection(collection).findOneAndUpdate(filter, data, {sort: sort, upsert: upsert, projection: projection, returnNewDocument: true}, function (error, result) {
+						db.collection(collection).findOneAndUpdate(filter, data, {returnOriginal: false, upsert: upsert, sort: sort, projection: projection}, function (error, result) {
 							if (error) {
 								console.log(error);
 								callback(null);

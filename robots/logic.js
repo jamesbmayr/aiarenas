@@ -151,7 +151,7 @@
 				}
 				else {
 					processes.store("robots", {id: robot.id}, robot, {}, function (robot) {
-						if (before.name !== robot.name) {
+						if (JSON.parse(before).name !== robot.name) {
 							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}}, {}, function (human) {
 								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
 									callback({success: true, messages: messages, data: data, robot: robot});
