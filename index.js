@@ -509,7 +509,7 @@
 								try {
 									if (session.human !== null) {
 										settings.sendVerification(session, post, function (data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to send email"}}));
+											response.end(JSON.stringify(data || {success: false, messages: {email: "//unable to send email"}}));
 										});
 									}
 									else {
@@ -751,14 +751,9 @@
 						/* tutorials */
 							case "complete_tutorial":
 								try {
-									if (session.human !== null) {
-										tutorials.complete(session, post, function (data) {
-											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update tutorial completion"}}));
-										});
-									}
-									else {
-										_403("//not authorized");
-									}
+									tutorials.complete(session, post, function (data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update tutorial completion"}}));
+									});
 								}
 								catch (error) {_403();}
 							break;

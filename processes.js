@@ -720,7 +720,7 @@
 						},
 						{
 							action: "",
-							selector: "div#players",
+							selector: ".player",
 							message: "Other humans with robots in this arena will appear here."
 						},
 						{
@@ -730,17 +730,17 @@
 						},
 						{
 							action: "",
-							selector: "div#robots",
+							selector: "div.self",
 							message: "All robots - power, cubes, etc. - can be seen here."
 						},
 						{
 							action: "",
-							selector: "div#cubes",
+							selector: ".cube_outer",
 							message: "All cubes currently available in this arena are displayed here."
 						},
 						{
 							action: "$('#rules').show(); $('#rules').prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
-							selector: "div#rules",
+							selector: "#rules_cubes",
 							message: "See the rules set for this arena."
 						}
 					];
@@ -865,7 +865,7 @@ please enable JavaScript to continue\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="--">--</span><span class="avatar avatar_torso_1" value="HELLO">HELLO</span><span class="avatar avatar_right_arm" value="--">--</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value=" () "> () </span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="(--)">(--)</span>\n\
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" [] [] "> [] [] </span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value=" []"> []</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="[] ">[] </span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="/_]">/_]</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="[_\\">[_\\</span><span class="transparenttext">••••</span>\n\
 \n <span class="whitetext message">initializing...</span>\
 </pre>\
@@ -878,10 +878,10 @@ please enable JavaScript to continue\
 					<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 					
 					navbar += "<div id='navbar'>\
-						<div id='navbar_logo'>\
+						<a id='navbar_logo' href='../../../../'>\
 							<div class='super_header'>ai</div>\
 							<div class='header'>arenas</div>\
-						</div>\
+						</a>\
 						<div id='navbar_info'>\
 							<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 							<div class='navbar_item'><a class='navbar_link' href='../../../../'><span class='whitetext'>.</span><span class='bluetext'>home</span></a></div>\
@@ -949,10 +949,10 @@ please enable JavaScript to continue\
 				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 
 				navbar += "<div id='navbar'>\
-					<div id='navbar_logo'>\
+					<a id='navbar_logo' href='../../../../'>\
 						<div class='super_header'>ai</div>\
 						<div class='header'>arenas</div>\
-					</div>\
+					</a>\
 					<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../'><span class='whitetext'>.</span><span class='bluetext'>home</span></a></div>\
@@ -1035,8 +1035,12 @@ please enable JavaScript to continue\
 					options = ["[[-]]","/HHH\\","IHHHI","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "," WWW ","V-V-V"," (O) "];
 				break;
 
-				case "legs":
-					options = [".Y. .Y.","//---\\\\","/// \\\\\\"," /---\\ "," || || "," |---| ","::: :::"," : - : "," OO OO ","[-] [-]"];
+				case "left_leg":
+					options = [".Y.","//-","///"," /-"," ||"," |-",":::"," : "," OO ","[-]"];
+				break;
+
+				case "right_leg":
+					options = [".Y.","-\\\\","\\\\\\","-\\ ","|| ","-| ",":::"," : ","OO ","[-]"];
 				break;
 
 				case "foot":
@@ -1240,10 +1244,12 @@ please enable JavaScript to continue\
 						id: random(),
 						created: new Date().getTime(),
 						human: null,
+						name: null,
 						"ip-address": data.headers["ip-address"],
 						"user-agent": data.headers["user-agent"],
 						"accept-language": data.headers["accept-language"],
 						tour: [],
+						tutorials: [],
 						activity: [
 							newActivity,
 							{

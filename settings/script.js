@@ -6,7 +6,7 @@
 			window.human_cancel = function() {
 				$("#human_cancel").hide();
 				$("#human_delete").show();
-				$("#human_confirm_delete").hide();
+				$("#confirm_delete_form").hide();
 
 				$("#delete").find(".message").animateText({text: "//canceled human deletion"}, 1000);
 			}
@@ -14,7 +14,7 @@
 			window.human_delete = function() {
 				$("#human_cancel").show();
 				$("#human_delete").hide();
-				$("#human_confirm_delete").show();
+				$("#confirm_delete_form").show();
 				$("#delete").find(".message").animateText({text: "//confirm human deletion?"}, 1000);
 			}
 
@@ -28,6 +28,7 @@
 					url: window.location.pathname,
 					data: {
 						action: "delete_human",
+						current_password: $("#delete_current_password").val() || null,
 						data: JSON.stringify(data)
 					},
 					success: function(results) {
@@ -37,7 +38,7 @@
 						else {
 							$("#human_cancel").hide();
 							$("#human_delete").show();
-							$("#human_confirm_delete").hide();
+							$("#confirm_delete_form").hide();
 
 							$("#delete").find(".message").animateText({text: (results.messages.top || "//unable to delete human")}, 1000);
 						}
@@ -52,14 +53,15 @@
 					url: window.location.pathname,
 					data: {
 						action: "send_verification",
+						current_password: $("#email_current_password").val() || null,
 						email: $("#new_email").val() || null,
 					},
 					success: function(data) {
 						if (data.success) {
-							$("#email").find(".message").animateText({text: (data.messages.top || "//verification email sent")}, 1000);
+							$("#email").find(".message").animateText({text: (data.messages.email || "//verification email sent")}, 1000);
 						}
 						else {
-							$("#email").find(".message").animateText({text: (data.messages.top || "//unable to send verification email")}, 1000);
+							$("#email").find(".message").animateText({text: (data.messages.email || "//unable to send verification email")}, 1000);
 						}
 					}
 				});
@@ -72,6 +74,7 @@
 					url: window.location.pathname,
 					data: {
 						action: "change_name",
+						current_password: $("#name_current_password").val() || null,
 						name: $("#new_name").val() || null,
 					},
 					success: function(data) {
@@ -98,6 +101,7 @@
 					url: window.location.pathname,
 					data: {
 						action: "change_password",
+						current_password: $("#password_current_password").val() || null,
 						password: $("#new_password").val() || null,
 						confirm: $("#confirm_password").val() || null,
 					},

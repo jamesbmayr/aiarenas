@@ -22,3 +22,8 @@
 		height: calc(var(--font_size) * 30px);
 		margin-top: calc(var(--font_size) * 4px);
 	}
+
+	#feedback_text {
+		min-height: calc(var(--font_size) * 100px);
+		min-width: calc(100vw - (200px / var(--font_size)));
+	}

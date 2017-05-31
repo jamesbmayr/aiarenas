@@ -331,11 +331,13 @@ $(document).ready(function() {
 						setTimeout(function() {
 							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
 							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","bold");
 						},100);
 
 						setTimeout(function() {
-							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","normal");
 							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
 							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
 						},200);
@@ -396,11 +398,13 @@ $(document).ready(function() {
 						setTimeout(function() {
 							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
 							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","bold");
 						},1000);
 
 						setTimeout(function() {
-							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","normal");
 							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
 							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
 						},1100);
@@ -467,11 +471,13 @@ $(document).ready(function() {
 						setTimeout(function() {
 							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
 							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","bold");
 						},200);
 
 						setTimeout(function() {
-							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","normal");
 							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
 							$("#" + robot).find(".avatar_right_hand").css("font-weight","bold");
 							$("#" + robot).find(".avatar_left_hand").css("font-weight","bold");
@@ -562,11 +568,13 @@ $(document).ready(function() {
 						setTimeout(function() {
 							$("#" + robot).find(".avatar_left_foot").css("font-weight","normal");
 							$("#" + robot).find(".avatar_right_foot").css("font-weight","normal");
-							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","bold");
 						},200);
 
 						setTimeout(function() {
-							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","normal");
 							$("#" + robot).find(".avatar_torso_3").css("font-weight","bold");
 						},400);
 
@@ -682,7 +690,8 @@ $(document).ready(function() {
 						},500);
 
 						setTimeout(function() {
-							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","bold");
 							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
 							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
 
@@ -692,7 +701,8 @@ $(document).ready(function() {
 						setTimeout(function() {
 							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
 							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","normal");
 						},700);
 
 						setTimeout(function() {
@@ -752,7 +762,8 @@ $(document).ready(function() {
 						},1300);
 
 						setTimeout(function() {
-							$("#" + robot).find(".avatar_legs").css("font-weight","bold");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","bold");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","bold");
 							$("#" + robot).find(".avatar_torso_3").css("font-weight","normal");
 							$("#" + robot).find(".avatar_right_hand").css("font-weight","normal");
 
@@ -762,7 +773,8 @@ $(document).ready(function() {
 						setTimeout(function() {
 							$("#" + robot).find(".avatar_left_foot").css("font-weight","bold");
 							$("#" + robot).find(".avatar_right_foot").css("font-weight","bold");
-							$("#" + robot).find(".avatar_legs").css("font-weight","normal");
+							$("#" + robot).find(".avatar_left_leg").css("font-weight","normal");
+							$("#" + robot).find(".avatar_right_leg").css("font-weight","normal");
 						},1500);
 
 						setTimeout(function() {
@@ -990,6 +1002,20 @@ $(document).ready(function() {
 						},1600);
 					break;
 
+					case "win":
+						$("#" + robot).find(".avatar_right_shoulder_down").hide();
+						$("#" + robot).find(".avatar_right_shoulder_up").show();
+						$("#" + robot).find(".avatar_right_hand").toggleClass("transparenttext");
+						$("#" + robot).find(".avatar_right_wrist").toggleClass("transparenttext");
+					break;
+
+					case "loss":
+						$("#" + robot).find(".avatar_left_shoulder_down").show();
+						$("#" + robot).find(".avatar_left_shoulder_up").hide();
+						$("#" + robot).find(".avatar_left_hand").toggleClass("transparenttext");
+						$("#" + robot).find(".avatar_left_wrist").toggleClass("transparenttext");
+					break;
+
 					case "sleep":
 					default:
 						setTimeout(function() {
@@ -1206,45 +1232,48 @@ $(document).ready(function() {
 
 	/* sectionToggle */
 		$(document).on("click", ".section-toggle", function() {
-			if ($(this).hasClass("section-toggle-down")) {
+			if (!$(this).next().next().hasClass("animating")) {
 				var section = $(this).next().next();
-				$(section).animate({
-					height: 0,
-				},1000);
+				$(section).addClass("animating");
 
-				setTimeout(function() {
-					$(section).hide();
-				},1000);
-
-				if ($(this).parent().hasClass("top_inner")) {
-					var multiplier = $(":root").css("--font_size") || 1;
-					$(".content").animate({
-						"margin-top": (((Number(multiplier) + 1) / 2) * 64)
+				if ($(this).hasClass("section-toggle-down")) {
+					$(section).animate({
+						height: 0,
 					},1000);
-				}
 
-				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
-			}
-			else if ($(this).hasClass("section-toggle-up")) {
-				var section = $(this).next().next();
-				var height = $(section).hide().css("height","auto").css("height");
-
-				$(section).css("height",0).show().animate({
-					height: height
-				},1000);
-
-				setTimeout(function() {
-					$(section).css("height","auto");
-				},1010);
-
-				if ($(this).parent().hasClass("top_inner")) {
-					var multiplier = $(":root").css("--font_size") || 1;
-					$(".content").animate({
-						"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
+					setTimeout(function() {
+						$(section).hide().removeClass("animating");
 					},1000);
-				}
 
-				$(this).replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+					if ($(this).parent().hasClass("top_inner")) {
+						var multiplier = $(":root").css("--font_size") || 1;
+						$(".content").animate({
+							"margin-top": (((Number(multiplier) + 1) / 2) * 64)
+						},1000);
+					}
+
+					$(this).replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
+				}
+				else if ($(this).hasClass("section-toggle-up")) {
+					var height = $(section).hide().css("height","auto").css("height");
+
+					$(section).css("height",0).show().animate({
+						height: height
+					},1000);
+
+					setTimeout(function() {
+						$(section).css("height","auto").removeClass("animating");
+					},1010);
+
+					if ($(this).parent().hasClass("top_inner")) {
+						var multiplier = $(":root").css("--font_size") || 1;
+						$(".content").animate({
+							"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
+						},1000);
+					}
+
+					$(this).replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+				}
 			}
 		});
 
@@ -1257,46 +1286,49 @@ $(document).ready(function() {
 		});
 
 		$(document).on("click", ".bracketer_top", function(event) {
-			if ($(this).prev().hasClass("section-toggle-down")) {
+			if (!$(this).next().hasClass("animating")) {
 				var section = $(this).next();
-				$(section).animate({
-					height: 0,
-				},1000);
+				$(section).addClass("animating");
 
-				setTimeout(function() {
-					$(section).hide();
-				},1000);
-
-				if ($(this).parent().hasClass("top_inner")) {
-					var multiplier = $(":root").css("--font_size") || 1;
-					$(".content").animate({
-						"margin-top": (((Number(multiplier) + 1) / 2) * 64)
+				if ($(this).prev().hasClass("section-toggle-down")) {
+					$(section).animate({
+						height: 0,
 					},1000);
-				}
 
-				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
-			}
-			else if ($(this).prev().hasClass("section-toggle-up")) {
-				var section = $(this).next();
-				var height = $(section).hide().css("height","auto").css("height");
-
-				$(section).css("height",0).show().animate({
-					height: height
-				},1000);
-
-				setTimeout(function() {
-					$(section).css("height","auto");
-				},1010);
-
-				if ($(this).parent().hasClass("top_inner")) {
-					var multiplier = $(":root").css("--font_size") || 1;
-					$(".content").animate({
-						"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
+					setTimeout(function() {
+						$(section).hide().removeClass("animating");
 					},1000);
+
+					if ($(this).parent().hasClass("top_inner")) {
+						var multiplier = $(":root").css("--font_size") || 1;
+						$(".content").animate({
+							"margin-top": (((Number(multiplier) + 1) / 2) * 64)
+						},1000);
+					}
+
+					$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>');
 				}
+				else if ($(this).prev().hasClass("section-toggle-up")) {
+					var section = $(this).next();
+					var height = $(section).hide().css("height","auto").css("height");
 
-				$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+					$(section).css("height",0).show().animate({
+						height: height
+					},1000);
 
+					setTimeout(function() {
+						$(section).css("height","auto").removeClass("animating");
+					},1010);
+
+					if ($(this).parent().hasClass("top_inner")) {
+						var multiplier = $(":root").css("--font_size") || 1;
+						$(".content").animate({
+							"margin-top": (Number(height.replace("px","")) + (((Number(multiplier) + 1) / 2) * 64))
+						},1000);
+					}
+
+					$(this).prev().replaceWith('<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>');
+				}
 			}
 		});
 
@@ -1424,10 +1456,10 @@ $(document).ready(function() {
 				},
 				success: function(data) {
 					if (data.success) {
-						$("#message_top").animateText({text: data.messages.top || "//help deactivated"},1000);
+						$("#message_top").animateText({text: data.messages.top || "//tour deactivated"},1000);
 					}
 					else {
-						$("#message_top").animateText({text: data.messages.top || "//help deactivated"},1000);
+						$("#message_top").animateText({text: data.messages.top || "//tour deactivated"},1000);
 					}
 				}
 			});

@@ -30,7 +30,8 @@
 				torso_1: "[[-]]",
 				torso_2: "[[-]]",
 				torso_3: "[[-]]",
-				legs: ".Y. .Y.",
+				left_leg: ".Y.",
+				right_leg: ".Y.",
 				left_foot: "{_}",
 				right_foot: "{_}"
 			},

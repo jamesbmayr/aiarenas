@@ -118,7 +118,7 @@
 <span class="transparenttext">•••</span><span class="avatar" id="avatar_left_shoulder_up">\</span><span class="avatar" id="avatar_left_arm" value="<% data.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '••' %>"><% data.avatar.left_arm || "••" %></span><span class="avatar" id="avatar_torso_1" value="<% data.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••' %>"><% data.avatar.torso_1 || "•••••" %></span><span class="avatar" id="avatar_right_arm" value="<% data.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '••' %>"><% data.avatar.right_arm || "••" %></span><span class="avatar" id="avatar_right_shoulder_down">\</span><span class="transparenttext">••</span>
 <span class="transparenttext">••••••</span><span class="avatar" id="avatar_torso_2" value="<% data.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••' %>"><% data.avatar.torso_2 || "•••••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_right_wrist" value="<% data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '••' %>"><% data.avatar.right_wrist || "••" %></span>
 <span class="transparenttext">••••••</span><span class="avatar" id="avatar_torso_3" value="<% data.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••' %>"><% data.avatar.torso_3 || "•••••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_right_hand" value="<% data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '••••' %>"><% data.avatar.right_hand || "••••" %></span>
-<span class="transparenttext">•••••</span><span class="avatar" id="avatar_legs" value="<% data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••••••' %>"><% data.avatar.legs || "•••••••" %></span><span class="transparenttext">••••</span>
+<span class="transparenttext">•••••</span><span class="avatar" id="avatar_left_leg" value="<% data.avatar.left_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••' %>"><% data.avatar.left_leg || "•••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_right_leg" value="<% data.avatar.right_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••' %>"><% data.avatar.right_leg || "•••" %></span><span class="transparenttext">••••</span>
 <span class="transparenttext">•••••</span><span class="avatar" id="avatar_left_foot" value="<% data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••' %>"><% data.avatar.left_foot || "•••" %></span><span class="transparenttext">•</span><span class="avatar" id="avatar_right_foot" value="<% data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\\/g,"\\\\").replace(/\</g,"&lt;").replace(/\>/g,"&gt;") || '•••' %>"><% data.avatar.right_foot || "•••" %></span><span class="transparenttext">••••</span>
 </pre>
 						<% 
@@ -220,9 +220,16 @@
 									
 									display += '</select>\
 									<br>\
-									<span class="transparenttext">•••••</span><select id="select_legs" class="avatar_select">';
+									<span class="transparenttext">•••••</span><select id="select_left_leg" class="avatar_select">';
 
-											var options = ascii_robot("legs");
+											var options = ascii_robot("left_leg");
+											for (var i = 0; i < options.length; i++) {
+												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+											}
+									
+									display += '</select><span class="transparenttext">•</span><select id="select_right_leg" class="avatar_select">';
+
+											var options = ascii_robot("right_leg");
 											for (var i = 0; i < options.length; i++) {
 												display += "<option value='" + options[i] + "'>" + options[i] + "</option>";
 											}

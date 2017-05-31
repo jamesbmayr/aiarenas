@@ -8,10 +8,13 @@
 		if (!data.tutorial) {
 			callback({success: false, messages: {top: "//invalid tutorial"}});
 		}
-		else if (session.human.tutorials.indexOf(data.tutorial) > -1) {
+		else if ((session.human !== null) && (session.human.tutorials.indexOf(data.tutorial) > -1)) {
 			callback({success: false, messages: {top: "//tutorial already completed"}});
 		}
-		else {
+		else if (session.tutorials.indexOf(data.tutorial) > -1) {
+			callback({success: false, messages: {top: "//tutorial already completed"}});
+		}
+		else if (session.human !== null) {
 			processes.store("humans", {id: session.human.id}, {$push: {tutorials: data.tutorial}}, {}, function (human) {
 				if (!human) {
 					callback({success: false, messages: {top: "//invalid human"}});
@@ -19,6 +22,11 @@
 				else {
 					callback({success: true, messages: {top: "//tutorial completion saved"}});
 				}
+			});
+		}
+		else {
+			processes.store("sessions", {id: session.id}, {$push: {tutorials: data.tutorial}}, {}, function (session) {
+				callback({success: true, messages: {top: "//tutorial completion saved"}});
 			});
 		}
 	}

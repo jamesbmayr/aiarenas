@@ -604,11 +604,23 @@
 				else if (Object.keys(arena.entrants).length < arena.rules.players.minimum) {
 					callback({success: false, messages: {top: "//robot count does not meet minimum"}});
 				}
-				else {							
-					processes.store("arenas", {id: arena.id}, {$set: {"state.start": (new Date().getTime()) + (1000 * 5), "state.locked": false}}, {}, function (arena) { //store it
-						callback({success: true, arena: arena, messages: {top: "//starting..."}}); //send back the updated arena
+				else {
+					var players = [];
+					var entrants = Object.keys(arena.entrants);
+					for (x = 0; x < entrants.length; x++) {
+						players.push(arena.entrants[entrants[x]].human.id);
+					}
+
+					var unplayers = arena.humans.filter(function(y) {
+						return players.indexOf(y) === -1;
 					});
-				}					
+
+					processes.store("humans", {id: {$in: unplayers}}, {$pull: {arenas: arena.id}}, {$multi: true}, function (humans) {
+						processes.store("arenas", {id: arena.id}, {$set: {"state.start": (new Date().getTime()) + (1000 * 5), "state.locked": false}, $pull: {humans: {$in: unplayers}}}, {}, function (arena) { //store it
+							callback({success: true, arena: arena, messages: {top: "//starting..."}}); //send back the updated arena
+						});
+					});
+				}
 			});
 		}
 	}
@@ -714,8 +726,20 @@
 								arena.entrants[robots[i].id] = robots[i];
 							}
 
-							processes.store("arenas", {id: arena.id}, {$set: {"state.locked": false, entrants: arena.entrants}}, {}, function (results) { //store it
-								read(session, post, callback); //run this function again (which should skip this whole block now)
+							var players = [0];	//remove unplayers
+							var entrants = Object.keys(arena.entrants);
+							for (x = 0; x < entrants.length; x++) {
+								players.push(arena.entrants[entrants[x]].human.id);
+							}
+
+							var unplayers = arena.humans.filter(function(y) {
+								return players.indexOf(y) === -1;
+							});
+
+							processes.store("humans", {id: {$in: unplayers}}, {$pull: {arenas: arena.id}}, {$multi: true}, function (humans) {
+								processes.store("arenas", {id: arena.id}, {$set: {"state.locked": false, entrants: arena.entrants}, $pull: {humans: {$in: unplayers}}}, {}, function (results) { //store it
+									read(session, post, callback); //run this function again (which should skip this whole block now)
+								});
 							});
 						});
 					}
@@ -743,9 +767,14 @@
 										callback({success: true, arena: updated_arena, messages: {top: "//arena in play"}}); //send back the updated arena
 									}
 									else { //if it has concluded...
-										var robot_ids = Object.keys(updated_arena.entrants);
+										var robot_ids = Object.keys(updated_arena.entrants).filter(function(robot_id) { //filter out robots with no human
+											return (updated_arena.humans.indexOf(updated_arena.entrants[robot_id].human.id) !== -1);
+										});
+
 										var robot_victors = updated_arena.state.victors;
-										var robot_losers = robot_ids.filter(function(robot_id) { return (!(robot_victors.indexOf(robot_id) > -1))});
+										var robot_losers = robot_ids.filter(function(robot_id) {
+											return (robot_victors.indexOf(robot_id) === -1)
+										});
 										
 										var human_victors = [];
 										var human_losers = [];

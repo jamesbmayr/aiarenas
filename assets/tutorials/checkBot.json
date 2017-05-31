@@ -16,13 +16,13 @@
 				"$('#console').closest('details').hide()"
 			],
 			"messages": {
-				"instructions": "A function can use an input to affect its output. Change the below to checkBot = function(power) to use the power input.",
+				"instructions": "A function can use an input to affect its output. Below, change it to checkBot = function(power) to use the power input.",
 				"error": "Make sure power is being input (without quotes).",
 				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",
-				"code": "//no code here yet\n//just select eval()",
+				"code": "//no code here yet\n//just select eval()\n",
 				"output": ""
 			},
 			"end": {
@@ -39,12 +39,12 @@
 			],
 			"messages": {
 				"instructions": "Now use the keyword return to output the current power level of function checkBot().",
-				"error": "Make sure to return power.",
+				"error": "Make sure to return power (without quotes).",
 				"success": "Success. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "power",
-				"code": "//type your code below these comments\n//then run it using eval() below",
+				"code": "//type your code below this comment:\n\n\n//then run it using eval() below\n",
 				"output": ""
 			},
 			"end": {
@@ -112,7 +112,7 @@
 			},
 			"start": {
 				"inputs": "power",
-				"code": "//an if statement should be structured like this:\nif (condition) {\n//do something here:\n\n}",
+				"code": "if (condition) { //<--change the condition\n//then, do something here:\n\n}",
 				"output": ""
 			},
 			"end": {

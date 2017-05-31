@@ -100,16 +100,16 @@
 	function destroy(session, post, callback) {
 		var data = JSON.parse(post.data);
 
-		if ((session.human === null) || (typeof data.id !== null) || (data.id === session.human.id)) {
+		if ((session.human === null) || (typeof data.id === "undefined") || (data.id !== session.human.id)) {
 			callback({success: false, messages: {top: "//not authorized"}});
 		}
+		else if ((typeof post.current_password === "undefined") || (post.current_password.length < 8)) {
+			callback({success: false, messages: {email: "//enter your current password"}});
+		}
 		else {
-			processes.retrieve("humans", {id: session.human.id}, {}, function (human) {		
+			processes.retrieve("humans", {id: session.human.id, password: processes.hash(post.current_password, session.human.salt)}, {}, function (human) {		
 				if (!human) {
-					callback({success: false, messages: {top: "//human not found"}});
-				}
-				else if (human.id !== session.human.id) {
-					callback({success: false, messages: {top: "//not authorized"}});
+					callback({success: false, messages: {top: "//invalid password"}});
 				}
 				else {
 					var robots = [];

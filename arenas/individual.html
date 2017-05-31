@@ -148,7 +148,12 @@
 										var string = "";
 
 										for (var i = 0; i < victors.length; i++) {
-											string += "{<span class='victor'><a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + data.entrants[victors[i]].name + "</a>: <a class='victor_human bluetext' href='../../../../humans/" + data.entrants[victors[i]].human.name + "'>" + data.entrants[victors[i]].human.name + "</a></span>}, ";
+											if (data.entrants[victors[i]].human.name === "guest") {
+												string += "{<span class='victor'><span class='victor_human bluetext'>" + data.entrants[victors[i]].human.name + "</span>: <span class='victor_robot bluetext'>" + data.entrants[victors[i]].name + "</span></span>}, ";
+											}
+											else {
+												string += "{<span class='victor'><a class='victor_human bluetext' href='../../../../humans/" + data.entrants[victors[i]].human.name + "'>" + data.entrants[victors[i]].human.name + "</a>: <a class='victor_robot bluetext' href='../../../../robots/" + victors[i] + "'>" + data.entrants[victors[i]].name + "</a></span>}, ";
+											}
 										}
 
 										string.substring(0, string.length - 2);
@@ -199,14 +204,14 @@
 									var entrant = data.entrants[Object.keys(data.entrants).find(function(j) { return (data.entrants[j].human.id === data.humans[i])})];
 									if ((typeof entrant !== "undefined") && (entrant !== "undefined") && (entrant !== null)) {
 										if (entrant.human.name === "guest") {
-											string += "<span class='bluetext'>guest</a>, ";
+											string += "<span class='bluetext player'>guest</a>, ";
 										}
 										else {
-											string += "<a class='bluetext' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
+											string += "<a class='bluetext player' target='_blank' href='../../../../humans/" + entrant.human.name + "'>" + entrant.human.name + "</a>, ";
 										}
 									}
 									else {
-										string += "<span class='yellowtext unknown'>???</span>, ";
+										string += "<span class='yellowtext unknown player'>???</span>, ";
 									}
 								}
 							}
@@ -388,7 +393,19 @@
 										var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
 									}
 
-									string += ('<div class="section opponent" id="' + entrant.id + '">'
+									if (state === "concluded") {
+										if (data.state.victors.indexOf(entrant.id) !== -1) {
+											var robot_victory = " win";
+										}
+										else {
+											var robot_victory = " loss";
+										}
+									}
+									else {
+										robot_victory = "";
+									}
+
+									string += ('<div class="section opponent' + robot_victory + '" id="' + entrant.id + '">'
 										+ robot_link +
 										'<div class="stats">\
 											<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><br>\
@@ -409,7 +426,7 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (entrant.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (entrant.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (entrant.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (entrant.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (entrant.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (entrant.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (entrant.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value="' + (entrant.avatar.left_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_leg || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="' + (entrant.avatar.right_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_leg || "•••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span></pre>\
 									</div>');
 								}

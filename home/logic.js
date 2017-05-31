@@ -89,6 +89,10 @@
 									human.tour = session.tour;
 								}
 
+								if ((session.tutorials !== null) && (session.tutorials.length > 0)) {
+									human.tutorials = session.tutorials;
+								}
+
 								processes.store("humans", null, human, {}, function (results) {									
 									processes.store("sessions", {id: session.id}, {$set: {human: human.id}}, {}, function (session) {
 										callback({success: true, redirect: "../../../../", messages: {top: "//signed up"}});

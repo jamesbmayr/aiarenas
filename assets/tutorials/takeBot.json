@@ -59,7 +59,7 @@
 			"messages": {
 				"instructions": "Below, type the text \"hello world\" (using quotes) after the comment. Then eval()uate it using the .eval() button.",
 				"error": "Hm, that does not look right. Just type \"hello world\" below the //comments.",
-				"success": "Success. Note that //comments will appear gray when eval()uated. Select the function next() to continue."
+				"success": "Success. Note that comments will appear gray when eval()uated. Select the function next() to continue."
 			},
 			"start": {
 				"inputs": "",

@@ -90,16 +90,26 @@
 				if (human) {
 					callback({success: false, messages: {name: "//name unavailable"}});
 				}
+				else if ((typeof post.current_password === "undefined") || (post.current_password.length < 8)) {
+					callback({success: false, messages: {name: "//enter your current password"}});
+				}
 				else {
-					var robots = [];
-					for (var i = 0; i < session.human.robots.length; i++) {
-						robots.push(session.human.robots[i].id);
-					}
+					processes.retrieve("humans",{id: session.human.id, password: processes.hash(post.current_password, session.human.salt)}, {}, function (human) {
+						if (!human) {
+							callback({success: false, messages: {name: "//invalid password"}});
+						}
+						else {
+							var robots = [];
+							for (var i = 0; i < session.human.robots.length; i++) {
+								robots.push(session.human.robots[i].id);
+							}
 
-					processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, {$multi: true}, function (robots) {
-						processes.store("humans", {id: session.human.id}, {$set: {name: post.name}}, {}, function (human) {
-							callback({success: true, messages: {name: "//name updated"}});
-						});
+							processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name}}, {$multi: true}, function (robots) {
+								processes.store("humans", {id: session.human.id}, {$set: {name: post.name}}, {}, function (human) {
+									callback({success: true, messages: {name: "//name updated"}});
+								});
+							});
+						}
 					});
 				}
 			});
@@ -114,11 +124,21 @@
 		else if ((typeof post.confirm == "undefined") || (post.confirm.length < 8) || (post.confirm !== post.password)) {
 			callback({success: false, messages: {password: "//passwords do not match"}});
 		}
+		else if ((typeof post.current_password === "undefined") || (post.current_password.length < 8)) {
+			callback({success: false, messages: {password: "//enter your current password"}});
+		}
 		else {
-			var salt = processes.random();
-			var password = processes.hash(post.password, salt);
-			processes.store("humans", {id: session.human.id}, {$set: {password: password, salt: salt}}, {}, function (human) {
-				callback({success: true, messages: {password: "//password updated"}});
+			processes.retrieve("humans",{id: session.human.id, password: processes.hash(post.current_password, session.human.salt)}, {}, function (human) {
+				if (!human) {
+					callback({success: false, messages: {password: "//invalid password"}});
+				}
+				else {
+					var salt = processes.random();
+					var password = processes.hash(post.password, salt);
+					processes.store("humans", {id: session.human.id}, {$set: {password: password, salt: salt}}, {}, function (human) {
+						callback({success: true, messages: {password: "//password updated"}});
+					});
+				}
 			});
 		}
 	}
@@ -126,20 +146,33 @@
 /* sendVerification(session, post, callback) */
 	function sendVerification(session, post, callback) {
 		if ((typeof post.email === "undefined") || (!processes.isEmail(post.email))) {
-			callback({success: false, messages: {top: "//enter valid email address"}});
+			callback({success: false, messages: {email: "//enter valid email address"}});
 		}
 		else {
 			processes.retrieve("humans", {email: post.email}, {}, function (human) {
 				if (human) {
-					callback({success: false, messages: {top: "//email unavailable"}});
+					callback({success: false, messages: {email: "//email unavailable"}});
+				}
+				else if ((typeof post.current_password === "undefined") || (post.current_password.length < 8)) {
+					callback({success: false, messages: {email: "//enter your current password"}});
 				}
 				else {
-					var random = processes.random();
+					console.log(0);
+					processes.retrieve("humans",{id: session.human.id, password: processes.hash(post.current_password, session.human.salt)}, {}, function (human) {
+						console.log(1);
+						if (!human) {
+							callback({success: false, messages: {email: "//invalid password"}});
+						}
+						else {
+							console.log(2);
+							var random = processes.random();
 
-					processes.store("humans", {id: session.human.id}, {$set: {"status.verification": random, "status.new_email": post.email}}, {}, function (human) {
-						processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + session.human.name + "</span>: <a class='greentext' href='https://www.aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
-							callback(data);
-						});
+							processes.store("humans", {id: session.human.id}, {$set: {"status.verification": random, "status.new_email": post.email}}, {}, function (human) {
+								processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + session.human.name + "</span>: <a class='greentext' href='https://www.aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
+									callback(data);
+								});
+							});
+						}
 					});
 				}
 			});

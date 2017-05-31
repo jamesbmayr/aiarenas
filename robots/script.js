@@ -276,7 +276,7 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (data.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (data.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (data.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (data.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (data.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (data.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value="' + (data.avatar.left_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_leg || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="' + (data.avatar.right_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_leg || "•••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
 </pre>');
 								
@@ -323,7 +323,7 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (data.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (data.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (data.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (data.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (data.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (data.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value="' + (data.avatar.left_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_leg || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="' + (data.avatar.right_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_leg || "•••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
 </pre>');
 								
@@ -340,40 +340,42 @@
 			window.add_opponent = function() {
 				var opponentCount = $(".opponent").toArray().length || 0;
 
-				$("#opponents").append('<div class="section opponent" id="opponentBot_' + opponentCount + '">\
-					<form class="avatar_name" action="javascript:;" onsubmit="window.remove_opponent(this);"> <span class="bluetext">bot_' + opponentCount + '</span><span class="whitetext">.</span><button class="whitetext" name="action" value="remove_opponent"><span class="greentext">remove</span>()</button></form>\
-					<div class="stats">\
-						<span class="whitetext">power: </span><input type="number" min="0" max="255" class="purpletext power" value="0"><br>\
-						<div class="whitetext">\
-							cubes.<span class="redtext">red</span>:<input type="number" min="0" max="255" class="cubes_red" value="0"><br>\
-							cubes.<span class="orangetext">orange</span>:<input type="number" min="0" max="255" class="cubes_orange" value="0"><br>\
-							cubes.<span class="yellowtext">yellow</span>:<input type="number" min="0" max="255" class="cubes_yellow" value="0"><br>\
-							cubes.<span class="greentext">green</span>:<input type="number" min="0" max="255" class="cubes_green" value="0"><br>\
-							cubes.<span class="bluetext">blue</span>:<input type="number" min="0" max="255" class="cubes_blue" value="0"><br>\
-							cubes.<span class="purpletext">purple</span>:<input type="number" min="0" max="255" class="cubes_purple" value="0">\
+				if (opponentCount < 5) {
+					$("#opponents").append('<div class="section opponent" id="opponentBot_' + opponentCount + '">\
+						<form class="avatar_name" action="javascript:;" onsubmit="window.remove_opponent(this);"> <span class="bluetext">bot_' + opponentCount + '</span><span class="whitetext">.</span><button class="whitetext" name="action" value="remove_opponent"><span class="greentext">remove</span>()</button></form>\
+						<div class="stats">\
+							<span class="whitetext">power: </span><input type="number" min="0" max="255" class="purpletext power" value="0"><br>\
+							<div class="whitetext">\
+								cubes.<span class="redtext">red</span>:<input type="number" min="0" max="255" class="cubes_red" value="0"><br>\
+								cubes.<span class="orangetext">orange</span>:<input type="number" min="0" max="255" class="cubes_orange" value="0"><br>\
+								cubes.<span class="yellowtext">yellow</span>:<input type="number" min="0" max="255" class="cubes_yellow" value="0"><br>\
+								cubes.<span class="greentext">green</span>:<input type="number" min="0" max="255" class="cubes_green" value="0"><br>\
+								cubes.<span class="bluetext">blue</span>:<input type="number" min="0" max="255" class="cubes_blue" value="0"><br>\
+								cubes.<span class="purpletext">purple</span>:<input type="number" min="0" max="255" class="cubes_purple" value="0">\
+							</div>\
+							<span class="whitetext">action:</span><span class="select_outer yellowtext"><select class="yellowtext action">\
+								<option value="power">power</option>\
+								<option value="take">take</option>\
+								<option value="sleep">sleep</option>\
+								<option value="sap">sap</option>\
+								<option value="burn">burn</option>\
+								<option value="shock">shock</option>\
+								<option value="halftake">halftake</option>\
+								<option value="swaptake">swaptake</option>\
+								<option value="fliptake">fliptake</option>\
+							</select></span>\
 						</div>\
-						<span class="whitetext">action:</span><span class="select_outer yellowtext"><select class="yellowtext action">\
-							<option value="power">power</option>\
-							<option value="take">take</option>\
-							<option value="sleep">sleep</option>\
-							<option value="sap">sap</option>\
-							<option value="burn">burn</option>\
-							<option value="shock">shock</option>\
-							<option value="halftake">halftake</option>\
-							<option value="swaptake">swaptake</option>\
-							<option value="fliptake">fliptake</option>\
-						</select></span>\
-					</div>\
-					<pre class="avatar_pre ' + ["red","orange","yellow","green","blue","purple"][Math.floor(Math.random() * 6)] + 'text" monospace>\
+						<pre class="avatar_pre ' + ["red","orange","yellow","green","blue","purple"][Math.floor(Math.random() * 6)] + 'text" monospace>\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value=" _|_ "> _|_ </span><span class="transparenttext">•••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="{**}">{**}</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="|v v|">|v v|</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="{**}">{**}</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value=" {} "> {} </span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="\\ ^ /">\\ ^ /</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value=" {} "> {} </span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="==">==</span><span class="avatar avatar_torso_1" value="HHHHH">HHHHH</span><span class="avatar avatar_right_arm" value="==">==</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value=" {} "> {} </span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="[[-]]">[[-]]</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value=" {} "> {} </span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="{**}">{**}</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HHHHH">HHHHH</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="{**}">{**}</span>\n\
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" /] [\\ "> /] [\\ </span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value=" /]"> /]</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="[\\ ">[\\ </span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="MWM">MWM</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="MWM">MWM</span><span class="transparenttext">••••</span>\n\
 </pre></div>');
+				}
 			}
 
 			window.remove_opponent = function(button) {
@@ -383,8 +385,11 @@
 			}
 
 			window.add_cube = function() {
-				var color = $("#cube_color").val();
-				$("#cubes").append("<div class='cube_outer " + color + "back'><div class='cube_inner'>" + color + "<br><form action='javascript:;' onsubmit='window.remove_cube(this);'>.<button name='action' value='remove_cube'>x()</button></form></div></div>");
+				var cubeCount = $(".cube_outer").toArray().length || 0;
+				if (cubeCount < 255) {
+					var color = $("#cube_color").val();
+					$("#cubes").append("<div class='cube_outer " + color + "back'><div class='cube_inner'>" + color + "<br><form action='javascript:;' onsubmit='window.remove_cube(this);'>.<button name='action' value='remove_cube'>x()</button></form></div></div>");
+				}
 			}
 
 			window.remove_cube = function(button) {
@@ -422,7 +427,8 @@
 							torso_1:$(".avatar_torso_1").attr("value"),
 							torso_2: $(".avatar_torso_2").attr("value"),
 							torso_3: $(".avatar_torso_3").attr("value"),
-							legs: $(".avatar_legs").attr("value"),
+							left_leg: $(".avatar_left_leg").attr("value"),
+							right_leg: $(".avatar_right_leg").attr("value"),
 							left_foot: $(".avatar_left_foot").attr("value"),
 							right_foot: $(".avatar_right_foot").attr("value"),
 						},
@@ -481,7 +487,7 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="' + (data.avatar.left_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.left_arm || "••") + '</span><span class="avatar avatar_torso_1" value="' + (data.avatar.torso_1.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_1 || "•••••") + '</span><span class="avatar avatar_right_arm" value="' + (data.avatar.right_arm.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_arm || "••") + '</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\\</span><span class="transparenttext">••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value="' + (data.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="' + (data.avatar.torso_2.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_2 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value="' + (data.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (data.avatar.right_wrist || "••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="' + (data.avatar.torso_3.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.torso_3 || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value="' + (data.avatar.legs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••••') + '">' + (data.avatar.legs || "•••••••") + '</span><span class="transparenttext">••••</span>\n\
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value="' + (data.avatar.left_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_leg || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="' + (data.avatar.right_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_leg || "•••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (data.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (data.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (data.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
 </pre>');
 								

@@ -20,16 +20,16 @@
 					</div>
 					<div class="indented">
 						<div id="signinup" class="section">
-							<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else {} %> >
+							<form id="signin_form" method="post" action="javascript:;" onsubmit="window.signin();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action !== "signin")) { "style='display: none;'"} else if (session.created > new Date().getTime() - 1000) {"style='display: none;'";} else {} %> >
 								<span class="whitetext">.</span><button id="signin" name="action" value="signin"><span class="greentext">sign</span></button><span class="select_outer greentext"><select class="sign_action greentext">
 									<option value="signin">in</option>
-									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >up</option>
+									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } else if (session.created > new Date().getTime() - 1000) {"selected"} %> >up</option>
 								</select></span><span class="whitetext">(</span><input type="text" id="signin_name" class="orangetext" name="signin_name" placeholder="name"/><span class="whitetext">,</span><input type="password" id="signin_password" class="orangetext" name="signin_password" placeholder="password"/><span class="whitetext">)</span>
 							</form>
-							<form id="signup_form" method="post" action="javascript:;" onsubmit="window.signup();" <% if (session.human !== null) {"style='display: none;'";} else if ((typeof data.action !== "undefined") && (data.action === "signup")) {} else {"style='display: none;'";} %> >
+							<form id="signup_form" method="post" action="javascript:;" onsubmit="window.signup();" <% if (session.human !== null) {"style='display: none;'";} else if ((typeof data.action !== "undefined") && (data.action === "signup")) {} else if (session.created > new Date().getTime() - 1000) {} else {"style='display: none;'";} %> >
 								<span class="whitetext">.</span><button id="signup" name="action" value="signup"><span class="greentext">sign</span></button><span class="select_outer greentext"><select class="sign_action greentext">
 									<option value="signin">in</option>
-									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } %> >up</option>
+									<option value="signup" <% if ((typeof data.action !== "undefined") && (data.action === "signup")) { "selected" } else if (session.created > new Date().getTime() - 1000) {"selected"} %> >up</option>
 								</select></span><span class="whitetext">(</span><input type="text" id="signup_name" class="orangetext" name="signup_name" placeholder="name"/><span class="whitetext">,</span><input type="text" id="signup_email" class="orangetext" name="signup_email" placeholder="email"/><span class="whitetext">,</span><input type="password" id="signup_password" class="orangetext" name="signup_password" placeholder="password"/><span class="whitetext">,</span><input type="password" id="signup_confirm" class="orangetext" name="signup_confirm" placeholder="confirm password"/><span class="whitetext">)</span>
 							</form>
 							<form id="send_form" method="post" action="javascript:;" onsubmit="window.sendReset();" style='display: none;'>
@@ -41,7 +41,12 @@
 							<form id="verify_form" method="post" action="javascript:;" onsubmit="window.verify();" <% if ((typeof data.action !== "undefined") && (data.action === "verify")) {} else {"style='display: none;'"} %> >
 								<span class="whitetext">.</span><button id="verify" name="action" value="verify"><span class="greentext">verify</span></button><span class="whitetext">(</span><input type="text" id="verify_email" class="orangetext" name="verify_email" placeholder="email" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.email || null } %>"/><span class="whitetext">,</span><input type="text" id="verify_key" class="orangetext" name="verify_key" placeholder="key" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'verify')) { data.verification || null } %>"/><span class="whitetext">)</span>
 							</form>
-							<form id="reset_form" method="post" action="javascript:;" onsubmit="window.verifyReset();" <% if (session.human !== null) {"style='display: none;'"} else if ((typeof data.action !== "undefined") && (data.action === "reset")) {} else {"style='display: none;'"} %> >
+							<% 
+								if ((typeof data.action !== "undefined") && (data.action === "verify")) {
+									"<script>$(document).ready(function() { window.verify(); });</script>";
+								}
+							%>
+							<form id="reset_form" method="post" action="javascript:;" onsubmit="window.verifyReset();" <% if ((typeof data.action !== "undefined") && (data.action === "reset")) {} else {"style='display: none;'"} %> >
 								<span class="whitetext">.</span><button id="verifyReset" name="action" value="verifyReset"><span class="greentext">verify</span></button><span class="whitetext">(</span><input type="text" id="reset_email" class="orangetext" name="reset_email" placeholder="email" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'reset')) { data.email || null } %>"/><span class="whitetext">,</span><input type="text" id="reset_key" class="orangetext" name="reset_key" placeholder="key" value="<% if ((typeof data.action !== 'undefined') && (data.action === 'reset')) { data.verification || null } %>"/><span class="whitetext">,</span><input type="password" id="reset_password" class="orangetext" name="reset_password" placeholder="new password"/><span class="whitetext">,</span><input type="password" id="reset_confirm" class="orangetext" name="reset_confirm" placeholder="confirm password"/><span class="whitetext">)</span>
 							</form>
 						</div>
@@ -58,7 +63,7 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••</span><span class="avatar avatar_left_shoulder_up">\</span><span class="avatar avatar_left_shoulder_down" style="display: none">/</span><span class="avatar avatar_left_arm" value="--">--</span><span class="avatar avatar_torso_1" value="HELLO">HELLO</span><span class="avatar avatar_right_arm" value="--">--</span><span class="avatar avatar_right_shoulder_up" style="display: none">/</span><span class="avatar avatar_right_shoulder_down">\</span><span class="transparenttext">••</span>
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist transparenttext" value=" () "> () </span><span class="transparenttext">•</span><span class="avatar avatar_torso_2" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist" value=" () "> () </span>
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand transparenttext" value="(--)">(--)</span><span class="transparenttext">•</span><span class="avatar avatar_torso_3" value="HELLO">HELLO</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand" value="(--)">(--)</span>
-<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_legs" value=" [] [] "> [] [] </span><span class="transparenttext">••••</span>
+<span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value=" []"> []</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="[] ">[] </span><span class="transparenttext">••••</span>
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="/_]">/_]</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="[_\">[_\</span><span class="transparenttext">••••</span>
 </pre>
 				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
@@ -89,7 +94,7 @@
 							suggestions += '<li class="section indented"><span class="whitetext">see what ai_arenas are all <a class="bluetext" href="../../../../about">about</a></span></li>';
 						}				
 						else if (!session.human.status.verified) {
-							suggestions += '<form method="post" action="javascript:;" onsubmit="window.send_verification();"><li class="section indented"><span class="whitetext">unlock advanced tutorials, robot actions, and arenas: </span><button id="send_verification" name="action" value="send_verification"><span class="greentext">verify</span></button><span class="whitetext">(</span><input disabled type="text" id="new_email" class="orangetext" name="new_email" value="' + (session.human.status.new_email || "") + '"><span class="whitetext">)</span></li></form>';
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.send_verification();"><li class="section indented"><span class="whitetext">ensure your security by verifying your email: </span><button id="send_verification" name="action" value="send_verification"><span class="greentext">verify</span></button><span class="whitetext">(</span><input disabled type="text" id="new_email" class="orangetext" name="new_email" value="' + (session.human.status.new_email || "") + '"><span class="whitetext">)</span></li></form>';
 						}
 						else if ((session.human.robots.length > 0) && (session.human.tutorials.length > 0)) {
 							suggestions += '<li class="section indented"><span class="whitetext">coerce additional humans into joining ai_arenas: <a class="whitetext" href="mailto:?Subject=I BELIEVE ai_arenas IS AN EXCELLENT WEBSITE AND/OR ACTIVITY I RECOMMEND IT TO FELLOW HUMANS&Body=FELLOW HUMANS LET US SPEND OUR LIMITED TIME AND CALORIES EXPERIENCING ENJOYMENT AT http://aiarenas.com END OF MESSAGE" target="_blank"><span class="greentext">send_email</span><span class="whitetext">()</span></a></span></li>';
@@ -154,9 +159,9 @@
 				%></div>
 				<div class="bracketer_bottom"><span class="whitetext">]</span></div>
 				<div class="megasection" id="statistics" <% if (!data.statistics) { "style='display:none;'" } %>>
-					<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+					<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>
 					<div class="bracketer_top"><span class="whitetext">.statistics</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
-					<div class="section">
+					<div class="section" style="display:none;">
 						<div class="indented" id="humans"><span class="whitetext">humans: {</span>
 							<div class="indented" id="human_wins"><span class="whitetext"><span class="yellowtext">"wins"</span>: [</span>
 								<div class="indented"><%
@@ -212,7 +217,7 @@
 							<span class="whitetext">}</span>
 						</div>
 					</div>
-					<div class="bracketer_bottom"><span class="whitetext">]</span></div>
+					<div class="bracketer_bottom"><span class="whitetext">}</span></div>
 				</div>
 			</div>
 		</div>
