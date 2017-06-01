@@ -141,7 +141,7 @@
 			background-color: var(--code);
 			outline: none;
 			margin: 0px;
-			padding: calc(var(--font_size) * 2px) calc(var(--font_size) * 6px) calc(var(--font_size) * 2px) calc(var(--font_size) * 6px);
+			padding: calc(var(--font_size) * 2px) calc(var(--font_size) * 7px) calc(var(--font_size) * 2px) calc(var(--font_size) * 7px);
 			cursor: pointer;
 			min-height: calc(var(--font_size) * 30px);
 			min-width: calc(var(--font_size) * 30px);
@@ -162,7 +162,7 @@
 			content: "T";
 			font-weight: bold;
 			font-family: var(--font_scheme);
-			font-size: calc(var(--font_size) * 20px);
+			font-size: calc(var(--font_size) * 16px);
 			color: var(--purple);
 		}
 
@@ -170,7 +170,7 @@
 			content: "F";
 			font-weight: bold;
 			font-family: var(--font_scheme);
-			font-size: calc(var(--font_size) * 20px);
+			font-size: calc(var(--font_size) * 16px);
 			color: var(--purple);
 		}
 

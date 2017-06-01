@@ -103,49 +103,51 @@
 						• <span class="code orangetext">name={$regex:/a/}</span>: get all <span class="code bluetext">humans</span> or <span class="code greentext">robots</span> with an <span class="yellowtext">"a"</span> in its name<br>
 						• <span class="code orangetext">$where=this.robots.length>3</span>: get <span class="code bluetext">humans</span> with <span class="redtext">></span> <span class="purpletext">3</span> <span class="code greentext">robots</span><br>
 						<br>
-						here is an example results page for <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection=robots&human.name=Example_Human" target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&collection=robots&human.name=Example_Human</a>:
+						here is an example results page for <a class="bluetext" href="../../../../api?authname={}&authpass={}&collection=robots&$and={%22name%22:%22exampleBot%22},{%22human.name%22:%22THEARCHITECT%22}]" target="_blank">/api?authname=<span class="orangetext">{}</span>&authpass=<span class="orangetext">{}</span>&amp;$and=[{"name":"exampleBot"},{"human.name":"THE_ARCHITECT"}]</a>:
 						<pre class="code whitetext">
 {
   "success": true,
   "data": [
-  {
-    "id": "12345678901234567890123456789012",
-    "name": "exampleBot",
-    "human": {
-      "id": "09876543210987654321098765432109",
-      "name": "Example_Human"
-    },
-    "created": 1495324460000,
-    "information": {
-      "bio": "...",
-    },
-    "avatar": {
-      "color": "var(--orange)",
-      "antennae": " .:. ",
-      "eyes": "()-()",
-      "mouth": "\\_T_/",
-      "left_arm": "••",
-      "right_arm": "••",
-      "left_wrist": " ][ ",
-      "right_wrist": " ][ ",
-      "left_hand": "<||>",
-      "right_hand": "<||>",
-      "torso_1": "-/|\\-",
-      "torso_2": "/|||\\",
-      "torso_3": "\\|||/",
-      "left_leg": " OO",
-      "right_leg": "OO ",
-      "left_foot": "(O)",
-      "right_foot": "(O)"
-    },
-    "statistics": {
-      "wins": 15,
-      "losses": 5
-    },
-    "inputs": "",
-    "code": "action = \"take\"\nreturn action"
-  }
-]
+    {
+      "_id": "5929eb2bc300dd00114a6f11",
+      "id": "dvzgpyx2eewyc3ts5keq9trdf7eqb79b",
+      "name": "exampleBot",
+      "human": {
+        "id": "hxygwp348qoux0jyqld96dgdkk8l2u4c",
+        "name": "THE_ARCHITECT"
+      },
+      "created": 1495732018212,
+      "information": {
+        "bio": "..."
+      },
+      "avatar": {
+        "color": "var(--orange)",
+        "antennae": " .:. ",
+        "eyes": "()-()",
+        "mouth": "\\_T_/",
+        "left_arm": "••",
+        "right_arm": "••",
+        "left_wrist": " ][ ",
+        "right_wrist": " ][ ",
+        "left_hand": "<||>",
+        "right_hand": "<||>",
+        "torso_1": "-/|\\-",
+        "torso_2": "/|||\\",
+        "torso_3": "\\|||/",
+        "left_leg": " : ",
+        "right_leg": " : ",
+        "left_foot": "(O)",
+        "right_foot": "(O)"
+      },
+      "statistics": {
+        "wins": -20,
+        "losses": -20
+      },
+      "inputs": "",
+      "code": "return \"sleep\""
+    }
+  ]
+}
 </pre>
 					</div>
 				</div>

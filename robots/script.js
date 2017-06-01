@@ -14,6 +14,15 @@
 				$("#avatar_selection").css("color",value);
 			});
 
+			window.randomize = function() {
+				$(".avatar_select").each(function() {
+					var count = $(this).find("option").toArray().length;
+					var random = Math.floor(Math.random() * count);
+					var selected = $(this).find("option").toArray()[random];
+					$(this).val($(selected).val());
+				});
+			}
+
 		/* cube_color */
 			$(document).on("change", "#cube_color", function() {
 				var value = $("#cube_color").val();
@@ -47,6 +56,7 @@
 					$("#avatar_pre").hide();
 					$("#avatar_selection").show();
 					$("#avatar_color").show();
+					$("#avatar_randomizer").show();
 
 					$("#avatar_selection select").each(function() {
 						var key = $(this).attr("id").substring($(this).attr("id").indexOf("_") + 1);
@@ -81,6 +91,7 @@
 
 					$("#avatar_selection").css("color", previousColor).hide();
 					$("#avatar_color").css("color", previousColor).hide();
+					$("#avatar_randomizer").hide();
 
 				$("#message_top").animateText({text: "//edits canceled"}, 1000);
 				$(".field#code").html(colorText(String($(".field#code").html())));
@@ -132,6 +143,7 @@
 								if (data.name !== $("#name").attr("value")) {
 									$("#name").attr("value",data.name);
 									$("#navbar").find("a[href='../../../../robots/" + data.id + "']").find("span.bluetext").text(data.name);
+									$("title").text("ai_arenas." + data.name);
 								}
 
 							/* fields */
@@ -175,6 +187,7 @@
 							$("#avatar_pre").show();
 							$("#avatar_selection").hide();
 							$("#avatar_color").hide();
+							$("#avatar_randomizer").hide();
 
 						$("#message_top").animateText({text: (results.messages.top || "//changes submitted")}, 1000);
 
@@ -456,7 +469,15 @@
 				var reader = new FileReader();
 				reader.readAsText(event.target.files[0]);
 				reader.onload = function(event) {
-					var data = JSON.parse(event.target.result);
+					try {
+						var data = JSON.parse(event.target.result);
+						var test = data.human.id;
+					}
+					catch (error) {
+						$("#message_top").animateText({text: "//invalid filetype or corrupt data"},1000);
+						console.log(error);
+						return;
+					}
 					
 					$.ajax({
 						type: "POST",
@@ -479,7 +500,14 @@
 								$("#inputs").attr("value", data.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).text(data.inputs);
 								$("#code").attr("value", data.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).text(data.code);
 								
-								$(".avatar_name").replaceWith('<a class="bluetext avatar_name" href="../../../../robots/' + data.id + '" target="_blank">' + data.name + '</a>');
+								if (data.human.id !== null) {
+									$(".avatar_name").replaceWith('<a class="bluetext avatar_name" href="../../../../robots/' + data.id + '" target="_blank">' + data.name + '</a>');
+									$("#navbar_robots").find(".robot_list").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
+								}
+								else {
+									$(".avatar_name").replaceWith('<span class="bluetext avatar_name">' + data.name + '</span>');
+								}
+								
 								$(".self").attr("id",data.id).find(".avatar_pre").replaceWith('<pre class="avatar_pre" monospace style="color: ' + (data.avatar.color || "var(--white)") + '">\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (data.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="' + (data.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (data.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (data.avatar.eyes || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="' + (data.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (data.avatar.right_hand || "••••") + '</span>\n\
@@ -492,8 +520,6 @@
 </pre>');
 								
 								resizeTop();
-
-								$("#navbar_robots").find(".robot_list").append('<div class="navbar_item"><a class="navbar_link" href="../../../../robots/' + data.id + '"><span class="whitetext">.</span><span class="bluetext">' + data.name + '</span></a></div>');
 							}
 							else {
 								$("#message_top").animateText({text: (results.messages.top || "unable to upload robot")},1000);

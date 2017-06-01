@@ -236,7 +236,7 @@
 			var reservations = ["home","welcome","admin","test","feedback","help","preferences","settings","data","database",
 				"signup","signin","signout","login","logout","verify","validate","verification","validation","verified","validated",
 				"user","users","robot","robots","arena","arenas","human","humans","tutorial","tutorials",
-				"game","games","statistic","statistics","guest",
+				"game","games","statistic","statistics","guest","example","exampleBot",
 				"create","new","delete","read","start","go","all"];
 
 			return (reservations.indexOf(string.toLowerCase().replace(/ /g,"")) > -1);
@@ -999,54 +999,51 @@ please enable JavaScript to continue\
 				break;
 
 				case "antennae":
-					options = [" _I_ "," _∆_ "," _M_ "," _|_ ","|||||", " iii ", "][ ]["," .:. ","∆___∆","_____"];
+					options = [" _I_ "," _∆_ "," _M_ "," _|_ ","|||||", " iii ", "][ ]["," .:. ","∆___∆","_____","/\\ /\\","_[+]_"," !!! "," /?\\ ","_[@]_"," _*_ "];
 				break;
 
 				case "eyes":
-					options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]","(---)","=^.^="];
+					options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]","(---)","=^.^=","(V V)","|@ @|","/o o\\","(^ ^)","|v v|","{• •}"];
 				break;
 
 				case "mouth":
-					options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| ","\\_T_/"," ||| "];
+					options = ["| = |","\\ - /"," \\-/ "," \\W/ ","{ + }","[ . ]"," ::: "," |_| ","\\_T_/"," ||| ","|[-]|","\\ 0 /","\\ = /","((o))","/ - \\","vvvvv"];
 				break;
 
 				case "hand":
 				case "left_hand":
 				case "right_hand":
-					options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#","H++H","$--$"];
+					options = ["{••}","[--]","|==|","(**)","<||>"," :: "," OO ","#--#","H++H","$--$","[++]"," HH ","O--O"," <> "," ## "," ][ "];
 				break;
 
 				case "wrist":
 				case "left_wrist":
 				case "right_wrist":
-					options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "," <> "," () "];
+					options = [" II ","[[]]"," || "," ][ ","||||"," :: ","•::•"," oo "," <> "," () "," ** ",":**:"," >< "," -- ","-||-"," HH "];
 				break;
 
 				case "arm":
 				case "left_arm":
 				case "right_arm":
-					options = ["--","==","::","••","||","II","HH","OO","><","88"];
+					options = ["--","==","::","••","||","II","HH","OO","><","88","~~","++","][","vv","XX","}{"];
 				break;
 
 				case "torso":
 				case "torso_1":
 				case "torso_2":
 				case "torso_3":
-					options = ["[[-]]","/HHH\\","IHHHI","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| "," WWW ","V-V-V"," (O) "];
+					options = ["[[-]]","/HHH\\","IHHHI","MMMMM","/|||\\","-/|\\-","|||||","\\|||/","OOOOO","O-O-O",":::::"," ||| ","\\___/","V-V-V"," (O) ","(\\-/)"];
 				break;
 
 				case "left_leg":
-					options = [".Y.","//-","///"," /-"," ||"," |-",":::"," : "," OO ","[-]"];
-				break;
-
 				case "right_leg":
-					options = [".Y.","-\\\\","\\\\\\","-\\ ","|| ","-| ",":::"," : ","OO ","[-]"];
+					options = [".Y."," - ","\\|/","/|\\","|||","-|-"," | ",":::"," : ","OOO"," O ","[-]","]|["," + ","}8{","(8)"];
 				break;
 
 				case "foot":
 				case "left_foot":
 				case "right_foot":
-					options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV","\\_/","^^^"];
+					options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV","\\_/","^^^","[!]","MWM","[x]","[v]","[!]","/|\\"];
 				break;
 			}
 
@@ -1206,10 +1203,10 @@ please enable JavaScript to continue\
 
 	/* statistics(callback) */ 
 		function statistics(callback) {
-			retrieve("humans", {"statistics.wins": {$gte: 1}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (humans_wins) { //use .find()
-				retrieve("robots", {"statistics.wins": {$gte: 1}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (robots_wins) { //use .find()
-					retrieve("humans", {}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (humans_ratio) { //use .aggregate()
-						retrieve("robots", {}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (robots_ratio) { //use .aggregate()
+			retrieve("humans", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (humans_wins) { //use .find()
+				retrieve("robots", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (robots_wins) { //use .find()
+					retrieve("humans", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (humans_ratio) { //use .aggregate()
+						retrieve("robots", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (robots_ratio) { //use .aggregate()
 							callback({
 								humans: {
 									wins: humans_wins,
@@ -1273,6 +1270,12 @@ please enable JavaScript to continue\
 						}
 						else if (data.headers["user-agent"].indexOf("https://developers.google.com/+/web/snippet/") !== -1) {
 							newSession.name = "Google+ Snippet";
+						}
+						else if (data.headers["user-agent"].indexOf("IDBot") !== -1) {
+							newSession.name = "IDBot";
+						}
+						else if (data.headers["user-agent"].indexOf("Baiduspider") !== -1) {
+							newSession.name = "Baiduspider";
 						}
 						else if (data.headers["ip-address"].substring(0,4) == "52.2") {
 							newSession.name = "Amazon";
@@ -1462,10 +1465,10 @@ please enable JavaScript to continue\
 					});
 				}
 
-			//aggregate with $project
+			//aggregate with $match and $project
 				else if (project) {
-					console.log("aggregate: " + collection + ": " + JSON.stringify([{$project: project}]));
-					db.collection(collection).aggregate([{$project: project}, {$sort: sort}, {$limit: limit}]).maxTimeMS(1000).toArray(function (error, resultArray) {
+					console.log("aggregate: " + collection + ": " + JSON.stringify([{$match: query}, {$project: project}]));
+					db.collection(collection).aggregate([{$match: query}, {$project: project}, {$sort: sort}, {$limit: limit}]).maxTimeMS(1000).toArray(function (error, resultArray) {
 						if (error) {
 							console.log(error);
 							callback(null);

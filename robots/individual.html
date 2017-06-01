@@ -259,8 +259,13 @@
 					</div>
 					<% 
 						if ((session.human !== null) && (session.human.id === data.human.id)) {
+							var randomizer = "<div class='section indented' id='avatar_randomizer' style='display: none;'>\
+								<form method='post' action='javascript:;' onsubmit='window.randomize();'>\
+									<button name='randomizer' id='randomizer' class='whitetext'><span class='greentext'>randomize</span>()</button>,\
+								</form>\
+							</div>";
+
 							var display = '<div class="section indented" id="avatar_color" style="display: none; color: ' + (data.avatar.color || 'var(--white)') + '">\
-								<br>\
 								<span class="whitetext">color: </span><span class="select_outer" style="color: ' + (data.avatar.color || 'var(--white)') + '"><select>\
 									<option value="var(--white)">white</option>\
 									<option value="var(--red)">red</option>\
@@ -275,7 +280,7 @@
 
 							display = display.replace('"' + data.avatar.color + '"', '"' + data.avatar.color + '"' + " selected");
 
-							display;
+							randomizer + display;
 						}
 					%>
 				</div>

@@ -312,7 +312,7 @@
 								catch (error) {_404();}
 							break;
 
-							case (/^\/humans\/[0-9a-zA-Z]*\/?$/).test(request.url):
+							case (/^\/humans\/[0-9a-zA-Z_]*\/?$/).test(request.url):
 								try {
 									processes.retrieve("humans", {name: routes[2]}, {}, function (human) {
 										if (human) {
@@ -334,7 +334,7 @@
 								catch (error) {_404();}
 							break;
 
-							case (/^\/robots\/[0-9a-zA-Z]*\/?$/).test(request.url):
+							case (/^\/robots\/[0-9a-zA-Z_]*\/?$/).test(request.url):
 								try {
 									processes.retrieve("robots", {id: routes[2]}, {}, function (robot) {
 										if (robot) {
@@ -361,7 +361,7 @@
 								catch (error) {_404();}
 							break;
 
-							case (/^\/arenas\/[0-9a-zA-Z]*\/?$/).test(request.url):
+							case (/^\/arenas\/[0-9a-zA-Z_]*\/?$/).test(request.url):
 								try {
 									processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + routes[2].toLowerCase() + "'"}, {$multi: true}, function (arenas) {
 										if (arenas) {
@@ -383,7 +383,7 @@
 								catch (error) {_404();}
 							break;
 
-							case (/^\/tutorials\/[0-9a-zA-Z]*\/?$/).test(request.url):
+							case (/^\/tutorials\/[0-9a-zA-Z_]*\/?$/).test(request.url):
 								try {
 									var tutorial = fs.readFileSync("./assets/tutorials/" + (routes[2] || "errorBot") + ".json","utf8") || "{}";
 

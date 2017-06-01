@@ -3,12 +3,27 @@ $(document).ready(function() {
 	/* test browser */
 		window.isIE = function() {
 			if ( (/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent) ) {
-				return true;
-			}
-			else {
-				return false;
+				$(".container").hide();
+				$("#navbar").hide();
+				$("#navbar_open").hide();
+				$("#navbar_close").hide();
+				$("body").append("<div style='width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; background-color: #272822;'>\
+<pre style='text-align: center; color: #F8F8F2; font-family: Courier, monospace; font-size: 16px; position: relative; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); line-height: 1.25;'>\
+       _?_      \n\
+ [ie] [o O]     \n\
+  --  [_  ]     \n\
+   \--Upgra--\  \n\
+      de_Br  -- \n\
+      owser [ie]\n\
+      -   -     \n\
+     [x] [x]    \n\
+\n\
+Internet Explorer detected.\n\
+Try <a href='https://www.google.com/chrome/' target='_blank'>Chrome</a>, <a href='https://www.mozilla.org/en-US/firefox/' target='_blank'>Firefox</a>, or <a href='https://www.apple.com/safari/' target='_blank'>Safari</a>.\
+</pre></div>");
 			}
 		}
+		window.isIE();
 
 	/* animateText */
 		jQuery.fn.extend({
