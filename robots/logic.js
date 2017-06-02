@@ -43,7 +43,10 @@
 			code: "action = \"sleep\"\nreturn action"
 		}
 
-		if (session.human !== null) {
+		if ((session.human !== null) && (session.human.robots.length >= 16)) {
+			callback({success: false, messages: {top: "//robot count exceeds limit of 16 per human"}});
+		}
+		else if (session.human !== null) {
 			robot.human.id = session.human.id;
 			robot.human.name = session.human.name;
 
@@ -225,7 +228,10 @@
 			robot.name = robot.id.substring(0,4) + "_bot";
 		}
 
-		if (session.human !== null) {
+		if ((session.human !== null) && (session.human.robots.length >= 16)) {
+			callback({success: false, messages: {top: "//robot count exceeds limit of 16 per human"}});
+		}
+		else if (session.human !== null) {
 			robot.human.id = session.human.id;
 			robot.human.name = session.human.name;
 

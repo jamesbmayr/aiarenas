@@ -165,8 +165,27 @@
 						font = ":root {--font_scheme: monospace;}";
 					break;
 
+					case "Cutive Mono":
+						font = ":root { --font_scheme: 'Cutive Mono', monospace; }";
+					break;
+
+					case "Fira Mono":
+						font = ":root { --font_scheme: 'Fira Mono', monospace; }";
+					break;
+
+					case "Anonymous Pro":
+						font = ":root { --font_scheme: 'Anonymous Pro', monospace; }";
+					break;
+
+					case "Inconsolata":
+						font = ":root { --font_scheme: Inconsolata, monospace; }";
+					break;
+
+					case "Oxygen Mono":
+						font = ":root { --font_scheme: 'Oxygen Mono', monospace; }";
+					break;
+
 					case "Courier":
-					case "default":
 					default: 
 						font = ":root {--font_scheme: Courier, monospace;}";
 					break;
@@ -299,7 +318,143 @@
 							}";
 					break;
 
-					case "default":
+					case "metro":
+						color_scheme = "\
+							:root {\
+								--red: #ee352e;\
+								--orange: #ff6319;\
+								--yellow: #fccc0a;\
+								--green: #00933c;\
+								--blue: #0039a6;\
+								--purple: #b933ad;\
+								--white: #eeeeee;\
+								--gray: #808183;\
+								--black: #111111;\
+								--transparent: rgba(000,000,000,0);\
+								--code: #333333;\
+							}";
+					break;
+
+					case "nasa":
+						color_scheme = "\
+							:root {\
+								--red: rgb(255, 51, 53);\
+								--orange: rgb(255, 51, 453);\
+								--yellow: rgb(121, 121, 124);\
+								--green: rgb(21, 71, 190);\
+								--blue: rgb(21, 71, 190);\
+								--purple: rgb(255, 51, 53);\
+								--white: rgb(255, 255, 255);\
+								--gray: rgb(121, 121, 124);\
+								--black: rgb(0,0,0);\
+								--transparent: rgba(000,000,000,0);\
+								--code: rgb(60,60,62);\
+							}";
+					break;
+
+					case "ios":
+						color_scheme = "\
+							:root {\
+								--red: rgb(255, 59, 48);\
+								--orange: rgb(255, 149, 0);\
+								--yellow: rgb(255, 204, 0);\
+								--green: rgb(76, 217, 100);\
+								--blue: rgb(0, 122, 255);\
+								--purple: rgb(88, 86, 214);\
+								--white: rgb(255, 255, 255);\
+								--gray: rgb(77, 77, 77);\
+								--black: rgb(20, 20, 20);\
+								--transparent: rgba(000,000,000,0);\
+								--code: rgb(25, 30, 35);\
+							}";
+					break;
+
+					case "android":
+						color_scheme = "\
+							:root {\
+								--red: #f44336;\
+								--orange: #ff5722;\
+								--yellow: #ffeb3b;\
+								--green: #4caf50;\
+								--blue: #2196f3;\
+								--purple: #673ab7;\
+								--white: #ffffff;\
+								--gray: #4d4d4d;\
+								--black: #111111;\
+								--transparent: rgba(000,000,000,0);\
+								--code: #232e33;\
+							}";
+					break;
+
+					case "windows":
+						color_scheme = "\
+							:root {\
+								--red: #C50F1F;\
+								--orange: #CA5010;\
+								--yellow: #EAA300;\
+								--green: #13A10E;\
+								--blue: #0063B1;\
+								--purple: #5A4EBC;\
+								--white: #E6E6E6;\
+								--gray: #767676;\
+								--black: #2B2B2B;\
+								--transparent: rgba(000,000,000,0);\
+								--code: #1F1F1F;\
+							}";
+					break;
+
+					case "pastels":
+						color_scheme = "\
+							:root {\
+								--red: #ed7777;\
+								--orange: #eab46b;\
+								--yellow: #e5e99d;\
+								--green: #bcef8a;\
+								--blue: #94c0ff;\
+								--purple: #b48dc9;\
+								--white: #f6f4f1;\
+								--gray: #778899;\
+								--black: #23282d;\
+								--transparent: rgba(000,000,000,0);\
+								--code: #171b1e;\
+							}";
+					break;
+
+					case "whitepaper":
+						color_scheme = "\
+							:root {\
+								--red: #222222;\
+								--orange: #222222;\
+								--yellow: #888888;\
+								--green: #222222;\
+								--blue: #222222;\
+								--purple: #222222;\
+								--white: #222222;\
+								--gray: #aaaaaa;\
+								--black: #f3f3f3;\
+								--transparent: rgba(000,000,000,0);\
+								--code: #555555;\
+							}";
+					break;
+
+					case "desaturated":
+						color_scheme = "\
+							:root {\
+								--red: #c88691;\
+								--orange: #e49969;\
+								--yellow: #c9c27f;\
+								--green: #74a18e;\
+								--blue: #618fd5;\
+								--purple: #ad85ba;\
+								--white: #d6d6d6;\
+								--gray: #949494;\
+								--black: #444444;\
+								--transparent: rgba(000,000,000,0);\
+								--code: #222222;\
+							}";
+					break;
+
+					case "sublime":
 					default:
 						color_scheme = "\
 							:root {\

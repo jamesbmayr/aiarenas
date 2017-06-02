@@ -1,6 +1,7 @@
 /*** node modules ***/
 	const crypto = require("crypto");
 	const fs = require("fs");
+	const vm = require("vm");
 	const mongo = require("mongodb").MongoClient;
 	const database = "mongodb://" + environment("database_username") + ":" + environment("database_password") + environment("database_url");
 	const nodemailer = require("nodemailer").createTransport({
@@ -103,15 +104,15 @@
 				break;
 
 				case "google_fonts":
-					asset = "https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Nova+Mono|Roboto+Mono|Share+Tech+Mono|Ubuntu+Mono|VT323";
+					asset = "https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Nova+Mono|Roboto+Mono|Share+Tech+Mono|Ubuntu+Mono|VT323|Anonymous+Pro|Oxygen+Mono|Cutive+Mono|Fira+Mono|Inconsolata";
 				break;
 				
 				case "color_schemes":
-					asset = ["default", "inverted", "chroma", "old_school", "black_and_white", "electric", "underblue", "dreamhatcher"];
+					asset = ["android","black_and_white","chroma","desaturated","dreamhatcher","electric","inverted","ios","metro","nasa","old_school","pastels","sublime","underblue","whitepaper","windows"];
 				break;
 
 				case "fonts":
-					asset = ["Droid Sans Mono","Nova Mono","Roboto Mono","Share Tech Mono","VT323","Ubuntu Mono","Monaco","Menlo","Courier","Courier New","monospace"];
+					asset = ["Anonymous Pro","Courier","Courier New","Cutive Mono","Droid Sans Mono","Fira Mono","Inconsolata","Menlo","Monaco","monospace","Nova Mono","Oxygen Mono","Roboto Mono","Share Tech Mono","Ubuntu Mono","VT323"];
 				break;
 
 				default:
@@ -298,8 +299,27 @@
 					font = ":root { --font_scheme: monospace; }";
 				break;
 
+				case "Cutive Mono":
+					font = ":root { --font_scheme: 'Cutive Mono', monospace; }";
+				break;
+
+				case "Fira Mono":
+					font = ":root { --font_scheme: 'Fira Mono', monospace; }";
+				break;
+
+				case "Anonymous Pro":
+					font = ":root { --font_scheme: 'Anonymous Pro', monospace; }";
+				break;
+
+				case "Inconsolata":
+					font = ":root { --font_scheme: Inconsolata, monospace; }";
+				break;
+
+				case "Oxygen Mono":
+					font = ":root { --font_scheme: 'Oxygen Mono', monospace; }";
+				break;
+
 				case "Courier":
-				case "default":
 				default: 
 					font = ":root { --font_scheme: Courier, monospace; }";
 				break;
@@ -353,6 +373,23 @@
 						}";
 				break;
 
+				case "old_school":
+					color_scheme = "\
+						:root {\
+							--red: #00ff00;\
+							--orange: #00ff00;\
+							--yellow: #00ff00;\
+							--green: #00ff00;\
+							--blue: #00ff00;\
+							--purple: #00ff00;\
+							--white: #00ff00;\
+							--gray: #00ff00;\
+							--black: #000000;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #112211;\
+						}";
+				break;
+
 				case "electric":
 					color_scheme = "\
 						:root {\
@@ -384,23 +421,6 @@
 							--black: #3C414F;\
 							--transparent: rgba(000,000,000,0);\
 							--code: #222233;\
-						}";
-				break;
-
-				case "old_school":
-					color_scheme = "\
-						:root {\
-							--red: #00ff00;\
-							--orange: #00ff00;\
-							--yellow: #00ff00;\
-							--green: #00ff00;\
-							--blue: #00ff00;\
-							--purple: #00ff00;\
-							--white: #00ff00;\
-							--gray: #00ff00;\
-							--black: #000000;\
-							--transparent: rgba(000,000,000,0);\
-							--code: #112211;\
 						}";
 				break;
 
@@ -438,7 +458,143 @@
 						}";
 				break;
 
-				case "default":
+				case "metro":
+					color_scheme = "\
+						:root {\
+							--red: #ee352e;\
+							--orange: #ff6319;\
+							--yellow: #fccc0a;\
+							--green: #00933c;\
+							--blue: #0039a6;\
+							--purple: #b933ad;\
+							--white: #eeeeee;\
+							--gray: #808183;\
+							--black: #111111;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #333333;\
+						}";
+				break;
+
+				case "nasa":
+					color_scheme = "\
+						:root {\
+							--red: rgb(255, 51, 53);\
+							--orange: rgb(255, 51, 453);\
+							--yellow: rgb(121, 121, 124);\
+							--green: rgb(21, 71, 190);\
+							--blue: rgb(21, 71, 190);\
+							--purple: rgb(255, 51, 53);\
+							--white: rgb(255, 255, 255);\
+							--gray: rgb(121, 121, 124);\
+							--black: rgb(0,0,0);\
+							--transparent: rgba(000,000,000,0);\
+							--code: rgb(60,60,62);\
+						}";
+				break;
+
+				case "ios":
+					color_scheme = "\
+						:root {\
+							--red: rgb(255, 59, 48);\
+							--orange: rgb(255, 149, 0);\
+							--yellow: rgb(255, 204, 0);\
+							--green: rgb(76, 217, 100);\
+							--blue: rgb(0, 122, 255);\
+							--purple: rgb(88, 86, 214);\
+							--white: rgb(255, 255, 255);\
+							--gray: rgb(77, 77, 77);\
+							--black: rgb(20, 20, 20);\
+							--transparent: rgba(000,000,000,0);\
+							--code: rgb(25, 30, 35);\
+						}";
+				break;
+
+				case "android":
+					color_scheme = "\
+						:root {\
+							--red: #f44336;\
+							--orange: #ff5722;\
+							--yellow: #ffeb3b;\
+							--green: #4caf50;\
+							--blue: #2196f3;\
+							--purple: #673ab7;\
+							--white: #ffffff;\
+							--gray: #4d4d4d;\
+							--black: #111111;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #232e33;\
+						}";
+				break;
+
+				case "windows":
+					color_scheme = "\
+						:root {\
+							--red: #C50F1F;\
+							--orange: #CA5010;\
+							--yellow: #EAA300;\
+							--green: #13A10E;\
+							--blue: #0063B1;\
+							--purple: #5A4EBC;\
+							--white: #E6E6E6;\
+							--gray: #767676;\
+							--black: #2B2B2B;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #1F1F1F;\
+						}";
+				break;
+
+				case "pastels":
+					color_scheme = "\
+						:root {\
+							--red: #ed7777;\
+							--orange: #eab46b;\
+							--yellow: #e5e99d;\
+							--green: #bcef8a;\
+							--blue: #94c0ff;\
+							--purple: #b48dc9;\
+							--white: #f6f4f1;\
+							--gray: #778899;\
+							--black: #23282d;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #171b1e;\
+						}";
+				break;
+
+				case "whitepaper":
+					color_scheme = "\
+						:root {\
+							--red: #222222;\
+							--orange: #222222;\
+							--yellow: #888888;\
+							--green: #222222;\
+							--blue: #222222;\
+							--purple: #222222;\
+							--white: #222222;\
+							--gray: #aaaaaa;\
+							--black: #f3f3f3;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #555555;\
+						}";
+				break;
+
+				case "desaturated":
+					color_scheme = "\
+						:root {\
+							--red: #c88691;\
+							--orange: #e49969;\
+							--yellow: #c9c27f;\
+							--green: #74a18e;\
+							--blue: #618fd5;\
+							--purple: #ad85ba;\
+							--white: #d6d6d6;\
+							--gray: #949494;\
+							--black: #444444;\
+							--transparent: rgba(000,000,000,0);\
+							--code: #222222;\
+						}";
+				break;
+
+				case "sublime":
 				default:
 					color_scheme = "\
 						:root {\
@@ -1333,29 +1489,61 @@ please enable JavaScript to continue\
 			var authname = String(data.authname) || null;
 			var authpass = String(data.authpass) || null;
 			var collection = String(data.collection) || null;
-			if ((typeof data.sort !== "undefined") && (sort !== null)) {
-				var sort = JSON.parse(data.sort);
-			}
-			else {
-				var sort = {created: -1};
-			}
-
-			var request = {};
-			for (key in data) {
-				if ((key !== "authname") && (key !== "authpass") && (key !== "collection") && (key !== "sort")) {
-					if (data[key].indexOf("{") !== -1) {
-						try {
-							request[key] = eval("(" + data[key] + ")");
-						}
-						catch(error) {
-							request[key] = Number(data[key]) || data[key];
-						}
+			
+			//query
+				if ((typeof data.query !== "undefined") && (data.query !== null)) {
+					try {
+						var sandbox = {};
+						var random = "r" + Math.random().toString(16).substring(2);
+						
+						vm.runInNewContext(
+							"function evaluate() { return eval(" + String(data.query) + "); }; var " + random + " = evaluate();",
+							sandbox,
+							{timeout: 1000}
+						);
+						var query = sandbox[random] || {};
 					}
-					else {
-						request[key] = Number(data[key]) || data[key];
-					}					
+					catch (error) {
+						var query = {};
+					}
+
+					if (typeof query !== "object") {
+						query = {};
+					}
 				}
-			}
+				else {
+					var query = {};
+				}
+			
+			//sort
+				if ((typeof data.sort !== "undefined") && (data.sort !== null)) {
+					try {
+						var sort = JSON.parse(data.sort) || {created: -1};
+					}
+					catch (error) {
+						var sort = {created: -1};
+					}
+				}
+				else {
+					var sort = {created: -1};
+				}
+
+			// var request = {};
+			// for (key in data) {
+			// 	if ((key !== "authname") && (key !== "authpass") && (key !== "collection") && (key !== "sort")) {
+			// 		if (data[key].indexOf("{") !== -1) {
+			// 			try {
+			// 				request[key] = eval("(" + data[key] + ")");
+			// 			}
+			// 			catch(error) {
+			// 				request[key] = Number(data[key]) || data[key];
+			// 			}
+			// 		}
+			// 		else {
+			// 			request[key] = Number(data[key]) || data[key];
+			// 		}					
+			// 	}
+			// }
 
 			if ((!isNumLet(authname)) || (authname.length < 8) || (authname.length > 32)) {
 				callback({success: false, message: "invalid username"});
@@ -1417,7 +1605,7 @@ please enable JavaScript to continue\
 									break;
 								}
 
-								retrieve(collection, request, {$multi: true, $sort: sort, $limit: 100, $projection: projection}, function (data) {
+								retrieve(collection, query, {$multi: true, $sort: sort, $limit: 100, $projection: projection}, function (data) {
 									callback({success: true, data: data});
 								});
 							}

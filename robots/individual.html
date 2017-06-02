@@ -65,18 +65,13 @@
 				<div class="bracketer_top"><span class="whitetext">.information</span><span class="redtext"> = </span><span class="whitetext">{</span></div>
 				<div class="megasection">
 					<div class="section indented">
-						<span class="whitetext">human: </span><a class="bluetext" id="human" href="../../../../humans/<% data.human.name %>"><% data.human.name %></a>
-						<span class="whitetext">,</span>
+						<span class="whitetext">human: </span><a class="bluetext" id="human" href="../../../../humans/<% data.human.name %>"><% data.human.name %></a><span class="whitetext">,</span>
 					</div>
 					<div class="section indented">
-						<span class="whitetext">created: </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
-						<span class="whitetext">,</span>
+						<span class="whitetext">created: </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span><span class="whitetext">,</span>
 					</div>
 					<div class="section indented">
-						<span class="whitetext">statistics: </span><span class="whitetext">{</span>
-							<span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>,</span>
-							<span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span>
-						<span class="whitetext">},</span>
+						<span class="whitetext">statistics: </span><span class="whitetext">{</span><span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>, </span><span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span><span class="whitetext">},</span>
 					</div>
 					<%
 						/* if ((session.human !== null) && (session.human.id === data.human.id)) {

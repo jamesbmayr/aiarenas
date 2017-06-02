@@ -62,31 +62,26 @@
 					<% 
 						if ((data.settings.show_email === "true") && (data.email !== null)) {
 							'<div class="section indented">\
-								<span class="whitetext">email: </span><a class="bluetext" id="email" href="mailto:' + data.email + '">' + data.email + '</a>\
-								<span class="whitetext">,</span>\
+								<span class="whitetext">email: </span><a class="bluetext" id="email" href="mailto:' + data.email + '">' + data.email + '</a><span class="whitetext">,</span>\
 							</div>';
 						}
 					%>
 					<div class="section indented">
-						<span class="whitetext">joined: </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span>
-						<span class="whitetext">,</span>
+						<span class="whitetext">joined: </span><span class="purpletext"><% new Date(data.created).toLocaleString(); %></span><span class="whitetext">,</span>
 					</div>
 					<div class="section indented">
-						<span class="whitetext">statistics: {</span>
-							<span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>,</span>
-							<span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span>
-						<span class="whitetext">},</span>
+						<span class="whitetext">statistics: {</span><span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>, </span><span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span><span class="whitetext">},</span>
 					</div>
 					<div class="section indented">
-						<span class="whitetext">sites: </span><span class="whitetext">[</span> <span class="field_frame"><span class="field whitetext" spellcheck="false" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
+						<span class="whitetext">sites: </span><span class="whitetext">[</span><span class="field_frame"><span class="field whitetext" spellcheck="false" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
 								if ((typeof data.information.sites !== "undefined") && (data.information.sites.length > 0)) {
 									var string = "";
 									for (var i = 0; i < data.information.sites.length; i++) {
-										string += "<a class='bluetext' href='" + data.information.sites[i] + "' target='_blank'>" + data.information.sites[i] + "</a>, ";
+										string += "<a class='bluetext' href='" + data.information.sites[i] + "' target='_blank' rel='nofollow'>" + data.information.sites[i] + "</a>, ";
 									}
 									string.substring(0, string.length - 2) || ""
 								} 
-						%></span></span> <span class="whitetext">],</span> <span class='message graytext'></span>
+						%></span></span><span class="whitetext">],</span> <span class='message graytext'></span>
 					</div>
 					<div class="section indented">
 						<span class="whitetext">bio: <span class='message graytext'></span>
@@ -114,9 +109,7 @@
 							}
 
 							for (var i = 0; i < data.robots.length; i++) {
-								robots += "<a class='robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'>\
-									<span class='bluetext'>" + data.robots[i].name + "</span>\
-								</a>, <br>";
+								robots += "<a class='robot' id='" + data.robots[i].id + "' href='../../../../robots/" + data.robots[i].id + "'><span class='bluetext'>" + data.robots[i].name + "</span></a>, <br>";
 							}
 
 							robots.substring(0, robots.length - 6);

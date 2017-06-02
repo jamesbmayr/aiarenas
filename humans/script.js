@@ -48,7 +48,7 @@
 					var string = "";
 					var sites = $("#sites").attr("value").split(", ");
 					for (var i = 0; i < sites.length; i++) {
-						string += "<a class='bluetext' href='" + sites[i] + "' target='_blank'>" + sites[i] + "</a>, ";
+						string += "<a class='bluetext' href='" + sites[i] + "' target='_blank' rel='nofollow'>" + sites[i] + "</a>, ";
 					}
 					$("#sites").html(string.substring(0, string.length - 2) || "");
 
