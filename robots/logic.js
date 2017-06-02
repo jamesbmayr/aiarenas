@@ -151,7 +151,8 @@
 				}
 				
 				if (before === JSON.stringify(robot)) {
-					callback({success: false, data: data, messages: {top: "//no changes"}});
+					messages.top = "//no changes";
+					callback({success: false, data: data, messages: messages});
 				}
 				else {
 					processes.store("robots", {id: robot.id}, robot, {}, function (robot) {

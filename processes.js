@@ -115,6 +115,10 @@
 					asset = ["Anonymous Pro","Courier","Courier New","Cutive Mono","Droid Sans Mono","Fira Mono","Inconsolata","Menlo","Monaco","monospace","Nova Mono","Oxygen Mono","Roboto Mono","Share Tech Mono","Ubuntu Mono","VT323"];
 				break;
 
+				case "aibots":
+					asset = ["copy_Bot","collectorBot","focusBot","primaryBot","primesBot","randomBot","scrapsBot","take_Bot"];
+				break;
+
 				default:
 					asset = null;
 				break;
@@ -1155,11 +1159,11 @@ please enable JavaScript to continue\
 				break;
 
 				case "antennae":
-					options = [" _I_ "," _∆_ "," _M_ "," _|_ ","|||||", " iii ", "][ ]["," .:. ","∆___∆","_____","/\\ /\\","_[+]_"," !!! "," /?\\ ","_[@]_"," _*_ "];
+					options = [" _I_ "," _A_ "," _M_ "," _|_ ","|||||", " iii ", "][ ]["," .:. ","A___A","_____","/\\ /\\","_[+]_"," !!! "," /?\\ ","_[@]_"," _*_ "];
 				break;
 
 				case "eyes":
-					options = ["|o o|","|x x|","/∆ ∆\\","|\\|/|","()-()","[]_[]","|: :|","[> <]","(---)","=^.^=","(V V)","|@ @|","/o o\\","(^ ^)","|v v|","{• •}"];
+					options = ["|o o|","|x x|","/A A\\","|\\|/|","()-()","[]_[]","|: :|","[> <]","(---)","=^.^=","(V V)","|@ @|","/o o\\","(^ ^)","|v v|","{• •}"];
 				break;
 
 				case "mouth":
@@ -1199,7 +1203,7 @@ please enable JavaScript to continue\
 				case "foot":
 				case "left_foot":
 				case "right_foot":
-					options = ["{_}","_∆_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV","\\_/","^^^","[!]","MWM","[x]","[v]","[!]","/|\\"];
+					options = ["{_}","_I_","AVA","(O)","OOO","_|_","MMM","]^[","|||","[_]","\\+/","VVV","\\_/","^^^","[!]","MWM","[x]","[v]","[!]","/|\\"];
 				break;
 			}
 
@@ -1361,8 +1365,8 @@ please enable JavaScript to continue\
 		function statistics(callback) {
 			retrieve("humans", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (humans_wins) { //use .find()
 				retrieve("robots", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$projection: {id: 1, name: 1, statistics: 1}, $sort: {"statistics.wins": -1}, $limit: 10, $multi: true}, function (robots_wins) { //use .find()
-					retrieve("humans", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (humans_ratio) { //use .aggregate()
-						retrieve("robots", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$project: {ratio: {$divide: ["$statistics.wins", {$add: ["$statistics.losses", 1]} ]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (robots_ratio) { //use .aggregate()
+					retrieve("humans", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$project: {ratio: {$divide: ["$statistics.wins", {$cond: [{$gte:["$statistics.losses", 1]}, "$statistics.losses", 1]}]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (humans_ratio) { //use .aggregate()
+						retrieve("robots", {"statistics.wins": {$gte: 1}, "statistics.losses": {$gte: 0}}, {$project: {ratio: {$divide: ["$statistics.wins", {$cond: [{$gte:["$statistics.losses", 1]}, "$statistics.losses", 1]}]}, id: 1, name: 1, statistics: 1}, $sort: {"ratio": -1}, $limit: 10, $multi: true}, function (robots_ratio) { //use .aggregate()
 							callback({
 								humans: {
 									wins: humans_wins,

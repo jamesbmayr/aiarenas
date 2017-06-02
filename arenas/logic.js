@@ -366,7 +366,7 @@
 				if (!arena) {
 					callback({success: false, messages: {top: "//invalid arena id"}});
 				}
-				else if (arena.humans.length >= arena.rules.robots.maxCount) {
+				else if (arena.humans.length >= arena.rules.players.maximum) {
 					callback({success: false, messages: {top: "//unable to join arena; human maximum exceeded"}});
 				}
 				else if ((arena.state.start !== null) && (arena.state.start < new Date().getTime())) {
@@ -583,6 +583,49 @@
 		}
 	}
 
+/* addaiBot(session, post, callback) */
+	function addaiBot(session, post, callback) {
+		var data = JSON.parse(post.data);
+
+		if (session.human === null) {
+			callback({success: false, messages: {top: "//not authorized"}});
+		}
+		else if (typeof data.arena_id === "undefined") {
+			callback({success: false, messages: {top: "//invalid arena id"}});
+		}
+		else if (typeof data.aibot === "undefined") {
+			callback({success: false, messages: {top: "//no aiBot selected"}});
+		}
+		else if (processes.assets("aibots").indexOf(data.aibot) === -1) {
+			callback({success: false, messages: {top: "//invalid aiBot"}});
+		}
+		else {
+			processes.retrieve("arenas", {id: data.arena_id, $where:"this.humans[0] === '" + session.human.id + "'"}, {}, function (arena) {		
+				if (!arena) {
+					callback({success: false, messages: {top: "//unable to retrieve arena"}});
+				}
+				else if (Object.keys(arena.entrants).length >= arena.rules.players.maximum) {
+					callback({success: false, messages: {top: "//player maximum exceeded"}});
+				}
+				else {
+					processes.retrieve("robots", {name: data.aibot, "human.name": "THE_ARCHITECT"}, {}, function (robot) {
+						if (!robot) {
+							callback({success: false, messages: {top: "//unable to retrieve robot"}});
+						}
+						else {
+							var set = {};
+							set["entrants." + robot.id] = robot;
+							
+							processes.store("arenas", {id: data.arena_id}, {$set: set}, {}, function (arena) {
+								callback({success: true, messages: {top: "//adding " + data.aibot + "..."}, arena: arena});
+							});
+						}
+					});
+				}
+			});
+		}
+	}
+
 /* launch(session, post, callback) */
 	function launch(session, post, callback) {
 		var data = JSON.parse(post.data);
@@ -595,7 +638,9 @@
 				if (!arena) {
 					callback({success: false, messages: {top: "//unable to retrieve arena"}});
 				}
-				else if (Object.keys(arena.entrants).length !== arena.humans.length) {
+				else if (Object.keys(arena.entrants).filter(function(entrant) {
+					return arena.entrants[entrant].human.name !== "THE_ARCHITECT"
+				}).length !== arena.humans.length) {
 					callback({success: false, messages: {top: "//some humans have not selected robots"}});
 				}
 				else if (Object.keys(arena.entrants).length > arena.rules.players.maximum) {
@@ -1539,6 +1584,7 @@
 		joinin: joinin,
 		random: random,
 		selectRobot: selectRobot,
+		addaiBot: addaiBot,
 		leave: leave,
 		launch: launch,
 		adjustRobot: adjustRobot,

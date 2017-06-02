@@ -716,6 +716,15 @@
 								catch (error) {_403();}
 							break;
 
+							case "add_aibot":
+								try {
+									arenas.addaiBot(session, post, function (data) {
+										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to add aiBot"}}));
+									});
+								}
+								catch (error) {_403();}
+							break;
+
 							case "launch_arena":
 								try {
 									if (session.human !== null) {

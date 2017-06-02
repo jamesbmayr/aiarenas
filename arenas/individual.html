@@ -116,12 +116,28 @@
 								}
 
 								if ((session.human !== null) && (data.humans[0] === session.human.id)) {
+									//aiBots
+										var allBots = [];
+										for (entrant of Object.keys(data.entrants)) {
+											allBots.push(data.entrants[entrant].name);
+										}
+
+										var aiBots = assets("aibots").filter(function(x) {
+											return allBots.indexOf(x) === -1;
+										});
+										var options = "";
+										for (aiBot of aiBots) {
+											options += '<option value="' + aiBot + '">' + aiBot + '</option>';
+										}
+
+									string += '<form id="addaibot_form" method="post" action="javascript:;" onsubmit="window.add_aibot();">\
+										<span class="whitetext">.</span><button id="add_aibot" name="action" value="add_aibot"><span class="greentext">add_aiBot</span></button><span class="whitetext">(<span class="select_outer orangetext"><select class="orangetext" id="aibot_selection">' + options + '</select></span>)</span>\
+									</form>';
+
 									string += '<form id="launch_form" method="post" action="javascript:;" onsubmit="window.launch_arena();">\
 										<span class="whitetext">.</span><button id="launch_arena" name="action" value="launch_arena"><span class="greentext">launch</span></button><span class="whitetext">()</span>\
 									</form>';
-								}
 
-								if ((session.human !== null) && (data.humans[0] === session.human.id)) {
 									string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
 										<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">()</span>\
 									</form>';

@@ -517,6 +517,34 @@
 				});
 			}
 
+			window.add_aibot = function() {
+				var aibot = $("#aibot_selection").val() || null;
+				var arena_id = $(".container").attr("value");
+
+				if (aibot) {
+					$.ajax({
+						type: "POST",
+						url: window.location.pathname,
+						data: {
+							action: "add_aibot",
+							data: JSON.stringify({
+								aibot: (aibot || null),
+								arena_id: (arena_id || null)
+							})
+						},
+						success: function(results) {
+							if (results.success) {
+								$("#message_top").animateText({text: results.messages.top || ("//adding " + aibot + "...")},1000);
+								$("#aibot_selection").find("option[value=" + aibot + "]").remove();
+							}
+							else {
+								$("#message_top").animateText({text: results.messages.top || ("//unable to add " + aibot)},1000);
+							}
+						}
+					});
+				}
+			}
+
 			window.launch_arena = function() {
 				var arena_id = $(".container").attr("value");
 
@@ -649,50 +677,52 @@
 									//update robot list
 										if ($("#robots").attr("value") !== Object.keys(data.arena.entrants).join()) {
 											if ((data.arena.entrants !== null) && (Object.keys(data.arena.entrants).length > 0)) {
-												var string = "";
 												var entrants = Object.keys(data.arena.entrants);
+												$("#robots").attr("value", entrants);
 
+												var string = "";
 												for (var i = 0; i < entrants.length; i++) {
-													var entrant = data.arena.entrants[entrants[i]];
-													if (data.arena.rounds.length > 0) {
-														var robot = data.arena.rounds[data.arena.rounds.length - 1].robots.find(function(i) { return i.name = entrant.id}) || {};
-													}
-													else {
-														var robot = {
-															power: 0,
-															cubes: {
-																red: 0,
-																orange: 0,
-																yellow: 0,
-																green: 0,
-																blue: 0,
-																purple: 0
-															}
-														};
-													}
+													if ($("#" + entrants[i]).toArray().length === 0) {
+														var entrant = data.arena.entrants[entrants[i]];
+														if (data.arena.rounds.length > 0) {
+															var robot = data.arena.rounds[data.arena.rounds.length - 1].robots.find(function(i) { return i.name = entrant.id}) || {};
+														}
+														else {
+															var robot = {
+																power: 0,
+																cubes: {
+																	red: 0,
+																	orange: 0,
+																	yellow: 0,
+																	green: 0,
+																	blue: 0,
+																	purple: 0
+																}
+															};
+														}
 
-													if (entrant.human.name === "guest") {
-														var robot_link = '<span class="bluetext avatar_name">' + entrant.name + '</span>';
-													}
-													else {
-														var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
-													}
+														if (entrant.human.name === "guest") {
+															var robot_link = '<span class="bluetext avatar_name">' + entrant.name + '</span>';
+														}
+														else {
+															var robot_link = '<a class="bluetext avatar_name" href="../../../../robots/' + entrant.id + '" target="_blank">' + entrant.name + '</a>';
+														}
 
-													string += ('<div class="section opponent" id="' + entrant.id + '">'
-														+ robot_link + 
-														'<div class="stats">\
-															<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
-															<div class="whitetext">\
-																cubes.<span class="redtext">red</span>:<span class="cubes_red purpletext count">' + (robot.cubes.red || "0") + '</span><br>\
-																cubes.<span class="orangetext">orange</span>:<span class="cubes_orange purpletext count">' + (robot.cubes.orange || "0") + '</span><br>\
-																cubes.<span class="yellowtext">yellow</span>:<span class="cubes_yellow purpletext count">' + (robot.cubes.yellow || "0") + '</span><br>\
-																cubes.<span class="greentext">green</span>:<span class="cubes_green purpletext count">' + (robot.cubes.green || "0") + '</span><br>\
-																cubes.<span class="bluetext">blue</span>:<span class="cubes_blue purpletext count">' + (robot.cubes.blue || "0") + '</span><br>\
-																cubes.<span class="purpletext">purple</span>:<span class="cubes_purple purpletext count">' + (robot.cubes.purple || "0") + '</span>\
+														string += ('<div class="section opponent" id="' + entrant.id + '">'
+															+ robot_link + 
+															'<div class="stats">\
+																<span class="whitetext">power:</span><span class="purpletext power count">' + (robot.power || "0") + '</span><span class="whitetext">,</span><br>\
+																<div class="whitetext">\
+																	cubes.<span class="redtext">red</span>:<span class="cubes_red purpletext count">' + (robot.cubes.red || "0") + '</span><br>\
+																	cubes.<span class="orangetext">orange</span>:<span class="cubes_orange purpletext count">' + (robot.cubes.orange || "0") + '</span><br>\
+																	cubes.<span class="yellowtext">yellow</span>:<span class="cubes_yellow purpletext count">' + (robot.cubes.yellow || "0") + '</span><br>\
+																	cubes.<span class="greentext">green</span>:<span class="cubes_green purpletext count">' + (robot.cubes.green || "0") + '</span><br>\
+																	cubes.<span class="bluetext">blue</span>:<span class="cubes_blue purpletext count">' + (robot.cubes.blue || "0") + '</span><br>\
+																	cubes.<span class="purpletext">purple</span>:<span class="cubes_purple purpletext count">' + (robot.cubes.purple || "0") + '</span>\
+																</div>\
+																<span class="whitetext">action: </span><span class="yellowtext action count">' + (robot.action || "?") + '</span>\
 															</div>\
-															<span class="whitetext">action: </span><span class="yellowtext action count">' + (robot.action || "?") + '</span>\
-														</div>\
-														<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
+															<pre class="avatar_pre" monospace style="color: ' + (entrant.avatar.color || "var(--white)") + '">\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">•••••</span><span class="avatar avatar_antennae" value="' + (entrant.avatar.antennae.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.antennae || "•••••") + '</span><span class="transparenttext">•••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_hand" value="' + (entrant.avatar.left_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_hand || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_eyes" value="' + (entrant.avatar.eyes.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.eyes || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_hand transparenttext" value="' + (entrant.avatar.right_hand.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.right_hand || "••••") + '</span>\n\
 <span class="transparenttext leftDot">•</span><span class="avatar avatar_left_wrist" value="' + (entrant.avatar.left_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••••') + '">' + (entrant.avatar.left_wrist || "••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_mouth" value="' + (entrant.avatar.mouth.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••••') + '">' + (entrant.avatar.mouth || "•••••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_wrist transparenttext" value="' + (entrant.avatar.right_wrist.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '••') + '">' + (entrant.avatar.right_wrist || "••") + '</span>\n\
@@ -702,10 +732,10 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value="' + (entrant.avatar.left_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_leg || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="' + (entrant.avatar.right_leg.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_leg || "•••") + '</span><span class="transparenttext">••••</span>\n\
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="' + (entrant.avatar.left_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.left_foot || "•••") + '</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="' + (entrant.avatar.right_foot.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || '•••') + '">' + (entrant.avatar.right_foot || "•••") + '</span><span class="transparenttext">••••</span>\n\
 </pre></div>');
+														
+														$("#robots").find("div.indented").append(string);
+													}
 												}
-
-												$("#robots").attr("value", Object.keys(data.arena.entrants));
-												$("#robots").find("div.indented").html(string);
 											}
 										}
 								}
