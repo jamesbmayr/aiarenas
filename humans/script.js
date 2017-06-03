@@ -2,21 +2,11 @@
 	$(document).ready(function() {
 		resizeTop();
 
-		/* avatar */
-			$(document).on("change", "#avatar_color select", function() {
-				var value = $("#avatar_color select").val();
-				$("#avatar_color").css("color",value);
-				$("#avatar_pre").css("color",value);
-			});
-
 		/* edit */
 			window.human_edit = function() {
 				$("#human_edit").hide();
 				$("#human_save").show();
 				$("#human_cancel").show();
-				
-				/* avatar */
-					$("#avatar_color").show();					
 
 				$(".field").prop("contenteditable",true).closest(".field_frame").addClass("active");
 				$(".message").text("");
@@ -32,10 +22,6 @@
 				$("#human_edit").show();
 				$("#human_save").hide();
 				$("#human_cancel").hide();
-
-				/* avatar */
-					$("#avatar_color").hide();
-					$("#avatar_pre").css("color", ($("#avatar_pre").attr("value") || "var(--white)"));
 
 				$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
 				$(".field").each(function() {
@@ -63,11 +49,6 @@
 					data[field] = value;
 				});
 
-				/* avatar */
-					data.avatar = {
-						color: ($("#avatar_color select").val() || "var(--white)")
-					}
-
 				$.ajax({
 					type: "POST",
 					url: window.location.pathname,
@@ -90,17 +71,8 @@
 						$("#human_save").hide();
 						$("#human_cancel").hide();
 
-							/* avatar  */
-								$("#avatar_color").hide();
-								$("#avatar_pre").css("color", (data.avatar.color || "var(--white)"));
-								$("#avatar").find(".message").animateText({text: (messages["avatar"] || "")}, 1000);
-
-								var previousColor = $("#avatar_pre").attr("value") || "var(--white)";
-								$("#avatar_pre").css("color", data.avatar.color || previousColor);
-								$("#avatar_color").css("color", data.avatar.color || previousColor);
-
 						$(".field").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-						$("#message_top").animateText({text: (messages.top || "//edits submitted")}, 1000);
+						$("#message_top").animateText({text: (results.messages.top || "//edits submitted")}, 1000);
 
 							/* sites */
 								if (typeof data.sites !== "undefined") {

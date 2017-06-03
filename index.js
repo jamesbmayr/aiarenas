@@ -4,7 +4,7 @@
 	const qs = require("querystring");
 
 /* my modules */
-	const processes = require("./processes");
+	const processes = require("./assets/logic");
 	const home = require("./home/logic");
 	const humans = require("./humans/logic");
 	const robots = require("./robots/logic");

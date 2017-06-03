@@ -1,5 +1,5 @@
 /* my modules */
-	const processes = require("../processes");
+	const processes = require("../assets/logic");
 
 /* create(name, email, password) */
 	function create(name, email, password) {
@@ -70,13 +70,13 @@
 					}
 					else {
 						data.sites = data.sites.replace(/\s/g,"").replace(/(<([^>]+)>)/ig,"").split(",");
-						for (var i = 0; i < data.sites.length; i++) {
-							if (!(data.sites[i].length > 0)) {
-								data.sites.splice(i,1);
-								i--;
+						for (var j = 0; j < data.sites.length; j++) {
+							if (!(data.sites[j].length > 0)) {
+								data.sites.splice(j,1);
+								j--;
 							}
-							else if (!(/^(http\:\/\/|https\:\/\/)/g).test(data.sites[i])) {
-								data.sites[i] = "http://" + data.sites[i];
+							else if (!(/^(http\:\/\/|https\:\/\/)/g).test(data.sites[j])) {
+								data.sites[j] = "http://" + data.sites[j];
 							}
 						}
 						session.human.information.sites = data.sites;
@@ -85,6 +85,9 @@
 				break;
 			}
 		}
+
+		console.log(data.bio);
+		console.log(session.human.information.bio);
 
 		if (before === JSON.stringify(session.human)) {
 			callback({success: false, data: data, messages: {top: "//no changes"}});

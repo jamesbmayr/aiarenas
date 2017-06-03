@@ -574,26 +574,6 @@
 					</div>
 				</div>
 				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
-				<% 
-					if ((participating) && (state === "active")) {
-							var string = '<div class="megasection">';
-
-						if ((session.human !== null) && (data.humans[0] === session.human.id)) {
-							string += '<form id="delete_form" method="post" action="javascript:;" onsubmit="window.delete_arena();">\
-								<span class="whitetext">.</span><button id="delete_arena" name="action" value="delete_arena"><span class="greentext">delete</span></button><span class="whitetext">()</span>\
-							</form>';
-						}
-
-						string += '<form id="leave_form" method="post" action="javascript:;" onsubmit="window.leave_arena();">\
-							<span class="whitetext">.</span><button id="leave_arena" name="action" value="leave_arena"><span class="greentext">leave</span></button><span class="whitetext">()</span>\
-						</form>';
-
-						string += '</div>';
-
-						string;
-					}
-				%>
-				</div>
 			</div>
 		</div>
 	</body>

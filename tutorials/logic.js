@@ -1,5 +1,5 @@
 /* my modules */
-	const processes = require("../processes");
+	const processes = require("../assets/logic");
 
 /* complete(session, post, callback) */
 	function complete(session, post, callback) {

@@ -405,11 +405,19 @@
 		}
 
 		.top_inner {
-			padding: calc(44px * ((var(--font_size) + 1) / 2)) calc(44px / var(--font_size)) 0px calc(44px / var(--font_size));
+			padding: 44px calc(44px / var(--font_size)) 0px calc(44px / var(--font_size));
 			width: 100%;
 			border-radius: 5px 5px 0px 0px;
 			border: 2px solid var(--transparent);
 			border-bottom-width: 0px;
+		}
+
+		.top_inner .bracketer_top {
+			margin-left: calc((var(--font_size) - 1) * 120px);
+		}
+
+		.top_inner .section-toggle {
+			margin-left: calc((var(--font_size) - 1) * 120px);
 		}
 
 		.top_inner hr {
@@ -708,9 +716,9 @@
 			position: fixed;
 			top: 0px;
 			left: 0px;
-			height: calc(var(--font_size) * 40px);
-			width: calc(var(--font_size) * 40px);
-			font-size: calc(var(--font_size) * 25px);
+			height: calc((var(--font_size) - 0.5) * 2 * 40px);
+			width: calc((var(--font_size) - 0.5) * 2 * 40px);
+			font-size: calc((var(--font_size) - 0.5) * 2 * 25px);
 			padding: 0px;
 			background-color: var(--black);
 			color: var(--white);
@@ -725,9 +733,9 @@
 			position: fixed;
 			top: 0px;
 			left: 0px;
-			height: calc(var(--font_size) * 40px);
-			width: calc(var(--font_size) * 40px);
-			font-size: calc(var(--font_size) * 25px);
+			height: calc((var(--font_size) - 0.5) * 2 * 40px);
+			width: calc((var(--font_size) - 0.5) * 2 * 40px);
+			font-size: calc((var(--font_size) - 0.5) * 2 * 25px);
 			padding: 0px;
 			background-color: var(--black);
 			color: var(--white);

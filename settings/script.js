@@ -339,7 +339,7 @@
 						color_scheme = "\
 							:root {\
 								--red: rgb(255, 51, 53);\
-								--orange: rgb(255, 51, 453);\
+								--orange: rgb(255, 51, 53);\
 								--yellow: rgb(121, 121, 124);\
 								--green: rgb(21, 71, 190);\
 								--blue: rgb(21, 71, 190);\

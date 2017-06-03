@@ -27,3 +27,7 @@
 		min-height: calc(var(--font_size) * 100px);
 		min-width: calc(100vw - (200px / var(--font_size)));
 	}
+
+	.top_inner .header {
+		margin-left: calc((var(--font_size) - 1) * 120px);
+	}

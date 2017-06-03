@@ -1,5 +1,5 @@
 /* my modules */
-	const processes = require("../processes");
+	const processes = require("../assets/logic");
 	const vm = require("vm");
 
 /* create(session, post, callback) */
@@ -342,6 +342,9 @@
 			else if (arena.state.end !== null) {
 				callback({success: false, messages: {top: "//arena already concluded"}});
 			}
+			else if (arena.rounds.length > 0) {
+				callback({success: false, messages: {top: "//arena already started"}});	
+			}
 			else {
 				processes.store("humans", {id: {$in: arena.humans}}, {$pull: {arenas: arena.id}}, {$multi: true}, function (humans) {
 					processes.store("arenas", {id: arena.id}, null, {}, function (results) {
@@ -540,6 +543,9 @@
 				}
 				else if (arena.state.end !== null) {
 					callback({success: false, messages: {top: "//arena already concluded"}});
+				}
+				else if (arena.rounds.length > 0) {
+					callback({success: false, messages: {top: "//arena already started"}});	
 				}
 				else {
 					if (session.human !== null) { //leave arena signed in
@@ -811,7 +817,7 @@
 									if (updated_arena.state.end === null) { //if the arena has not concluded...
 										callback({success: true, arena: updated_arena, messages: {top: "//arena in play"}}); //send back the updated arena
 									}
-									else { //if it has concluded...
+									else if (updated_arena.humans[0] === 0) { //if it has concluded and was started randomly
 										var robot_ids = Object.keys(updated_arena.entrants).filter(function(robot_id) { //filter out robots with no human
 											return (updated_arena.humans.indexOf(updated_arena.entrants[robot_id].human.id) !== -1);
 										});
@@ -845,6 +851,9 @@
 												});
 											});
 										});
+									}
+									else { //if it was completed and created manually...
+										callback({success: true, arena: updated_arena, messages: {top: "//arena concluded"}});
 									}
 								});
 							}

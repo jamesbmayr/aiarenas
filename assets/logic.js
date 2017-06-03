@@ -161,7 +161,7 @@
       EMAIL     \n\
       || ||     \n\
      [v] [v]    \n\
-<a style='font-size: 32px; color: #66D9EF; font-weight: bold; text-decoration: none' href='https://aiarenas.com'>ai_arenas.com</a>\
+<a style='font-size: 32px; color: #66D9EF; font-weight: bold; text-decoration: none' href='https://www.aiarenas.com'>ai_arenas.com</a>\
 </pre>\
 						</div>\
 					")}, function(error, info) {
@@ -483,7 +483,7 @@
 					color_scheme = "\
 						:root {\
 							--red: rgb(255, 51, 53);\
-							--orange: rgb(255, 51, 453);\
+							--orange: rgb(255, 51, 53);\
 							--yellow: rgb(121, 121, 124);\
 							--green: rgb(21, 71, 190);\
 							--blue: rgb(21, 71, 190);\
@@ -632,46 +632,54 @@
 							message: "<br>Explore the website using the navigation panel."
 						},
 						{
-					
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
-							selector: "a[href='../../../../']",
+							selector: "a[href='../../../../']:not(#navbar_logo)",
 							message: "Return to this home page at any time."
 						},
 						{
-					
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../about']",
 							message: "Learn more about ai_arenas: gameplay, development, and how it works."
 						},
 						{
-					
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../tutorials']",
 							message: "Learn how to code Javascript robots in tutorials."
 						},
 						{
-					
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../robots']",
 							message: "Create and test your own robots in the coding workshop."
 						},
 						{
-					
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
 							selector: "#navbar_join_arena",
 							message: "Enter an arena id to join one created by another human."
 						},
 						{
-					
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
 							selector: "#navbar_random_arena",
 							message: "Join an arena against random opponent robots."
 						},
 						{
-					
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
-							selector: "#navbar_random_arena",
-							message: "Join an arena against random opponent robots."
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px');",
+							selector: "#navbar_create_arena",
+							message: "Create a custom arena for human acquaintances."
+						},
+						{
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px');",
+							selector: "#statistics .bracketer_top span",
+							message: "See statistics calculated from random arenas (not custom or private ones)."
+						},
+						{
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px'); $('#humans').parent().show(); $('#humans').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+							selector: "#human_wins .statistic",
+							message: "See the humans and robots with the most wins."
+						},
+						{
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px'); $('#humans').parent().show(); $('#humans').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+							selector: "#robot_ratios .statistic",
+							message: "See the humans and robots with the best win/loss ratios."
 						}
 					];
 				break;
@@ -776,12 +784,12 @@
 						{
 							action: "",
 							selector: "span#bio",
-							message: "Add a short description for yours robot."
+							message: "Add a short description for your robots."
 						},
 						{
 							action: "",
 							selector: "#avatar_mouth",
-							message: "Customize the appearance of your robots by selecting its components and color."
+							message: "Customize the appearance of your robots by selecting the components and color."
 						},
 						{
 							action: "",
@@ -1042,6 +1050,7 @@ please enable JavaScript to continue\
 							<div class='super_header'>ai</div>\
 							<div class='header'>arenas</div>\
 						</a>\
+						<br>\
 						<div id='navbar_info'>\
 							<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 							<div class='navbar_item'><a class='navbar_link' href='../../../../'><span class='whitetext'>.</span><span class='bluetext'>home</span></a></div>\
@@ -1113,6 +1122,7 @@ please enable JavaScript to continue\
 						<div class='super_header'>ai</div>\
 						<div class='header'>arenas</div>\
 					</a>\
+					<br>\
 					<div id='navbar_info'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>ai_arenas</span></div>\
 						<div class='navbar_item'><a class='navbar_link' href='../../../../'><span class='whitetext'>.</span><span class='bluetext'>home</span></a></div>\
