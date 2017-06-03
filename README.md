@@ -1,14 +1,14 @@
 # ai_arenas
 a battleground for javascript functions: https://www.aiarenas.com
 <pre style='line-height: 1;'>
-       _H_                     _!_                    _[+]_                    !!!      
- (--) /o o\              {--} (^ ^) {--}              (V V)              {!!} !x x!     
-  ()  \ - /               {}  | = |  {}               |[-]|               ~~  ! O !     
-   \--HELLO--\             \==/---\==/             /==/|||\==\             \~~CRASH~~\  
-      HELLO  ()               LEARN               []  BUILD  []               CRASH  ~~ 
-      HELLO (--)              \___/              [++] ]===[ [++]              CRASH {!!}
-      [] []                   || ||                   [| |]                   !   !     
-     /_] [_\                 /_) (_\                 {_] [_}                 [!] [!]    
+       _H_                     _!_                    _[+]_                    _|_                     !!!      
+ (--) /o o\              {--} (^ ^) {--}              (V V)              |**| |\|/| |**|              !x x! {!!}
+  ()  \ - /               {}  | = |  {}               |[-]|               {}  \ = /  {}               ! O !  ~~ 
+   \--HELLO--\             \==/---\==/             /==/|||\==\             \==[[-]]==/             /~~CRASH~~/  
+      HELLO  ()               LEARN               []  BUILD  []               FIGHT               ~~  CRASH     
+      HELLO (--)              \___/              [++] ]===[ [++]              [[-]]              {!!} CRASH     
+      [] []                   || ||                   [| |]                   /] [\                   !   !     
+     /_] [_\                 /_) (_\                 {_] [_}                 /_] [_\                 [!] [!]    
 </pre>
 
 # overview
@@ -33,7 +33,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 # file structure
 <pre>
 |- package.json
-|- index.js
+|- index.js (requestHandler, routing, _302, _403, _404)
 |- /node-modules/
 |   |- mongo
 |   |- nodemailer
@@ -41,11 +41,12 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |- /data/
 |   |- db
 |
-|- processes.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour, locate, apicall, statistics)
 |
 |- /assets/
 |   |- stylesheet.css
-|   |- script.js (animateText, navBar, sectionToggle, colorText, resizeTop, animateRobot, tour, splashScreen, eval_code)
+|   |- script.js (animateText, navbar, sectionToggle, colorText, resizeTop, animateRobot, tour, splashScreen, eval_code, isIE)
+|   |- logic.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour, locate, apicall, statistics)
+|   |
 |   |- images/
 |   |   |- logo.html
 |   |   |- black_logo.html
@@ -73,6 +74,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |       |- emailBot.html
 |       |- errorBot.html
 |       |- helloBot.html
+|       |- ieBot.html
 |       |- learnBot.html
 |       |- noscriptBot.html
 |       |- opponentBot.html
@@ -82,38 +84,38 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |   |- main.html
 |   |- individual.html
 |   |- stylesheet.css
-|   |- script.js
+|   |- script.js (statusLoop, signinupout, verify, github_fetch, submit_feedback)
 |
 |- /humans/
 |   |- logic.js (create, update, destroy)
 |   |- individual.html
 |   |- stylesheet.css
-|   |- script.js
+|   |- script.js (edit, cancel, save, create_robot)
 |
 |- /robots/
 |   |- logic.js (create, update, destroy, load, upload)
 |   |- main.html
 |   |- individual.html
 |   |- stylesheet.css
-|   |- script.js
+|   |- script.js (randomize, edit, cancel, save, delete, load, upload, download, add_opponent, add_cube)
 |
 |- /arenas/
-|   |- logic.js (create, joinin, random, leave, launch, selectRobot, adjustRobot, read, update, destroy)
+|   |- logic.js (create, joinin, random, leave, launch, selectRobot, addaiBot, adjustRobot, read, update, destroy)
 |   |- main.html
 |   |- individual.html
 |   |- stylesheet.css
-|   |- script.js
+|   |- script.js (presets, join, create, random, leave, select_robot, delete, add_aibot, launch, launch, save, checkLoop, gameLoop)
 |
 |- /settings/
 |   |- logic.js (update, updateName, updatePassword, sendVerification, destroy)
 |   |- main.html
 |   |- stylesheet.css
-|   |- script.js
+|   |- script.js (save, delete, cancel, send_verification, change_name, change_password, font_scheme, color_scheme, destroy_session)
 |
 |- /tutorials/
     |- logic.js (complete, tour)
     |- main.html
     |- individual.html
     |- stylesheet.css
-    |- script.js
+    |- script.js (next_step, add_opponent, add_cube)
 </pre>

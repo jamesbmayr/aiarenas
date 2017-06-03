@@ -210,26 +210,6 @@
 			return crypto.createHmac("sha512", salt).update(string).digest("hex");
 		}
 
-	/* convertToData */
-		function convertToData(string) {
-			if ((string) && (string.length > 0)) {
-				return string.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/&amp;/g, "&");
-			}
-			else {
-				return null;
-			}
-		}
-
-	/* convertToWeb */
-		function convertToWeb(string) {
-			if ((string) && (string.length > 0)) {
-				return string.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;").replace(/\&/g, "&amp;");
-			}
-			else {
-				return null;
-			}
-		}
-
 /*** checks ***/
 	/* isEmail(string) */
 		function isEmail(string) {
@@ -1836,7 +1816,5 @@ please enable JavaScript to continue\
 		tour: tour,
 		locate: locate,
 		apicall: apicall,
-		statistics: statistics,
-		convertToData: convertToData,
-		convertToWeb: convertToWeb
+		statistics: statistics
 	};
