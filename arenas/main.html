@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>ai_arenas.arenas</title>
+		<% assets("meta") %>
 		<link rel="shortcut icon" type="image/png" href="logo.png"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('bootstrap') %>"/>
 		<link rel="stylesheet" type="text/css" href="<% assets('google_fonts') %>"/>
@@ -101,7 +102,7 @@
 								options += "<option value='" + (values[i].replace(":00","") * 60 * 1000) + "'>" + values[i] + "</option>";
 							}
 
-							options.replace("value='300000'", "value='5:00' selected");
+							options.replace("value='300000'", "value='300000' selected");
 						%></select></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how long does the code workshop last?</span></summary></details></span><br>
 						<span class="whitetext">workshopPeriod: </span><span class="select_outer purpletext"><select class="purpletext" id="players_workshopPeriod"><% 
 							var options = "";

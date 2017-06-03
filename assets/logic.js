@@ -119,6 +119,18 @@
 					asset = ["copy_Bot","collectorBot","focusBot","primaryBot","primesBot","randomBot","scrapsBot","take_Bot"];
 				break;
 
+				case "meta":
+					asset = '<meta charset="UTF-8"/>\
+						<meta name="description" content="AI Arenas is an online game where humans build Javascript robots that fight for cubes in challenging, fast-paced, competitive code battles."/>\
+						<meta name="keywords" content="javascript,code,robots,game,arena,compete"/>\
+						<meta name="author" content="James Mayr"/>\
+						<meta name="viewport" content="width=device-width, initial-scale=1.0"/>\
+						<meta property="og:title" content="AI Arenas: a competitive game for Javascript robots"/>\
+						<meta property=”og:url” content=”https://www.aiarenas.com”/>\
+						<meta property=”og:description” content=”AI Arenas is an online game where humans build Javascript robots that fight for cubes in challenging, fast-paced, competitive code battles.”/>\
+						<meta property=”og:image” content=”https://www.aiarenas.com/banner.png”/>';
+				break;
+
 				default:
 					asset = null;
 				break;
@@ -725,11 +737,6 @@
 							action: "if ($('.container').attr('value') === '') { $('#load_robot').click(); }",
 							selector: "#eval_code",
 							message: "Evaluate the robot code to watch the logic unfold and see the outcome."
-						},
-						{
-							action: "if ($('.container').attr('value') === '') { $('#load_robot').click(); } $('#console').closest('details').attr('open','true');",
-							selector: "#console",
-							message: "Use console.log() in the code to log console messages when testing."
 						},
 						{
 							action: "if ($('.container').attr('value') === '') { $('#load_robot').click(); } $('#robots').parent().show(); $('#robots').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",

@@ -302,7 +302,7 @@ Try <a href='https://www.google.com/chrome/' target='_blank'>Chrome</a>, <a href
 				function rgbopizer(text) {
 					/* math(old) */	//text = text.replace(/(^|\{|\[|\(|\.|\s|\d|\w|\n)(\%|\-|\-\-|\+|\+\+|\*|\*\*|\-\=|\+\=|\*\=|\/\=|\%\=|\!|\!\=|\!\=\=|\=|\=\=|\=\=\=|\&\&|\|\||\\+)(\d|\w|\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* math */		text = text.replace(/(\%|\-|\-\-|\+|\+\+|\*|\*\*|\-\=|\+\=|\*\=|\/\=|\%\=|\!|\!\=|\!\=\=|\=|\=\=|\=\=\=|\<\=|\<\=\=|\>\=|\>\=\=|\&\&|\|\||\\+)/g,"<span redtext>$1</span>");
-					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(&lt;&lt;&lt;|&gt;&gt;&gt;|&lt;\=\=|\=\=&gt;|&lt;&lt;|&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|\<+|\>+|&lt;|&gt;|&amp;&amp;|&amp;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
+					/* < = > */ 	text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(&lt;&lt;&lt;|&gt;&gt;&gt;|&lt;\=\=|\=\=&gt;|&lt;&lt;|&gt;&gt;|\=&lt;|\=&gt;|&lt;\=|&gt;\=|\<\=\=|\<\=|\<+|\>\=\=|\>\=|\>+|&lt;|&gt;|&amp;&amp;|&amp;)(\s|\.|\,|\)|\]|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* logic */		text = text.replace(/(^|\{|\[|\(|\.|\s|\n)(else\ if|if|else|return|typeof|switch|case|break|default|new|for in|for of|for|while|\$|const|do|continue|try|catch|throw|finally|this|in|instanceof)(\s|\.|\,|\(|\)|\[|\]|\{|\}|\;|\:|$)/g,"$1<span redtext>$2</span>$3");
 					/* booleans */	text = text.replace(/(^|\{|\[|\(|\s|\n)(true|false|null)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span purpletext>$2</span>$3");
 					/* types */		text = text.replace(/(^|\{|\[|\(|\s|\n)(Math|Number|String|Object|function|var|eval|Date|Error|Array)(\s|\.|\,|\)|\(|\]|\}|\;|\:|$)/g,"$1<span bluetext>$2</span>$3");
