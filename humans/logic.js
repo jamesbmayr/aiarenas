@@ -6,6 +6,8 @@
 		var salt = processes.random();
 		var human = {
 			id: processes.random(),
+			created: new Date().getTime(),
+			updated: new Date().getTime(),
 			name: name,
 			email: null,
 			status: {
@@ -17,7 +19,6 @@
 			},
 			password: processes.hash(password, salt),
 			salt: salt,
-			created: new Date().getTime(),
 			settings: {
 				color_scheme: "default",
 				font_scheme: "default",
@@ -93,7 +94,7 @@
 			callback({success: false, data: data, messages: {top: "//no changes"}});
 		}
 		else {
-			processes.store("humans", {id: session.human.id}, {$set: {information: session.human.information}}, {}, function (human) {
+			processes.store("humans", {id: session.human.id}, {$set: {information: session.human.information, updated: new Date().getTime()}}, {}, function (human) {
 				callback({success: true, messages: messages, data: data, human: human});
 			});
 		}
@@ -122,7 +123,7 @@
 
 					processes.store("robots", {id: {$in: robots}}, null, {$multi: true}, function (robots) {
 						processes.store("humans", {id: session.human.id}, null, {}, function (human) {
-							processes.store("sessions", {human: session.human.id}, {$set: {human: null}}, {}, function (session) {
+							processes.store("sessions", {human: session.human.id}, {$set: {human: null, updated: new Date().getTime()}}, {}, function (session) {
 								callback({success: true, redirect: "../../../../"});
 							});
 						});

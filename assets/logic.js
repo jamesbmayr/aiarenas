@@ -1396,6 +1396,7 @@ please enable JavaScript to continue\
 					var newSession = {
 						id: random(),
 						created: new Date().getTime(),
+						updated: new Date().getTime(),
 						human: null,
 						name: null,
 						"ip-address": data.headers["ip-address"],
@@ -1433,8 +1434,8 @@ please enable JavaScript to continue\
 						else if (data.headers["user-agent"].indexOf("Baiduspider") !== -1) {
 							newSession.name = "Baiduspider";
 						}
-						else if (data.headers["ip-address"].substring(0,4) == "52.2") {
-							newSession.name = "Amazon";
+						else if (data.headers["user-agent"].indexOf("facebook") !== -1) {
+							newSession.name = "Facebook";
 						}
 
 					store("sessions", null, newSession, {}, function (results) {
@@ -1444,7 +1445,7 @@ please enable JavaScript to continue\
 
 			//existing session
 				else {
-					store("sessions", {id: session_id}, {$push: {activity: newActivity}}, {}, function (oldSession) {
+					store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {updated: new Date().getTime()}}, {}, function (oldSession) {
 						if (!oldSession) {
 							session(false, data, callback); //try again
 						}
@@ -1455,7 +1456,7 @@ please enable JavaScript to continue\
 								"user-agent": data.headers["user-agent"],
 								"accept-language": data.headers["accept-language"]
 							}
-							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {"ip-address": data.headers["ip-address"], "user-agent": data.headers["user-agent"],	"accept-language": data.headers["accept-language"]}}, {}, function (oldSession) {
+							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {"ip-address": data.headers["ip-address"], "user-agent": data.headers["user-agent"],	"accept-language": data.headers["accept-language"], updated: new Date().getTime()}}, {}, function (oldSession) {
 								callback(oldSession);
 							});
 						}
@@ -1476,7 +1477,7 @@ please enable JavaScript to continue\
 				country: data.country_name || null
 			}
 
-			store("sessions", {id: session.id}, {$push: {activity: locateActivity}}, {}, function (data) {
+			store("sessions", {id: session.id}, {$push: {activity: locateActivity}, $set: {updated: new Date().getTime()}}, {}, function (data) {
 				callback(data);
 			});
 		}
@@ -1527,23 +1528,6 @@ please enable JavaScript to continue\
 				else {
 					var sort = {created: -1};
 				}
-
-			// var request = {};
-			// for (key in data) {
-			// 	if ((key !== "authname") && (key !== "authpass") && (key !== "collection") && (key !== "sort")) {
-			// 		if (data[key].indexOf("{") !== -1) {
-			// 			try {
-			// 				request[key] = eval("(" + data[key] + ")");
-			// 			}
-			// 			catch(error) {
-			// 				request[key] = Number(data[key]) || data[key];
-			// 			}
-			// 		}
-			// 		else {
-			// 			request[key] = Number(data[key]) || data[key];
-			// 		}					
-			// 	}
-			// }
 
 			if ((!isNumLet(authname)) || (authname.length < 8) || (authname.length > 32)) {
 				callback({success: false, message: "invalid username"});

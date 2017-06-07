@@ -22,19 +22,19 @@
 					processes.retrieve("humans", {name: post.signin_name, password: processes.hash(post.signin_password, match.salt)}, {}, function (human) {
 						if (!human) {
 							if (match.status.lockCount > 4) {
-								processes.store("humans", {name: post.signin_name}, {$set: {"status.lockCount": 0, "status.lockTo": (new Date().getTime() + (1000 * 60 * 60 * 6))}}, {}, function (human) {
+								processes.store("humans", {name: post.signin_name}, {$set: {"status.lockCount": 0, "status.lockTo": (new Date().getTime() + (1000 * 60 * 60 * 6)), updated: new Date().getTime()}}, {}, function (human) {
 									callback({success: false, messages: {top: "//name and password do not match"}});
 								});
 							}
 							else {
-								processes.store("humans", {name: post.signin_name}, {$set: {"status.lockCount": (match.status.lockCount + 1)}}, {}, function (human) {
+								processes.store("humans", {name: post.signin_name}, {$set: {"status.lockCount": (match.status.lockCount + 1), updated: new Date().getTime()}}, {}, function (human) {
 									callback({success: false, messages: {top: "//name and password do not match"}});
 								});
 							}
 						}
 						else {
-							processes.store("sessions", {id: session.id}, {$set: {human: human.id}}, {}, function (session) {
-								processes.store("humans", {id: human.id}, {$set: {"status.lockCount": 0, "status.lockTo": 0}}, {}, function (human) {
+							processes.store("sessions", {id: session.id}, {$set: {human: human.id, updated: new Date().getTime()}}, {}, function (session) {
+								processes.store("humans", {id: human.id}, {$set: {"status.lockCount": 0, "status.lockTo": 0, updated: new Date().getTime()}}, {}, function (human) {
 									callback({success: true, redirect: "../../../../", messages: {top: "//signed in"}});
 								});
 							});
@@ -47,7 +47,7 @@
 
 /* signout(session) */
 	function signout(session, callback) {
-		processes.store("sessions", {id: session.id}, {$set: {human: null}}, {}, function (session) {
+		processes.store("sessions", {id: session.id}, {$set: {human: null, updated: new Date().getTime()}}, {}, function (session) {
 			callback({success: true, redirect: "../../../../", messages: {top: "//signed out"}});
 		});
 	}
@@ -94,7 +94,7 @@
 								}
 
 								processes.store("humans", null, human, {}, function (results) {									
-									processes.store("sessions", {id: session.id}, {$set: {human: human.id}}, {}, function (session) {
+									processes.store("sessions", {id: session.id}, {$set: {human: human.id, updated: new Date().getTime()}}, {}, function (session) {
 										callback({success: true, redirect: "../../../../", messages: {top: "//signed up"}});
 									});
 								});
@@ -125,7 +125,7 @@
 							callback({success: false, messages: {top: "//unable to verify email"}});
 						}
 						else {
-							processes.store("humans", {id: human.id}, {$set: {"status.verified": true, "status.verification": null, email: post.email, "status.new_email": null}}, {}, function (human) {
+							processes.store("humans", {id: human.id}, {$set: {"status.verified": true, "status.verification": null, email: post.email, "status.new_email": null, updated: new Date().getTime()}}, {}, function (human) {
 								callback({success: true, messages: {top: "//email verified"}});
 							});
 						}
@@ -148,7 +148,7 @@
 				else {
 					var random = processes.random();
 
-					processes.store("humans", {id: human.id}, {$set: {"status.verification": random}}, {}, function (human) {
+					processes.store("humans", {id: human.id}, {$set: {"status.verification": random, updated: new Date().getTime()}}, {}, function (human) {
 						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div class='whitetext'>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='https://aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>()</div>", function (data) {
 							callback({success: true, messages: {top: "//reset email sent"}});
 						});
@@ -180,7 +180,7 @@
 				else {
 					var salt = processes.random();
 					var password = processes.hash(post.reset_password, salt);
-					processes.store("humans", {id: human.id}, {$set: {password: password, salt: salt, "status.verified": true, "status.verification": null, email: post.reset_email, "status.new_email": null}}, {}, function (human) {
+					processes.store("humans", {id: human.id}, {$set: {password: password, salt: salt, "status.verified": true, "status.verification": null, email: post.reset_email, "status.new_email": null, updated: new Date().getTime()}}, {}, function (human) {
 						callback({success: true, messages: {top: "//email verified; password reset"}, redirect: "../../../../signin"});
 					});
 				}

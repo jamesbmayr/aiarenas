@@ -7,12 +7,13 @@
 
 		var robot = {
 			id: id,
+			created: new Date().getTime(),
+			updated: new Date().getTime(),
 			name: id.substring(0,4) + "_bot",
 			human: {
 				id: null,
 				name: null,
 			},
-			created: new Date().getTime(),
 			information: {
 				bio: "...",
 			},
@@ -51,7 +52,7 @@
 			robot.human.name = session.human.name;
 
 			processes.store("robots", null, robot, {}, function (results) {
-				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
+				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created"}, data: robot});
 				});
 			});
@@ -155,10 +156,10 @@
 					callback({success: false, data: data, messages: messages});
 				}
 				else {
-					processes.store("robots", {id: robot.id}, robot, {}, function (robot) {
+					processes.store("robots", {id: robot.id}, {$set: {name: robot.name, information: robot.information, avatar: robot.avatar, inputs: robot.inputs, code: robot.code, updated: new Date().getTime()}}, {}, function (robot) {
 						if (JSON.parse(before).name !== robot.name) {
-							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}}, {}, function (human) {
-								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
+							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
+								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 									callback({success: true, messages: messages, data: data, robot: robot});
 								});
 							});
@@ -183,7 +184,7 @@
 				callback({success: false, messages: {top: "//not authorized"}});
 			}
 			else {
-				processes.store("humans", {id: robot.human.id}, {$pull: {robots: {id: robot.id}}}, {}, function (human) {
+				processes.store("humans", {id: robot.human.id}, {$pull: {robots: {id: robot.id}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 					processes.store("robots", {id: robot.id}, null, {}, function (results) {
 						callback({success: true, redirect: "../../../../robots", messages: {top: "//robot deleted"}});
 					});
@@ -235,9 +236,10 @@
 		else if (session.human !== null) {
 			robot.human.id = session.human.id;
 			robot.human.name = session.human.name;
+			robot.updated = new Date().getTime();
 
 			processes.store("robots", null, robot, {}, function (results) {
-				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}}, {}, function (human) {
+				processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 					callback({success: true, redirect: "../../../../robots/" + robot.id, messages: {top: "//robot created from upload"}, data: robot});
 				});
 			});
@@ -245,6 +247,7 @@
 		else {
 			robot.human.id = null;
 			robot.human.name = null;
+			robot.updated = new Date().getTime();
 			callback({success: true, messages: {top: "//robot created from upload"}, data: robot});
 		}
 	}
