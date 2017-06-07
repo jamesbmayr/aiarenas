@@ -62,7 +62,7 @@
 					}
 				
 				/* routing for images, stylesheets, and scripts */
-					else if ((/[.](ico|png|jpg|jpeg|css|js)$/).test(request.url)) {
+					else if ((/[.](ico|png|jpg|jpeg|gif|svg|pdf|txt|css|js)$/).test(request.url)) {
 						routing(null);
 					}
 
@@ -97,6 +97,15 @@
 								try {
 									response.writeHead(200, {"Content-Type": "image/png"});
 									response.end(fs.readFileSync("./assets/images/logo.png"), "binary");
+								}
+								catch (error) {_404();}
+							break;
+
+						/* banner */
+							case (/\/banner[.]png$/).test(request.url):
+								try {
+									response.writeHead(200, {"Content-Type": "image/png"});
+									response.end(fs.readFileSync("./assets/images/banner.png"), "binary");
 								}
 								catch (error) {_404();}
 							break;
@@ -581,6 +590,21 @@
 									if (session.human !== null) {
 										humans.destroy(session, post, function (data) {
 											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to delete human"}}));
+										});
+									}
+									else {
+										_403("//not authorized");
+									}
+								}
+								catch (error) {_403();}
+							break;
+
+							case "add_favorite": 
+							case "remove_favorite":
+								try {
+									if (session.human !== null) {
+										humans.favorite(session, post, function (data) {
+											response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update favorite"}}));
 										});
 									}
 									else {

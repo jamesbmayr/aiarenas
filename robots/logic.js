@@ -160,7 +160,15 @@
 						if (JSON.parse(before).name !== robot.name) {
 							processes.store("humans", {id: session.human.id}, {$pull: {robots: {id: robot.id}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 								processes.store("humans", {id: session.human.id}, {$push: {robots: {id: robot.id, name: robot.name}}, $set: {updated: new Date().getTime()}}, {}, function (human) {
-									callback({success: true, messages: messages, data: data, robot: robot});
+									var filter = {};
+									filter["favorites.robots." + robot.id] = {$exists: true};
+									var set = {};
+									set["favorites.robots." + robot.id] = robot.name;
+									set.updated = new Date().getTime();
+
+									processes.store("humans", filter, {$set: set}, {$multi: true}, function (humans) {
+										callback({success: true, messages: messages, data: data, robot: robot});
+									});
 								});
 							});
 						}

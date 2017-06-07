@@ -1100,6 +1100,20 @@ please enable JavaScript to continue\
 						options += "<option value='" + presets[i] + "'>" + presets[i] + "</option>";
 					}
 
+				//favorite_humans list
+					var favorite_humans = "";
+					var keys = Object.keys(session.human.favorites.humans);
+					for (var i = 0; i < keys.length; i++) {
+						favorite_humans += "<div class='navbar_item'><a class='navbar_link' href='../../../../humans/" + session.human.favorites.humans[keys[i]] + "'><span class='whitetext'>.</span><span class='bluetext'>" + session.human.favorites.humans[keys[i]] + "</span></a></div>";
+					}
+
+				//favorite_robots list
+					var favorite_robots = "";
+					var keys = Object.keys(session.human.favorites.robots);
+					for (var i = 0; i < keys.length; i++) {
+						favorite_robots += "<div class='navbar_item'><a class='navbar_link' href='../../../../robots/" + keys[i] + "'><span class='whitetext'>.</span><span class='bluetext'>" + session.human.favorites.robots[keys[i]] + "</span></a></div>";
+					}
+
 				navbar += "<form method='post' action='javascript:;' onsubmit='window.navbar_open();'><button id='navbar_open'><span class='glyphicon glyphicon-chevron-right'></span></button></form>\
 				<form method='post' action='javascript:;' onsubmit='window.navbar_close();'><button id='navbar_close' style='display: none'><span class='glyphicon glyphicon-chevron-left'></span></button></form>";
 
@@ -1137,6 +1151,12 @@ please enable JavaScript to continue\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_arena();'><button class='navbar_button' id='navbar_create_arena'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_create_presets' class='orangetext'><option value='custom'>custom</option>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
 						<div class='arena_list'>" + arenas + "</div>\
+					</div>\
+					<br>\
+					<div id='navbar_favorites'\
+						<div class='navbar_item'><span class='whitetext navbar_heading'>favorites</span></div>\
+						<div class='favorite_humans_list'>" + favorite_humans + "</div>\
+						<div class='favorite_robots_list'>" + favorite_robots + "</div>\
 					</div>\
 				</div>";
 				

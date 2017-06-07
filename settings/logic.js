@@ -106,7 +106,15 @@
 
 							processes.store("robots", {id: {$in: robots}}, {$set: {"human.name": post.name, updated: new Date().getTime()}}, {$multi: true}, function (robots) {
 								processes.store("humans", {id: session.human.id}, {$set: {name: post.name, updated: new Date().getTime()}}, {}, function (human) {
-									callback({success: true, messages: {name: "//name updated"}});
+									var filter = {};
+									filter["favorites.humans." + human.id] = {$exists: true};
+									var set = {};
+									set["favorites.humans." + human.id] = human.name;
+									set.updated = new Date().getTime();
+
+									processes.store("humans", filter, {$set: set}, {$multi: true}, function (humans) {
+										callback({success: true, messages: {name: "//name updated"}});
+									});
 								});
 							});
 						}

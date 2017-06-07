@@ -133,9 +133,50 @@
 		}
 	}
 
+/* favorite(session, post, callback) */
+	function favorite(session, post, callback) {
+		var data = JSON.parse(post.data) || null;
+
+		if (!session.human) {
+			callback({success: false, messages: {top: "//not authorized"}});
+		}
+		else if (!data.favorite_id) {
+			callback({success: false, messages: {top: "//invalid request"}});
+		}
+		else if ((!data.favorite_type) || ((data.favorite_type !== "humans") && (data.favorite_type !== "robots"))) {
+			callback({success: false, messages: {top: "//invalid request"}});
+		}
+		else {
+			processes.retrieve(data.favorite_type, {id: data.favorite_id}, {}, function (favorite) {
+				if (!favorite) {
+					callback({success: false, messages: {top: "//" + data.favorite_type.substring(0,data.favorite_type.length - 1) + " not found"}});
+				} 
+				else if (post.action === "add_favorite") {
+					var set = {};
+					set["favorites." + data.favorite_type + "." + data.favorite_id] = favorite.name;
+					set.updated = new Date().getTime();          
+
+					processes.store("humans", {id: session.human.id}, {$set: set}, {}, function (human) {
+						callback({success: true, messages: {top: "//added favorite"}, favorite: {id: favorite.id, name: favorite.name}});
+					});
+				}
+				else if (post.action === "remove_favorite") {
+					var unset = {};
+					unset["favorites." + data.favorite_type + "." + data.favorite_id] = null;
+
+					processes.store("humans", {id: session.human.id}, {$unset: unset, $set: {updated: new Date().getTime()}}, {}, function (human) {
+						callback({success: true, messages: {top: "//removed favorite"}, favorite: {id: favorite.id, name: favorite.name}});
+					});
+				}
+			});
+		}
+
+	}
+
 /* exports */
 	module.exports = {
 		create: create,
 		update: update,
-		destroy: destroy
+		destroy: destroy,
+		favorite: favorite
 	}

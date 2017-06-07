@@ -17,7 +17,7 @@
 			<div class="top_outer">
 				<div class="top_inner">
 					<%
-						if ((session.human !== null) && (session.human.id === data.id)) {
+						if (session.human !== null) {
 							'<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>\
 							<div class="section bracketer_top">';
 						}
@@ -48,6 +48,27 @@
 									</div>\
 									<div class='section'>\
 										<a id='settings' href='../../../../settings'><span class='whitetext'>.</span><span class='bluetext'>settings</span></a>\
+									</div>\
+								</div>";
+							}
+							else if (session.human !== null) {
+								if (session.human.favorites.humans[data.id] !== undefined) {
+									var add = " style='display: none;'";
+									var remove = "";
+								}
+								else {
+									var remove = " style='display: none;'";
+									var add = "";
+								}
+
+								"<div class='megasection'>\
+									<div class='section'>\
+										<form id='add_favorite_form' method='post' action='javascript:;' onsubmit='window.add_favorite();'" + add + ">\
+											<button id='add_favorite'><span class='whitetext'>.</span><span class='greentext'>addFavorite</span><span class='whitetext'>()</span></button>\
+										</form>\
+										<form id='remove_favorite_form' method='post' action='javascript:;' onsubmit='window.remove_favorite();'" + remove + ">\
+											<button id='remove_favorite'><span class='whitetext'>.</span><span class='greentext'>removeFavorite</span><span class='whitetext'>()</span></button>\
+										</form>\
 									</div>\
 								</div>";
 							}

@@ -110,4 +110,56 @@
 					}
 				});
 			}
+
+		/* favorites */
+			window.add_favorite = function() {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "add_favorite",
+						data: JSON.stringify({
+							favorite_type: "humans",
+							favorite_id: ($(".container").attr("value") ||  null)
+						})
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#message_top").animateText({text: data.messages.top || "//favorite added"}, 1000);
+							$("#add_favorite_form").hide();
+							$("#remove_favorite_form").show();
+							$(".favorite_humans_list").append("<div class='navbar_item'><a class='navbar_link' href='../../../../humans/" + data.favorite.name + "'><span class='whitetext'>.</span><span class='bluetext'>" + data.favorite.name + "</span></a></div>");
+						}
+						else {
+							$("#message_top").animateText({text: data.messages.top || "//unable to add favorite"}, 1000);
+						}
+					}
+				});
+			}
+
+			window.remove_favorite = function () {
+				$.ajax({
+					type: "POST",
+					url: window.location.pathname,
+					data: {
+						action: "remove_favorite",
+						data: JSON.stringify({
+							favorite_type: "humans",
+							favorite_id: ($(".container").attr("value") ||  null)
+						})
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#message_top").animateText({text: data.messages.top || "//favorite removed"}, 1000);
+							$("#add_favorite_form").show();
+							$("#remove_favorite_form").hide();
+							$(".favorite_humans_list").find("a[href='../../../../humans/" + data.favorite.name + "']").remove();
+						}
+						else {
+							$("#message_top").animateText({text: data.messages.top || "//unable to remove favorite"}, 1000);
+						}
+					}
+				});
+			}
+
 	});
