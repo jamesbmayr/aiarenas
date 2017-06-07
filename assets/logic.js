@@ -653,6 +653,11 @@
 							message: "Join an arena against random opponent robots."
 						},
 						{
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							selector: "#navbar_favorites",
+							message: "See favorite humans and robots here."
+						},
+						{
 							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px');",
 							selector: "#navbar_create_arena",
 							message: "Create a custom arena for human acquaintances."

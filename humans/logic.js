@@ -33,6 +33,10 @@
 				wins: 0,
 				losses: 0,
 			},
+			favorites: {
+				humans: {},
+				robots: {}
+			},
 			tour: [],
 			tutorials: [],
 			robots: [],
