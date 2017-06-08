@@ -1519,7 +1519,7 @@ please enable JavaScript to continue\
 
 	/* ipLocate(session) */
 		function ipLocate(session_id, ip_address) {
-			if (ip_address.length) {
+			if ((ip_address) && (ip_address.length >= 7)) {
 				try {
 					var req = http.request({
 						method: "POST",

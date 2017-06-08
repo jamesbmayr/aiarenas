@@ -1,14 +1,14 @@
 # ai_arenas
 a battleground for javascript functions: https://www.aiarenas.com
 <pre style='line-height: 1;'>
-       _H_                     _!_                    _[+]_                    _|_                     !!!      
- (--) /o o\              {--} (^ ^) {--}              (V V)              |**| |\|/| |**|              !x x! {!!}
-  ()  \ - /               {}  | = |  {}               |[-]|               {}  \ = /  {}               ! O !  ~~ 
-   \--HELLO--\             \==/---\==/             /==/|||\==\             \==[[-]]==/             /~~CRASH~~/  
-      HELLO  ()               LEARN               []  BUILD  []               FIGHT               ~~  CRASH     
-      HELLO (--)              \___/              [++] ]===[ [++]              [[-]]              {!!} CRASH     
-      [] []                   || ||                   [| |]                   /] [\                   !   !     
-     /_] [_\                 /_) (_\                 {_] [_}                 /_] [_\                 [!] [!]    
+       _H_                 _!_                _[+]_                _|_                 !!!      
+ (--) /o o\          {--} (^ ^) {--}          (V V)          |**| |\|/| |**|          !x x! {!!}
+  ()  \ - /           {}  | = |  {}           |[-]|           {}  \ = /  {}           ! O !  ~~ 
+   \--HELLO--\         \==/---\==/         /==/|||\==\         \==[[-]]==/         /~~CRASH~~/  
+      HELLO  ()           LEARN           []  BUILD  []           FIGHT           ~~  CRASH     
+      HELLO (--)          \___/          [++] ]===[ [++]          [[-]]          {!!} CRASH     
+      [] []               || ||               [| |]               /] [\               !   !     
+     /_] [_\             /_) (_\             {_] [_}             /_] [_\             [!] [!]    
 </pre>
 
 # overview
@@ -45,7 +45,7 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |- /assets/
 |   |- stylesheet.css
 |   |- script.js (animateText, navbar, sectionToggle, colorText, resizeTop, animateRobot, tour, splashScreen, eval_code, isIE)
-|   |- logic.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour, locate, apicall, statistics)
+|   |- logic.js (environment, render, assets, sendEmail, random, hash, isEmail, isNumLet, isReserved, colors, fonts, navbar, ascii_robot, ascii_character, session, store, retrieve, tour, locate, ipLocate, apicall, statistics)
 |   |
 |   |- images/
 |   |   |- logo.html
@@ -87,17 +87,17 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
 |   |- script.js (statusLoop, signinupout, verify, github_fetch, submit_feedback)
 |
 |- /humans/
-|   |- logic.js (create, update, destroy)
+|   |- logic.js (create, update, destroy, favorite)
 |   |- individual.html
 |   |- stylesheet.css
-|   |- script.js (edit, cancel, save, create_robot)
+|   |- script.js (edit, cancel, save, create_robot, add_favorite, remove_favorite)
 |
 |- /robots/
 |   |- logic.js (create, update, destroy, load, upload)
 |   |- main.html
 |   |- individual.html
 |   |- stylesheet.css
-|   |- script.js (randomize, edit, cancel, save, delete, load, upload, download, add_opponent, add_cube)
+|   |- script.js (randomize, edit, cancel, save, delete, load, upload, download, add_opponent, remove_opponent, add_cube, remove_cube, add_favorite, remove_favorite)
 |
 |- /arenas/
 |   |- logic.js (create, joinin, random, leave, launch, selectRobot, addaiBot, adjustRobot, read, update, destroy)
@@ -117,5 +117,5 @@ User-provided code is evaluated server-side (in a node.js VM sandbox for securit
     |- main.html
     |- individual.html
     |- stylesheet.css
-    |- script.js (next_step, add_opponent, add_cube)
+    |- script.js (next_step, add_opponent, remove_opponent, add_cube, remove_cube)
 </pre>
