@@ -2,6 +2,7 @@
 	const crypto = require("crypto");
 	const fs = require("fs");
 	const vm = require("vm");
+	const http = require("http");
 	const mongo = require("mongodb").MongoClient;
 	const database = "mongodb://" + environment("database_username") + ":" + environment("database_password") + environment("database_url");
 	const nodemailer = require("nodemailer").createTransport({
@@ -618,42 +619,42 @@
 				case (/^\/$/).test(url): //home main
 					var tour = [
 						{
-							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px');",
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','calc(var(--font_size) * -256px)');",
 							selector: "#navbar_open",
 							message: "<br>Explore the website using the navigation panel."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../']:not(#navbar_logo)",
 							message: "Return to this home page at any time."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../about']",
 							message: "Learn more about ai_arenas: gameplay, development, and how it works."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../tutorials']",
 							message: "Learn how to code Javascript robots in tutorials."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "a[href='../../../../robots']",
 							message: "Create and test your own robots in the coding workshop."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "#navbar_join_arena",
 							message: "Enter an arena id to join one created by another human."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "#navbar_random_arena",
 							message: "Join an arena against random opponent robots."
 						},
 						{
-							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','256px'); $('#navbar').css('left','0px');",
+							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "#navbar_favorites",
 							message: "See favorite humans and robots here."
 						},
@@ -663,17 +664,17 @@
 							message: "Create a custom arena for human acquaintances."
 						},
 						{
-							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px');",
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','calc(var(--font_size) * -256px)');",
 							selector: "#statistics .bracketer_top span",
 							message: "See statistics calculated from random arenas (not custom or private ones)."
 						},
 						{
-							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px'); $('#humans').parent().show(); $('#humans').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','calc(var(--font_size) * -256px)'); $('#humans').parent().show(); $('#humans').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
 							selector: "#human_wins .statistic",
 							message: "See the humans and robots with the most wins."
 						},
 						{
-							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','-256px'); $('#humans').parent().show(); $('#humans').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
+							action: "$('#navbar_close').hide(); $('#navbar_open').show().css('left','0px'); $('#navbar').css('left','calc(var(--font_size) * -256px)'); $('#humans').parent().show(); $('#humans').parent().prev().prev().removeClass('section-toggle-up').addClass('section-toggle-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');",
 							selector: "#robot_ratios .statistic",
 							message: "See the humans and robots with the best win/loss ratios."
 						}
@@ -987,7 +988,7 @@
 please enable JavaScript to continue\
 </pre></div></noscript>";
 
-			if (typeof session.activity[session.activity.length - 1]["ip-address"] !== "undefined") {
+			/*if (typeof session.activity[session.activity.length - 1]["ip-address"] !== "undefined") {
 				navbar += "<script>\
 					$(document).ready(function() {\
 						$.getJSON('//freegeoip.net/json/?callback=?', function(data) {\
@@ -1002,7 +1003,7 @@ please enable JavaScript to continue\
 						});\
 					});\
 				</script>";
-			}
+			}*/
 
 			if (session.human === null) {
 				//tour
@@ -1423,10 +1424,17 @@ please enable JavaScript to continue\
 						created: new Date().getTime(),
 						updated: new Date().getTime(),
 						human: null,
-						name: null,
-						"ip-address": data.headers["ip-address"],
-						"user-agent": data.headers["user-agent"],
-						"accept-language": data.headers["accept-language"],
+						info: {
+							"ip-address": data.headers["ip-address"],
+							"user-agent": data.headers["user-agent"],
+							"accept-language": data.headers["accept-language"],
+							name: null,
+							org: null,
+							isp: null,
+							city: null,
+							state: null,
+							country: null
+						},
 						tour: [],
 						tutorials: [],
 						activity: [
@@ -1442,28 +1450,29 @@ please enable JavaScript to continue\
 
 					//known bots
 						if (data.headers["user-agent"].indexOf("Googlebot") !== -1) {
-							newSession.name = "Googlebot";
+							newSession.info.name = "Googlebot";
 						}
 						else if (data.headers["user-agent"].indexOf("Google Domains") !== -1) {
-							newSession.name = "Google Domains";
+							newSession.info.name = "Google Domains";
 						}
 						else if (data.headers["user-agent"].indexOf("Google Favicon") !== -1) {
-							newSession.name = "Google Favicon";
+							newSession.info.name = "Google Favicon";
 						}
 						else if (data.headers["user-agent"].indexOf("https://developers.google.com/+/web/snippet/") !== -1) {
-							newSession.name = "Google+ Snippet";
+							newSession.info.name = "Google+ Snippet";
 						}
 						else if (data.headers["user-agent"].indexOf("IDBot") !== -1) {
-							newSession.name = "IDBot";
+							newSession.info.name = "IDBot";
 						}
 						else if (data.headers["user-agent"].indexOf("Baiduspider") !== -1) {
-							newSession.name = "Baiduspider";
+							newSession.info.name = "Baiduspider";
 						}
 						else if (data.headers["user-agent"].indexOf("facebook") !== -1) {
-							newSession.name = "Facebook";
+							newSession.info.name = "Facebook";
 						}
 
 					store("sessions", null, newSession, {}, function (results) {
+						ipLocate(newSession.id,data.headers["ip-address"]);
 						callback(newSession);
 					});
 				}
@@ -1474,14 +1483,15 @@ please enable JavaScript to continue\
 						if (!oldSession) {
 							session(false, data, callback); //try again
 						}
-						else if (oldSession["ip-address"] !== data.headers["ip-address"]) { //new location
+						else if (oldSession.info["ip-address"] !== data.headers["ip-address"]) { //new location
 							var newActivity = {
 								time: new Date().getTime(),
 								"ip-address": data.headers["ip-address"],
 								"user-agent": data.headers["user-agent"],
 								"accept-language": data.headers["accept-language"]
 							}
-							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {"ip-address": data.headers["ip-address"], "user-agent": data.headers["user-agent"],	"accept-language": data.headers["accept-language"], updated: new Date().getTime()}}, {}, function (oldSession) {
+							store("sessions", {id: session_id}, {$push: {activity: newActivity}, $set: {"info.ip-address": data.headers["ip-address"], "info.user-agent": data.headers["user-agent"], "info.accept-language": data.headers["accept-language"], updated: new Date().getTime()}}, {}, function (oldSession) {
+								ipLocate(oldSession.id,data.headers["ip-address"]);
 								callback(oldSession);
 							});
 						}
@@ -1505,6 +1515,47 @@ please enable JavaScript to continue\
 			store("sessions", {id: session.id}, {$push: {activity: locateActivity}, $set: {updated: new Date().getTime()}}, {}, function (data) {
 				callback(data);
 			});
+		}
+
+	/* ipLocate(session) */
+		function ipLocate(session_id, ip_address) {
+			if (ip_address.length) {
+				try {
+					var req = http.request({
+						method: "POST",
+						host: "www.ip-api.com",
+						path: "/json/" + (ip_address || null),
+					}, function (res) {
+						var data = "";
+						res.on("data", function (chunk) {
+							data += chunk;
+						});
+						res.on("end", function() {
+							data = JSON.parse(data);
+							console.log("data: ");
+							console.log(data);
+							var locateActivity = {
+								time: new Date().getTime(),
+								org: data.org || null,
+								isp: data.isp || null,
+								city: data.city || null,
+								state: data.regionName || null,
+								country: data.country || null,
+							}
+
+							store("sessions", {id: session_id}, {$push: {activity: locateActivity}, $set: {"info.org": data.org, "info.isp": data.isp, "info.city": data.city, "info.state": data.regionName, "info.country": data.country, updated: new Date().getTime()}}, {}, function (data) {
+								console.log("done");
+							});
+						});
+					});
+					
+					req.write("");
+					req.end();
+				}
+				catch (error) {
+					console.log("ip error: " + error);
+				}
+			}
 		}
 
 	/* apicall(session, post, callback) */
@@ -1830,6 +1881,7 @@ please enable JavaScript to continue\
 		fonts: fonts,
 		tour: tour,
 		locate: locate,
+		ipLocation: ipLocate,
 		apicall: apicall,
 		statistics: statistics
 	};

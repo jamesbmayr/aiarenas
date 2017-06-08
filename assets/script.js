@@ -7,8 +7,8 @@ $(document).ready(function() {
 				$("#navbar").hide();
 				$("#navbar_open").hide();
 				$("#navbar_close").hide();
-				$("body").append("<div style='width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; background-color: #272822;'>\
-<pre style='text-align: center; color: #F8F8F2; font-family: Courier, monospace; font-size: 16px; position: relative; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); line-height: 1.25;'>\
+				$("body").append("<div style='width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; background-color: #ffffff;'>\
+<pre style='text-align: center; color: #000000; font-family: Courier, monospace; font-size: 16px; position: relative; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); line-height: 1.25;'>\
        _?_      \n\
  [ie] [o O]     \n\
   --  [_  ]     \n\
