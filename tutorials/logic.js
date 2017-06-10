@@ -9,6 +9,12 @@
 		console.log(1);
 		console.log(data);
 		console.log(JSON.stringify(data));
+		console.log("tutorial is...");
+		console.log(data.tutorial);
+
+		data = JSON.parse(JSON.stringify(data));
+
+		console.log("now here");
 
 		if (!data.tutorial) {
 			callback({success: false, messages: {top: "//invalid tutorial"}});
