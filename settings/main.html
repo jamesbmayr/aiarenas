@@ -148,7 +148,7 @@
 						<%
 							var list = "";
 							for (var i = 0; i < data.sessions.length; i++) {
-								list += "<div class='session' id='" + data.sessions[i].id + "'><span class='whitetext'>{updated: </span><span class='purpletext'>" + new Date(data.sessions[i].updated).toLocaleString() + "</span><span class='whitetext'>, location: <span class='yellowtext'>" + data.sessions[i].info.city + ", " + data.sessions[i].info.state + ", " + data.sessions[i].info.country + "</span><span class='whitetext'>, device: </span><span class='yellowtext'>\"" + data.sessions[i].info["user-agent"] + "\"</span><span class='whitetext'>}.</span><button class='session_destroy'><span class='greentext'>destroy</span><span class='whitetext'>()</span></button>, </div>";
+								list += "<div class='session' id='" + data.sessions[i].id + "'><span class='whitetext'>{updated: </span><span class='purpletext'>" + new Date(data.sessions[i].updated).toLocaleString() + "</span><span class='whitetext'>, location: <span class='yellowtext'>\"" + data.sessions[i].info.city + ", " + data.sessions[i].info.state + ", " + data.sessions[i].info.country + "\"</span><span class='whitetext'>, device: </span><span class='yellowtext'>\"" + data.sessions[i].info["user-agent"] + "\"</span><span class='whitetext'>}.</span><button class='session_destroy'><span class='greentext'>destroy</span><span class='whitetext'>()</span></button>, </div>";
 							}
 
 							list.substring(0,list.length - 8) + "</div>";

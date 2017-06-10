@@ -417,6 +417,7 @@
 				}
 				else if ((request.method === "POST") && (post.action !== "undefined")) { //ajax
 					response.writeHead(200, {"Content-Type": "text/json"});
+					console.log(-2);
 
 					switch (post.action) {
 						/* home */
@@ -784,7 +785,9 @@
 						/* tutorials */
 							case "complete_tutorial":
 								try {
+									console.log(-1);
 									tutorials.complete(session, post, function (data) {
+										console.log(6);
 										response.end(JSON.stringify(data || {success: false, messages: {top: "//unable to update tutorial completion"}}));
 									});
 								}
