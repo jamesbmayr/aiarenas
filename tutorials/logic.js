@@ -3,18 +3,7 @@
 
 /* complete(session, post, callback) */
 	function complete(session, post, callback) {
-		console.log(0);
 		var data = JSON.parse(post.data);
-
-		console.log(1);
-		console.log(data);
-		console.log(JSON.stringify(data));
-		console.log("tutorial is...");
-		console.log(data.tutorial);
-
-		data = JSON.parse(JSON.stringify(data));
-
-		console.log("now here");
 
 		if (!data.tutorial) {
 			callback({success: false, messages: {top: "//invalid tutorial"}});
@@ -26,9 +15,7 @@
 			callback({success: false, messages: {top: "//tutorial already completed"}});
 		}
 		else if (session.human !== null) {
-			console.log(2);
 			processes.store("humans", {id: session.human.id}, {$push: {tutorials: data.tutorial}, $set: {updated: new Date().getTime()}}, {}, function (human) {
-				console.log(3);
 				if (!human) {
 					callback({success: false, messages: {top: "//invalid human"}});
 				}
@@ -38,9 +25,7 @@
 			});
 		}
 		else {
-			console.log(4);
 			processes.store("sessions", {id: session.id}, {$push: {tutorials: data.tutorial}, $set: {updated: new Date().getTime()}}, {}, function (session) {
-				console.log(5);
 				callback({success: true, messages: {top: "//tutorial completion saved"}});
 			});
 		}
