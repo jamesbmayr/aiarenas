@@ -834,9 +834,12 @@
 										
 										var human_victors = [];
 										var human_losers = [];
+										var all_humans = [];
 										
 										for (var i = 0; i < robot_ids.length; i++) {
 											var human_id = updated_arena.entrants[robot_ids[i]].human.id;
+											all_humans.push(human_id);
+
 											if (updated_arena.humans.indexOf(human_id) > -1) {
 												if (robot_victors.indexOf(robot_ids[i]) > -1) {
 													human_victors.push(human_id);
@@ -847,11 +850,13 @@
 											}
 										}
 
-										processes.store("humans", {id: {$in: human_victors}}, {$inc: {"statistics.wins": 1}, $pull: {arenas: arena.id}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (humans) { //humans +1 win
-											processes.store("humans", {id: {$in: human_losers}}, {$inc: {"statistics.losses": 1}, $pull: {arenas: arena.id}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (humans) { //humans +1 loss
-												processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (robots) { //robots +1 win
-													processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (robots) { //robots +1 loss
-														callback({success: true, arena: updated_arena, messages: {top: "//arena concluded"}});
+										processes.store("humans", {id: {$in: all_humans}}, {$pull: {arenas: arena.id}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (humans) { //remove arena from human list
+											processes.store("humans", {id: {$in: human_victors}}, {$inc: {"statistics.wins": 1}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (humans) { //humans +1 win
+												processes.store("humans", {id: {$in: human_losers}}, {$inc: {"statistics.losses": 1}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (humans) { //humans +1 loss
+													processes.store("robots", {id: {$in: robot_victors}}, {$inc: {"statistics.wins": 1}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (robots) { //robots +1 win
+														processes.store("robots", {id: {$in: robot_losers}}, {$inc: {"statistics.losses": 1}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (robots) { //robots +1 loss
+															callback({success: true, arena: updated_arena, messages: {top: "//arena concluded"}});
+														});
 													});
 												});
 											});
