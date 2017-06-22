@@ -327,10 +327,10 @@
 
 									var code_outer = '<div class="section indented" id="code_outer">';
 
-									var inputs = '<span class="field_frame' + (paused ? ' active' : '') + '"><span class="orangetext field" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="inputs" value=' + (String(self_entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(self_entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>';
+									var inputs = '<span class="field_frame' + (paused ? ' active' : '') + '"><span class="orangetext field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="inputs" value=' + (String(self_entrant.inputs.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;")).replace(/\</g, "&lt;").replace(/\>/g, "&gt;") || null) + '>' + String(self_entrant.inputs) + '</span></span><span class="whitetext">) {</span> <span class="message graytext"></span>';
 
 									var code = '<div class="field_frame' + (paused ? ' active' : '') + '">\
-										<span class="whitetext field" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="code" value=' + (String(self_entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(self_entrant.code) + '</span>\
+										<span class="whitetext field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"' + (paused ? ' contenteditable="true"' : '') + ' id="code" value=' + (String(self_entrant.code.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;").replace(/\</g, "&lt;").replace(/\>/g, "&gt;")) || null) + '>' + String(self_entrant.code) + '</span>\
 									</div>';
 
 									var spectatorWorkshop = '';

@@ -4,14 +4,14 @@
 
 /* signin(session, post, callback) */
 	function signin(session, post, callback) {
-		if ((typeof post.signin_name == "undefined") || (post.signin_name.length < 8) || (!processes.isNumLet(post.signin_name))) {
-			callback({success: false, messages: {top: "//enter human name of 8 or more letters and numbers"}});
+		if ((typeof post.signin_name == "undefined") || (((post.signin_name.length < 8) || (!processes.isNumLet(post.signin_name))) && (!processes.isEmail(post.signin_name)))) {
+			callback({success: false, messages: {top: "//enter human name or email address"}});
 		}
 		else if ((typeof post.signin_password == "undefined") || (post.signin_password.length < 8)) {
 			callback({success: false, messages: {top: "//enter password of 8 or more characters"}});
 		}
 		else {
-			processes.retrieve("humans", {name: post.signin_name}, {}, function (match) {
+			processes.retrieve("humans", {$or: [{name: post.signin_name},{email: post.signin_name}]}, {}, function (match) {
 				if (!match) {
 					callback({success: false, messages: {top: "//human not found"}});
 				}
@@ -19,15 +19,15 @@
 					callback({success: false, messages: {top: "//account temporarily locked due to suspicious activity; try again later"}});
 				}
 				else {
-					processes.retrieve("humans", {name: post.signin_name, password: processes.hash(post.signin_password, match.salt)}, {}, function (human) {
+					processes.retrieve("humans", {id: match.id, password: processes.hash(post.signin_password, match.salt)}, {}, function (human) {
 						if (!human) {
 							if (match.status.lockCount > 4) {
-								processes.store("humans", {name: post.signin_name}, {$set: {"status.lockCount": 0, "status.lockTo": (new Date().getTime() + (1000 * 60 * 60 * 6)), updated: new Date().getTime()}}, {}, function (human) {
+								processes.store("humans", {id: match.id}, {$set: {"status.lockCount": 0, "status.lockTo": (new Date().getTime() + (1000 * 60 * 60 * 6)), updated: new Date().getTime()}}, {}, function (human) {
 									callback({success: false, messages: {top: "//name and password do not match"}});
 								});
 							}
 							else {
-								processes.store("humans", {name: post.signin_name}, {$set: {"status.lockCount": (match.status.lockCount + 1), updated: new Date().getTime()}}, {}, function (human) {
+								processes.store("humans", {id: match.id}, {$set: {"status.lockCount": (match.status.lockCount + 1), updated: new Date().getTime()}}, {}, function (human) {
 									callback({success: false, messages: {top: "//name and password do not match"}});
 								});
 							}
@@ -149,7 +149,7 @@
 					var random = processes.random();
 
 					processes.store("humans", {id: human.id}, {$set: {"status.verification": random, updated: new Date().getTime()}}, {}, function (human) {
-						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div class='whitetext'>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='https://aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>()</div>", function (data) {
+						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div class='whitetext'>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='https://www.aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>()</div>", function (data) {
 							callback({success: true, messages: {top: "//reset email sent"}});
 						});
 					});

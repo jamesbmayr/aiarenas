@@ -95,7 +95,7 @@
 						<span class="whitetext">statistics: {</span><span class="whitetext">wins: </span><span class="purpletext"><% data.statistics.wins || 0 %></span><span class='whitetext'>, </span><span class="whitetext">losses: </span><span class="purpletext"><% data.statistics.losses || 0 %></span><span class="whitetext">},</span>
 					</div>
 					<div class="section indented">
-						<span class="whitetext">sites: </span><span class="whitetext">[</span><span class="field_frame"><span class="field whitetext" spellcheck="false" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
+						<span class="whitetext">sites: </span><span class="whitetext">[</span><span class="field_frame"><span class="field whitetext" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="sites" value="<% data.information.sites.join(', ') || null %>"><% 
 								if ((typeof data.information.sites !== "undefined") && (data.information.sites.length > 0)) {
 									var string = "";
 									for (var i = 0; i < data.information.sites.length; i++) {
@@ -108,7 +108,7 @@
 					<div class="section indented">
 						<span class="whitetext">bio: <span class='message graytext'></span>
 						<div class="indented">
-							<div class="field_frame"><span class="field yellowtext" spellcheck="false" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
+							<div class="field_frame"><span class="field yellowtext" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="bio" value="<% data.information.bio.replace(/\"/g, "&#34;").replace(/\'/g, "&#39;") || null %>"><% data.information.bio || "" %></span>
 							</div>
 						</div>
 					</div>

@@ -163,7 +163,7 @@
 					subject: subject || "ai_arenas correspondence",
 					text: message || "hello world",
 					html: ("<div style='background-color: #272822; padding: 16px; font-size: 16px; font-family: Courier, monospace; color: white; text-align: center'>\
-						" + (message || "hello world") + "</br>\
+						" + (message || "hello world") + "<br><br><br>\
 <pre style='text-align: center; color: white; font-family: Courier, monospace; font-size: 16px; position: relative; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); line-height: 1.25;'>\
   __  _[@]_  __ \n\
  |\\/| |@ @| |\\/|\n\

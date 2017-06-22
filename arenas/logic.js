@@ -955,93 +955,98 @@
 							var sandbox = {}; //clear existing sandbox
 							for (var j = 0; j < inputs.length; j++) { //only add the variables specified by the human's code
 								//console.log("input: " + inputs[j]);
-								switch(inputs[j]) {
-									case "arena": //all other inputs can be derived from this one
-										sandbox.arena = { //for arena, only include rules and rounds data (no id, created, humans, state, or entrants)
-											rules: arena.rules,
-											rounds: arena.rounds
-										};
-									break;
+								try {
+									switch(inputs[j]) {
+										case "arena": //all other inputs can be derived from this one
+											sandbox.arena = { //for arena, only include rules and rounds data (no id, created, humans, state, or entrants)
+												rules: arena.rules,
+												rounds: arena.rounds
+											};
+										break;
 
-									case "name":
-										sandbox.name = name; //can be derived in robot-code as `arguments.callee.name` - it'll still actually be the robot's id
-									break;
+										case "name":
+											sandbox.name = name; //can be derived in robot-code as `arguments.callee.name` - it'll still actually be the robot's id
+										break;
 
-									case "rules":
-										sandbox.rules = arena.rules;
-									break;
+										case "rules":
+											sandbox.rules = arena.rules;
+										break;
 
-									case "rounds":
-										sandbox.rounds = arena.rounds;
-									break;
+										case "rounds":
+											sandbox.rounds = arena.rounds;
+										break;
 
-									case "roundCount":
-										sandbox.roundCount = arena.rounds.length - 1;
-									break;
+										case "roundCount":
+											sandbox.roundCount = arena.rounds.length - 1;
+										break;
 
-									case "currentRound":
-										sandbox.currentRound = arena.rounds[arena.rounds.length - 1];
-									break;
+										case "currentRound":
+											sandbox.currentRound = arena.rounds[arena.rounds.length - 1];
+										break;
 
-									case "lastRound":
-										sandbox.lastRound = arena.rounds[arena.rounds.length - 2];
-									break;
+										case "lastRound":
+											sandbox.lastRound = arena.rounds[arena.rounds.length - 2];
+										break;
 
-									case "firstRound":
-										var firstRound = sandbox.rounds[0];
-									break;
+										case "firstRound":
+											sandbox.firstRound = arena.rounds[0];
+										break;
 
-									case "robots":
-										sandbox.robots = arena.rounds[arena.rounds.length - 1].robots;
-									break;
+										case "robots":
+											sandbox.robots = arena.rounds[arena.rounds.length - 1].robots;
+										break;
 
-									case "robotCount":
-										sandbox.robotCount = arena.rounds[arena.rounds.length - 1].robots.length;
-									break;
+										case "robotCount":
+											sandbox.robotCount = arena.rounds[arena.rounds.length - 1].robots.length;
+										break;
 
-									case "allCubes":
-										sandbox.allCubes = arena.rounds[arena.rounds.length - 1].cubes;
-									break;
+										case "allCubes":
+											sandbox.allCubes = arena.rounds[arena.rounds.length - 1].cubes;
+										break;
 
-									case "newCubes":
-										sandbox.newCubes = arena.rounds[arena.rounds.length - 1].cubes.slice(-arena.rules.cubes.spawnRate);
-									break;
+										case "newCubes":
+											sandbox.newCubes = arena.rounds[arena.rounds.length - 1].cubes.slice(-arena.rules.cubes.spawnRate);
+										break;
 
-									case "self":
-										sandbox.self = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name});
-									break;
+										case "self":
+											sandbox.self = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name});
+										break;
 
-									case "power":
-										sandbox.power = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).power;
-									break;
+										case "power":
+											sandbox.power = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).power;
+										break;
 
-									case "cubes":
-										sandbox.cubes = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).cubes;
-									break;
+										case "cubes":
+											sandbox.cubes = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).cubes;
+										break;
 
-									case "action":
-										sandbox.action = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).action;
-									break;
+										case "action":
+											sandbox.action = arena.rounds[arena.rounds.length - 1].robots.find(function(robot) {return robot.name === name}).action;
+										break;
 
-									case "winner":
-										sandbox.winner = arena.rounds[arena.rounds.length - 1].winner;
-									break;
+										case "winner":
+											sandbox.winner = arena.rounds[arena.rounds.length - 1].winner;
+										break;
 
-									case "opponents":
-										sandbox.opponents = arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== name});
-									break;
+										case "opponents":
+											sandbox.opponents = arena.rounds[arena.rounds.length - 1].robots.filter(function(robot) {return robot.name !== name});
+										break;
 
-									case "colors":
-										sandbox.colors = arena.rules.cubes.colors;
-									break;
+										case "colors":
+											sandbox.colors = arena.rules.cubes.colors;
+										break;
 
-									case "actions":
-										var actions = sandbox.rules.robots.actions;
-									break;
+										case "actions":
+											sandbox.actions = arena.rules.robots.actions;
+										break;
 
-									case "conditions":
-										var conditions = sandbox.rules.victory.conditions;
-									break;
+										case "conditions":
+											sandbox.conditions = arena.rules.victory.conditions;
+										break;
+									}
+								}
+								catch (error) {
+									console.log(error);
 								}
 							}
 
