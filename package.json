@@ -15,6 +15,6 @@
     "nodemailer": "^3.1.8"
   },
   "engines": {
-    "node": "6.9.5  "
+    "node": "6.11.1"
   }
 }
