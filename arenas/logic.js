@@ -22,8 +22,8 @@
 							startCount: 1,
 							maximum: 255,
 							spawnRate: 1,
-							spawnMemory: 3,
-							dissolveRate: 1,
+							spawnMemory: 2,
+							dissolveRate: 0,
 							dissolveIndex: "oldest"
 						},
 						robots: {
@@ -276,9 +276,9 @@
 						startCount: Number(parameters.cubes.startCount) || 1,
 						maximum: Number(parameters.cubes.maximum) || 255,
 						spawnRate: Number(parameters.cubes.spawnRate) || 1,
-						spawnMemory: Number(parameters.cubes.spawnMemory) || 3,
-						dissolveRate: Number(parameters.cubes.dissolveRate) || 1,
-						dissolveIndex: parameters.cubes.dissolveIndex || "oldest",
+						spawnMemory: Number(parameters.cubes.spawnMemory) || 2,
+						dissolveRate: Number(parameters.cubes.dissolveRate) || 0,
+						dissolveIndex: parameters.cubes.dissolveIndex || "none",
 					},
 					robots: {
 						startPower: Number(parameters.robots.startPower) || 1,
@@ -863,7 +863,20 @@
 										});
 									}
 									else { //if it was completed and created manually...
-										callback({success: true, arena: updated_arena, messages: {top: "//arena concluded"}});
+										var robot_ids = Object.keys(updated_arena.entrants).filter(function(robot_id) { //filter out robots with no human
+											return (updated_arena.humans.indexOf(updated_arena.entrants[robot_id].human.id) !== -1);
+										});
+
+										var all_humans = [];
+										
+										for (var i = 0; i < robot_ids.length; i++) {
+											var human_id = updated_arena.entrants[robot_ids[i]].human.id;
+											all_humans.push(human_id);
+										}
+
+										processes.store("humans", {id: {$in: all_humans}}, {$pull: {arenas: arena.id}, $set: {updated: new Date().getTime()}}, {$multi: true}, function (humans) { //remove arena from human list
+											callback({success: true, arena: updated_arena, messages: {top: "//arena concluded"}});
+										});
 									}
 								});
 							}

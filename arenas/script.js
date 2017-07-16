@@ -20,9 +20,9 @@
 								startCount: 1,
 								maximum: 255,
 								spawnRate: 1,
-								spawnMemory: 3,
-								dissolveRate: 1,
-								dissolveIndex: "oldest"
+								spawnMemory: 2,
+								dissolveRate: 0,
+								dissolveIndex: "none"
 							},
 							robots: {
 								startPower: 1,

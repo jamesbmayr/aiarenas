@@ -161,7 +161,7 @@
 								options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 							}
 
-							options.replace("value='3'", "value='3' selected");
+							options.replace("value='2'", "value='2' selected");
 						%></select></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>when a cube spawns, how many rounds must pass until a cube of the same color can spawn?</span></summary></details></span><br>
 						<span class="whitetext">dissolveRate: </span><span class="select_outer purpletext"><select class="purpletext" id="cubes_dissolveRate"><% 
 							var options = "";
@@ -170,7 +170,7 @@
 								options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 							}
 
-							options.replace("value='1'", "value='1' selected");
+							options.replace("value='0'", "value='0' selected");
 						%></select></span><span class="whitetext">,</span><span class="graytext"> // <details class="graytext"><summary><span>how many untaken cubes are destroyed each round?</span></summary></details></span><br>
 						<span class="whitetext">dissolveIndex: </span><span class="select_outer yellowtext"><select class="yellowtext" id="cubes_dissolveIndex"><% 
 							var options = "";
@@ -179,7 +179,7 @@
 								options += "<option value='" + values[i] + "'>" + values[i] + "</option>";
 							}
 
-							options.replace("value='oldest'", "value='oldest' selected");
+							options.replace("value='none'", "value='none' selected");
 						%></select></span><span class="graytext"> // <details class="graytext"><summary><span>which cubes are destroyed each round?</span></summary></details></span>
 					</div>
 					<div class="bracketer_bottom"><span class="whitetext">}</span></div>

@@ -126,9 +126,9 @@
 						<meta name="keywords" content="javascript,code,robots,game,arena,compete"/>\
 						<meta name="author" content="James Mayr"/>\
 						<meta property="og:title" content="AI Arenas: a competitive game for Javascript robots"/>\
-						<meta property=”og:url” content=”https://www.aiarenas.com”/>\
-						<meta property=”og:description” content=”AI Arenas is an online game where humans build Javascript robots that fight for cubes in challenging, fast-paced, competitive code battles.”/>\
-						<meta property=”og:image” content=”https://www.aiarenas.com/banner.png”/>';
+						<meta property="og:url" content="https://www.aiarenas.com"/>\
+						<meta property="og:description" content="AI Arenas is an online game where humans build Javascript robots that fight for cubes in challenging, fast-paced, competitive code battles."/>\
+						<meta property="og:image" content="https://www.aiarenas.com/banner.png"/>';
 				break;
 
 				default:
