@@ -365,9 +365,14 @@
 		}
 		else {
 			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + data.arena_id.toLowerCase() + "'"}, {$multi: true}, function (arenas) {
-				arena = arenas[0];
+				if (!arenas) {
+					callback({success: false, messages: {top: "//invalid arena id"}});
+				}
+				else {
+					var arena = arenas[0];
+				}
 
-				if (!arena) {
+				if ((typeof arena == "undefined") || (!arena)) {
 					callback({success: false, messages: {top: "//invalid arena id"}});
 				}
 				else if (arena.humans.length >= arena.rules.players.maximum) {

@@ -522,6 +522,13 @@
 				var arena_id = $(".container").attr("value");
 
 				if (aibot) {
+					clearInterval(window.aibot_timeout);
+					$("#add_aibot").prop("disabled",true).css("cursor","wait");
+
+					window.aibot_timeout = setTimeout(function() {
+						$("#add_aibot").prop("disabled",false).css("cursor","pointer");
+					}, 5000);
+
 					$.ajax({
 						type: "POST",
 						url: window.location.pathname,
@@ -736,6 +743,9 @@
 														$("#robots").find("div.indented").append(string);
 													}
 												}
+
+												clearInterval(window.aibot_timeout);
+												$("#add_aibot").prop("disabled",false).css("cursor","pointer");
 											}
 										}
 								}

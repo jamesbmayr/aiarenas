@@ -651,7 +651,7 @@
 						{
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
 							selector: "#navbar_random_arena",
-							message: "Join an arena against random opponent robots."
+							message: "Find an arena with random opponent robots."
 						},
 						{
 							action: "$('#navbar_open').hide(); $('#navbar_close').show().css('left','calc(var(--font_size) * 256px)'); $('#navbar').css('left','0px');",
@@ -806,7 +806,7 @@
 						{
 							action: "",
 							selector: "#random_arena",
-							message: "Join an arena against random opponent robots."
+							message: "Find an arena with random opponent robots."
 						},
 						{
 							action: "",
@@ -1064,7 +1064,7 @@ please enable JavaScript to continue\
 						<div id='navbar_arenas'>\
 							<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
 							<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_join_arena();'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>)</span></form></div>\
-							<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'><option value='default'>default</option></select></span><span class='whitetext'>)</span></form></div>\
+							<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>find</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'><option value='default'>default</option></select></span><span class='whitetext'>)</span></form></div>\
 						</div>\
 					</div>";
 				}
@@ -1154,7 +1154,7 @@ please enable JavaScript to continue\
 					<div id='navbar_arenas'>\
 						<div class='navbar_item'><span class='whitetext navbar_heading'>arenas</span></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_join_arena();'><button class='navbar_button' id='navbar_join_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><input type='text' class='navbar_input orangetext' name='navbar_arena_id' id='navbar_arena_id' placeholder='arena id'></input><span class='whitetext'>)</span></form></div>\
-						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>join</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
+						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_random_arena();'><button class='navbar_button' id='navbar_random_arena'><span class='whitetext'>.</span><span class='greentext'>find</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_random_presets' class='orangetext'>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
 						<div class='navbar_item'><form method='post' action='javascript:;' onsubmit='window.navbar_create_arena();'><button class='navbar_button' id='navbar_create_arena'><span class='whitetext'>.</span><span class='greentext'>create</span></button><span class='whitetext'>(</span><span class='select_outer orangetext'><select id='navbar_arena_create_presets' class='orangetext'><option value='custom'>custom</option>" + options + "</select></span><span class='whitetext'>)</span></form></div>\
 						<div class='arena_list'>" + arenas + "</div>\
 					</div>\

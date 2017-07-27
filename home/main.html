@@ -67,9 +67,24 @@
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_leg" value=" []"> []</span><span class="transparenttext">•</span><span class="avatar avatar_right_leg" value="[] ">[] </span><span class="transparenttext">••••</span>
 <span class="transparenttext leftDot">•</span><span class="transparenttext">••••</span><span class="avatar avatar_left_foot" value="/_]">/_]</span><span class="transparenttext">•</span><span class="avatar avatar_right_foot" value="[_\">[_\</span><span class="transparenttext">••••</span>
 </pre>
-				<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>
+				<% 
+					if (session.human === null) {
+						'<span class="glyphicon glyphicon-chevron-up section-toggle section-toggle-up whitetext"></span>';
+					}
+					else {
+						'<span class="glyphicon glyphicon-chevron-down section-toggle section-toggle-down whitetext"></span>';
+					}
+				%>
 				<div class="bracketer_top"><span class="whitetext">.suggestions</span><span class="redtext"> = </span><span class="whitetext">[</span> <span class="graytext">//<span class="graytext">HELLO FELLOW HUMAN WHAT SHALL WE DO THIS DAY?</span></div>
-				<div class="megasection" id="suggestions"><%
+				<% 
+					if (session.human === null) {
+						'<div class="megasection" id="suggestions" style="display: none">';
+					}
+					else {
+						'<div class="megasection" id="suggestions">';
+					}
+				%>
+				<%
 					var suggestions = "";
 
 					//tour
@@ -142,7 +157,7 @@
 
 					//arenas
 						if (session.human === null) {
-							suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_random_arena();"><li class="section indented"><span class="whitetext">compete against random opponents: <button id="navbar_random_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><span class="select_outer orangetext"><select id="navbar_arena_random_presets" class="orangetext"><option value="default">default</option></select></span><span class="whitetext">)</span></span></li></form>';
+							suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_random_arena();"><li class="section indented"><span class="whitetext">compete against random opponents: <button id="navbar_random_arena"><span class="greentext">find</span></button><span class="whitetext">(</span><span class="select_outer orangetext"><select id="navbar_arena_random_presets" class="orangetext"><option value="default">default</option></select></span><span class="whitetext">)</span></span></li></form>';
 
 							suggestions += '<form method="post" action="javascript:;" onsubmit="window.navbar_join_arena();"><li class="section indented"><span class="whitetext">compete against human acquaintances: <button id="navbar_join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" class="navbar_input orangetext" name="navbar_arena_id" id="navbar_arena_id" placeholder="arena id"><span class="whitetext">)</span></span></li></form>'
 						}

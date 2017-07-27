@@ -26,7 +26,7 @@
 								<span class="whitetext">.</span><button id="join_arena" name="action" value="join_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><input type="text" id="join_key" class="orangetext" name="join_key" placeholder="arena key"/><span class="whitetext">)</span>
 							</form>
 							<form id="random_form" method="post" action="javascript:;" onsubmit="window.random_arena();">
-								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">join</span></button><span class="whitetext">(</span><span class="select_outer orangetext"><select id="random_preset" class="orangetext">
+								<span class="whitetext">.</span><button id="random_arena" name="action" value="random_arena"><span class="greentext">find</span></button><span class="whitetext">(</span><span class="select_outer orangetext"><select id="random_preset" class="orangetext">
 									<% 
 										var options = "";
 										if ((session.human.email !== null) && (((session.human.statistics.wins * 5) + session.human.statistics.losses) >= 50)) {
