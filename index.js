@@ -29,7 +29,7 @@
 	function requestHandler(request, response) {
 		/* redirect from heroku */
 			if (request.headers["host"] === "ai-arenas.herokuapp.com") {
-				response.writeHead(302, {Location: "https://www.aiarenas.com"});
+				response.writeHead(302, {Location: "http://www.aiarenas.com"});
 				response.end();
 			}
 
@@ -56,13 +56,13 @@
 					}*/
 				
 				/* reroute for https online */
-					if ((processes.environment("domain") === "aiarenas.com") && (request.headers['x-forwarded-proto'] !== "https")) {
+					/*if ((processes.environment("domain") === "aiarenas.com") && (request.headers['x-forwarded-proto'] !== "https")) {
 						response.writeHead(302, {Location: "https://www.aiarenas.com" + (request.url || "/")});
 						response.end();
-					}
+					}*/
 				
 				/* routing for images, stylesheets, and scripts */
-					else if ((/[.](ico|png|jpg|jpeg|gif|svg|pdf|txt|css|js)$/).test(request.url)) {
+					if ((/[.](ico|png|jpg|jpeg|gif|svg|pdf|txt|css|js)$/).test(request.url)) {
 						routing(null);
 					}
 

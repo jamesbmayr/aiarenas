@@ -126,9 +126,9 @@
 						<meta name="keywords" content="javascript,code,robots,game,arena,compete"/>\
 						<meta name="author" content="James Mayr"/>\
 						<meta property="og:title" content="AI Arenas: a competitive game for Javascript robots"/>\
-						<meta property="og:url" content="https://www.aiarenas.com"/>\
+						<meta property="og:url" content="http://www.aiarenas.com"/>\
 						<meta property="og:description" content="AI Arenas is an online game where humans build Javascript robots that fight for cubes in challenging, fast-paced, competitive code battles."/>\
-						<meta property="og:image" content="https://www.aiarenas.com/banner.png"/>';
+						<meta property="og:image" content="http://www.aiarenas.com/banner.png"/>';
 				break;
 
 				default:
@@ -173,7 +173,7 @@
       EMAIL     \n\
       || ||     \n\
      [v] [v]    \n\
-<a style='font-size: 32px; color: #66D9EF; font-weight: bold; text-decoration: none' href='https://www.aiarenas.com'>ai_arenas.com</a>\
+<a style='font-size: 32px; color: #66D9EF; font-weight: bold; text-decoration: none' href='http://www.aiarenas.com'>ai_arenas.com</a>\
 </pre>\
 						</div>\
 					")}, function(error, info) {
