@@ -259,29 +259,27 @@
 			/* feedback form */
 				window.submit_feedback = function() {
 					var name = $(".human_name").text() || $("#feedback_name").val() || "";
-					var feedback = $("#feedback_text").val() || "";
+					var text = $("#feedback_text").val() || "";
 					var time = new Date();
 
-					if (feedback.length > 0) {
+					if (text.length > 0) {
 						$.ajax({
 							type: "GET",
-							url: "https://script.google.com/macros/s/AKfycbzmuctfUfO5I6cJaCuqedZc-qYsOV5XSKQlse1v708-LPx_Omw/exec",
+							url: "https://script.google.com/macros/s/AKfycbzfQhGlEqH9aQiYaHMYR1-c7BRnSDY2YACWk7GSzkQs2zPNLoc/exec",
 							data: {
+								project: "aiarenas",
 								time: time,
-								name: name,
-								feedback: feedback
+								email: name,
+								text: text
 							},
 							success: function(data) {
-								$("#feedback").find(".message").animateText({text: "//feedback submitted"});
+								$("#feedback_message").animateText({text: "//feedback submitted"});
 
 								$("#feedback_name").val("");
 								$("#feedback_text").val("");
 							},
 							error: function(data) {
-								$("#feedback").find(".message").animateText({text: "//feedback submitted"});
-
-								$("#feedback_name").val("");
-								$("#feedback_text").val("");
+								$("#feedback_message").animateText({text: "//unable to submit feedback"});
 							}
 						});
 					}
