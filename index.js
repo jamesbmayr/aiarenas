@@ -372,7 +372,7 @@
 
 							case (/^\/arenas\/[0-9a-zA-Z_]*\/?$/).test(request.url):
 								try {
-									processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + routes[2].toLowerCase() + "'"}, {$multi: true}, function (arenas) {
+									processes.retrieve("arenas", {id: routes[2].toLowerCase()}, {$multi: true}, function (arenas) {
 										if (arenas) {
 											response.end(processes.render("./arenas/individual.html", session, arenas[0]));
 										}

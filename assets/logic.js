@@ -27,13 +27,13 @@
 					return process.env.EMAIL_PASSWORD;
 				break;
 				case "database_username":
-					return process.env.MLABS_USERNAME;
+					return process.env.DB_USERNAME;
 				break;
 				case "database_password":
-					return process.env.MLABS_PASSWORD;
+					return process.env.DB_PASSWORD;
 				break;
 				case "database_url":
-					return "@" + process.env.MLABS_URL;
+					return "@" + process.env.DB_URL;
 				break;
 			}
 		}
@@ -1088,7 +1088,7 @@ please enable JavaScript to continue\
 				//arena list
 					var arenas = "";
 					for (var i = 0; i < session.human.arenas.length; i++) {
-						arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.human.arenas[i].substring(0,4) + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.human.arenas[i]).substring(0,4) + "</span></a></div>";
+						arenas += "<div class='navbar_item'><a class='navbar_link' href='../../../../arenas/" + session.human.arenas[i] + "'><span class='whitetext'>.</span><span class='bluetext'>" + String(session.human.arenas[i]) + "</span></a></div>";
 					}
 
 				//preset select
@@ -1689,7 +1689,8 @@ please enable JavaScript to continue\
 				var sort = options["$sort"] || {created: -1};
 				var limit = options["$limit"] || 100;
 
-			mongo.connect(database, function(error, db) {
+			mongo.connect(database, { useNewUrlParser: true }, function(error, client) {
+				var db = client.db("aiarenas")
 				if (error) {
 					console.log(error);
 					callback(null);
@@ -1709,7 +1710,7 @@ please enable JavaScript to continue\
 							}
 							callback(resultArray);
 						}
-						db.close();
+						client.close();
 					});
 				}
 
@@ -1727,7 +1728,7 @@ please enable JavaScript to continue\
 							}
 							callback(resultArray);
 						}
-						db.close();
+						client.close();
 					});
 				}
 
@@ -1742,7 +1743,7 @@ please enable JavaScript to continue\
 						else {
 							callback(result);
 						}
-						db.close();
+						client.close();
 					});
 				}
 
@@ -1760,7 +1761,7 @@ please enable JavaScript to continue\
 							}
 							callback(resultArray);
 						}
-						db.close();
+						client.close();
 					});
 				}
 			});
@@ -1779,7 +1780,8 @@ please enable JavaScript to continue\
 				var sort = options["$sort"] || {created: -1};
 				var limit = options["$limit"] || 100;
 
-				mongo.connect(database, function(error, db) {
+				mongo.connect(database, { useNewUrlParser: true }, function(error, client) {
+					var db = client.db("aiarenas")
 					if (error) {
 						console.log(error);
 						callback(null);
@@ -1796,7 +1798,7 @@ please enable JavaScript to continue\
 							else {
 								callback(result.nInserted);
 							}
-							db.close();
+							client.close();
 						});
 					}
 
@@ -1811,7 +1813,7 @@ please enable JavaScript to continue\
 							else {
 								callback(result.value);
 							}
-							db.close();
+							client.close();
 						});
 					}
 
@@ -1835,7 +1837,7 @@ please enable JavaScript to continue\
 										}
 										callback(resultArray);
 									}
-									db.close();
+									client.close();
 								});
 							}
 						});
@@ -1854,7 +1856,7 @@ please enable JavaScript to continue\
 							else {
 								callback(result.nRemoved);
 							}
-							db.close();
+							client.close();
 						});
 					}
 			});

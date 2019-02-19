@@ -248,7 +248,7 @@
 		}
 		else {
 			var arena = {
-				id: processes.random(),
+				id: processes.random(4),
 				created: new Date().getTime(),
 				updated: new Date().getTime(),
 				humans: null,
@@ -311,7 +311,7 @@
 
 				processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 					processes.store("arenas", null, arena, {}, function (results) {
-						callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+						callback({success: true, redirect: "../../../../arenas/" + arena.id});
 					});
 				});
 			}
@@ -323,7 +323,7 @@
 				arena.state.maker_losses = 10;
 
 				processes.store("arenas", null, arena, {}, function (results) {
-					callback({success: true, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+					callback({success: true, redirect: "../../../../arenas/" + arena.id});
 				});
 			}
 		}
@@ -364,7 +364,7 @@
 			callback({success: false, messages: {top: "//invalid arena id"}});
 		}
 		else {
-			processes.retrieve("arenas", {$where: "this.id.substring(0,4) === '" + data.arena_id.toLowerCase() + "'"}, {$multi: true}, function (arenas) {
+			processes.retrieve("arenas", {id: data.arena_id.toLowerCase()}, {$multi: true}, function (arenas) {
 				if (!arenas) {
 					callback({success: false, messages: {top: "//invalid arena id"}});
 				}
@@ -397,13 +397,13 @@
 					if (session.human !== null) { //join arena signed in					
 						processes.store("humans", {id: session.human.id}, {$push: {arenas: arena.id}, $set: {updated: new Date().getTime()}}, {}, function (human) {
 							processes.store("arenas", {id: arena.id}, {$push: {humans: session.human.id}, $set: {updated: new Date().getTime()}}, {}, function (arena) {
-								callback({success: true, messages: {top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+								callback({success: true, messages: {top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id});
 							});
 						});
 					}
 					else { //join arena signed out
 						processes.store("arenas", {id: arena.id}, {$push: {humans: "session_" + session.id}, $set: {updated: new Date().getTime()}}, {}, function (arena) {
-							callback({success: true, messages: {top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+							callback({success: true, messages: {top: "//arena joined successfully"}, redirect: "../../../../arenas/" + arena.id});
 						});
 					}
 				} 
@@ -436,12 +436,17 @@
 				{humans: 0}, 
 				{"state.preset": parameters.preset}, 
 				{"state.maker_wins": {$gt: wins - 11, $lt: wins + 11}}, 
-				{"state.maker_losses": {$gt: losses - 11, $lt: losses + 11}}, 
-				{$where: "this.humans.length - 1 < this.rules.players.maximum"}
+				{"state.maker_losses": {$gt: losses - 11, $lt: losses + 11}}
 			]}, {$multi: true}, function (arenas) { //get all "unstarted" arenas, created through random(), with the same preset, same wins/losses +/- 10, open slots
 				if (arenas) {
+					arenas = arenas.filter(function(a) {
+						return a.humans.length - 1 < a.rules.players.maximum
+					})
+				}
+
+				if (arenas) {
 					arenas.reverse();
-					joinin(session, {data: JSON.stringify({arena_id: arenas[0].id.substring(0,4)})}, callback); //join the oldest of these arenas
+					joinin(session, {data: JSON.stringify({arena_id: arenas[0].id})}, callback); //join the oldest of these arenas
 				}
 				else {
 					create(session,post,callback); //create a new arena, with "random_arena" as post.action
@@ -510,7 +515,7 @@
 					set.updated = new Date().getTime();
 
 					processes.store("arenas", {id: arena.id}, {$set: set}, {}, function (arena) { //COULD BE A PROBLEM
-						callback({success: true, messages: {top: "//robot uploaded successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+						callback({success: true, messages: {top: "//robot uploaded successfully"}, redirect: "../../../../arenas/" + arena.id});
 					});
 				}
 				else if (session.human !== null) {
@@ -525,7 +530,7 @@
 							set.updated = new Date().getTime();
 
 							processes.store("arenas", {id: arena.id}, {$set: set}, {}, function (arena) { //COULD BE A PROBLEM
-								callback({success: true, messages: {top: "//robot selected successfully"}, redirect: "../../../../arenas/" + arena.id.substring(0,4)});
+								callback({success: true, messages: {top: "//robot selected successfully"}, redirect: "../../../../arenas/" + arena.id});
 							});
 						}			
 					});
@@ -614,8 +619,8 @@
 			callback({success: false, messages: {top: "//invalid aiBot"}});
 		}
 		else {
-			processes.retrieve("arenas", {id: data.arena_id, $where:"this.humans[0] === '" + session.human.id + "'"}, {}, function (arena) {		
-				if (!arena) {
+			processes.retrieve("arenas", {id: data.arena_id}, {}, function (arena) {
+				if (!arena || !arena.humans || arena.humans[0] !== session.human.id) {
 					callback({success: false, messages: {top: "//unable to retrieve arena"}});
 				}
 				else if (Object.keys(arena.entrants).length >= arena.rules.players.maximum) {
