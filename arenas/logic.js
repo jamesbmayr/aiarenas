@@ -543,7 +543,7 @@
 	function leave(session, post, callback) {
 		var data = JSON.parse(post.data);
 		
-		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 32)) {
+		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 4)) {
 			callback({success: false, messages: {top: "//invalid arena id"}});
 		}
 		else {
@@ -650,7 +650,7 @@
 	function launch(session, post, callback) {
 		var data = JSON.parse(post.data);
 		
-		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 32)) {
+		if ((typeof data.arena_id === "undefined") || (data.arena_id.length !== 4)) {
 			callback({success: false, messages: {top: "//invalid arena id"}});
 		}
 		else {
