@@ -28,8 +28,8 @@
 /* requestHandler */
 	function requestHandler(request, response) {
 		/* redirect from heroku */
-			if (request.headers["host"] === "ai-arenas.herokuapp.com") {
-				response.writeHead(302, {Location: "http://www.aiarenas.com"});
+			if (request.headers["host"] !== "aiarenas.herokuapp.com" && request.headers["host"] !== "localhost:3000") {
+				response.writeHead(302, {Location: "https://aiarenas.herokuapp.com"});
 				response.end();
 			}
 
@@ -48,18 +48,6 @@
 				try { cookie = qs.parse(request.headers.cookie.replace(/; /g, "&")) || null; } catch(error) { cookie = {}; }
 				request.headers["ip-address"] = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
 				console.log("\n" + new Date().toLocaleString() + ": " + (cookie.session || "new") + " @ " + request.headers["ip-address"] + "\n[" + request.method + "] " + request.url + "\n" + (request.method === "GET" ? JSON.stringify(get) : JSON.stringify(post).replace(/(password|confirm)\"\:\"([^\"]+)\"/gi,"$1\"\:\"••••••••\"")));
-
-				/* certbot authentication */
-					/*if ((/\.well\-known\/acme\-challenge\/???$/).test(request.url)) {
-						response.writeHead(200, {"Content-Type": "text/plain"});
-						response.end("???");
-					}*/
-				
-				/* reroute for https online */
-					/*if ((processes.environment("domain") === "aiarenas.com") && (request.headers['x-forwarded-proto'] !== "https")) {
-						response.writeHead(302, {Location: "https://www.aiarenas.com" + (request.url || "/")});
-						response.end();
-					}*/
 				
 				/* routing for images, stylesheets, and scripts */
 					if ((/[.](ico|png|jpg|jpeg|gif|svg|pdf|txt|css|js)$/).test(request.url)) {

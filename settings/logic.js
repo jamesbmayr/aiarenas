@@ -176,7 +176,7 @@
 							var random = processes.random();
 
 							processes.store("humans", {id: session.human.id}, {$set: {"status.verification": random, "status.new_email": post.email, updated: new Date().getTime()}}, {}, function (human) {
-								processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + session.human.name + "</span>: <a class='greentext' href='http://www.aiarenas.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
+								processes.sendEmail(null, (post.email || null), "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + session.human.name + "</span>: <a class='greentext' href='https://aiarenas.herokuapp.com/verify?email=" + post.email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
 									callback(data);
 								});
 							});

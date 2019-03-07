@@ -81,7 +81,7 @@
 						}
 						else {
 							var random = processes.random();
-							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + post.signup_name + "</span>: <a class='greentext' href='http://www.aiarenas.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
+							processes.sendEmail(null, post.signup_email, "ai_arenas human verification", "<div class='whitetext'>commence human verification process for <span class='bluetext'>" + post.signup_name + "</span>: <a class='greentext' href='https://aiarenas.herokuapp.com/verify?email=" + post.signup_email + "&verification=" + random + " '>verify</a>()</div>", function(data) {
 								var human = humans.create(post.signup_name, post.signup_email, post.signup_password);
 									human.status.verification = random;
 
@@ -149,7 +149,7 @@
 					var random = processes.random();
 
 					processes.store("humans", {id: human.id}, {$set: {"status.verification": random, updated: new Date().getTime()}}, {}, function (human) {
-						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div class='whitetext'>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='http://www.aiarenas.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>()</div>", function (data) {
+						processes.sendEmail(null, (post.reset_email || null), "ai_arenas human re-verification", "<div class='whitetext'>commence human re-verification process for <span class='bluetext'>" + human.name + "</span>: <a class='greentext' href='https://aiarenas.herokuapp.com/reset?email=" + post.reset_email + "&verification=" + random + " '>reset_password</a>()</div>", function (data) {
 							callback({success: true, messages: {top: "//reset email sent"}});
 						});
 					});

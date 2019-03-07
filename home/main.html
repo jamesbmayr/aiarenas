@@ -113,7 +113,7 @@
 							suggestions += '<form method="post" action="javascript:;" onsubmit="window.send_verification();"><li class="section indented"><span class="whitetext">ensure your security by verifying your email: </span><button id="send_verification" name="action" value="send_verification"><span class="greentext">verify</span></button><span class="whitetext">(</span><input disabled type="text" id="new_email" class="orangetext" name="new_email" value="' + (session.human.status.new_email || "") + '"><span class="whitetext">)</span></li></form>';
 						}
 						else if ((session.human.robots.length > 0) && (session.human.tutorials.length > 0)) {
-							suggestions += '<li class="section indented"><span class="whitetext">coerce additional humans into joining ai_arenas: <a class="whitetext" href="mailto:?Subject=I BELIEVE ai_arenas IS AN EXCELLENT WEBSITE AND/OR ACTIVITY I RECOMMEND IT TO FELLOW HUMANS&Body=FELLOW HUMANS LET US SPEND OUR LIMITED TIME AND CALORIES EXPERIENCING ENJOYMENT AT http://aiarenas.com END OF MESSAGE" target="_blank"><span class="greentext">send_email</span><span class="whitetext">()</span></a></span></li>';
+							suggestions += '<li class="section indented"><span class="whitetext">coerce additional humans into joining ai_arenas: <a class="whitetext" href="mailto:?Subject=I BELIEVE ai_arenas IS AN EXCELLENT WEBSITE AND/OR ACTIVITY I RECOMMEND IT TO FELLOW HUMANS&Body=FELLOW HUMANS LET US SPEND OUR LIMITED TIME AND CALORIES EXPERIENCING ENJOYMENT AT https://aiarenas.herokuapp.com END OF MESSAGE" target="_blank"><span class="greentext">send_email</span><span class="whitetext">()</span></a></span></li>';
 						}
 
 					//humans
