@@ -11,10 +11,10 @@
   "author": "jamesbmayr",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^3.1.4",
-    "nodemailer": "^3.1.8"
+    "mongodb": "^3.1.13",
+    "nodemailer": "^6.4.16"
   },
   "engines": {
-    "node": "6.11.1"
+    "node": "12.18.4"
   }
 }

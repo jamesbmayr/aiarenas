@@ -27,12 +27,6 @@
 
 /* requestHandler */
 	function requestHandler(request, response) {
-		/* redirect from heroku */
-			if (request.headers["host"] !== "aiarenas.herokuapp.com" && request.headers["host"] !== "localhost:3000") {
-				response.writeHead(302, {Location: "https://aiarenas.herokuapp.com"});
-				response.end();
-			}
-
 		/* build post body */
 			var routes, get, cookie, post = "";
 			request.on("data", function (data) {
@@ -49,8 +43,13 @@
 				request.headers["ip-address"] = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
 				console.log("\n" + new Date().toLocaleString() + ": " + (cookie.session || "new") + " @ " + request.headers["ip-address"] + "\n[" + request.method + "] " + request.url + "\n" + (request.method === "GET" ? JSON.stringify(get) : JSON.stringify(post).replace(/(password|confirm)\"\:\"([^\"]+)\"/gi,"$1\"\:\"••••••••\"")));
 				
+				/* routing for ping */
+					if ((/^\/ping\/?$/).test(request.url)) {
+						routing(null);
+					}
+					
 				/* routing for images, stylesheets, and scripts */
-					if ((/[.](ico|png|jpg|jpeg|gif|svg|pdf|txt|css|js)$/).test(request.url)) {
+					else if ((/[.](ico|png|jpg|jpeg|gif|svg|pdf|txt|css|js)$/).test(request.url)) {
 						routing(null);
 					}
 
@@ -77,6 +76,17 @@
 			function routing(session) {
 				if ((request.method === "GET") && (session === null)) { //assets
 					switch (true) {
+						/* ping */
+							case (/^\/ping\/?$/).test(request.url):
+								try {
+									response.writeHead(200, {
+										"Content-Type": "text/json"
+									})
+									response.end( JSON.stringify({success: true, timestamp: new Date().getTime()}) )
+								}
+								catch (error) {_403(error)}
+							break
+
 						/* logo */
 							case (/\/favicon[.]ico$/).test(request.url):
 							case (/\/icon[.]png$/).test(request.url):

@@ -1,5 +1,5 @@
 # ai_arenas
-a battleground for javascript functions: https://aiarenas.herokuapp.com
+a battleground for javascript functions: https://jamesmayr.com/aiarenas
 <pre style='line-height: 1;'>
        _H_                 _!_                _[+]_                _|_                 !!!      
  (--) /o o\          {--} (^ ^) {--}          (V V)          |**| |\|/| |**|          !x x! {!!}
@@ -28,7 +28,7 @@ This project uses node.js and mongoDB on the back-end and jQuery on the front-en
 
 For example, html is rendered using a custom EJS-like functionality that evaluates Javascript code between <% %> tags before sending it to the client. Similarly, routing is performed using a switch(true) and regex testing, rather than through Express or another framework.
 
-User-provided code is evaluated server-side (in a node.js VM sandbox for security purposes) within arenas. For robot workshops and tutorials, the code is evaluated client-side and displayed as it runs to expose the logic; it's simpler to see it for yourself in this demo: http://rawgit.com/jamesbmayr/codemo/master/codeRunner/.
+User-provided code is evaluated server-side (in a node.js VM sandbox for security purposes) within arenas. For robot workshops and tutorials, the code is evaluated client-side and displayed as it runs to expose the logic; it's simpler to see it for yourself in this demo: https://jamesmayr.com/coderunner/.
 
 # file structure
 <pre>
