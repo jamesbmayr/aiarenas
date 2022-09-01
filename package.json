@@ -11,7 +11,7 @@
   "author": "jamesbmayr",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^3.1.13",
+    "mongodb": "^3.7.3",
     "nodemailer": "^6.4.16"
   },
   "engines": {
